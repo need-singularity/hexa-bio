@@ -1,0 +1,87 @@
+#!hexa strict
+// modules/ribozyme.hexa — RIBOZYME verb (HEXA-family axis 3/4)
+//
+// STATUS: STUB v1.0.0 — placeholder + falsifier preregister only.
+//          Numerical implementation deferred to post-v1.0 cycle.
+//
+// HEXA-family role: catalysis (RNA enzymatic activity — hammerhead, hairpin,
+// HDV, group I/II introns, in-vitro evolved aptazymes). Sister to weave
+// (composition), nanobot (actuation), virocapsid (assembly).
+//
+// n=6 invariant binding (proposed, NOT YET empirically verified for ribozyme):
+//   σ(6) = 12  hypothesized — 12 catalytic-cycle states (substrate/product × 6 phases)
+//   τ(6) = 4   hypothesized — 4 catalytic regimes (resting / Michaelis / TS / release)
+//   φ(6) = 2   hypothesized — bound vs free dichotomy
+//   J₂   = 24  hypothesized — symmetric reaction-coordinate group
+//
+// Falsifiers (initial-guess deadlines, raw#10 honest C3):
+//   F-RIBOZYME-1  — kcat/Km ≥ 10² M⁻¹s⁻¹ on ≥ 3 independent substrate
+//                    classes (deadline 2026-12-31).
+//   F-RIBOZYME-2  — observed turnover ≥ 10³ without Mg²⁺-dependent collapse
+//                    (deadline 2027-06-30).
+//   F-RIBOZYME-3  — n=6 invariant lattice reproduces in ≥ 1 published
+//                    ribozyme kinetic dataset (deadline open-ended).
+//
+// raw#10 honest C3:
+//   - This module ships as a STUB — no numerical sandbox, no live data.
+//   - n=6 invariant claim is *speculative* — inherited from weave's lattice
+//     without independent verification on catalytic systems.
+//   - Falsifier deadlines are initial-guess; revision in cycle 25+ planned.
+//   - Skeleton sentinel `__HEXA_BIO_RIBOZYME__ PASS` indicates module loads,
+//     NOT that any empirical claim has been validated.
+
+let VERSION = "1.0.0-stub"
+let MODULE  = "ribozyme"
+
+fn _print_n6_lattice() {
+    println("  n=6 invariant lattice (ribozyme — proposed, not verified):")
+    println("    σ(6) = 12  hypothesized — 12 catalytic-cycle states")
+    println("    τ(6) = 4   hypothesized — 4 catalytic regimes")
+    println("    φ(6) = 2   hypothesized — bound vs free")
+    println("    J₂   = 24  hypothesized — reaction-coordinate group")
+}
+
+fn _print_falsifiers() {
+    println("  falsifiers (raw#71 preregister, initial-guess deadlines):")
+    println("    F-RIBOZYME-1  kcat/Km ≥ 10² M⁻¹s⁻¹ on ≥ 3 substrate classes  (deadline 2026-12-31)")
+    println("    F-RIBOZYME-2  turnover ≥ 10³ without Mg²⁺-dependent collapse (deadline 2027-06-30)")
+    println("    F-RIBOZYME-3  n=6 lattice in published kinetic dataset       (deadline open-ended)")
+}
+
+fn _print_status() {
+    println("  status: STUB v1.0.0 (placeholder + falsifier preregister)")
+    println("          numerical implementation deferred to post-v1.0 cycle")
+    println("          TODO: bind to published ribozyme kinetics corpus (cycle 25+)")
+}
+
+fn cmd_ribozyme(args: [str]) {
+    println("hexa-bio " + MODULE + " " + VERSION + " — RNA-catalyst primitive")
+    println("")
+    _print_status()
+    println("")
+    _print_n6_lattice()
+    println("")
+    _print_falsifiers()
+    println("")
+    println("[ribozyme] STUB module — no numerical action taken; falsifier table printed")
+    println("__HEXA_BIO_RIBOZYME__ PASS")
+}
+
+fn main() {
+    let raw = args()
+    let mut user: [str] = []
+    let mut sidx = -1
+    let mut i = 0
+    while i < raw.len() {
+        if raw[i].ends_with(".hexa") { sidx = i; break }
+        i = i + 1
+    }
+    let mut start = 1
+    if sidx >= 0 { start = sidx + 1 }
+    let mut k = start
+    while k < raw.len() {
+        user = user + [raw[k]]
+        k = k + 1
+    }
+    cmd_ribozyme(user)
+}

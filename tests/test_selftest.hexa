@@ -1,0 +1,20 @@
+#!hexa strict
+// tests/test_selftest.hexa — full 4-verb selftest harness
+//
+// Pass criterion: __HEXA_BIO_SELFTEST__ PASS sentinel present.
+// Cost: $0 (orchestrates all 4 stub/wired modules in default path).
+
+fn main() {
+    let root = env("HEXA_BIO_ROOT")
+    let mut p = "modules/selftest.hexa"
+    if root.len() > 0 { p = root + "/modules/selftest.hexa" }
+
+    let raw = exec("hexa run " + p + " 2>&1")
+    if raw.contains("__HEXA_BIO_SELFTEST__ PASS") {
+        println("test_selftest: PASS")
+        return
+    }
+    println("test_selftest: FAIL")
+    println(raw.trim())
+    exit(1)
+}

@@ -1,0 +1,364 @@
+#!hexa strict
+// hexa-bio/cli/hexa-bio.hexa — standalone hexa-bio CLI router
+//
+// 4-verb Molecular Toolkit (HEXA family) router:
+//   weave       — protein cage / polyhedral self-assembly (WIRED, v1.0.0)
+//   nanobot     — molecular actuation primitive            (STUB, v1.0.0)
+//   ribozyme    — RNA-catalyst primitive                    (STUB, v1.0.0)
+//   virocapsid  — viral capsid assembly primitive           (STUB, v1.0.0)
+//
+// Plus utility subcmds:
+//   status      — verb status table (1/4 wired, 3/4 stub)
+//   selftest    — run all 4 verbs + verify sentinels
+//   help        — this help
+//   --version   — print version
+//
+// Root resolution: $HEXA_BIO_ROOT env, else inferred from $0 dirname.
+// No nexus dependency — modules/ live alongside this script.
+//
+// Constraints:
+//   raw#9   — hexa-only orchestration; weave's bridge .py opt-in only
+//   raw#15  — write-confined (audit log only)
+//   raw#10  — 5 honest C3 caveats embedded
+//
+// Cost: $0 (Mac local; pure stubs + textbook-corpus weave audit).
+//
+// @no-lock-needed
+// @resolver-bypass(reason="Pure local CLI router; modules manage their own bridges.")
+
+let VERSION = "1.0.0"
+
+// ─── env / path resolve ───
+
+let HOME = env("HOME")
+let HEXA_BIO_ROOT_ENV = env("HEXA_BIO_ROOT")
+
+fn hexa_bio_root() -> str {
+    if HEXA_BIO_ROOT_ENV.len() > 0 { return HEXA_BIO_ROOT_ENV }
+    let inferred = exec("dirname \"$(dirname \"$0\")\" 2>/dev/null || true").trim()
+    if inferred.len() > 0 { return inferred }
+    return HOME + "/.hexa-bio"  // @allow-devpath
+}
+
+let HB = hexa_bio_root()
+let HEXA_BIN = exec("command -v hexa 2>/dev/null || echo hexa").trim()
+let MOD_DIR = HB + "/modules"
+
+let MOD_WEAVE      = MOD_DIR + "/weave.hexa"
+let MOD_NANOBOT    = MOD_DIR + "/nanobot.hexa"
+let MOD_RIBOZYME   = MOD_DIR + "/ribozyme.hexa"
+let MOD_VIROCAPSID = MOD_DIR + "/virocapsid.hexa"
+let MOD_SELFTEST   = MOD_DIR + "/selftest.hexa"
+
+let LOG_PATH = HB + "/state/hexa_bio_cli.log"
+
+// ─── arg helpers ───
+
+fn shq(s: str) -> str {
+    return "'" + s.replace("'", "'\\''") + "'"
+}
+
+fn has_flag(a: [str], flag: str) -> bool {
+    for x in a {
+        if x == flag { return true }
+    }
+    return false
+}
+
+fn json_mode(a: [str]) -> bool {
+    return has_flag(a, "--json")
+}
+
+// ─── audit log (jsonl) ───
+
+fn _ts_now() -> str {
+    return exec("date -u '+%Y-%m-%dT%H:%M:%SZ'").trim()
+}
+
+fn _audit(subcmd: str, args_str: str, exit_code: int) {
+    let line = "{\"ts\":\"" + _ts_now() + "\",\"caller\":\"hexa_bio_standalone\",\"subcmd\":\"hexa-bio " +
+               subcmd + "\",\"args\":\"" + args_str.replace("\"", "\\\"") +
+               "\",\"exit_code\":" + str(exit_code) + ",\"version\":\"" + VERSION + "\"}"
+    exec("mkdir -p " + shq(HB + "/state") + " 2>/dev/null")
+    exec("echo " + shq(line) + " >> " + shq(LOG_PATH) + " 2>/dev/null")
+}
+
+// ─── module runner ───
+
+fn _file_exists(p: str) -> bool {
+    let r = exec("[ -f " + shq(p) + " ] && echo yes || echo no").trim()
+    return r == "yes"
+}
+
+fn _run_module(script: str, extra: [str]) -> str {
+    if _file_exists(script) == false {
+        return "ERROR: module not found: " + script + " (set HEXA_BIO_ROOT or run from repo root)"
+    }
+    let mut cmd = "HEXA_BIO_ROOT=" + shq(HB) + " " + shq(HEXA_BIN) + " run " + shq(script)
+    for x in extra {
+        cmd = cmd + " " + shq(x)
+    }
+    return exec(cmd + " 2>&1")
+}
+
+// ─── caveat printer (raw#10 honest C3) ───
+
+fn _print_caveats() {
+    println("")
+    println("--- caveats (raw#10 C3) ---")
+    println("  1. 1/4 verb empirically wired (weave). 3/4 verbs ship as STUB modules")
+    println("     (nanobot/ribozyme/virocapsid) printing falsifier tables only.")
+    println("  2. Falsifier deadlines for stub verbs are *initial-guess*; revisions")
+    println("     planned for cycle 25+ as empirical sandboxes land per axis.")
+    println("  3. n=6 invariant lattice (σ=12, τ=4, φ=2, J₂=24) verified ONLY for")
+    println("     T=1 cage (weave's Bayesian audit, posterior 0.97). Lattice claim")
+    println("     for nanobot/ribozyme + T>1 virocapsid is speculative.")
+    println("  4. Migration of nexus/sim_bridge/weave/ may break edge-case consumers")
+    println("     (n6-architecture cross-link path, runs/ ledger schema readers).")
+    println("  5. Dual-mirror sync (GitHub→HF) requires HF_TOKEN secret in repo settings;")
+    println("     USER_ACTION pending. Until then, GitHub canonical only.")
+}
+
+// ─── subcommand: status ───
+
+fn cmd_status(a: [str]) {
+    if json_mode(a) {
+        let mut js = "{\"hexa_bio\":\"" + VERSION + "\",\"subcmd\":\"status\","
+        js = js + "\"verbs_total\":4,\"verbs_wired\":1,\"verbs_stub\":3,"
+        js = js + "\"verdict\":\"PARTIAL_PASS\","
+        js = js + "\"verbs\":[\"weave:wired\",\"nanobot:stub\",\"ribozyme:stub\",\"virocapsid:stub\"],"
+        js = js + "\"n6_lattice_verified\":\"weave_T1_only\""
+        js = js + "}"
+        println(js)
+        return
+    }
+
+    println("hexa-bio " + VERSION + " status — 4-verb Molecular Toolkit (HEXA family)")
+    println("")
+    println("  verb        status              n=6 lattice              empirical sandbox")
+    println("  ----------- ------------------- ------------------------ --------------------------")
+    println("  weave       WIRED v1.0.0        STRUCTURAL-EXACT (T=1)   cage-assembly ODE + audit")
+    println("  nanobot     STUB v1.0.0-stub    hypothesized only        deferred (cycle 25+)")
+    println("  ribozyme    STUB v1.0.0-stub    hypothesized only        deferred (cycle 25+)")
+    println("  virocapsid  STUB v1.0.0-stub    partial (T=1 via weave)  deferred (T>1: cycle 25+)")
+    println("")
+    println("  verdict: PARTIAL_PASS (1/4 verbs wired; 3/4 stubs with falsifier preregister)")
+    println("")
+    println("  to drill into a verb:")
+    println("    hexa-bio weave [--cage-assembly|--bayesian-audit|--all] [--t-end N]")
+    println("    hexa-bio nanobot       (prints falsifier table)")
+    println("    hexa-bio ribozyme      (prints falsifier table)")
+    println("    hexa-bio virocapsid    (prints falsifier table)")
+    println("    hexa-bio selftest      (4-verb sentinel sweep)")
+    _print_caveats()
+}
+
+// ─── subcommand: weave ───
+
+fn cmd_weave(a: [str]) {
+    let mut extras: [str] = []
+    let mut i = 3
+    while i < a.len() {
+        extras = extras + [a[i]]
+        i = i + 1
+    }
+    let raw = _run_module(MOD_WEAVE, extras)
+    println(raw.trim())
+    if json_mode(a) {
+        let pass = if raw.contains("__HEXA_BIO_WEAVE__ PASS") { "true" } else { "false" }
+        println("{\"hexa_bio\":\"" + VERSION + "\",\"subcmd\":\"weave\",\"pass\":" + pass + "}")
+    }
+    _audit("weave", "", 0)
+}
+
+// ─── subcommand: nanobot ───
+
+fn cmd_nanobot(a: [str]) {
+    let raw = _run_module(MOD_NANOBOT, [])
+    println(raw.trim())
+    if json_mode(a) {
+        let pass = if raw.contains("__HEXA_BIO_NANOBOT__ PASS") { "true" } else { "false" }
+        println("{\"hexa_bio\":\"" + VERSION + "\",\"subcmd\":\"nanobot\",\"pass\":" + pass + ",\"status\":\"stub\"}")
+    }
+    _audit("nanobot", "", 0)
+}
+
+// ─── subcommand: ribozyme ───
+
+fn cmd_ribozyme(a: [str]) {
+    let raw = _run_module(MOD_RIBOZYME, [])
+    println(raw.trim())
+    if json_mode(a) {
+        let pass = if raw.contains("__HEXA_BIO_RIBOZYME__ PASS") { "true" } else { "false" }
+        println("{\"hexa_bio\":\"" + VERSION + "\",\"subcmd\":\"ribozyme\",\"pass\":" + pass + ",\"status\":\"stub\"}")
+    }
+    _audit("ribozyme", "", 0)
+}
+
+// ─── subcommand: virocapsid ───
+
+fn cmd_virocapsid(a: [str]) {
+    let raw = _run_module(MOD_VIROCAPSID, [])
+    println(raw.trim())
+    if json_mode(a) {
+        let pass = if raw.contains("__HEXA_BIO_VIROCAPSID__ PASS") { "true" } else { "false" }
+        println("{\"hexa_bio\":\"" + VERSION + "\",\"subcmd\":\"virocapsid\",\"pass\":" + pass + ",\"status\":\"stub\"}")
+    }
+    _audit("virocapsid", "", 0)
+}
+
+// ─── subcommand: selftest ───
+
+fn cmd_selftest(a: [str]) {
+    let raw = _run_module(MOD_SELFTEST, [])
+    println(raw.trim())
+    let pass_overall = raw.contains("__HEXA_BIO_SELFTEST__ PASS")
+    if json_mode(a) {
+        println("{\"hexa_bio\":\"" + VERSION + "\",\"subcmd\":\"selftest\",\"verdict\":\"" + (if pass_overall { "PASS" } else { "FAIL" }) + "\"}")
+    }
+    _print_caveats()
+    _audit("selftest", "", if pass_overall { 0 } else { 1 })
+    if pass_overall == false { exit(1) }
+}
+
+// ─── version ───
+
+fn cmd_version() {
+    println("hexa-bio " + VERSION)
+    println("standalone Molecular Toolkit (HEXA family — extracted from nexus 2026-05-04)")
+    println("license: Apache-2.0")
+    println("repo:    https://github.com/need-singularity/hexa-bio")
+}
+
+// ─── help ───
+
+fn cmd_help() {
+    println("hexa-bio " + VERSION + " — standalone Molecular Toolkit CLI")
+    println("")
+    println("usage: hexa-bio <subcmd> [flags...]")
+    println("")
+    println("verb subcommands (HEXA family — n=6 invariant lattice):")
+    println("  weave [--cage-assembly|--bayesian-audit|--all] [--t-end N]")
+    println("                  protein cage / polyhedral self-assembly        [WIRED]")
+    println("  nanobot         molecular actuation primitive                  [STUB]")
+    println("  ribozyme        RNA-catalyst primitive                         [STUB]")
+    println("  virocapsid      viral capsid assembly primitive                [STUB]")
+    println("")
+    println("utility subcommands:")
+    println("  status          1/4-wired verb table + verdict + caveats")
+    println("  selftest        full 4-verb sentinel sweep")
+    println("")
+    println("global flags:")
+    println("  --version       show version")
+    println("  --json          machine-parseable JSON tail")
+    println("  --help, -h      this help")
+    println("")
+    println("env:")
+    println("  HEXA_BIO_ROOT          override repo root (default: inferred from $0)")
+    println("  HEXA_BIO_WITH_NUMPY    1 → enable weave python bridge (numpy/scipy)")
+    println("                         default (unset) → pure-hexa skeleton + cached results")
+    println("")
+    println("cost estimate (Mac local): $0 — all subcmds run as stubs by default.")
+    println("                            weave empirical paths via HEXA_BIO_WITH_NUMPY=1.")
+    println("")
+    println("backend modules: " + MOD_DIR)
+}
+
+fn cmd_subhelp(sub: str) {
+    if sub == "status" {
+        println("hexa-bio status [--json]")
+        println("  show 1/4-wired verb table + n=6 lattice + caveats")
+        println("  cost: $0 (read-only)")
+    } else if sub == "weave" {
+        println("hexa-bio weave [--cage-assembly | --bayesian-audit | --all] [--t-end N] [--json]")
+        println("  protein cage / polyhedral self-assembly (Caspar-Klug 1962 + Zlotnick 2003)")
+        println("  empirical paths require HEXA_BIO_WITH_NUMPY=1 (numpy/scipy opt-in)")
+        println("  cost: $0 (textbook corpus + python stdlib for skeleton)")
+    } else if sub == "nanobot" {
+        println("hexa-bio nanobot [--json]")
+        println("  molecular actuation primitive (STUB v1.0.0-stub)")
+        println("  prints falsifier preregister table; numerical impl deferred to cycle 25+")
+        println("  cost: $0")
+    } else if sub == "ribozyme" {
+        println("hexa-bio ribozyme [--json]")
+        println("  RNA-catalyst primitive (STUB v1.0.0-stub)")
+        println("  prints falsifier preregister table; numerical impl deferred to cycle 25+")
+        println("  cost: $0")
+    } else if sub == "virocapsid" {
+        println("hexa-bio virocapsid [--json]")
+        println("  viral capsid assembly primitive (STUB v1.0.0-stub)")
+        println("  T=1 sub-axis grounded via weave; T>1 sandbox deferred to cycle 25+")
+        println("  cost: $0")
+    } else if sub == "selftest" {
+        println("hexa-bio selftest [--json]")
+        println("  4-verb sentinel sweep — verifies all 4 modules load + print falsifier tables")
+        println("  PASS = sentinels present; does NOT imply empirical claim validation")
+        println("  cost: $0 (~5s on Mac)")
+    } else {
+        cmd_help()
+    }
+}
+
+// ─── main ───
+
+fn main() {
+    let _raw = args()
+    let mut _sidx = -1
+    let mut _i = 0
+    while _i < _raw.len() {
+        if _raw[_i].ends_with(".hexa") { _sidx = _i; break }
+        _i = _i + 1
+    }
+    let mut _user_start = 2
+    if _sidx >= 0 { _user_start = _sidx + 1 }
+
+    let mut a: [str] = ["hexa_bio_cli", "hexa_bio_router"]
+    let mut _ua = _user_start
+    while _ua < _raw.len() {
+        a = a + [_raw[_ua]]
+        _ua = _ua + 1
+    }
+    let n = len(a)
+
+    if n < 3 {
+        cmd_help()
+        return
+    }
+
+    let sub = a[2]
+
+    if sub == "--version" || sub == "-V" || sub == "version" {
+        cmd_version()
+        return
+    }
+
+    if has_flag(a, "--help") || has_flag(a, "-h") {
+        if sub == "--help" || sub == "-h" || sub == "help" {
+            cmd_help()
+        } else {
+            cmd_subhelp(sub)
+        }
+        return
+    }
+
+    if sub == "help" { cmd_help(); return }
+
+    if sub == "status" {
+        cmd_status(a)
+    } else if sub == "weave" {
+        cmd_weave(a)
+    } else if sub == "nanobot" {
+        cmd_nanobot(a)
+    } else if sub == "ribozyme" {
+        cmd_ribozyme(a)
+    } else if sub == "virocapsid" {
+        cmd_virocapsid(a)
+    } else if sub == "selftest" {
+        cmd_selftest(a)
+    } else {
+        eprintln("hexa-bio: unknown subcommand '" + sub + "'")
+        eprintln("run 'hexa-bio help' for usage")
+        _audit(sub, "", 2)
+        exit(2)
+    }
+}

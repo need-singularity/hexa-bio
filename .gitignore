@@ -1,0 +1,22 @@
+# hexa-bio — gitignore
+# Append-only ledger / runtime caches
+state/*.log
+state/*.jsonl
+state/runs/
+state/cache/
+modules/_python_bridge/__pycache__/
+modules/**/__pycache__/
+**/*.pyc
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Local env
+.env
+.env.local
+
+# Build artifacts (none expected — pure hexa)
+dist/
+build/
