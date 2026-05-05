@@ -1,0 +1,1 @@
+../../../n6-architecture/domains/biology/hexa-virocapsid/hexa-virocapsid.md

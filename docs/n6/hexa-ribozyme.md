@@ -1,0 +1,1 @@
+../../../n6-architecture/domains/biology/hexa-ribozyme/hexa-ribozyme.md

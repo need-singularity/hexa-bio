@@ -1,0 +1,1 @@
+../../../n6-architecture/domains/biology/hexa-nanobot/hexa-nanobot.md
