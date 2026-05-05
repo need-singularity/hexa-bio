@@ -11,6 +11,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/need-singularity/hexa-bio?display_name=tag&sort=semver)](https://github.com/need-singularity/hexa-bio/releases)
 [![Verbs: 1/4 wired](https://img.shields.io/badge/verbs-1%2F4_wired_(weave)-blue.svg)](#4-verb-status-table)
 [![n=6 lattice](https://img.shields.io/badge/n%3D6-σ%3D12_τ%3D4_φ%3D2_J₂%3D24-purple.svg)](#n6-invariant-lattice)
+[![Roadmap](https://img.shields.io/badge/roadmap-MVP_gates_2026--07--28-orange.svg)](ROADMAP.md)
 
 > **Distribution**: GitHub canonical at <https://github.com/need-singularity/hexa-bio>.
 > CLI tooling — installed via `hx install hexa-bio` from the hexa-lang
@@ -147,6 +148,9 @@ hexa-bio virocapsid
 | `virocapsid` | STUB v1.0.0-stub    | partial (T=1 via weave)           | deferred (T>1: cycle 25+)    |
 
 Verdict: **PARTIAL_PASS** (1/4 verbs wired; 3/4 stubs with falsifier preregister).
+
+For the full per-verb roadmap (90-day MVP gates, falsifier preregister
+status, cross-axis collision audit deadlines), see [`ROADMAP.md`](ROADMAP.md).
 
 ---
 
