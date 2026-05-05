@@ -20,7 +20,7 @@ categories = ["bioinformatics", "molecular-simulation", "structural-biology"]
 
 [lib]
 # Library entry — importable by other hexa packages.
-entry = "modules/weave.hexa"
+entry = "weave/module/weave.hexa"
 
 [[bin]]
 name = "hexa-bio"
@@ -51,17 +51,17 @@ install = "install.hexa"
 # virocapsid — STUB (placeholder + falsifier definition; numerical impl deferred)
 [modules]
 hexa = [
-    "modules/weave.hexa",
-    "modules/nanobot.hexa",
-    "modules/ribozyme.hexa",
-    "modules/virocapsid.hexa",
-    "modules/selftest.hexa",
+    "weave/module/weave.hexa",
+    "nanobot/module/nanobot.hexa",
+    "ribozyme/module/ribozyme.hexa",
+    "virocapsid/module/virocapsid.hexa",
+    "selftest/module/selftest.hexa",
 ]
 python_bridge_aux = [
     # weave-only (raw#9 .own N opt-out — numpy/scipy heavy lifting).
     # Loaded only when HEXA_BIO_WITH_NUMPY=1; pure-hexa path is default.
-    "modules/_python_bridge/cage_assembly_simulation.py",
-    "modules/_python_bridge/polyhedral_cage_bayesian_audit.py",
+    "_python_bridge/module/cage_assembly_simulation.py",
+    "_python_bridge/module/polyhedral_cage_bayesian_audit.py",
 ]
 
 # ── Dependencies ───────────────────────────────────────────

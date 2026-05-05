@@ -6,8 +6,8 @@
 
 fn main() {
     let root = env("HEXA_BIO_ROOT")
-    let mut p = "modules/selftest.hexa"
-    if root.len() > 0 { p = root + "/modules/selftest.hexa" }
+    let mut p = "selftest/module/selftest.hexa"
+    if root.len() > 0 { p = root + "/selftest/module/selftest.hexa" }
 
     let raw = exec("hexa run " + p + " 2>&1")
     if raw.contains("__HEXA_BIO_SELFTEST__ PASS") {

@@ -181,15 +181,14 @@ Per-verb interpretation (where empirically grounded vs hypothesized — see
 /Users/ghost/core/hexa-bio/
 ├── cli/
 │   └── hexa-bio.hexa           # 4-verb router + status + selftest
-├── modules/
-│   ├── weave.hexa              # WIRED — Caspar-Klug + Zlotnick (cage 60)
-│   ├── nanobot.hexa            # STUB — actuation primitive
-│   ├── ribozyme.hexa           # STUB — RNA catalyst primitive
-│   ├── virocapsid.hexa         # STUB — viral capsid assembly primitive
-│   ├── selftest.hexa           # 4-verb sentinel sweep
-│   └── _python_bridge/
-│       ├── cage_assembly_simulation.py        # weave ODE (numpy/scipy opt-in)
-│       └── polyhedral_cage_bayesian_audit.py  # weave Bayesian audit
+├── weave/module/weave.hexa              # WIRED — Caspar-Klug + Zlotnick (cage 60)
+├── nanobot/module/nanobot.hexa          # STUB — actuation primitive
+├── ribozyme/module/ribozyme.hexa        # STUB — RNA catalyst primitive
+├── virocapsid/module/virocapsid.hexa    # STUB — viral capsid assembly primitive
+├── selftest/module/selftest.hexa        # 4-verb sentinel sweep
+├── _python_bridge/module/
+│   ├── cage_assembly_simulation.py        # weave ODE (numpy/scipy opt-in)
+│   └── polyhedral_cage_bayesian_audit.py  # weave Bayesian audit
 ├── tests/
 │   ├── test_weave.hexa
 │   ├── test_nanobot.hexa

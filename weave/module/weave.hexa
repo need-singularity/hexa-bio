@@ -1,5 +1,5 @@
 #!hexa strict
-// modules/weave.hexa — WEAVE verb (HEXA-family axis 1/4)
+// weave/module/weave.hexa — WEAVE verb (HEXA-family axis 1/4)
 //
 // Cage-assembly + polyhedral-cage Bayesian audit primitive.
 // Imports from sister python_bridge_aux (raw#9 .own N opt-out for
@@ -47,7 +47,9 @@ let MODULE  = "weave"
 fn _root() -> str {
     let r = env("HEXA_BIO_ROOT")
     if r.len() > 0 { return r }
-    let inferred = exec("dirname \"$(dirname \"$0\")\" 2>/dev/null || true").trim()
+    // Layout (canonical 2026-05-05): <root>/weave/module/weave.hexa
+    // → 3× dirname pops {weave.hexa, module/, weave/} to reach <root>.
+    let inferred = exec("dirname \"$(dirname \"$(dirname \"$0\")\")\" 2>/dev/null || true").trim()
     if inferred.len() > 0 { return inferred }
     return env("HOME") + "/.hexa-bio"  // @allow-devpath
 }
@@ -58,7 +60,7 @@ fn _shq(s: str) -> str {
 
 fn _python_path(script: str) -> str {
     let root = _root()
-    return root + "/modules/_python_bridge/" + script
+    return root + "/_python_bridge/module/" + script
 }
 
 fn _file_exists(p: str) -> bool {

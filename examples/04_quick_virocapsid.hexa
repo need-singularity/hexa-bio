@@ -9,8 +9,8 @@
 
 fn main() {
     let root = env("HEXA_BIO_ROOT")
-    let mut p = "modules/virocapsid.hexa"
-    if root.len() > 0 { p = root + "/modules/virocapsid.hexa" }
+    let mut p = "virocapsid/module/virocapsid.hexa"
+    if root.len() > 0 { p = root + "/virocapsid/module/virocapsid.hexa" }
 
     println("=== hexa-bio VIROCAPSID quick start ===")
     println("virocapsid is a STUB verb at v1.0.0 — prints falsifier table only.")

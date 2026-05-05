@@ -1,5 +1,5 @@
 #!hexa strict
-// modules/nanobot.hexa — NANOBOT verb (HEXA-family axis 2/4)
+// nanobot/module/nanobot.hexa — NANOBOT verb (HEXA-family axis 2/4)
 //
 // STATUS: STUB v1.0.0 — placeholder + falsifier preregister only.
 //          Numerical implementation deferred to post-v1.0 cycle.

@@ -8,8 +8,8 @@
 
 fn main() {
     let root = env("HEXA_BIO_ROOT")
-    let mut p = "modules/nanobot.hexa"
-    if root.len() > 0 { p = root + "/modules/nanobot.hexa" }
+    let mut p = "nanobot/module/nanobot.hexa"
+    if root.len() > 0 { p = root + "/nanobot/module/nanobot.hexa" }
 
     println("=== hexa-bio NANOBOT quick start ===")
     println("nanobot is a STUB verb at v1.0.0 — prints falsifier table only.")

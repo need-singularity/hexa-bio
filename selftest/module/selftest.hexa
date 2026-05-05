@@ -1,5 +1,5 @@
 #!hexa strict
-// modules/selftest.hexa — full 4-verb sweep + sentinel aggregation
+// selftest/module/selftest.hexa — full 4-verb sweep + sentinel aggregation
 //
 // Runs all 4 verb modules with default (no-op / falsifier-table) args and
 // asserts each prints its sentinel:
@@ -18,7 +18,9 @@ let VERSION = "1.0.0"
 fn _root() -> str {
     let r = env("HEXA_BIO_ROOT")
     if r.len() > 0 { return r }
-    let inferred = exec("dirname \"$(dirname \"$0\")\" 2>/dev/null || true").trim()
+    // Layout (canonical 2026-05-05): <root>/selftest/module/selftest.hexa
+    // → 3× dirname pops {selftest.hexa, module/, selftest/} to reach <root>.
+    let inferred = exec("dirname \"$(dirname \"$(dirname \"$0\")\")\" 2>/dev/null || true").trim()
     if inferred.len() > 0 { return inferred }
     return env("HOME") + "/.hexa-bio"  // @allow-devpath
 }
@@ -29,7 +31,7 @@ fn _shq(s: str) -> str {
 
 fn _run_module(verb: str) -> bool {
     let root = _root()
-    let path = root + "/modules/" + verb + ".hexa"
+    let path = root + "/" + verb + "/module/" + verb + ".hexa"
     let cmd = "hexa run " + _shq(path) + " 2>&1"
     let raw = exec(cmd)
     let sentinel = "__HEXA_BIO_" + verb.to_upper() + "__ PASS"

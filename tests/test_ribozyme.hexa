@@ -6,8 +6,8 @@
 
 fn main() {
     let root = env("HEXA_BIO_ROOT")
-    let mut p = "modules/ribozyme.hexa"
-    if root.len() > 0 { p = root + "/modules/ribozyme.hexa" }
+    let mut p = "ribozyme/module/ribozyme.hexa"
+    if root.len() > 0 { p = root + "/ribozyme/module/ribozyme.hexa" }
 
     let raw = exec("hexa run " + p + " 2>&1")
     if raw.contains("__HEXA_BIO_RIBOZYME__ PASS") {

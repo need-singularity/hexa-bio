@@ -6,8 +6,8 @@
 
 fn main() {
     let root = env("HEXA_BIO_ROOT")
-    let mut p = "modules/nanobot.hexa"
-    if root.len() > 0 { p = root + "/modules/nanobot.hexa" }
+    let mut p = "nanobot/module/nanobot.hexa"
+    if root.len() > 0 { p = root + "/nanobot/module/nanobot.hexa" }
 
     let raw = exec("hexa run " + p + " 2>&1")
     if raw.contains("__HEXA_BIO_NANOBOT__ PASS") {

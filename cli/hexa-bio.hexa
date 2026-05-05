@@ -14,7 +14,7 @@
 //   --version   — print version
 //
 // Root resolution: $HEXA_BIO_ROOT env, else inferred from $0 dirname.
-// No nexus dependency — modules/ live alongside this script.
+// No nexus dependency — feature/module/ trees live alongside this script.
 //
 // Constraints:
 //   raw#9   — hexa-only orchestration; weave's bridge .py opt-in only
@@ -42,13 +42,14 @@ fn hexa_bio_root() -> str {
 
 let HB = hexa_bio_root()
 let HEXA_BIN = exec("command -v hexa 2>/dev/null || echo hexa").trim()
-let MOD_DIR = HB + "/modules"
+// Feature-grouped layout (canonical 2026-05-05): <feature>/module/<feature>.hexa
+let MOD_DIR = HB
 
-let MOD_WEAVE      = MOD_DIR + "/weave.hexa"
-let MOD_NANOBOT    = MOD_DIR + "/nanobot.hexa"
-let MOD_RIBOZYME   = MOD_DIR + "/ribozyme.hexa"
-let MOD_VIROCAPSID = MOD_DIR + "/virocapsid.hexa"
-let MOD_SELFTEST   = MOD_DIR + "/selftest.hexa"
+let MOD_WEAVE      = MOD_DIR + "/weave/module/weave.hexa"
+let MOD_NANOBOT    = MOD_DIR + "/nanobot/module/nanobot.hexa"
+let MOD_RIBOZYME   = MOD_DIR + "/ribozyme/module/ribozyme.hexa"
+let MOD_VIROCAPSID = MOD_DIR + "/virocapsid/module/virocapsid.hexa"
+let MOD_SELFTEST   = MOD_DIR + "/selftest/module/selftest.hexa"
 
 let LOG_PATH = HB + "/state/hexa_bio_cli.log"
 

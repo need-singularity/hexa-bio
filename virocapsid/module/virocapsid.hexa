@@ -1,5 +1,5 @@
 #!hexa strict
-// modules/virocapsid.hexa — VIROCAPSID verb (HEXA-family axis 4/4)
+// virocapsid/module/virocapsid.hexa — VIROCAPSID verb (HEXA-family axis 4/4)
 //
 // STATUS: STUB v1.0.0 — placeholder + falsifier preregister only.
 //          Numerical implementation deferred to post-v1.0 cycle.

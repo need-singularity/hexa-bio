@@ -1,5 +1,5 @@
 #!hexa strict
-// modules/ribozyme.hexa — RIBOZYME verb (HEXA-family axis 3/4)
+// ribozyme/module/ribozyme.hexa — RIBOZYME verb (HEXA-family axis 3/4)
 //
 // STATUS: STUB v1.0.0 — placeholder + falsifier preregister only.
 //          Numerical implementation deferred to post-v1.0 cycle.
