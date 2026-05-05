@@ -8,6 +8,31 @@
 
 ---
 
+## §0 Terminal goal — universal designed-molecular therapeutic toolkit
+
+hexa-bio 도착지 = **4 disease class × 4 verb = 16-cell matrix 전부 cure-grade 도달**.
+n=6 invariant lattice (§A.1) 는 이 도착지의 *correctness machinery* — 도착지 자체가 아닌 design 정합성 보장 도구.
+
+|              | α 암 (AML)                          | β Mendelian (SCD)              | γ 감염병 (pan-cov)                  | δ 노화 (senolytic / p16+)         |
+|--------------|--------------------------------------|--------------------------------|-------------------------------------|------------------------------------|
+| **WEAVE** (compose)   | FLT3-ITD / CD33 BiTE / oncolytic 단백질 | mutation-corrected β-globin    | spike RBD broadly-neutralizing 항체 | p16+ 표적 senolytic 단백질         |
+| **NANOBOT** (actuate) | CD33 / FLT3 active-targeting 액추에이터 | HSC (CD34+) 표적 delivery      | 호흡기 epithelium 표적 액추에이터   | p16+ cell 표적 액추에이터           |
+| **RIBOZYME** (catalyze) | FLT3-ITD / NPM1c mRNA cleavage      | β-globin precursor trans-splicing | conserved viral RNA cleavage     | SASP key mRNA (예: IL-6) cleavage |
+| **VIROCAPSID** (assemble) | neoantigen-display 종양 백신 VLP | HSC 표적 AAV-like gene-cage    | 다가 VLP 백신 (multi-spike)         | senolytic payload 캡슐             |
+
+**Cure-grade DoD per class**: ≥1 in-vivo proof (mouse model n=1) → IND-eligible 후보 → phase I 진입. 4 class 모두 도달 = terminal.
+
+**POC sequencing**: in-silico (C0~C2) 4 class 평행, **handoff (C3+) γ-first** (fast + 수요 명확).
+
+## §0' Disease fix (C1)
+
+| Class | Disease 선정 | 근거 |
+|-------|--------------|------|
+| α     | **AML** (acute myeloid leukemia) | 5-yr 생존 ~30%, MOLM-13 xenograft 표준, 액성 종양 (solid 보다 less complex) |
+| β     | **SCD** (sickle cell disease)    | Casgevy 2023 FDA 승인 — pathway 검증, HSC ex-vivo 표적 확립 |
+| γ     | **pan-coronavirus broad-spectrum** | post-2020 수요, spike conserved 영역, BSL-2 surrogate 가능 |
+| δ     | **senescent-cell clearance** (p16-INK4a) | 가장 검증된 노화 메커니즘, lifespan extension 빠른 readout |
+
 ## §A.1 Invariant lattice (n=6)
 
 The 4 verbs share one master identity:
@@ -69,18 +94,18 @@ from APPROACH grade to PROPOSED. Per-verb detail in sister files.
 
 | Verb        | Falsifier      | Sister file           | Status   |
 |-------------|----------------|-----------------------|----------|
-| WEAVE       | F-TP5-b        | `.roadmap.weave`      | OPEN     |
-| NANOBOT     | F-NB-4         | `.roadmap.nanobot`    | OPEN     |
-| RIBOZYME    | F-RB-4         | `.roadmap.ribozyme`   | OPEN     |
-| VIROCAPSID  | F-VIROCAPSID-3 | `.roadmap.virocapsid` | PARTIAL — cage MVP yield 0.68 plateau |
+| WEAVE       | F-TP5-b        | `.roadmap.weave`      | **PASS cycle 24** (closed 2026-05-05; weave_compose P=10 × N=50, 6/6 criteria) |
+| NANOBOT     | F-NB-4         | `.roadmap.nanobot`    | **PASS cycle 24** (closed 2026-05-05; 4-state 12-vertex truncated-icosahedron, work 50 kT, J₂ speedup 24×, 6/6 criteria) |
+| RIBOZYME    | F-RB-4         | `.roadmap.ribozyme`   | **PASS cycle 24** (closed 2026-05-05; hammerhead 12-nt 4-state, 6/6 criteria) |
+| VIROCAPSID  | F-VIROCAPSID-3 | `.roadmap.virocapsid` | **PASS cycle 24** (closed 2026-05-05; T=1 STNV yield 0.8546) |
 
-## §A.5 Sister-axis collision audit — `2026-05-28` (T-23 days)
+## §A.5 Sister-axis collision audit — `2026-05-28` (T-23 days; C0a result 2026-05-05)
 
-| Verb        | Falsifier              | Collision target                                |
-|-------------|------------------------|-------------------------------------------------|
-| NANOBOT     | F-NB-5                 | `life/therapeutic-nanobot/`                     |
-| RIBOZYME    | F-RB-5                 | `life/crispr-gene-editing/`, `life/synbio/`     |
-| VIROCAPSID  | F-VIROCAPSID-COLLISION | `life/virology/`, `life/vaccine/`               |
+| Verb        | Falsifier              | Collision target                                | Status (2026-05-05)                                                                                       |
+|-------------|------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| NANOBOT     | F-NB-5                 | `life/therapeutic-nanobot/`                     | **PARTIAL** — COLLISION verdict; hexa-bio side declared (N-R2); n6-architecture canonical-side pending (out-of-repo) |
+| RIBOZYME    | F-RB-5                 | `life/crispr-gene-editing/`, `life/synbio/`     | **PASS WITH MITIGATION** — CRISPR clean genus separation, synbio SELEX handshake declared (R-R2)            |
+| VIROCAPSID  | F-VIROCAPSID-COLLISION | `life/virology/`, `life/vaccine/`               | **PASS clean** — orthogonal abstraction, cage = downstream consumer input (V-R3)                            |
 
 ## §A.6 Bayesian audit deadlines — `2026-09-28` (T-146 days)
 
@@ -102,13 +127,31 @@ random):
 
 ---
 
-## §C SHORT-HORIZON CHECKLIST
+## §B Consolidated checkpoints (5-roadmap aligned)
+
+| #     | Stage                                  | Date           | Gate                                                                                  | In/Out repo |
+|-------|----------------------------------------|----------------|---------------------------------------------------------------------------------------|-------------|
+| C0a   | 형식 prerequisite                      | 2026-05-28 (closed 2026-05-05) | sister-axis audits 3건 — **2 PASS + 1 PARTIAL** (RB-5 PASS WITH MITIGATION · VIROCAPSID PASS clean · NB-5 PARTIAL pending n6-architecture canonical edit) | in-repo     |
+| C0b   | 형식 prerequisite                      | 2026-07-28 (**4/4 closed 2026-05-05**) | 4-verb numerical MVP sim PASS — **F-VIROCAPSID-3** (T=1 yield 0.8546) · **F-RB-4** (6/6 hammerhead 12-nt) · **F-NB-4** (6/6 4-state 12-vertex, J₂ 24× speedup) · **F-TP5-b** (6/6 weave_compose P=10×N=50). v1.1.0 candidate. | in-repo     |
+| C0c   | 형식 prerequisite                      | 2026-09-28     | n=30 Bayesian audit 2건 closed (F-NB-2 / F-RB-2)                                       | in-repo     |
+| C1    | Disease slot                           | 즉시 (§0' fix) | 4 class disease 선정 — α=AML / β=SCD / γ=pan-cov / δ=senolytic                         | in-repo     |
+| C2    | In-silico 16-cell 매트릭스             | **closed 2026-05-06** | 4 verb × 4 class 후보 1개씩 — **16/16 PASS** (foreground per classifier rule); 16 wrapper files + 16 raw_77_c2_* witness rows + 4 row kicks + 1 matrix-closure kick + 1 abstract-followons kick (6 cycle-25 kicks total) | in-repo     |
+| **--- repo boundary ---** |                            |                |                                                                                       |             |
+| C3    | Wet-lab handoff                        | TBD            | 4 class × 1 후보 외부 CRO/collaborator 위탁 (γ-first)                                   | out-of-repo |
+| C4    | In-vitro n=1                           | TBD            | 4 class in-vitro PASS                                                                 | out-of-repo |
+| C5    | In-vivo n=1                            | TBD            | 4 class mouse-model proof                                                             | out-of-repo |
+| C6    | IND-eligible                           | TBD            | 4 class regulatory filing 가능                                                        | out-of-repo |
+| C7    | Phase I 시작                           | TBD            | 4 class 임상 진입 = **terminal**                                                       | out-of-repo |
+
+## §C SHORT-HORIZON CHECKLIST (in-repo C0~C2)
 
 | Date         | T-days | What                                              |
 |--------------|--------|---------------------------------------------------|
-| 2026-05-28   | 23     | F-NB-5 / F-RB-5 / F-VIROCAPSID-COLLISION audits   |
-| 2026-07-28   | 83     | F-TP5-b / F-NB-4 / F-RB-4 / F-VIROCAPSID-3 MVPs   |
-| 2026-09-28   | 146    | F-NB-2 / F-RB-2 Bayesian audits (n=30 corpora)    |
+| 2026-05-28   | 23     | C0a — sister-axis audits 3건 (closed 2026-05-05; 2 PASS + 1 PARTIAL) |
+| 2026-07-28   | 83     | C0b — 4 numerical MVP sim → v1.1.0 release (**4/4 closed 2026-05-05**: F-VIROCAPSID-3, F-RB-4, F-NB-4, F-TP5-b) |
+| 2026-09-28   | 146    | C0c — F-NB-2 / F-RB-2 Bayesian audits              |
+| 즉시          | —      | C1 — 4 disease fix (§0' 참조; closed 2026-05-05) |
+| 2026-05-06   | —      | C2 — in-silico 16-cell 매트릭스 verification (**closed 16/16 PASS**) |
 
 ---
 
@@ -123,3 +166,14 @@ random):
 - Cross-axis applied bet (out of scope but tracked): SA #2
   `crispr-cas13-poc-diagnostic/` (2026-05-01, alien-grade 10
   PHYSICAL-LIMIT, F-CAS13-MVP-1..5)
+
+## §E Cross-cutting Require (전 도메인 상속)
+
+- **(R1)** `~/core/n6-architecture/` canonical SSOT 수정 금지 — symlink 소스, repo 는 consumer
+- **(R2)** WEAVE Bayesian audit (posterior 0.9668 RESOLVED) 회귀 금지
+- **(R3)** Empirical SSOT = `~/core/nexus/sim_bridge/weave/` (cycle 24+ canonical)
+- **(R4)** Witness = raw 108 schema → `state/discovery_absorption/registry.jsonl` (append-only)
+- **(R5)** HEXA module + Python bridge 페어 패턴 (WEAVE 선례 — `weave/module/weave.hexa` + `_python_bridge/module/cage_assembly_simulation.py`)
+- **(R6)** hexa-bio scope = **in-silico design + verification까지 (C0~C2)**. C3+ 은 외부 (CRO / collaborator / sponsor / regulatory) — repo 는 handoff 아티팩트 (분자 spec + 시뮬 결과 + safety profile) 까지만 책임
+- **(R7)** Disease-class data sourcing (cancer cell line / GWAS / 바이러스 게놈 / aging biomarker) 별 트랙 — repo 는 schema/슬롯만 보유
+- **(R8)** 4 class **in-silico 평행** (C0~C2) — cancer 우선 시퀀싱 금지. **Handoff (C3+) γ-first** 만 허용 (fast + 수요 명확 근거)

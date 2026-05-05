@@ -8,6 +8,36 @@
 
 ---
 
+## Terminal goal — VIROCAPSID row in 16-cell matrix
+
+VIROCAPSID 은 4 disease class 각각 VLP / cage 구조 design. Meta `.roadmap.hexa_bio` §0 의 **V 행**.
+
+| Cell  | Disease       | 후보 cage (예)                                          |
+|-------|---------------|----------------------------------------------------------|
+| V·α   | AML           | neoantigen-display 종양 백신 VLP                         |
+| V·β   | SCD           | HSC 표적 AAV-like gene-cage                              |
+| V·γ   | pan-cov       | 다가 VLP 백신 (multi-spike variants)                     |
+| V·δ   | senolytic     | senolytic payload 캡슐                                   |
+
+**Cell DoD**: in-silico cage design + σ(6)=12 STRUCTURAL-EXACT (T=1) 또는 calibrated (T>1) + nucleation-elongation yield ≥0.85 + witness → `state/discovery_absorption/registry.jsonl`.
+
+## Checkpoints
+
+| #   | Date              | Gate                                                                        |
+|-----|-------------------|-----------------------------------------------------------------------------|
+| C0a | 2026-05-28        | F-VIROCAPSID-COLLISION audit (vs `life/virology/` + `life/vaccine/`)         |
+| C0b | 2026-07-28 (closed 2026-05-05) | F-VIROCAPSID-3 **PASS** — STNV (T=1) yield_t10000=0.8546 ≥ 0.85 via backward_euler stability-corner params (K12=1e-6, K21=1e-4, K_CLOSE=1e-7, K_OPEN=1e-14). Implementation: `_python_bridge/module/virocapsid_calibration.py` (stdlib only); HEXA dispatcher `--calibrate` in `virocapsid/module/virocapsid.hexa`; witness in `state/discovery_absorption/registry.jsonl` schema raw_77_virocapsid_calibration_v1. CCMV/HBV (T=3/4) deferred to V-R2 stretch (per-system rate-constant re-derivation needed) |
+| C0c | (RESOLVED cycle 22) | F-VIROCAPSID-2 n=34 corpus posterior 0.9668 (이미 closure)                  |
+| C1  | 즉시              | 4 cell target fix — meta §0' 와 동기                                          |
+| C2  | TBD               | 4 cell × cage design + yield calibrated proof → registry.jsonl 4 줄          |
+
+## Require (verb-specific)
+
+- **(V-R1)** Cage output schema = 3D cage spec (T-number + subunit count + assembly kinetics + yield curve)
+- **(V-R2)** Stretch: T=3/4/7/13/21 multi-T 일반화 corpus 확장 (현재 T=1 only) — terminal까지 도달 시
+- **(V-R3)** Sister-axis 분담 (C0a 결과 2026-05-05 — F-VIROCAPSID-COLLISION **PASS clean**): hexa-bio VIROCAPSID = self-assembly **architectural primitive** (cage geometry, T-number, σ(6)=12 vertex cardinality, τ(6)=4 assembly-state ladder, J₂=24 pose-equivalence, Zlotnick 2003 nucleation-elongation kinetic-trap ceiling); `life/virology/` = 임상/시스템 (diagnostic, surveillance, pandemic-response — cage 를 하나의 structural building block 로 consume); `life/vaccine/` = 면역 formulation + 임상 efficacy (cage 를 particle 로 받아 immunological presentation 추가). **Orthogonal abstraction levels** — cage spec 이 input 으로 들어가는 downstream consumer 관계.
+- **(V-R4)** Meta `.roadmap.hexa_bio` §E (R1-R8) 전 도메인 Require 상속
+
 ## Status snapshot
 
 | Metric                          | Current (cycle 19)             | 90-day MVP target (07-28)         | Stretch |
@@ -17,7 +47,8 @@
 | CHI2 sample size n              | 0                              | 1 (PASS-MARGINAL)                 | 30      |
 | σ(6)=12 mapping                 | **STRUCTURAL-EXACT** (T=1)     | unchanged                         | extend to T=3/T=7 |
 | F-VIROCAPSID-2 status           | **RESOLVED cycle 22**          | (already closed)                  | —       |
-| Cage MVP yield                  | 0.68 plateau                   | aberrant-aggregate < closed-shell | quantitative margin |
+| Cage MVP yield                  | **0.8546** (T=1, t=10000, cycle 24) | aberrant-aggregate < closed-shell | quantitative margin |
+| F-VIROCAPSID-3 status           | **PASS cycle 24** (closed 2026-05-05) | (already closed)                  | T=3/T=4 V-R2 stretch |
 
 **Primary constraint**: nucleation-elongation kinetic plateau (cycle 22 cage
 MVP yield 0.68 plateau under default rate constants; Zlotnick 2003 4-state
@@ -40,8 +71,8 @@ refutation).
 
 - **Genus distinction** (vs three sisters): F-VIROCAPSID-1-genus / -1-b / -1-c / -1-d
 - **n6 invariant binding**: F-VIROCAPSID-2-n6-decorative / -2-b / -2-c (RESOLVED cycle 22)
-- **90-day MVP gate**: F-VIROCAPSID-3-MVP-90day / -3-b / -3-c
-- **Sister-axis collision**: F-VIROCAPSID-COLLISION + sub-clauses
+- **90-day MVP gate**: F-VIROCAPSID-3-MVP-90day / -3-b / -3-c — **PASS cycle 24** (closed 2026-05-05; T=1 STNV yield 0.8546 at t=10000 via virocapsid_calibration.py backward_euler stability-corner params)
+- **Sister-axis collision**: F-VIROCAPSID-COLLISION + sub-clauses — **PASS clean** (C0a audit 2026-05-05: virology + vaccine 둘 다 downstream consumer, orthogonal abstraction, declared in V-R3)
 - **Kinetic trap**: F-VIROCAPSID-4-kinetic-trap / -4-b / -4-c
 
 ## Why σ=12 STRUCTURAL-EXACT here

@@ -8,6 +8,35 @@
 
 ---
 
+## Terminal goal — RIBOZYME row in 16-cell matrix
+
+RIBOZYME 은 4 disease class 각각 catalytic RNA design. Meta `.roadmap.hexa_bio` §0 의 **R 행**.
+
+| Cell  | Disease       | 후보 ribozyme (예)                                       |
+|-------|---------------|-----------------------------------------------------------|
+| R·α   | AML           | FLT3-ITD 또는 NPM1c mutant mRNA cleavage                 |
+| R·β   | SCD           | β-globin precursor trans-splicing 교정                    |
+| R·γ   | pan-cov       | conserved viral RNA region cleavage                       |
+| R·δ   | senolytic     | SASP key mRNA (예: IL-6) cleavage                        |
+
+**Cell DoD**: in-silico ribozyme design + k_cat/K_M Eigen-Hammes ceiling margin + 12-nt catalytic core + 4-state reaction ladder + witness → `state/discovery_absorption/registry.jsonl`.
+
+## Checkpoints
+
+| #   | Date         | Gate                                                                              |
+|-----|--------------|-----------------------------------------------------------------------------------|
+| C0a | 2026-05-28   | F-RB-5 sister-axis audit (vs `life/crispr-gene-editing/` + `life/synbio/`)         |
+| C0b | 2026-07-28 (closed 2026-05-05) | F-RB-4 **PASS 6/6** — hammerhead 12-nt 4-state RK4+Euler sim (k_cat=0.5995/min, K_M=0.120 µM, k_cat/K_M=8.33e4 M⁻¹s⁻¹ — 4.08 orders below Eigen-Hammes 1e9 ceiling, σ=12 + τ=4 verified, mass drift 7.1e-14, RK4-Euler agreement 5.6e-16). Implementation: `_python_bridge/module/ribozyme_kinetics_simulation.py` (776 LOC, stdlib only); HEXA dispatcher `--kinetics-mvp` in `ribozyme/module/ribozyme.hexa`; witness in `state/discovery_absorption/registry.jsonl` schema raw_77_ribozyme_kinetics_v1. J₂=24 quotient deferred to stretch. |
+| C0c | 2026-09-28   | F-RB-2 n=30 Bayesian corpus closed                                                |
+| C1  | 즉시         | 4 cell target fix — meta §0' 와 동기                                               |
+| C2  | TBD          | 4 cell × ribozyme design + k_cat/K_M margin proof → registry.jsonl 4 줄           |
+
+## Require (verb-specific)
+
+- **(R-R1)** Ribozyme output schema = RNA spec (sequence + 2D/3D structure + predicted k_cat/K_M + 4-state ladder)
+- **(R-R2)** Sister-axis 분담 (C0a 결과 2026-05-05 — F-RB-5 **PASS WITH MITIGATION**): hexa-bio RIBOZYME = catalytic-RNA **architectural primitive** (active-site σ(6)=12 core residues, τ(6)=4 reaction states, k_cat/K_M Eigen-Hammes diffusion ceiling, in-silico chemical-kinetics simulation L0-L4); `life/crispr-gene-editing/` = Cas9-sgRNA **system integration** + clinical delivery (downstream, no genus collision); `life/synbio/` = **in-vitro selection / SELEX** library construction + metabolic-chassis embedding — handshake point: SELEX 가 ribozyme discovery 의 selection 단계 owner (RIBOZYME design 단계와 명확 분리, L9 application 으로 routing).
+- **(R-R3)** Meta `.roadmap.hexa_bio` §E (R1-R8) 전 도메인 Require 상속
+
 ## Status snapshot
 
 | Metric                          | Current (cycle 15)             | 90-day MVP target (07-28)      | Stretch |
@@ -35,7 +64,7 @@
 - **Genus distinction** (vs WEAVE / NANOBOT): F-RB-1-genus / F-RB-1-b / F-RB-1-c
 - **n6 invariant binding**: F-RB-2-n6-decorative / F-RB-2-b / F-RB-2-c
 - **90-day MVP gate**: F-RB-4-MVP-90day / F-RB-4-b / F-RB-4-c
-- **Sister-axis collision**: F-RB-5-sister-axis-collision / F-RB-5-b / F-RB-5-c
+- **Sister-axis collision**: F-RB-5-sister-axis-collision / F-RB-5-b / F-RB-5-c — **PASS WITH MITIGATION** (C0a audit 2026-05-05: CRISPR clean genus separation, synbio SELEX handshake declared in R-R2)
 - **Diffusion limit**: F-RB-3-diffusion-limit / F-RB-3-b / F-RB-3-c
 
 ## Canonical spec

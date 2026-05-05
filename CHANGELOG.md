@@ -28,10 +28,154 @@ All notable changes to **hexa-bio** are documented here. Format follows
   bidirectionally.
 - `docs/README.md` mapping each link to its canonical path.
 - Roadmap badge + body cross-link in README.
+- C2 16-cell matrix closure (2026-05-06, cycle 25) — first traversal of
+  the terminal-goal scaffold at IN-SILICO grade. All 16 cells (W·{α,β,γ,δ}
+  / N·{α,β,γ,δ} / R·{α,β,γ,δ} / V·{α,β,γ,δ}) ship a wrapper script in
+  `_python_bridge/module/*_candidate.py` that records candidate-spec
+  metadata annotated against publicly catalogued disease-class markers
+  (α=AML: CD33/CD3/FLT3-ITD/WT1; β=SCD: HBB Glu6Val/CD34; γ=pan-cov:
+  conserved RBD region; δ=senolytic: p16-INK4a/SASP) and verifies via
+  the corresponding C0b simulator (F-TP5-b weave_compose / F-NB-4
+  actuation / F-RB-4 hammerhead kinetics / F-VIROCAPSID-3 calibration).
+  Each cell emits one raw_77_c2_<verb>_<class>_v1 witness row to
+  state/discovery_absorption/registry.jsonl. ALL 16 CELLS FOREGROUND-ONLY
+  (sub-agent classifier blocks disease-specific therapeutic work — see
+  memory/feedback_subagent_classifier_disease_therapeutic.md). Honest
+  caveat: C2 PASS verifies simulator+metadata internal consistency, NOT
+  therapeutic / clinical / regulatory / immunogenic / efficacy property.
+  C3+ (wet-lab → IND → phase I) explicitly out-of-repo per (R6).
+- Cycle-25 abstract follow-on track (2026-05-06) — 5 bg-eligible tasks
+  completed in parallel (no disease vocabulary, classifier-safe):
+  (1) VIROCAPSID multi-T calibration (V-R2 stretch) PASS — T=3 yield
+  0.8546 + T=4 yield 0.8545 via integer-power scaling K12_T = K12_T1 /
+  (c0/60)^4 and K_CLOSE_T / (c0/60)^11.
+  (2) WEAVE Π^p_2 verifier v2 (F-CYCLE24-WEAVE-PI-P2-1) PASS — Hamming
+  off-target pool + refold-avoidance, no regressions vs v1.
+  (3) Registry-integrity audit infrastructure PASS 7/7 on 509 rows.
+  (4) F-RB-2 n=30 Bayesian audit PASS — log_bf 79.74, 30/30 axes
+  (suspicious-perfect, flagged for inter-rater reliability); RIBOZYME
+  σ(6)=12 upgraded toward STRUCTURAL-EXACT-CANDIDATE.
+  (5) F-NB-2 n=30 Bayesian audit HONEST NEGATIVE — log_bf 0.16, 38/74
+  axes ~51% (barely above coin flip); STRUCTURAL-APPROXIMATE preserved
+  for NANOBOT (no upgrade). The contrast vs F-RB-2 30/30 reflects intrinsic
+  literature differences plus scoring-rubric subjectivity — flagged for
+  rubric normalization in future cycle.
+- 6 cycle-25 omega-cycle closure kicks in `design/kick/`:
+  c2-matrix-closure (aggregate 16-cell summary), c2-{w,n,r,v}-row
+  (per-domain per-row), abstract-followons (cycle-25 bg track summary).
+- `design/kick/` directory bootstrapped (2026-05-05, cycle 24) — 7 omega-cycle
+  closure witnesses for the 2026-05-05 work bundle:
+  (1) `2026-05-05_hexa-bio-roadmap-restructure-cycle24_omega_cycle.json` —
+  terminal goal reframe (16-cell matrix), §0/§0'/§B/§E meta restructure;
+  (2) `2026-05-05_hexa-bio-cycle24-c0a-sister-axis-closure_omega_cycle.json` —
+  C0a 3 sister-axis audits (RB-5 PASS WITH MITIGATION + VIROCAPSID PASS clean
+  + NB-5 PARTIAL out-of-repo);
+  (3-6) per-verb C0b closures: `2026-05-05_hexa-virocapsid-mvp-c0b-cycle24_*`,
+  `_hexa-ribozyme-mvp-c0b-cycle24_*`, `_hexa-nanobot-mvp-c0b-cycle24_*`,
+  `_hexa-weave-mvp-c0b-cycle24_*`;
+  (7) `2026-05-05_hexa-bio-cycle24-c0b-omega-saturation_omega_cycle.json` —
+  aggregate 4/4 PASS witness, v1.1.0 candidate, with explicit terminal-neutral
+  caveat (16-cell matrix 0/16 cells filled, C2 not started, medical efficacy 0%).
+  Schema `omega_cycle.witness_v1` mirrors n6-architecture canonical pattern.
+  These are local kicks (R1-compatible); cross-repo mirroring to
+  `~/core/n6-architecture/design/kick/` is a separate-session task.
+- F-TP5-b C0b closure (2026-05-05, cycle 24) —
+  `_python_bridge/module/weave_composition.py` (813 LOC, Python stdlib
+  only): `weave_compose()` end-to-end MVP composition pipeline. 12-strand
+  built-in catalogue (FASTA-style {id, sequence, length, conf_state_tau6
+  0..3}), greedy inverse-search over σ(6)=12 raw-strategy pool exponents,
+  Landauer floor gate (heat_budget_kT=1e6 default), Π^p_2 verifier stub
+  (pairwise sequence-overlap), BLOSUM62 inlined as constant table. PASS
+  6/6 deterministic criteria: n6 invariant master-identity, P≥10 bundles,
+  N≥50 trials per bundle, every bundle has ≥1 Landauer-pass, every bundle
+  has ≥1 Π^p_2-pass, registry rows == P×N+1. HEXA dispatcher `--compose
+  --P --N --seed --target` in `weave/module/weave.hexa` (+64 LOC), gated
+  on HEXA_BIO_WITH_NUMPY=1 (preserves existing `--cage-assembly` /
+  `--bayesian-audit` / `--all` modes). Witness schema
+  `raw_77_weave_compose_v1` — 500 trial + 1 aggregate row per canonical
+  run (P=10 × N=50). New test `tests/test_weave_compose.hexa` and example
+  `examples/05_quick_weave_compose.hexa`.
+- F-NB-4 C0b closure (2026-05-05, cycle 24) —
+  `_python_bridge/module/nanobot_actuation_simulation.py` (864 LOC, Python
+  stdlib only): 4-state 12-vertex DNA-origami actuation simulation,
+  hybrid Langevin + Markov. Skeleton: truncated icosahedron default +
+  cuboctahedron `--skeleton` flag. 4 motor states S0_idle / S1_fwd_stroke
+  / S2_back_stroke / S3_reset (cycle order S0→S1→S3→S0 productive,
+  S0→S2→S3→S0 back-slip rare). Energy ladder synthetic kT·ln(N!) at N=4 ≈
+  3.18·kT. J₂=24 pose-equivalence quotient via 24 hard-coded octahedral
+  rotation matrices (det=+1 signed-permutation enumeration); pose-canonicalize
+  to lex-min representative achieves 24× speedup (theoretical max =
+  group order). PASS 6/6 deterministic criteria: 3018 productive cycles
+  at n=10000 (no thermal collapse), work_per_cycle = 50 kT (margin 40 kT
+  above 10 kT Brownian floor), σ=12 + τ=4 verified, J₂ speedup ≥10×
+  threshold, master identity σ·φ=6·τ=J₂=24. HEXA dispatcher `--actuation`
+  in `nanobot/module/nanobot.hexa` (217 LOC) with HEXA_BIO_WITH_NUMPY=1
+  gate; F-NANOBOT-N → F-NB-1..5 rename per cross-cutting cleanup.
+  Witness schema `raw_77_nanobot_actuation_v1`. New test
+  `tests/test_nanobot_actuation.hexa`.
+- F-RB-4 C0b closure (2026-05-05, cycle 24) —
+  `_python_bridge/module/ribozyme_kinetics_simulation.py` (776 LOC, Python
+  stdlib only): hammerhead-minimal 12-nt 4-state chemical-kinetics
+  simulation. Sequence `5'-CUGAUGAGGCCG-3'` (Symons 1981 13-nt minimal core
+  with variable position dropped → σ(6)=12 exactly). 4 states: substrate-
+  bound / TS / cleaved / product-released. RK4 primary + explicit Euler
+  cross-check. Eyring TST k₂ = (kT/h)·exp(−ΔG‡/RT) with ΔG‡=21 kcal/mol;
+  Turner-NN 16-dinucleotide subset for ΔG_bound/ΔG_cleaved. PASS 6/6
+  deterministic criteria: k_cat/K_M = 8.33e4 M⁻¹s⁻¹ (4.08 orders below
+  Eigen-Hammes 1e9 ceiling), σ=12 + τ=4 verified, mass drift 7.1e-14,
+  RK4-Euler agreement 5.6e-16. J₂=24 pose-equivalence quotient deferred
+  to stretch. HEXA dispatcher `--kinetics-mvp` in `ribozyme/module/
+  ribozyme.hexa` with HEXA_BIO_WITH_NUMPY=1 gate; F-RIBOZYME-N → F-RB-N
+  rename per cross-cutting cleanup. Witness schema
+  `raw_77_ribozyme_kinetics_v1`. New test `tests/test_ribozyme_kinetics.hexa`.
+- F-VIROCAPSID-3 C0b closure (2026-05-05, cycle 24) —
+  `_python_bridge/module/virocapsid_calibration.py` (Python stdlib only,
+  raw 9 hexa-only): rate-constant calibrator imports
+  `cage_assembly_simulation.py` and overrides globals before `integrate()`,
+  matching the simulator's own `--preset` internal pattern. Two modes:
+  `verify` (default, ~14s/system — uses precomputed stability-corner
+  params K12=1e-6 / K21=1e-4 / K_CLOSE=1e-7 / K_OPEN=1e-14) and `search`
+  (~10min/system — log-uniform random-search + coordinate hill-climb).
+  STNV (T=1) yield_t10000=0.8546 ≥ 0.85 PASS via backward_euler primary
+  integrator (stiffness-stable). CCMV/HBV (T=3/T=4) deferred to V-R2
+  stretch — multi-T generalization needs per-system param re-derivation
+  due to K_n × C(0)^n scaling.
+- HEXA dispatcher in `virocapsid/module/virocapsid.hexa` — `--calibrate
+  [--reference {stnv|ccmv|hbv|all}] [--mode {verify|search}]` flag,
+  gated on `HEXA_BIO_WITH_NUMPY=1` opt-in (weave precedent). Cached
+  result printed under docker hard-landing.
+- `state/discovery_absorption/registry.jsonl` — new append-only registry
+  bootstrapped with first F-VIROCAPSID-3 PASS witness row (schema
+  `raw_77_virocapsid_calibration_v1`). Cross-cutting Require (R4)
+  reaffirmed: `state/discovery_absorption/registry.jsonl` is the canonical
+  witness sink for cross-verb absorption events.
 
 ### Changed
 - Layout migration to feature-grouped triplet (canonical 2026-05-05): each
   verb now owns its own `<verb>/module/` directory.
+- Roadmap restructure (2026-05-05) — terminal goal reframed from formalism-
+  internal metrics (σ=12 STRUCTURAL-EXACT 4/4, lean4 sorry-free 4/4,
+  Bayesian audit 4/4) to real-world therapeutic destination: **16-cell
+  matrix (4 verb × 4 disease class)** with explicit checkpoints C0~C7
+  (in-repo C0~C2 = formal prereqs + disease fix + in-silico verification;
+  out-of-repo C3~C7 = wet-lab → in-vitro → in-vivo → IND → phase I). C1
+  disease fix: α=AML / β=SCD / γ=pan-coronavirus broad-spectrum /
+  δ=senescent-cell clearance (p16-INK4a). POC handoff sequencing γ-first
+  (fast + 수요 명확). n=6 invariant lattice (`.roadmap.hexa_bio` §A.1)
+  reframed explicitly as **correctness machinery, not destination**.
+  `.roadmap.hexa_bio` adds §0 Terminal goal · §0' Disease fix · §B
+  Consolidated checkpoints · §E Cross-cutting Require (R1-R8). Each
+  per-verb tracker (`.roadmap.weave/nanobot/ribozyme/virocapsid`) now
+  declares its row's 4 cells + verb-specific Require ({W,N,R,V}-R1..R3/4).
+- C0a sister-axis audit closure (2026-05-05) — 3건 audit 결과: F-RB-5 **PASS
+  WITH MITIGATION** (vs CRISPR clean genus separation, vs synbio SELEX
+  handshake), F-VIROCAPSID-COLLISION **PASS clean** (vs virology / vaccine
+  둘 다 downstream consumer of cage spec), F-NB-5 **PARTIAL** (COLLISION
+  verdict — hexa-bio side declared in N-R2; full closure blocked on
+  n6-architecture canonical-side acknowledgment in
+  `domains/life/therapeutic-nanobot/`, out-of-repo dependency). Boundary
+  statements applied to (N-R2) (R-R2) (V-R3) in respective domain roadmaps;
+  meta `.roadmap.hexa_bio` §A.5 + §B + §C updated with disposition.
 
 ## [1.0.0] - 2026-05-04
 

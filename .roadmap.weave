@@ -7,6 +7,35 @@
 
 ---
 
+## Terminal goal — WEAVE row in 16-cell matrix
+
+WEAVE 는 4 disease class 각각에 cure-grade 단백질 design 제공. Meta `.roadmap.hexa_bio` §0 의 **W 행**.
+
+| Cell  | Disease       | 후보 분자 (예)                                           |
+|-------|---------------|-----------------------------------------------------------|
+| W·α   | AML           | FLT3-ITD / CD33 표적 BiTE 또는 oncolytic 단백질          |
+| W·β   | SCD           | mutation-corrected β-globin                               |
+| W·γ   | pan-cov       | spike RBD broadly-neutralizing 항체                       |
+| W·δ   | senolytic     | p16+ cell 표적 senolytic 단백질                           |
+
+**Cell DoD**: in-silico verified design + Landauer floor margin + Π^p_2 compatibility + Π¹_1-CA₀ closure cert + witness → `state/discovery_absorption/registry.jsonl`.
+
+## Checkpoints
+
+| #   | Date         | Gate                                                                              |
+|-----|--------------|-----------------------------------------------------------------------------------|
+| C0a | 2026-07-28 (closed 2026-05-05) | F-TP5-b **PASS 6/6** — `weave_compose()` end-to-end MVP, P=10 bundles × N=50 trials = 500 trial rows + 1 aggregate. Greedy inverse-search + 12-strand built-in catalogue + Landauer gate (heat_budget_kT=1e6) + Π^p_2 verifier stub (pairwise sequence-overlap). Implementation: `_python_bridge/module/weave_composition.py` (813 LOC, stdlib only); HEXA dispatcher `--compose --P --N --seed` in `weave/module/weave.hexa` (+64 LOC); witness in `state/discovery_absorption/registry.jsonl` schema raw_77_weave_compose_v1; new `tests/test_weave_compose.hexa` + `examples/05_quick_weave_compose.hexa`. |
+| C0b | (PASS)       | lean4 mechanical layer sorry-free (이미 0)                                        |
+| C0c | 2026-09-28   | `weave_compose()` 공개 API 운영 — strand catalogue → strategy 출력                 |
+| C1  | 즉시         | 4 cell disease fix — meta §0' 와 동기                                              |
+| C2  | TBD          | 4 cell × in-silico 후보 1개씩 design + verification PASS → registry.jsonl 4 줄    |
+
+## Require (verb-specific)
+
+- **(W-R1)** Composition output schema = 분자 spec (sequence + structure + Landauer flux + closure cert)
+- **(W-R2)** 4 cell 분담 — verb 간 책임 충돌 금지: WEAVE = 단백질 본체, delivery = NANOBOT, 면역 display = VIROCAPSID, 촉매 = RIBOZYME
+- **(W-R3)** Meta `.roadmap.hexa_bio` §E (R1-R8) 전 도메인 Require 상속
+
 ## Status snapshot
 
 | Metric                               | Current (cycle 8 actual)              | 90-day MVP target (07-28)      | Stretch |

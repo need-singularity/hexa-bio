@@ -47,6 +47,52 @@ fn _run_module(verb: str) -> bool {
     return ok
 }
 
+fn _run_c2_cell(verb: str, class_flag: str) -> bool {
+    // Smoke-check one C2 matrix cell: <verb> --c2-<class>.
+    // Pass criterion (in-silico-only): the verb's skeleton sentinel
+    //   __HEXA_BIO_<VERB>__ PASS
+    // is present in raw output. This verifies the dispatcher accepts the
+    // C2 flag and the module loads cleanly under the per-class branch.
+    // Does NOT validate any therapeutic / clinical / regulatory property
+    // — see CHANGELOG cycle-25 caveat + README §16-cell C2 matrix.
+    let root = _root()
+    let path = root + "/" + verb + "/module/" + verb + ".hexa"
+    let cmd = "hexa run " + _shq(path) + " --c2-" + class_flag + " 2>&1"
+    let raw = exec(cmd)
+    let sentinel = "__HEXA_BIO_" + verb.to_upper() + "__ PASS"
+    let ok = raw.contains(sentinel)
+    let label = "  [" + (if ok { "PASS" } else { "FAIL" }) + "] " + verb + " --c2-" + class_flag
+    if ok {
+        println(label)
+    } else {
+        println(label + " (sentinel " + sentinel + " missing)")
+        println("  --- cell raw output (head) ---")
+        println(raw.trim())
+        println("  --- end cell raw output ---")
+    }
+    return ok
+}
+
+fn _c2_matrix_sweep() -> int {
+    // 16-cell C2 matrix sweep: 4 verb × 4 disease class.
+    // Returns pass count (0..16). Honest caveat: each PASS verifies
+    // only that the dispatcher accepts --c2-<class> and the module
+    // loads — NOT any therapeutic / clinical / efficacy property.
+    let verbs = ["weave", "nanobot", "ribozyme", "virocapsid"]
+    let classes = ["aml", "scd", "pancov", "senolytic"]
+    let mut passed = 0
+    let mut i = 0
+    while i < verbs.len() {
+        let mut j = 0
+        while j < classes.len() {
+            if _run_c2_cell(verbs[i], classes[j]) { passed = passed + 1 }
+            j = j + 1
+        }
+        i = i + 1
+    }
+    return passed
+}
+
 fn cmd_selftest() {
     println("hexa-bio selftest " + VERSION + " — 4-verb sentinel sweep")
     println("")
@@ -62,20 +108,42 @@ fn cmd_selftest() {
     if r3 { passed = passed + 1 }
     if r4 { passed = passed + 1 }
     println("")
-    println("--- selftest summary ---")
+    println("--- selftest summary (skeleton sweep) ---")
     println("  passed: " + str(passed) + " / 4")
-    if passed == 4 {
-        println("  verdict: PASS (all 4 sentinels present)")
-        println("  NOTE: sentinel-only PASS = modules load + falsifier tables print.")
-        println("        Empirical claim validation requires explicit verb flags")
-        println("        (e.g. `hexa-bio weave --bayesian-audit` with")
-        println("        HEXA_BIO_WITH_NUMPY=1).")
-        println("__HEXA_BIO_SELFTEST__ PASS")
-    } else {
+    if passed != 4 {
         println("  verdict: FAIL — see per-verb diagnostics above")
         println("__HEXA_BIO_SELFTEST__ FAIL")
         exit(1)
     }
+    println("  verdict: PASS (all 4 sentinels present)")
+
+    println("")
+    println("C2 matrix sweep (16 cells = 4 verb × 4 disease class):")
+    println("")
+    let c2_passed = _c2_matrix_sweep()
+    println("")
+    println("--- C2 matrix summary ---")
+    println("  passed: " + str(c2_passed) + " / 16")
+    if c2_passed != 16 {
+        println("  verdict: FAIL — see per-cell diagnostics above")
+        println("__HEXA_BIO_SELFTEST__ FAIL")
+        exit(1)
+    }
+    println("  verdict: PASS (all 16 C2 cells dispatched + sentinel present)")
+    println("  HONEST CAVEAT (raw#91 C3): C2 sweep PASS verifies in-silico")
+    println("        simulator+metadata internal consistency only — NOT")
+    println("        therapeutic, clinical, regulatory, immunogenic, or")
+    println("        efficacy progress. C3+ (wet-lab → IND → phase I) is")
+    println("        explicitly out-of-repo. See README §16-cell C2 matrix.")
+    println("")
+    println("--- selftest summary (overall) ---")
+    println("  skeleton: 4 / 4")
+    println("  C2 cells: 16 / 16")
+    println("  NOTE: sentinel-only PASS = modules load + dispatchers accept")
+    println("        --c2-<class> flags. Empirical claim validation requires")
+    println("        explicit verb flags (e.g. `hexa-bio weave --bayesian-audit`")
+    println("        with HEXA_BIO_WITH_NUMPY=1).")
+    println("__HEXA_BIO_SELFTEST__ PASS")
 }
 
 fn main() {

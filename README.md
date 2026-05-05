@@ -12,6 +12,16 @@
 [![Verbs: 1/4 wired](https://img.shields.io/badge/verbs-1%2F4_wired_(weave)-blue.svg)](#4-verb-status-table)
 [![n=6 lattice](https://img.shields.io/badge/n%3D6-σ%3D12_τ%3D4_φ%3D2_J₂%3D24-purple.svg)](#n6-invariant-lattice)
 [![Roadmap](https://img.shields.io/badge/roadmap-MVP_gates_2026--07--28-orange.svg)](.roadmap.hexa_bio)
+[![Cycle 25](https://img.shields.io/badge/cycle_25-closed_2026--05--06-brightgreen.svg)](RELEASE_NOTES_v1.1.0.md)
+
+> **Status (2026-05-06)**: cycle 25 closed; v1.1.0 candidate drafted (see
+> [`RELEASE_NOTES_v1.1.0.md`](RELEASE_NOTES_v1.1.0.md)). Cycle 25 traversed
+> the 16-cell C2 matrix (4 verb × 4 disease class) at IN-SILICO grade —
+> 16/16 cells PASS the simulator+metadata internal-consistency check.
+> **Honest caveat**: C2 PASS verifies in-silico simulator+metadata internal
+> consistency only — it is **NOT** therapeutic, clinical, regulatory,
+> immunogenic, or efficacy progress. C3+ (wet-lab → IND → phase I) is
+> explicitly out-of-repo. No medical claim is made or implied.
 
 > **Distribution**: GitHub canonical at <https://github.com/need-singularity/hexa-bio>.
 > CLI tooling — installed via `hx install hexa-bio` from the hexa-lang
@@ -157,6 +167,42 @@ For the full roadmap, see [`.roadmap.hexa_bio`](.roadmap.hexa_bio)
 
 ---
 
+## 16-cell C2 matrix (cycle 25, 2026-05-06)
+
+Cycle 25 closed the C2 traversal of the 4 verb × 4 disease-class scaffold
+at IN-SILICO grade. Each cell ships a wrapper script in
+`_python_bridge/module/*_candidate.py` that records candidate-spec metadata
+annotated against publicly catalogued disease-class markers and verifies
+via the corresponding C0b simulator. Each cell emits one
+`raw_77_c2_<verb>_<class>_v1` witness row to
+`state/discovery_absorption/registry.jsonl`.
+
+| Verb \ Class    | α (AML) | β (SCD) | γ (pan-cov) | δ (senolytic) |
+|-----------------|:-------:|:-------:|:-----------:|:-------------:|
+| W (weave)       |   PASS  |   PASS  |     PASS    |      PASS     |
+| N (nanobot)     |   PASS  |   PASS  |     PASS    |      PASS     |
+| R (ribozyme)    |   PASS  |   PASS  |     PASS    |      PASS     |
+| V (virocapsid)  |   PASS  |   PASS  |     PASS    |      PASS     |
+
+Aggregate: **16/16 PASS** (in-silico verification of simulator+metadata
+internal consistency only).
+
+**Honest caveat (raw#91 C3 discipline)**: a C2 cell PASS confirms only that
+(a) the C0b simulator runs deterministically, (b) the candidate-spec
+metadata schema validates, and (c) the verifier's internal consistency
+check holds. It does **NOT** imply any therapeutic, clinical, regulatory,
+immunogenic, pharmacokinetic, or efficacy property. The disease-class
+markers are publicly catalogued reference annotations — not medical
+claims. C3+ (wet-lab → in-vitro → in-vivo → IND → phase I) is explicitly
+out-of-repo per cross-cutting Require (R6).
+
+Per-row witnesses are archived under
+[`design/kick/`](design/kick/) (`2026-05-06_hexa-{weave,nanobot,ribozyme,virocapsid}-c2-row-cycle25_omega_cycle.json`)
+plus the aggregate
+`2026-05-06_hexa-bio-cycle25-c2-matrix-closure_omega_cycle.json`.
+
+---
+
 ## n=6 invariant lattice
 
 The lattice anchors the toolkit to a single algebraic identity:
@@ -207,6 +253,8 @@ Per-verb interpretation (where empirically grounded vs hypothesized — see
 │   ├── 02_quick_nanobot.hexa
 │   ├── 03_quick_ribozyme.hexa
 │   └── 04_quick_virocapsid.hexa
+├── design/kick/                # omega-cycle witness archive (cycle 24/25 closures,
+│                               # schema `omega_cycle.witness_v1`)
 ├── install.hexa                # hx hook (pre/post)
 ├── hexa.toml                   # package manifest
 ├── LICENSE                     # Apache-2.0

@@ -8,6 +8,35 @@
 
 ---
 
+## Terminal goal — NANOBOT row in 16-cell matrix
+
+NANOBOT 은 4 disease class 각각 표적 분자 액추에이터 design. Meta `.roadmap.hexa_bio` §0 의 **N 행**.
+
+| Cell  | Disease       | 후보 액추에이터 (예)                                  |
+|-------|---------------|--------------------------------------------------------|
+| N·α   | AML           | CD33 또는 FLT3 표적 active-targeting 액추에이터       |
+| N·β   | SCD           | HSC (CD34+) 표적 또는 골수 in-vivo delivery           |
+| N·γ   | pan-cov       | 호흡기 epithelium 표적 액추에이터                     |
+| N·δ   | senolytic     | p16+ cell 표적 액추에이터                             |
+
+**Cell DoD**: in-silico actuator design + kT thermal floor margin + J₂=24 pose-equivalence + 4-state motor cycle + witness → `state/discovery_absorption/registry.jsonl`.
+
+## Checkpoints
+
+| #   | Date         | Gate                                                                          |
+|-----|--------------|-------------------------------------------------------------------------------|
+| C0a | 2026-05-28   | F-NB-5 sister-axis audit (vs `life/therapeutic-nanobot/`)                     |
+| C0b | 2026-07-28 (closed 2026-05-05) | F-NB-4 **PASS 6/6** — 4-state 12-vertex truncated-icosahedron + cuboctahedron flag, hybrid Langevin+Markov sim. work_per_cycle=50 kT (margin 40 kT vs 10 kT floor); 3018 productive S0→…→S0 round-trips at n_cycles=10000; J₂=24 pose-equivalence speedup factor=24× (theoretical max, ≥10× threshold); σ=12 + τ=4 verified; master identity σ·φ=6·τ=J₂=24. Implementation: `_python_bridge/module/nanobot_actuation_simulation.py` (864 LOC, stdlib only); HEXA dispatcher `--actuation` in `nanobot/module/nanobot.hexa` (217 LOC, F-NANOBOT-N → F-NB-1..5 rename); witness in `state/discovery_absorption/registry.jsonl` schema raw_77_nanobot_actuation_v1. |
+| C0c | 2026-09-28   | F-NB-2 n=30 Bayesian corpus closed                                            |
+| C1  | 즉시         | 4 cell target fix — meta §0' 와 동기                                           |
+| C2  | TBD          | 4 cell × actuator design + Brownian-floor proof → registry.jsonl 4 줄         |
+
+## Require (verb-specific)
+
+- **(N-R1)** Actuator output schema = mechanical spec (vertex topology + state cycle + binding affinity + pose group)
+- **(N-R2)** Sister-axis 분담 (C0a 결과 2026-05-05 — F-NB-5 **PARTIAL**, audit verdict COLLISION): hexa-bio NANOBOT = single-molecule **architectural primitive** (atoms-level, 4-state motor kinetics, 12-vertex skeleton, kT thermal floor 310K, L0-L6); `life/therapeutic-nanobot/` = integrated **clinical-application system** (drug loading, immune evasion, biodistribution, targeting ligands, L7-L9). Cross-domain handshake: hexa-bio NANOBOT emits L6 single-machine witness; therapeutic-nanobot consumes as propulsion subsystem 추가로 clinical layer composition. **Out-of-repo dependency**: `~/core/n6-architecture/domains/life/therapeutic-nanobot/therapeutic-nanobot.md` §3/§11 에 hexa-nanobot 선등록 (2026-04-28) acknowledgment 추가 + joint handshake witness JSON (`design/kick/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json`) 발행 — n6-architecture 프로젝트에서 처리. **F-NB-5 full PASS = 위 작업 완료 후.**
+- **(N-R3)** Meta `.roadmap.hexa_bio` §E (R1-R8) 전 도메인 Require 상속
+
 ## Status snapshot
 
 | Metric                          | Current (cycle 13)             | 90-day MVP target (07-28)      | Stretch |
@@ -34,7 +63,7 @@ from WEAVE Landauer × NP-search ceiling.
 - **Genus distinction**: F-NB-1-genus / F-NB-1-b / F-NB-1-c
 - **n6 invariant binding**: F-NB-2-n6-decorative / F-NB-2-b / F-NB-2-c
 - **90-day MVP gate**: F-NB-4-MVP-90day / F-NB-4-b / F-NB-4-c
-- **Sister-axis collision**: F-NB-5-sister-axis-collision / F-NB-5-b / F-NB-5-c
+- **Sister-axis collision**: F-NB-5-sister-axis-collision / F-NB-5-b / F-NB-5-c — **PARTIAL** (C0a audit 2026-05-05: COLLISION verdict, hexa-bio side declared in N-R2; full closure blocked on n6-architecture canonical-side, out-of-repo)
 - **Brownian floor**: F-NB-3-Brownian-floor / F-NB-3-b / F-NB-3-c
 
 ## Canonical spec
