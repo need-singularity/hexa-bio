@@ -1,0 +1,125 @@
+# .roadmap.hexa_bio — repo-overall tracker
+
+> Cross-cutting state: invariant lattice, release cadence, cycle history,
+> deadlines, pointers. Per-verb trackers are split into sister files:
+> `.roadmap.weave` · `.roadmap.nanobot` · `.roadmap.ribozyme` · `.roadmap.virocapsid`.
+
+**Last sync**: 2026-05-05 · **Current release**: v1.0.0 · **Branch**: `main`
+
+---
+
+## §A.1 Invariant lattice (n=6)
+
+The 4 verbs share one master identity:
+
+```
+σ(6) · φ(6) = n · τ(6) = J₂ = 24
+   12   ·   2  =  6  ·   4  = 24
+```
+
+| Symbol | Value | Role | Verb projection |
+|--------|-------|------|-----------------|
+| σ(6)   | 12    | sigma — cardinality bin | 12 vertices / 12 raw-strategies / 12-nt catalytic core / 12 pentameric vertices |
+| τ(6)   | 4     | tau — state quartet | 4 axes / 4 motor states / 4 reaction states / 4 assembly states |
+| φ(6)   | 2     | phi — verdict bit | hydrophobic/-philic, open/closed, cleaved/intact, free/assembled |
+| J₂     | 24    | Mathieu / Leech symmetry | M₂₄ · O ⊂ I octahedral subgroup |
+
+## §A.2 Release cadence
+
+| Version | Date            | Status       | Wired verbs              | Highlights |
+|---------|-----------------|--------------|--------------------------|------------|
+| v1.0.0  | 2026-05-04      | RELEASED     | 1 / 4 (WEAVE)            | Standalone Molecular Toolkit; T=1 cage MVP + Bayesian audit posterior 0.9668 RESOLVED |
+| v1.1.0  | _planned 07-28_ | TARGET       | 4 / 4 stubs → numerical  | post-MVP-gate consolidation (see §A.4) |
+| v2.0.0  | TBD             | ASPIRATIONAL | 4 / 4 empirical          | Bayesian audits (§A.6) closed across all 4 verbs |
+
+## §A.3 Tetrahedron closure (cycle 7 → 24)
+
+```
+                  ┌──────────────┐
+                  │   WEAVE      │  composition  (Landauer × NP-search ceiling)
+                  │  cycle 7→24  │
+                  └──────┬───────┘
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+   ┌──────▼─────┐ ┌──────▼─────┐ ┌─────▼──────┐
+   │  NANOBOT   │ │ RIBOZYME   │ │ VIROCAPSID │
+   │  cycle 13  │ │ cycle 15   │ │ cycle 19   │  σ=12 STRUCTURAL-EXACT
+   │ actuation  │ │ catalysis  │ │  assembly  │
+   │ Brownian   │ │ diffusion  │ │ Caspar-Klug│
+   │   floor    │ │   ceiling  │ │  T-number  │
+   └────────────┘ └────────────┘ └────────────┘
+```
+
+- **Tetrahedron closed** at cycle 22 (2026-05-01) — 4 orthogonal genus axes:
+  composition (covalent) · actuation (mechanical) · catalysis (chemical) ·
+  assembly (thermodynamic).
+- **Alien-grade**: 4.78 (cycle 22 close).
+- **Tri-axis Ω-saturation** (FORMAL Π¹₁-CA₀ · PHYSICAL Landauer ·
+  COMPUTATIONAL Π^p_2): PASS at workload ceiling (7/8 raw-70 axes PASS,
+  CHI2 DEFER).
+- **σ(6)=12 STRUCTURAL-EXACT** confirmed only on **VIROCAPSID** (Caspar-Klug
+  T=1 12 vertices, log Bayes factor 3.37 decisive on n=34 corpus); others
+  are STRUCTURAL-APPROXIMATE.
+
+## §A.4 90-day MVP gates — `2026-07-28` (T-83 days as of 2026-05-05)
+
+All 4 verbs must deliver a numerical MVP simulation by this date or revert
+from APPROACH grade to PROPOSED. Per-verb detail in sister files.
+
+| Verb        | Falsifier      | Sister file           | Status   |
+|-------------|----------------|-----------------------|----------|
+| WEAVE       | F-TP5-b        | `.roadmap.weave`      | OPEN     |
+| NANOBOT     | F-NB-4         | `.roadmap.nanobot`    | OPEN     |
+| RIBOZYME    | F-RB-4         | `.roadmap.ribozyme`   | OPEN     |
+| VIROCAPSID  | F-VIROCAPSID-3 | `.roadmap.virocapsid` | PARTIAL — cage MVP yield 0.68 plateau |
+
+## §A.5 Sister-axis collision audit — `2026-05-28` (T-23 days)
+
+| Verb        | Falsifier              | Collision target                                |
+|-------------|------------------------|-------------------------------------------------|
+| NANOBOT     | F-NB-5                 | `life/therapeutic-nanobot/`                     |
+| RIBOZYME    | F-RB-5                 | `life/crispr-gene-editing/`, `life/synbio/`     |
+| VIROCAPSID  | F-VIROCAPSID-COLLISION | `life/virology/`, `life/vaccine/`               |
+
+## §A.6 Bayesian audit deadlines — `2026-09-28` (T-146 days)
+
+n=30 corpus Bayesian model comparison (log Bayes factor ≥ 3 to reject H0
+random):
+
+- F-NB-2 (NANOBOT n6 invariant calibration)
+- F-RB-2 (RIBOZYME catalytic-core 12-nt calibration)
+- F-VIROCAPSID-2 — **RESOLVED cycle 22** (posterior 0.9668 on n=34 corpus,
+  log Bayes factor 3.37)
+
+## §A.7 Empirical SSOT
+
+- WEAVE numerical sandbox (cage assembly + Caspar-Klug Bayesian audit) →
+  `~/core/nexus/sim_bridge/weave/` (canonical cycle 24+).
+- This repo (`hexa-bio`) hosts: CLI verbs, examples, selftest, tests,
+  module Python bridges. Spec text → `docs/n6/` (symlink to
+  n6-architecture canonical).
+
+---
+
+## §C SHORT-HORIZON CHECKLIST
+
+| Date         | T-days | What                                              |
+|--------------|--------|---------------------------------------------------|
+| 2026-05-28   | 23     | F-NB-5 / F-RB-5 / F-VIROCAPSID-COLLISION audits   |
+| 2026-07-28   | 83     | F-TP5-b / F-NB-4 / F-RB-4 / F-VIROCAPSID-3 MVPs   |
+| 2026-09-28   | 146    | F-NB-2 / F-RB-2 Bayesian audits (n=30 corpora)    |
+
+---
+
+## §D POINTERS
+
+- Per-verb trackers: `.roadmap.weave` · `.roadmap.nanobot` ·
+  `.roadmap.ribozyme` · `.roadmap.virocapsid`
+- Canonical specs: `docs/n6/` (symlinks to n6-architecture)
+- Empirical SSOT: `~/core/nexus/sim_bridge/weave/`
+- Release notes: `RELEASE_NOTES_v1.0.0.md`
+- Changelog: `CHANGELOG.md`
+- Cross-axis applied bet (out of scope but tracked): SA #2
+  `crispr-cas13-poc-diagnostic/` (2026-05-01, alien-grade 10
+  PHYSICAL-LIMIT, F-CAS13-MVP-1..5)

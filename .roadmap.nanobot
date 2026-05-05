@@ -1,0 +1,43 @@
+# .roadmap.nanobot — actuation (stub)
+
+> 🤖 single molecular nano-machine actuation architecture. DNA-origami peer
+> (Drexler 1986 / Seeman 1982 / Rothemund 2006). Cross-cutting state →
+> `.roadmap.hexa_bio`.
+
+**Last sync**: 2026-05-05 · **Status**: STUB v1.0.0-stub · **Cycle**: 13 fan-out 2/5
+
+---
+
+## Status snapshot
+
+| Metric                          | Current (cycle 13)             | 90-day MVP target (07-28)      | Stretch |
+|---------------------------------|--------------------------------|--------------------------------|---------|
+| Falsifier count                 | 5 (F-NB-1..F-NB-5)             | 5                              | 12      |
+| Raw-70 axes PASS                | 7 of 8 (CHI2 DEFER)            | 8 of 8                         | 8 of 8 with n>1 |
+| CHI2 sample size n              | 0                              | 1 (PASS-MARGINAL)              | 30      |
+| Numerical simulation            | none                           | 4-state 12-vertex DNA-origami  | —       |
+
+**Primary constraint**: kT thermal noise floor at 310K (Brownian) — distinct
+from WEAVE Landauer × NP-search ceiling.
+
+## Open work
+
+- Build **4-state 12-vertex DNA-origami simulation** (truncated icosahedron /
+  cuboctahedron skeleton) → kills F-NB-4 by 2026-07-28.
+- **Sister-axis collision audit** vs `life/therapeutic-nanobot/` → kills
+  F-NB-5 by 2026-05-28.
+- **Bayesian model comparison** on 30 published nano-machine architectures →
+  kills F-NB-2 by 2026-09-28.
+
+## Falsifier preregister (15 across 5 measurable claims)
+
+- **Genus distinction**: F-NB-1-genus / F-NB-1-b / F-NB-1-c
+- **n6 invariant binding**: F-NB-2-n6-decorative / F-NB-2-b / F-NB-2-c
+- **90-day MVP gate**: F-NB-4-MVP-90day / F-NB-4-b / F-NB-4-c
+- **Sister-axis collision**: F-NB-5-sister-axis-collision / F-NB-5-b / F-NB-5-c
+- **Brownian floor**: F-NB-3-Brownian-floor / F-NB-3-b / F-NB-3-c
+
+## Canonical spec
+
+`docs/n6/hexa-nanobot.md` (symlink to
+`~/core/n6-architecture/domains/biology/hexa-nanobot/hexa-nanobot.md`)

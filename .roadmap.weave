@@ -1,0 +1,44 @@
+# .roadmap.weave — composition (1/4 wired)
+
+> 🧶 write-side multi-strand molecular design composition. AlphaFold 3 /
+> IsoDDE read-side counterpart. Cross-cutting state → `.roadmap.hexa_bio`.
+
+**Last sync**: 2026-05-05 · **Status**: WIRED v1.0.0 · **Cycle**: 8 actual / 24 canonical
+
+---
+
+## Status snapshot
+
+| Metric                               | Current (cycle 8 actual)              | 90-day MVP target (07-28)      | Stretch |
+|--------------------------------------|---------------------------------------|--------------------------------|---------|
+| P (proteome size in MVP)             | 0 (no empirical run)                  | 10                             | 100     |
+| Falsifier count                      | 12 (9 closure + 3 cycle 7-9 additions)| 12                             | 20      |
+| Raw-70 axes PASS                     | 8 of 9                                | 9 of 9 with empirical anchor   | 9 of 9 with n>1 |
+| **lean4 sorry count**                | **0** (W5 milestone)                  | 0                              | 0       |
+| F-D-3 deadline-miss probability      | 50-58 % (post-W6)                     | < 40 % (W7-W9 burndown)        | < 25 %  |
+| CHI2 sample size n                   | 1 (DEFER)                             | 5 (PASS)                       | 30      |
+| External paper (Option-E)            | 1 draft (~80+ pages)                  | +1 Zenodo deposit (gated)      | full peer-review submission |
+
+## Open work
+
+- W7-W9 mechanical-layer burndown (sorry-free already; reduce F-D-3 risk).
+- First end-to-end MVP run with **P≥10, N≥50** → kills F-TP5-b by 2026-07-28.
+- CHI2 axis lift from DEFER to PASS (need ≥1 published cellular heat-budget
+  comparison sample).
+- One Zenodo deposit gated on user approval (Option-E paper exists).
+
+## Falsifier preregister (12 across 3 measurable claims)
+
+- **F-TP5-b** · **F-TP5-c** · **F-TP5-d** — 90-day MVP gate (2026-07-28)
+- **F-CL-FORMAL-***— formal-axis claims (incl. F-CL-FORMAL-4 PARTIAL)
+- **F-W5-AX2-1** RESOLVED · **F-MANUAL-LOGIN** active
+
+## Why ahead of the others
+
+Only verb with mechanical layer (lean4 sorry-free), empirical SSOT
+migration to `~/core/nexus/sim_bridge/weave/`, and one external paper draft.
+
+## Canonical spec
+
+`docs/n6/hexa-weave.md` (symlink to
+`~/core/n6-architecture/domains/biology/hexa-weave/hexa-weave.md`)

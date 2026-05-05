@@ -1,0 +1,44 @@
+# .roadmap.ribozyme — catalysis (stub)
+
+> ✂️ catalytic-RNA architecture. Hammerhead / HDV / hairpin / ribosome PTC peer
+> (Cech 1982 / Symons 1981 / Wu-Lai 1989 / Buzayan 1986 / Steitz 2000).
+> Cross-cutting state → `.roadmap.hexa_bio`.
+
+**Last sync**: 2026-05-05 · **Status**: STUB v1.0.0-stub · **Cycle**: 15 fan-out 3/3
+
+---
+
+## Status snapshot
+
+| Metric                          | Current (cycle 15)             | 90-day MVP target (07-28)      | Stretch |
+|---------------------------------|--------------------------------|--------------------------------|---------|
+| Falsifier count                 | 5 (F-RB-1..F-RB-5)             | 5                              | 12      |
+| Raw-70 axes PASS                | 7 of 8 (CHI2 DEFER)            | 8 of 8                         | 8 of 8 with n>1 |
+| CHI2 sample size n              | 0                              | 1 (PASS-MARGINAL)              | 30      |
+| σ(6)=12 mapping                 | STRUCTURAL-APPROXIMATE         | hammerhead 12-nt simulation    | —       |
+
+**Primary constraint**: diffusion-limit ceiling k_cat / K_M ≤ 10⁸-10⁹ M⁻¹s⁻¹
+(Eigen-Hammes 1963).
+
+## Open work
+
+- Build **hammerhead-minimal 12-nt-core 4-state chemical-kinetics simulation**
+  (k_cat / K_M ≤ 10⁹ M⁻¹s⁻¹ Eigen-Hammes ceiling) → kills F-RB-4 by
+  2026-07-28.
+- **Sister-axis collision audit** vs `life/crispr-gene-editing/` and
+  `life/synbio/` → kills F-RB-5 by 2026-05-28.
+- **Bayesian audit** on 30 published ribozyme architectures (catalytic-core
+  size 10-15 nt) → kills F-RB-2 by 2026-09-28.
+
+## Falsifier preregister (15 across 5 measurable claims)
+
+- **Genus distinction** (vs WEAVE / NANOBOT): F-RB-1-genus / F-RB-1-b / F-RB-1-c
+- **n6 invariant binding**: F-RB-2-n6-decorative / F-RB-2-b / F-RB-2-c
+- **90-day MVP gate**: F-RB-4-MVP-90day / F-RB-4-b / F-RB-4-c
+- **Sister-axis collision**: F-RB-5-sister-axis-collision / F-RB-5-b / F-RB-5-c
+- **Diffusion limit**: F-RB-3-diffusion-limit / F-RB-3-b / F-RB-3-c
+
+## Canonical spec
+
+`docs/n6/hexa-ribozyme.md` (symlink to
+`~/core/n6-architecture/domains/biology/hexa-ribozyme/hexa-ribozyme.md`)

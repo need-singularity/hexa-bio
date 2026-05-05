@@ -1,0 +1,56 @@
+# .roadmap.virocapsid — assembly (stub, σ=12 STRUCTURAL-EXACT)
+
+> 🦠 icosahedral protein cage self-assembly. T=1 60-subunit cage, vaccine
+> VLP, drug capsule, nano-cage (Caspar-Klug 1962 / Zlotnick 2003 /
+> Rossmann-Johnson 1985). Cross-cutting state → `.roadmap.hexa_bio`.
+
+**Last sync**: 2026-05-05 · **Status**: STUB v1.0.0-stub · **Cycle**: 19 fan-out 4/4
+
+---
+
+## Status snapshot
+
+| Metric                          | Current (cycle 19)             | 90-day MVP target (07-28)         | Stretch |
+|---------------------------------|--------------------------------|-----------------------------------|---------|
+| Falsifier count                 | 16 (5 measurable claims)       | 16+                               | —       |
+| Raw-70 axes PASS                | 7 of 8 (CHI2 DEFER)            | 8 of 8                            | 8 of 8 with n>1 |
+| CHI2 sample size n              | 0                              | 1 (PASS-MARGINAL)                 | 30      |
+| σ(6)=12 mapping                 | **STRUCTURAL-EXACT** (T=1)     | unchanged                         | extend to T=3/T=7 |
+| F-VIROCAPSID-2 status           | **RESOLVED cycle 22**          | (already closed)                  | —       |
+| Cage MVP yield                  | 0.68 plateau                   | aberrant-aggregate < closed-shell | quantitative margin |
+
+**Primary constraint**: nucleation-elongation kinetic plateau (cycle 22 cage
+MVP yield 0.68 plateau under default rate constants; Zlotnick 2003 4-state
+ODE 5/6 raw-53 PASS — yield axis FAIL is calibration gap, not theoretical
+refutation).
+
+## Open work
+
+- **Calibrate cage MVP nucleation-elongation rate constants** to lift yield
+  off 0.68 plateau → resolves F-VIROCAPSID-3 calibration gap by 2026-07-28.
+  Empirical SSOT: `~/core/nexus/sim_bridge/weave/` (cycle 24+ canonical for
+  cage assembly + Caspar-Klug Bayesian audit).
+- **Sister-axis collision audit** vs `life/virology/` and `life/vaccine/` →
+  kills F-VIROCAPSID-COLLISION by 2026-05-28.
+- **Multi-T-number corpus extension** (T=1 / T=3 / T=4 / T=7 / T=13 / T=21)
+  beyond the cycle-22 textbook n=34 — Bayesian audit further calibration
+  by 2026-09-28.
+
+## Falsifier preregister (16 across 5 measurable claims)
+
+- **Genus distinction** (vs three sisters): F-VIROCAPSID-1-genus / -1-b / -1-c / -1-d
+- **n6 invariant binding**: F-VIROCAPSID-2-n6-decorative / -2-b / -2-c (RESOLVED cycle 22)
+- **90-day MVP gate**: F-VIROCAPSID-3-MVP-90day / -3-b / -3-c
+- **Sister-axis collision**: F-VIROCAPSID-COLLISION + sub-clauses
+- **Kinetic trap**: F-VIROCAPSID-4-kinetic-trap / -4-b / -4-c
+
+## Why σ=12 STRUCTURAL-EXACT here
+
+Caspar-Klug 1962 + Euler V−E+F=2 forces T=1 → 12 pentameric vertices
+exactly; Bayesian audit posterior 0.9668 ≥ 0.95 (log Bayes factor 3.37
+decisive per Jeffreys 1961) on n=34 textbook corpus.
+
+## Canonical spec
+
+`docs/n6/hexa-virocapsid.md` (symlink to
+`~/core/n6-architecture/domains/biology/hexa-virocapsid/hexa-virocapsid.md`)

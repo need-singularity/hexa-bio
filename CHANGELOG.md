@@ -6,12 +6,22 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
-- `ROADMAP.md` — live tracker for 4-verb molecular toolkit. §A META
-  (n=6 invariant lattice, release cadence, tetrahedron closure cycle 22,
-  alien-grade 4.78, 90-day MVP gates 2026-07-28, collision audits
-  2026-05-28, Bayesian audits 2026-09-28, empirical SSOT pointer) +
-  §B DOMAIN per-verb (WEAVE / NANOBOT / RIBOZYME / VIROCAPSID open work
-  and falsifier preregister) + §C short-horizon T-day checklist.
+- Roadmap trackers in canonical `.roadmap.<feature>` convention (1 file
+  per feature/subsystem, mirroring `hive/` · `hexa-lang/` · `hexa-os/` ·
+  `anima/` · `void/` patterns):
+  - `.roadmap.hexa_bio` — repo-overall: n=6 invariant lattice, release
+    cadence, tetrahedron closure cycle 22, alien-grade 4.78, 90-day MVP
+    gates 2026-07-28, collision audits 2026-05-28, Bayesian audits
+    2026-09-28, empirical SSOT pointer, short-horizon T-day checklist.
+  - `.roadmap.weave` — 1/4 wired; F-TP5-b 2026-07-28 MVP gate, lean4
+    sorry-free, 12 falsifiers across 3 measurable claims.
+  - `.roadmap.nanobot` — stub; F-NB-4 MVP gate, F-NB-5 collision audit
+    2026-05-28; 15 falsifiers across 5 measurable claims.
+  - `.roadmap.ribozyme` — stub; F-RB-4 MVP gate, F-RB-5 collision audit;
+    15 falsifiers; σ(6)=12 STRUCTURAL-APPROXIMATE.
+  - `.roadmap.virocapsid` — stub; F-VIROCAPSID-3 calibration MVP gate
+    (cage yield 0.68 plateau); F-VIROCAPSID-2 RESOLVED cycle 22
+    (posterior 0.9668); 16 falsifiers; σ(6)=12 STRUCTURAL-EXACT.
 - `docs/n6/` symlinks to canonical n6-architecture sister-domain specs
   (`hexa-weave.md` / `hexa-nanobot.md` / `hexa-ribozyme.md` /
   `hexa-virocapsid.md`) so spec edits stay single-sourced and propagate
