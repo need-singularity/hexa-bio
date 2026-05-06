@@ -8,6 +8,36 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ### Added
 - §F STALLED/UNDEFINED audit (2026-05-06) registered in `.roadmap.hexa_bio`
   with 14 items + §G Cycle 26 candidate gates section.
+- **R2 audit-resolution (2026-05-06)** — DRAFT LAND + GATE-26 PROMOTE across
+  all 5 verbs: 25 LANDED · 16 PROMOTED to Checkpoints (C0d~C0h umbrella +
+  C0d weave + C0d nanobot + C0d ribozyme + C3a/C3b/C4/C5 virocapsid) ·
+  9 spec schema files added (weave/nanobot/ribozyme/virocapsid `spec/`
+  dirs) · `selftest/r1_symlink_audit.sh` PASS 4/4 + `selftest/json_schema_validator.py`
+  (stdlib draft-07 subset) + `selftest/f_tp5_e_uptake_enumerator.py`
+  (initial run: 41 internal / 0 external — F-TP5-e currently FAIL,
+  infra ready for cycle 26 quarterly re-run).
+- **C3a CLOSED 2026-05-06** — F-VIROCAPSID-1 partial corpus infrastructure
+  LANDED: `_python_bridge/module/virocapsid_pdb_corpus.py` (urllib.request
+  stdlib) + `virocapsid/spec/pdb_corpus_v2.schema.json` (v1 deprecated
+  for subunit_count_declared misuse; v2 = canonical 60·T) + 10 witness
+  rows live-fetched from RCSB PDB API to
+  `state/discovery_absorption/registry.jsonl` schema
+  `raw_77_virocapsid_pdb_corpus_v2`. T strata {1:4, 3:3, 4:1, 7:1, 13:1};
+  source_class {textbook:5, experimental:4, designed:1};
+  vertex_count_expected=12 constant; validator-conformant 10/10 PASS.
+  Bayesian T-number discrimination posterior ≥ 0.90 audit deferred cycle 26.
+- **weave_composition.py emit-path schema validation wired** (C0e /
+  GATE-26-3): every trial row is built into a composition_output_v1 doc
+  and validated before append; fail-fast on schema errors. P=10 N=50
+  PASS preserved (no regression vs v1).
+- F-CL-FORMAL-1/2/3 marked DEFERRED — no lean4 layer in repo as of
+  2026-05-06; theorem-ref binding requires lean4 mechanical layer
+  materialisation (external/future deliverable).
+
+### Changed
+- `.own` own 1 `hexa-bio-virocapsid-stalled-caveat` — all three demote
+  conditions ((a) corpus n≥10 + (b) V-R1 schema + (c) T=3/4 gated) now
+  MET as of 2026-05-06; demote/update decision pending user confirmation.
 
 ## [1.1.0] - 2026-05-06
 
