@@ -305,3 +305,87 @@ QASM3 모드 backend 가용성 — `qmirror engine_aer_run_qasm()` 가 의존하
 **CYCLE_CLOSURE_PARTIAL** — Phase A1 (5 단계 중 1) LANDED, F1+F2 PASS, 사전조건 점검 완료. A2~A5 다음 사이클로 이연. 외부자원 조사 보고서 단독으로도 SSOT 가치 있음 (옵션 A/B/C 비교 + 권장 + 정합성 격차 명시).
 
 cost: $0 (Mac 로컬, mock LCG only). 외부 dep 추가: 0. cross-repo 편집: 0.
+
+---
+
+## 12. Phase A2 cycle closure (2026-05-06)
+
+### 12.1 산출물
+
+| 산출물 | 위치 | 상태 |
+|--------|------|------|
+| Phase A2 ansatz QASM3 빌더 | `_python_bridge/module/quantum_ansatz_h2.py` | LANDED, F1+F2+F3 PASS |
+
+### 12.2 Phase A2 selftest 증거 (재현 가능)
+
+```
+$ python3 _python_bridge/module/quantum_ansatz_h2.py --selftest
+
+hexa-bio quantum_ansatz_h2.py — selftest
+  bridge path: /Users/ghost/core/qmirror/_python_bridge/module/aer_runner.py
+
+  F1 PASS: build θ=[0,0,0,0] → 6 expected QASM lines + preamble OK
+__HEXA_BIO_QANSATZ__ F1 PASS
+
+  F2 PASS: θ=[0,0,0,0] → |00⟩
+           amps=[+1.0000+0.0000j, +0.0000+0.0000j,
+                 +0.0000+0.0000j, +0.0000+0.0000j]
+           engine=qiskit_aer
+__HEXA_BIO_QANSATZ__ F2 PASS
+
+  F3 PASS: θ=[π/2,0,0,0] → |Φ+⟩
+           amps=[+0.7071+0.0000j, +0.0000+0.0000j,
+                 +0.0000+0.0000j, +0.7071+0.0000j]
+           engine=qiskit_aer
+__HEXA_BIO_QANSATZ__ F3 PASS
+
+__HEXA_BIO_QANSATZ__ ALL PASS
+```
+
+핵심 발견:
+- **engine=qiskit_aer** — qmirror python bridge 가 numpy_native fallback 이 아닌 **실제 qiskit_aer 시뮬레이터** 호출 (QASM3 컴파일/실행 경로 검증).
+- Bell state `(|00⟩+|11⟩)/√2` round-trip — Ry(π/2)·CNOT 토폴로지가 H·CNOT (qmirror named "bell") 와 분석적으로 동등함을 amp 수치까지 byte-level 일치로 확인.
+
+### 12.3 공개 API (A3 의존 표면)
+
+```python
+from quantum_ansatz_h2 import build_ansatz_qasm, run_ansatz_state_vector
+
+qasm = build_ansatz_qasm([t0, t1, t2, t3])      # str (QASM3 source)
+amps, meta = run_ansatz_state_vector([t0, t1, t2, t3])  # list[complex], dict
+# meta: {"engine", "n_qubits", "qasm", "message"}
+```
+
+A3 (Pauli expectation) 가 사용할 표면은 `run_ansatz_state_vector(theta)` 단일 함수 + 4 amplitudes 직접 반환.
+
+### 12.4 다음 사이클 진입점 (A3)
+
+`_python_bridge/module/quantum_pauli_expectation.py` — H₂ Hamiltonian 6-Pauli 계수 (Kandala 2017, R=0.74 Å, STO-3G, parity-mapped):
+
+```
+H = c0·I + c1·Z0 + c2·Z1 + c3·Z0Z1 + c4·X0X1 + c5·Y0Y1
+```
+
+함수: `energy(theta) -> float` — A2 의 `run_ansatz_state_vector(theta)` 호출 → state vector ψ → 6 Pauli expectation `⟨ψ|P_i|ψ>` analytic 계산 (n=2 qubit 이라 2² = 4 amplitude 직접 매트릭스 곱). 합산 `Σ c_i ⟨P_i⟩`.
+
+selftest 후보:
+- F1: c0 만 (identity) → ⟨I⟩ = 1.0
+- F2: θ=[0,0,0,0] (|00⟩) → 분석적 energy 매칭
+- F3: 분석적 ground state θ* (parameter scan grid 또는 closed-form) 에서 E0 = -1.9153706 ± 1e-3
+
+### 12.5 raw 규칙 준수 (cycle 12 추가 확인)
+
+- raw#9: Phase A2 도 stdlib only (subprocess + json + math). `_python_bridge/` 격리 패턴 유지.
+- raw#10: caveat 4 종 (bridge 경로 의존, qiskit 미설치 시 ok=0 surface, d=1 fixed-arity, 1e-9 round-trip 정밀도) docstring 명시.
+- raw#15: 신규 파일 1 개. 외부 경로 0.
+- cross-repo: qmirror 변경 0, nexus 변경 0.
+
+### 12.6 누적 verdict (Phase A1 + A2)
+
+**CYCLE_CLOSURE_PARTIAL** — Phase A1+A2 (5 단계 중 2) LANDED. A3~A5 다음 사이클로 이연. 누적 cost $0, 외부 dep 0.
+
+cumulative falsifier evidence:
+- A1: F1 mock-LCG 결정성, F2 256-bit seed_int round-trip
+- A2: F1 QASM3 빌드, F2 |00⟩ identity round-trip (qiskit_aer), F3 |Φ+⟩ Bell entangling round-trip
+
+A3 사전조건: 모두 met (A2 의 `run_ansatz_state_vector` 가 4 complex 반환).
