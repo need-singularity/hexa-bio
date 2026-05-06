@@ -61,11 +61,16 @@ Selftest emits two sentinel lines on success:
 raw#10 honest caveats
 =====================
 
-1. `live=True` requires `NEXUS_QMIRROR_ANU_KEY` env (unless the legacy
-   ANU endpoint succeeds). When the key is absent and live is requested
-   the qmirror backend falls back through its 4-tier chain to LCG; we
-   surface that as `provenance="mock"` so downstream code can detect
-   the fallback rather than silently treating mock bits as ANU.
+1. `live=True` requests qmirror's 4-tier ANU chain (paid → trial →
+   keyed → legacy). Keys are resolved by qmirror's `_qmirror_secret()`
+   chain (secret CLI / 1Password / macOS keychain / aws-sm / printenv),
+   keyed off names ANU_KEY_PAID / ANU_KEY_TRIAL / ANU_KEY_FREE — NOT a
+   single env var. With no keys provisioned, qmirror automatically
+   falls back to T1.a legacy keyless (qrng.anu.edu.au, 1 req/min,
+   provenance="anu_legacy") which is verified end-to-end on this
+   machine 2026-05-06 (docs §22 / §23). If the live endpoint itself
+   fails, qmirror surfaces ok=0 with a tier-prefixed error rather
+   than silently substituting mock bits — provenance never lies.
 2. Mock-LCG bytes are reproducible by design (qmirror seeds with 42 by
    default, 12345 when `NEXUS_QMIRROR_MOCK=1` is forced upstream). They
    are NOT cryptographically random — adequate for VQE noise seeds and
