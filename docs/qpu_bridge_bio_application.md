@@ -837,3 +837,25 @@ fresh-subprocess 의 7.19s/call 은 이전 1.76s/call 보다 4× 큼 — system 
 ### 18.7 cumulative cycles after this entry
 
 8 cycles (A1, A2, A3, A4, A5, Cleanup, Smoke, B4-init), 8 commits.
+
+### 18.8 F-Q-5 closure — n=15 re-bench (2026-05-06)
+
+n=5 PARTIAL 후 즉시 n=15 재측정:
+
+```
+F2: 15-call wall comparison fresh-subprocess vs pool ...
+  wall fresh-subprocess: 163.41s (10.89s/call)
+  wall pool:             5.21s   (0.35s/call)
+  amps_re first call equal within 1e-9: True
+  speedup: 31.39×
+__HEXA_BIO_QPOOL__ F-Q-5 PASS  (≥5× wall reduction; falsifier closed)
+```
+
+**F-Q-5 PASS** — 31.39× ≫ 5× threshold (6배 초과).
+
+핵심 발견:
+- pool warm 상태 per-call wall **0.35s** — n=5 측정값 1.50s 의 4× 빠름. n_calls 가 클수록 pool 의 5s spawn 이 amortize 되어 진짜 per-call cost 노출.
+- fresh-subprocess 의 10.89s/call 은 jitter (이전 1.76s, 7.19s 다양). pool 은 jitter 없이 ~0.3-0.4s 안정적.
+- production VQE 관점: NM 100 iter × pool 0.35s/iter = 35s vs 100 × fresh 7s = 700s = 11.7분. **20× 단축** 가능.
+
+다음 step: vqe_h2 pool integration → production smoke 재실행 (이전 37.67s → 예상 ~10s 또는 그 이하).

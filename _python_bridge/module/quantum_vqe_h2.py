@@ -218,8 +218,16 @@ def vqe_h2(
     initial_step: float = 0.4,
     live: bool = False,
     qmirror_root: Optional[str] = None,
+    use_pool: bool = False,
 ) -> dict:
-    """Run a single Nelder-Mead VQE optimization for H2 ground state."""
+    """Run a single Nelder-Mead VQE optimization for H2 ground state.
+
+    `use_pool=True` routes every fn evaluation through a long-lived Aer
+    bridge (`quantum_aer_pool.AerPool`) — typically ~20× faster wall on
+    H2 ansatz (per F-Q-5 n=15 bench: 0.35 s/call vs 7 s/call cold).
+    Pool lifetime = this call's lifetime; spawn cost (~5 s) amortizes
+    across all NM evaluations.
+    """
     started = time.time()
 
     seed_provenance: Optional[dict] = None
@@ -235,6 +243,59 @@ def vqe_h2(
     last_engine = ["unknown"]
     timeout_count = [0]
     PENALTY_HA = 10.0  # Nelder-Mead steers away from points returning this
+
+    if use_pool:
+        # Pool branch: 1 spawn, N requests, 1 close. Wall ~20× faster.
+        from quantum_aer_pool import AerPool, AerPoolError  # noqa: E402
+        from quantum_ansatz_h2 import build_ansatz_qasm  # noqa: E402
+        from quantum_pauli_expectation import h2_hamiltonian_expectation  # noqa: E402
+
+        with AerPool() as pool:
+            def _fn(theta: List[float]) -> float:
+                qasm = build_ansatz_qasm(theta)
+                for attempt in (1, 2):
+                    try:
+                        resp = pool.run_qasm(qasm)
+                        if resp.get("ok") != 1:
+                            raise AerPoolError(resp.get("error", "pool ok=0"))
+                        last_engine[0] = resp.get("engine", "qiskit_aer_pool")
+                        amps = [
+                            complex(float(r), float(i))
+                            for r, i in zip(resp["amps_re"], resp["amps_im"])
+                        ]
+                        return h2_hamiltonian_expectation(amps)
+                    except AerPoolError:
+                        timeout_count[0] += 1
+                        if attempt == 1:
+                            time.sleep(0.2)
+                            continue
+                        return PENALTY_HA
+
+            result = _nelder_mead(
+                _fn,
+                theta0_list,
+                initial_step=initial_step,
+                max_iter=max_iter,
+                tol=tol,
+            )
+        wall = time.time() - started
+        return {
+            "energy_Ha": result["fx"],
+            "theta": result["x"],
+            "theta0": theta0_list,
+            "seed": seed,
+            "seed_provenance": seed_provenance,
+            "n_iter": result["n_iter"],
+            "converged": result["converged"],
+            "history": result["history"],
+            "engine": last_engine[0],
+            "wall_seconds": wall,
+            "max_iter_cap": max_iter,
+            "tol": tol,
+            "delta_vs_E0": result["fx"] - H2_E0_EXACT,
+            "bridge_timeouts": timeout_count[0],
+            "use_pool": True,
+        }
 
     def _fn(theta: List[float]) -> float:
         # 1 retry on bridge timeout (Aer cold-start jitter is the main failure
@@ -311,6 +372,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
                 max_iter=args.max_iter,
                 tol=args.tol,
                 qmirror_root=args.qmirror_root,
+                use_pool=args.use_pool,
             )
         else:
             r = vqe_h2(
@@ -319,6 +381,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
                 tol=args.tol,
                 live=args.live,
                 qmirror_root=args.qmirror_root,
+                use_pool=args.use_pool,
             )
     except (AnsatzError, AerBridgeError, ValueError) as exc:
         _emit_json({"ok": 0, "error": str(exc)})
@@ -505,6 +568,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--tol", type=float, default=1e-6)
     p.add_argument("--live", action="store_true",
                    help="route qrng pull through live ANU tier (else mock LCG)")
+    p.add_argument("--use-pool", action="store_true",
+                   help="route Aer calls through long-lived pool (Phase B4); "
+                        "~20× faster wall on H2 ansatz vs fresh-subprocess per call")
     p.add_argument("--selftest", action="store_true")
     args = p.parse_args(argv)
 

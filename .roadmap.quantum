@@ -39,7 +39,7 @@ within published reference error band → witness row to
 | C1  | open              | F-Q-2 LiH 4-qubit Hamiltonian E0 reproduce within chemical accuracy                      |
 | C2  | open              | F-Q-3 H₂ bond-length scan reproduces equilibrium R_eq + dissociation E_dissoc            |
 | C3  | open              | F-Q-4 live ANU tier (NEXUS_QMIRROR_LIVE=1 + ANU_KEY) end-to-end VQE w/ entropy provenance="anu" |
-| C4  | open              | F-Q-5 long-lived bridge ≥ 5× wall reduction vs subprocess-per-call (qmirror Phase 4 합류) |
+| C4  | 2026-05-06 closed | F-Q-5 long-lived bridge ≥ 5× wall reduction (measured 31.39× n=15)                       |
 | C5  | open              | F-Q-6 drug-target binding pocket fragment VQE (literature reference dataset 1 system)    |
 
 ---
@@ -126,7 +126,7 @@ active-space reduction (out of pipeline scope until L3).
 | 5   | 2026-05-06        | A5    | multi-restart sweep (`quantum_vqe_h2_sweep.py`) + Phase 1 closure | F1 PASS, best -1.9064 Ha, commit 9bbc9c7 |
 | 6   | 2026-05-06        | Cleanup | post-qmirror-fix workaround revert                      | sweep ALL PASS w/o workarounds, commit 433d3a4 |
 | 7   | 2026-05-06        | Smoke | production single-run max_iter=80                         | E=-1.9153702, **delta +0.4 µHa**, commit b7d6351 |
-| 8   | 2026-05-06        | B4-init | long-lived Aer pool (`quantum_aer_pool.py`)             | F1+F2 PASS, **4.78× speedup** (n=5), F-Q-5 PARTIAL, commit pending |
+| 8   | 2026-05-06        | B4-init | long-lived Aer pool (`quantum_aer_pool.py`)             | F1+F2 PASS, 4.78× (n=5) + **31.39× (n=15)**, **F-Q-5 closed PASS**, commit 0f4e4d3 |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
@@ -139,7 +139,7 @@ active-space reduction (out of pipeline scope until L3).
 - **F-Q-2** (open): LiH same standard. Awaits B1 cycle.
 - **F-Q-3** (open): bond-length scan. Awaits B2 cycle.
 - **F-Q-4** (open): live ANU end-to-end. Awaits B3 cycle.
-- **F-Q-5** (PARTIAL 2026-05-06): long-lived bridge wall reduction ≥ 5×. n=5 selftest measured 4.78× (PARTIAL — under threshold by jitter margin); n=15 re-bench scheduled next cycle. F2 PASS at ≥ 2× threshold. See docs §18.
+- **F-Q-5** (closed 2026-05-06): long-lived bridge wall reduction ≥ 5×. n=15 re-bench measured **31.39×** (fresh 163.41s vs pool 5.21s; pool per-call **0.35s**), 6× threshold 초과 PASS. See docs §18.8.
 - **F-Q-6** (open): drug-target fragment. Awaits C cycle.
 
 raw#10 honest C3 (cycle-26 closure):
