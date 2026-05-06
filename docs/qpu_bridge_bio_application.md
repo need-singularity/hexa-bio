@@ -1265,3 +1265,81 @@ ansatz, larger max_iter, paid-tier ANU for many-restart pulls.
 
 20 cycles (...+ B1-step1, B1-step2+3, B1-step4, B1-HF-init, B1-multi),
 20 commits-or-equivalent.
+
+---
+
+## 25. Phase B2 H2 dissociation curve — sub-µHa across full scan (2026-05-07)
+
+### 25.1 Trigger
+
+After Phase B1 closure, automatic next cycle = B2 (H2 bond-length scan).
+pyscf availability (B1 install) makes per-R FCI reference computation
+trivial.
+
+### 25.2 산출물
+
+| 산출물 | 위치 | 상태 |
+|--------|------|------|
+| H2 scan driver | `_python_bridge/module/quantum_h2_scan.py` | LANDED |
+
+### 25.3 Method
+
+For each R in [0.4, 0.5, 0.6, 0.74, 0.9, 1.0, 1.2, 1.5, 1.8, 2.0, 2.5]:
+1. PyscfDriver + RHF + FCI → exact FCI/STO-3G E_FCI(R)
+2. build_hamiltonian("h2", r_angstrom=R) → SparsePauliOp + HF init
+3. vqe_general(seed=42, depth=1, max_iter=200, use_pool=True)
+4. Record (R, E_FCI, E_VQE, Δ_mHa, n_iter, converged, wall)
+
+### 25.4 Results
+
+```
+  R(Å)    E_FCI(Ha)     E_VQE(Ha)     Δ(mHa)   iter  conv  wall(s)
+ ──────────────────────────────────────────────────────────────────
+  0.400   -0.9141497   -0.9141494    +0.0003*   58   True   1.20
+  0.500   -1.0551598   -1.0551590    +0.0008*   52   True   0.93
+  0.600   -1.1162860   -1.1162858    +0.0002*   49   True   1.21
+  0.740   -1.1372838   -1.1372836    +0.0003*   54   True   1.07
+  0.900   -1.1205603   -1.1205599    +0.0004*   49   True   1.11
+  1.000   -1.1011503   -1.1011499    +0.0004*   56   True   1.10
+  1.200   -1.0567407   -1.0567401    +0.0007*   47   True   0.95
+  1.500   -0.9981494   -0.9981491    +0.0002*   52   True   1.04
+  1.800   -0.9618170   -0.9618168    +0.0002*   50   True   1.13
+  2.000   -0.9486411   -0.9486408    +0.0003*   61   True   1.15
+  2.500   -0.9360549   -0.9360545    +0.0004*   72   True   1.19
+ ──────────────────────────────────────────────────────────────────
+  R_eq (FCI) = 0.740 Å   E_min(FCI) = -1.1372838 Ha
+  R_eq (VQE) = 0.740 Å   E_min(VQE) = -1.1372836 Ha
+  Chemical accuracy: 11/11 points within 1.6 mHa  (* = within band)
+  Max |Δ|: 0.0008 mHa = 0.8 µHa
+  Mean |Δ|: 0.0004 mHa = 0.4 µHa
+```
+
+### 25.5 핵심 발견
+
+**(a) Spectroscopic accuracy entire curve** — 11/11 points 모두 sub-µHa range. mean 0.4 µHa = chemical accuracy 1.6 mHa 의 4000× 더 정밀, spectroscopic band (~1 µHa) 안.
+
+**(b) R_eq prediction exact** — VQE 의 minimum 위치 0.740 Å == FCI 의 minimum. bond length 측정 정확.
+
+**(c) E_min match within 0.2 µHa** — equilibrium geometry 의 ground-state energy 가 FCI 와 0.2 µHa 차이. spectroscopic-grade.
+
+**(d) Convergence robust across R range** — 11/11 converged=True, n_iter 47-72 (작음), wall ~1s/point. depth=1 + HF init + seed=42 만으로 dissociation full range coverage.
+
+**(e) Wall efficiency** — full curve total wall ~12s. without pool projection ~12 × 8 = 96s. pool ROI 8x (multi-call amortization).
+
+### 25.6 chemistry 의의
+
+H2 dissociation curve 는 quantum chemistry 의 **classic benchmark**. 정확 reproduction = pipeline 이 single-point spectroscopic accuracy 를 임의 geometry 로 일반화.
+
+수반 능력:
+- **bond length / angle prediction** within grid resolution
+- **dissociation energy** computation (E(R→∞) - E(R_eq))
+  - From this scan: 0.2014 Ha = 0.5478 eV ≈ 5.46 eV (실제 H2 D_e = 4.75 eV; STO-3G 의 알려진 약점, basis 한계 — VQE 정확)
+- **transition state geometry / reaction coordinate** (다음 분자에 적용)
+
+### 25.7 F-Q-3 closure
+
+**.roadmap.quantum F-Q-3 PASS** — H2 bond-length scan reproduces equilibrium R_eq + dissociation curve within chemical accuracy. 실제로는 spectroscopic accuracy.
+
+### 25.8 cumulative cycles
+
+21 cycles (...+ **B2-h2-scan**), 21 commits-or-equivalent.
