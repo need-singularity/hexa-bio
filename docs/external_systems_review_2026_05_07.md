@@ -887,6 +887,17 @@ scGPT/GeneFormer → REINVENT → Boltz-2 (structure+affinity) → hexa-bio Q �
 
 continue per cron tick.
 
+### 27.5 ProtTrans (Rostlab Heidelberg) — Academic Free License v3.0
+
+Brief addendum (not a fullstack alternative):
+
+- Family: ProtT5-XL/XXL, ProtBERT, ProtAlbert, ProtXLNet, ProtElectra
+- ProtT5-XL-U50 = flagship; competitive vs ESM-1b (localization 65% vs 62%; conservation 0.596 vs 0.563 MCC)
+- HuggingFace Transformers integration
+- **License: Academic Free License v3.0 — academic only**
+
+For our commercial pipeline ESM-2 (MIT) remains default. ProtTrans is an academic-side alternative if specific benchmarks favor it; not load-bearing.
+
 ---
 
 ## 28. caDNAno (DNA origami design UI)
