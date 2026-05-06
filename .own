@@ -1,0 +1,65 @@
+# ---
+# schema_version: project/own/v1
+# last_updated: 2026-05-06
+# mk: 2
+# ---
+#
+# # hexa-bio/.own (mk2)
+#
+# Schema authority: hive/spec/schema/own_v1.schema.yaml
+# Format: mk2 frontmatter (#-prefixed YAML) + comment-section markdown headers
+# + mk1 raw-format body (`own N <status> "name"` blocks). raw_loader.hexa
+# silently skips all `#`-prefixed lines so the body parses unchanged.
+# Authoritative rule content remains in `own N <status> ...` blocks below.
+#
+# ## roles
+# - dancinlife (project owner)
+# - claude opus / sonnet / haiku (AI agents — autonomous within own baselines)
+#
+# ## baselines
+# - hexa-bio-virocapsid-stalled-caveat — virocapsid 리포트 언급 시 정체 caveat 강제 (own 1)
+#
+# ## project_directives
+# - 4-verb domain (weave / nanobot / ribozyme / virocapsid) + meta-lattice umbrella
+# - .roadmap.<feature> per-subsystem convention (never ROADMAP.md / .roadmap.meta)
+# - n6-architecture canonical SSOT — symlink consumer (cross-repo edits in canonical session only)
+# - C2 disease-specific cell work — foreground-only (sub-agent classifier blocks)
+# - virocapsid 정체 caveat — 리포트 언급 시 항상 정체 상태 문구 동봉 (own 1)
+#
+# ## cross_link_to_specs
+# - hive/spec/schema/own_v1.schema.yaml — THIS schema authority
+#
+# ## cross_link_to_raws
+# - raw 0 (root-ssot) — .raw + .own + .guide triad
+# - raw 91 (honest-c3-disclosure) — process-quality + honest C1-C5
+#
+# ## recent_strengthenings
+# - 2026-05-06: own 1 land — virocapsid 정체 caveat. 5-roadmap 병목/갭 감사(2026-05-06)
+#   결과 virocapsid가 4-verb 중 구조적으로 정체 (F-VIROCAPSID-1 18+mo out, V-R1 schema
+#   undefined, T=1만 closed). 사용자 directive: 리포트마다 정체 상태 caveat 항상 동봉.
+
+# hexa-bio/.own — project-local SSOT layer
+# 포맷: raw-format (.raw 와 동일 파서). 자세한 스펙: hive/self/raw_loader.hexa
+# 검증: tool/own_lint.hexa — 추가 규칙이 .raw 와 같은 slug 를 가지면 monotonic
+#       strengthening (status 강화 + scope 전 계승 + enforce/proof 가산) 이어야 한다.
+
+own 1 new "hexa-bio-virocapsid-stalled-caveat — virocapsid 리포트 언급 시 정체 caveat 강제"
+  slug hexa-bio-virocapsid-stalled-caveat
+  scope hexa-bio 의 모든 리포트 / 요약 / 종합 답변 / status 브리프 (사용자·외부 통신 surface 전반)
+  enforce-layer advisory
+  enforce-layer-rationale AI 에이전트 통신 시점 규칙 — 자동 lint 비현실적 (자연어 출력 분석 필요). 본 own entry 가 SSOT, 에이전트 컴플라이언스 + 사용자 리뷰가 1차 게이트. 자동화는 가능 시 self-check (출력 전 grep "virocapsid" 후 caveat 동반 여부 확인) 로 보강.
+  decl 트리거: virocapsid (또는 한국어 "바이러스 관련", "비로캡시드", "viral capsid") 가 본문 / 리스트 / 표 / 요약에 한 줄이라도 등장하면 caveat 동봉 의무 발생.
+  decl 예외: 코드 변경 diff / 파일 경로 단순 인용 / git log 출력처럼 caveat 가 부적절한 mechanical 맥락은 면제. 단 "면제 적용함" 을 메타 코멘트로 1회 표기 권장.
+  decl 위치: 해당 섹션 끝 또는 리포트 말미. 시각적으로 구분 (⚠ prefix 또는 별도 블록).
+  decl 기본 문구 템플릿 (상황 따라 수치 갱신):
+    "⚠ VIROCAPSID 정체: F-VIROCAPSID-1 2027-04-28 (18+mo out, 0% 구현),
+     V-R1 cage schema 미정의, T=1만 closed (T≥3 stretch 미게이트)."
+  decl 정체 해소 조건 (셋 중 하나라도 만족 시 본 own demote 또는 갱신):
+    (a) F-VIROCAPSID-1 corpus 구축 시작 (live-PDB scrape n≥10 이상 raw witness 등록)
+    (b) V-R1 cage output schema 공식 정의 (3D spec 포맷 + 예시 파일)
+    (c) T=3/4 이상이 정식 게이트로 .roadmap.virocapsid 에 등록 (deadline + falsifier 매핑)
+  why 2026-05-06 5-로드맵 병목/갭 감사 결과: virocapsid 가 4-verb 중 구조적으로 정체. 구체 근거 — F-VIROCAPSID-1 deadline 2027-04-28 로 18+개월 out 이며 corpus / Bayesian audit 인프라 zero, V-R1 cage output schema 가 다른 R1 (W-R1 / N-R1 / R-R1) 처럼 미정의지만 이 verb 만 다운스트림 consumer 핸드오프 가시성이 가장 낮음, σ(6)=12 STRUCTURAL-EXACT 주장이 사실상 T=1 에만 검증됨 (.roadmap.hexa_bio §A.3 line 72 vs §A.1 line 86 모순). 사용자가 명시적으로 영속 directive (`.own` 스타일) 로 다뤄달라고 요청 — 리포트마다 매번 caveat 누락하면 release / 핸드오프 결정 시 정체 사실이 가려질 위험.
+  note 본 entry 는 "정체 사실을 가리지 말고 매번 명시" 만 강제한다. 어떻게 해소할지 (cycle 26 게이트화 / corpus 구축 우선순위 등) 는 .roadmap.virocapsid + .roadmap.hexa_bio 영역.
+  note 메모리 사이드카: ~/.hive/claude-config/hive-hook-bus/projects/-Users-ghost-core-hexa-bio/memory/feedback_virocapsid_stalled_caveat.md — 같은 규칙의 AI 에이전트 메모리 인덱스 사본. 두 곳이 어긋나면 본 .own 이 우선.
+  note 정체 해소 시 본 own 은 "deprecated" 로 마킹하되 삭제하지 말 것 — 향후 다른 verb 가 비슷한 구조적 정체에 빠질 때 직접 사례 (raw 91 honest C3) 로 인용 가능.
+  promoted-at 2026-05-06

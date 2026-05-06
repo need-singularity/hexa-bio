@@ -3,7 +3,7 @@
 > 🧶 write-side multi-strand molecular design composition. AlphaFold 3 /
 > IsoDDE read-side counterpart. Cross-cutting state → `.roadmap.hexa_bio`.
 
-**Last sync**: 2026-05-05 · **Status**: WIRED v1.0.0 · **Cycle**: 8 actual / 24 canonical
+**Last sync**: 2026-05-06 · **Status**: WIRED v1.1.0 · **Cycle**: 25 (post C2 16-cell closure)
 
 ---
 
@@ -28,7 +28,7 @@ WEAVE 는 4 disease class 각각에 cure-grade 단백질 design 제공. Meta `.r
 | C0b | (PASS)       | lean4 mechanical layer sorry-free (이미 0)                                        |
 | C0c | 2026-09-28   | `weave_compose()` 공개 API 운영 — strand catalogue → strategy 출력                 |
 | C1  | 즉시         | 4 cell disease fix — meta §0' 와 동기                                              |
-| C2  | TBD          | 4 cell × in-silico 후보 1개씩 design + verification PASS → registry.jsonl 4 줄    |
+| C2  | closed 2026-05-06 | 4 cell × in-silico 후보 1개씩 design + verification PASS → registry.jsonl 4 줄 (raw_77_c2_weave_{aml,scd,pancov,senolytic}_v1) — 16/16 matrix PASS |
 
 ## Require (verb-specific)
 
@@ -38,23 +38,28 @@ WEAVE 는 4 disease class 각각에 cure-grade 단백질 design 제공. Meta `.r
 
 ## Status snapshot
 
-| Metric                               | Current (cycle 8 actual)              | 90-day MVP target (07-28)      | Stretch |
+| Metric                               | Current (cycle 25, post-C2 closure)   | 90-day MVP target (07-28)      | Stretch |
 |--------------------------------------|---------------------------------------|--------------------------------|---------|
-| P (proteome size in MVP)             | 0 (no empirical run)                  | 10                             | 100     |
+| P (proteome size in MVP)             | 10 (PASS — F-TP5-b cycle 24 C0b run)  | 10                             | 100     |
 | Falsifier count                      | 12 (9 closure + 3 cycle 7-9 additions)| 12                             | 20      |
 | Raw-70 axes PASS                     | 8 of 9                                | 9 of 9 with empirical anchor   | 9 of 9 with n>1 |
 | **lean4 sorry count**                | **0** (W5 milestone)                  | 0                              | 0       |
-| F-D-3 deadline-miss probability      | 50-58 % (post-W6)                     | < 40 % (W7-W9 burndown)        | < 25 %  |
-| CHI2 sample size n                   | 1 (DEFER)                             | 5 (PASS)                       | 30      |
+| F-D-3 deadline-miss probability      | < 40 % (post C0b/C2 closure)          | < 40 % (sustained)             | < 25 %  |
+| CHI2 sample size n                   | 1 (DEFER — external lit dep)          | 5 (PASS)                       | 30      |
 | External paper (Option-E)            | 1 draft (~80+ pages)                  | +1 Zenodo deposit (gated)      | full peer-review submission |
 
 ## Open work
 
-- W7-W9 mechanical-layer burndown (sorry-free already; reduce F-D-3 risk).
-- First end-to-end MVP run with **P≥10, N≥50** → kills F-TP5-b by 2026-07-28.
+- Mechanical-layer ongoing maintenance (sorry-free preserved; W7-W9 milestone
+  labels deprecated 2026-05-06 — were never formally defined; risk-burndown
+  now tracked via F-D-3 directly without milestone sub-labels).
+- ~~First end-to-end MVP run with **P≥10, N≥50** → kills F-TP5-b by
+  2026-07-28.~~ **CLOSED 2026-05-05 (cycle 24)** — F-TP5-b PASS 6/6.
 - CHI2 axis lift from DEFER to PASS (need ≥1 published cellular heat-budget
-  comparison sample).
-- One Zenodo deposit gated on user approval (Option-E paper exists).
+  comparison sample) — **DEFERRED**, external dependency.
+- One Zenodo deposit gated on user approval (Option-E paper exists) — gater
+  = user; condition = Option-E paper draft + at least one verb's mechanical
+  layer 100% sorry-free (already met by WEAVE).
 
 ## Falsifier preregister (12 across 3 measurable claims)
 
@@ -66,6 +71,79 @@ WEAVE 는 4 disease class 각각에 cure-grade 단백질 design 제공. Meta `.r
 
 Only verb with mechanical layer (lean4 sorry-free), empirical SSOT
 migration to `~/core/nexus/sim_bridge/weave/`, and one external paper draft.
+
+## STALLED / UNDEFINED — 2026-05-06 감사 등록
+
+5-roadmap 병목/갭 감사(2026-05-06) 결과 본 파일에 등록된 정체/미정의 항목.
+status 마커: DRIFT(코드/사실 vs 로드맵 불일치) · STALE(annotation lag) · UNDEFINED(참조만 있고 본문 없음) · AMBIGUOUS(정의됨, 기준 불명) · BLOCKED(외부 의존) · DANGLING(사이클/게이트 미할당) · INCONSISTENT(내부 모순).
+
+- **[DRIFT] C2 closure 미반영 (line 31)** — `TBD` → CHANGELOG/registry/.roadmap.hexa_bio:154 모두 `closed 2026-05-06 16/16 PASS`. **Resolution:** C2 게이트 일자/상태 갱신. **[RESOLVED 2026-05-06]** — line 31 updated to `closed 2026-05-06`.
+- **[STALE] Cycle 헤더 "8 actual / 24 canonical" (line 6)** — 실제 cycle 25 (C2 closure 후). **Resolution:** "Cycle 25" 단일화 또는 actual/canonical 의미 명시. **[RESOLVED 2026-05-06]** — header set to `Cycle: 25 (post C2 16-cell closure)`.
+- **[STALE] Status snapshot post-C0b (lines 41–49)** — P (proteome size)=0 표기, 실제 501 witness rows + cycle 24 C0b closed. **Resolution:** snapshot 갱신. **[RESOLVED 2026-05-06]** — Current column rewritten: P=10, F-D-3 risk <40%, CHI2 marked external-dep.
+- **[UNDEFINED] F-TP5-c, F-TP5-d (line 61)** — 90-day MVP gate trio 중 2개 본문/통과 기준/witness schema 부재 (F-TP5-b만 정의됨). **Resolution:** 본문 정의 또는 trio 축소.
+  **Draft 2026-05-06:**
+  - **F-TP5-c** (coverage / strand-catalogue saturation) — for the 12-strand built-in catalogue, `weave_compose(target=*, P=10, N=50)` must produce ≥1 Landauer-pass strategy that uses **each** of ≥10 distinct strand IDs at least once across the aggregate run (catalogue-coverage ≥ 10/12 ≈ 0.83). Witness schema `raw_77_weave_compose_coverage_v1` extending v1 aggregate with `strand_usage_histogram` + `coverage_ratio`. Deadline 2026-07-28 (co-trio with F-TP5-b).
+  - **F-TP5-d** (greedy-vs-baseline regression) — greedy inverse-search must dominate a uniform-random baseline of equal trial count: median Π^p_2 pass-rate ≥ random+10% (one-sided, n=50 paired bundles). Witness `raw_77_weave_compose_baseline_v1` adding `random_baseline_pi_p2_pass_rate` field. Deadline 2026-07-28. If greedy fails to dominate → F-TP5-d FAIL → upstream Π^p_2 verifier rebuild required.
+- **[UNDEFINED] F-CL-FORMAL-* (line 62)** — formal-axis claims 본문/스코프/deadline 부재. **Resolution:** 각 sub-falsifier 정의.
+  **Draft 2026-05-06:**
+  - F-CL-FORMAL-* is an umbrella label for lean4 mechanical-layer claims (closure axes 1..N over weave_compose semantics). Currently only F-CL-FORMAL-4 has explicit PARTIAL status; F-CL-FORMAL-1/2/3 are placeholders without lean4 theorem references.
+  - **Provisional definition**: F-CL-FORMAL-k FAILS iff lean4 mechanical layer reintroduces ≥1 `sorry` on axis-k after 2026-05-06 baseline. Concrete axis bindings (1=σ(6)=12 invariant; 2=Landauer floor monotonicity; 3=Π^p_2 verifier termination; 4=closure-cert idempotence — already PARTIAL) → see GATE-26-2 for formal lock-in. Deadline 2026-09-28 (cycle 26 review).
+- **[AMBIGUOUS] C0b 정의 충돌 (line 28 vs .roadmap.hexa_bio §A.4)** — local "lean4 sorry-free 이미 0 (PASS)" vs umbrella "4-verb numerical MVP gate 2026-07-28". **Resolution:** 단일 정의 + dependency lock. **[RESOLVED 2026-05-06]** — local C0b scope is **WEAVE-internal lean4 mechanical sorry-free** (already PASS pre-cycle-24); umbrella `.roadmap.hexa_bio` §A.4 C0b is the **cross-verb 4-numerical-MVP composite gate** that subsumes local C0b + F-TP5-b/F-NB-4/F-RB-4/F-VIROCAPSID-3 (closed cycle 24). Two scopes, both PASS, no contradiction once distinguished.
+- **[AMBIGUOUS] C0c gate criterion (line 29)** — `weave_compose()` "공개 API 운영" 통과/실패 기준 부재, falsifier 매핑 없음. **Resolution:** PASS criteria 명시 + 대응 falsifier.
+  **Draft 2026-05-06:** C0c PASS iff **(a)** `weave_compose()` is invoked from at least 5 distinct external call-sites outside `_python_bridge/module/weave_composition.py` (consumers may be other verbs, examples, tests, or downstream repos) **OR (b)** at least 1 published external consumer (Zenodo / repo / paper) cites the API. New falsifier **F-TP5-e** binds: F-TP5-e FAILS iff neither (a) nor (b) is met by 2026-09-28. → GATE-26-1.
+- **[UNDEFINED] W-R1 composition output schema (line 35)** — 분자 spec (sequence + structure + Landauer flux + closure cert) 포맷 정의 없음. **Resolution:** schema 파일 + 예시 출력.
+  **Draft 2026-05-06 (W-R1 minimal schema, JSON):**
+  ```
+  {
+    "schema": "weave_composition_output_v1",
+    "target": "aml|scd|pancov|senolytic",
+    "sequence": "MVLSPADKTNV...",          // primary aa string
+    "structure": {                          // optional secondary/tertiary hints
+      "secondary":  "HHHHCCEEEE...",        // DSSP-like per-residue
+      "fold_class": "alpha|beta|mixed|disordered",
+      "disulfides": [[12, 47]]
+    },
+    "landauer_flux": {
+      "heat_budget_kT":  1000000.0,
+      "heat_consumed_kT": 6.4e5,
+      "margin_kT":       3.6e5,
+      "pass":            true
+    },
+    "closure_cert": {
+      "pi_p2_verifier": "stub_v1|hamming_v2",
+      "pi_p2_pass":     true,
+      "pi11_ca0":       "raw_91_c3_disclose:MVP_caveat",
+      "ref_witness":    "raw_77_weave_compose_v1#row=42"
+    }
+  }
+  ```
+  Producer: `_python_bridge/module/weave_composition.py::weave_compose()`. Each P×N trial emits one row matching above; aggregate row supplies summary (PASS counts, top-K strategies). Schema lives in `weave/spec/composition_output_v1.schema.json` (TODO: file emission deferred to GATE-26-3).
+- **[UNDEFINED] Π¹₁-CA₀ closure cert (line 21)** — DoD 참조하나 게이트화 절차/통과 기준 부재 (코드는 raw_91_c3_disclose MVP caveat만 emit). **Resolution:** cert 정의 또는 MVP caveat 영구화.
+  **Draft 2026-05-06:** For v1.x.x scope, **keep `raw_91_c3_disclose` MVP-caveat disclosure permanently** as the cert surrogate — every C2-grade row carries the disclosure block stating the cert is not yet machine-checked at Π¹₁-CA₀ strength. Full lean4-backed Π¹₁-CA₀ closure cert (with arithmetical-comprehension proof obligation) is **deferred to v2.0.0** (track GATE-26-2 for re-evaluation). DoD line 21 amended retroactively to read `Π¹₁-CA₀ compatibility (MVP-caveat disclosure raw_91 v1.x; full cert deferred v2.0.0)`.
+- **[BLOCKED] CHI2 axis lift (lines 48, 55–56)** — published 외부 문헌 sample 의존, 게이트는 in-repo. **Resolution:** contingency 또는 외부 dep 명시. **[DEFERRED — external lit dependency: needs ≥1 published cellular heat-budget comparison sample; revisit when literature surfaces or replace with in-repo synthetic anchor in cycle 26+]**
+- **[UNDEFINED] External paper Option-E gating (lines 49, 57)** — gater / 승인 조건 / 보류 사유 미정의. **Resolution:** gate 절차 명문화.
+  **Draft 2026-05-06:** **Gater** = repo user (search5599@proton.me). **Approval condition (necessary)**: at least one verb's mechanical layer is 100% sorry-free (already met by WEAVE) AND Option-E paper draft passes self-review checklist (citation completeness, no leaked secrets, IRB/biosafety statements present where applicable). **Hold reason** until 2026-05-06: cycle-25 C2 closure was prerequisite to claim 4-verb MVP coverage in the deposit. **Action**: user-initiated "approve Zenodo deposit" command unlocks DOI mint; until then status remains DRAFT.
+- **[UNDEFINED] W7–W9 mechanical-layer burndown (line 53)** — W7/W8/W9 milestone 정의 없음. **Resolution:** 정식 정의 또는 제거. **[RESOLVED 2026-05-06]** — W7/W8/W9 labels were never defined in `weave/spec/`; deprecated. "Open work" entry rewritten without the milestone labels (sorry-free preserved; F-D-3 risk-burndown tracked directly).
+- **[INCONSISTENT] F-CAGE-MVP-1 vs F-TP5-b naming (코드 vs roadmap)** — 같은 falsifier 옛/새 명명 혼재 (weave.hexa). **Resolution:** alias note 또는 코드 rename. **[RESOLVED 2026-05-06]** — alias-note convention adopted: `F-CAGE-MVP-1` is the **legacy weave.hexa label** (yield-0.95 calibration framing pre-cycle-22); `F-TP5-b` is the **canonical post-cycle-22 label** (end-to-end weave_compose() MVP). Both refer to the same 90-day MVP gate and share deadline 2026-07-28 (now PASS). Code rename deferred — alias documented here is sufficient.
+
+## Cycle 26 candidate gates
+
+Promoted from §STALLED resolutions (2026-05-06). Each gate has a deadline-TBD
+or proposed deadline; deadlines lock during cycle-26 planning.
+
+- [GATE-26-1] f-tp5-e-public-api-uptake (origin §STALLED C0c gate criterion)
+  — gates closure of C0c on `weave_compose()` public-API operation;
+  PASS = ≥5 external invocations OR ≥1 published consumer; proposed
+  deadline 2026-09-28.
+- [GATE-26-2] formal-axis-binding (origin §STALLED F-CL-FORMAL-* + Π¹₁-CA₀
+  closure cert) — gates formalization of F-CL-FORMAL-1/2/3 axis bindings to
+  concrete lean4 theorems and re-evaluation of v2.0.0 Π¹₁-CA₀ cert
+  upgrade path; proposed deadline 2026-09-28 (cycle-26 review).
+- [GATE-26-3] w-r1-schema-file-emission (origin §STALLED W-R1 schema) —
+  gates persisting the composition-output JSON Schema to
+  `weave/spec/composition_output_v1.schema.json` and wiring
+  `weave_compose()` to emit conformant rows; proposed deadline 2026-07-28
+  (co-trio with F-TP5-b/c/d follow-on closure).
 
 ## Canonical spec
 

@@ -69,17 +69,26 @@ The 4 verbs share one master identity:
           │              │              │
    ┌──────▼─────┐ ┌──────▼─────┐ ┌─────▼──────┐
    │  NANOBOT   │ │ RIBOZYME   │ │ VIROCAPSID │
-   │  cycle 13  │ │ cycle 15   │ │ cycle 19   │  σ=12 STRUCTURAL-EXACT
+   │  cycle 13  │ │ cycle 15   │ │ cycle 19   │  σ=12 per-verb (see below)
    │ actuation  │ │ catalysis  │ │  assembly  │
    │ Brownian   │ │ diffusion  │ │ Caspar-Klug│
    │   floor    │ │   ceiling  │ │  T-number  │
    └────────────┘ └────────────┘ └────────────┘
 ```
 
+σ(6)=12 per-verb status (T=1 only): NANOBOT STRUCTURAL-APPROXIMATE ·
+RIBOZYME STRUCTURAL-EXACT-CANDIDATE (F-RB-2 30/30 suspicious-perfect,
+inter-rater pending) · VIROCAPSID STRUCTURAL-EXACT (F-VIROCAPSID-2
+posterior 0.9668, log_bf 3.37) · WEAVE STRUCTURAL-EXACT (raw-strategy
+exponents). T=3/T=4 verification under V-R2 stretch (cycle 26 GATE-26-1).
+
 - **Tetrahedron closed** at cycle 22 (2026-05-01) — 4 orthogonal genus axes:
   composition (covalent) · actuation (mechanical) · catalysis (chemical) ·
   assembly (thermodynamic).
-- **Alien-grade**: 4.78 (cycle 22 close).
+- **Alien-grade**: 4.78 (cycle 22 close) — scale 0–10 internal heuristic
+  (formal-rigor + physical-grounding + computational-saturation composite,
+  see `~/core/n6-architecture/RUBRIC.md`); informational only, no
+  downstream gating.
 - **Tri-axis Ω-saturation** (FORMAL Π¹₁-CA₀ · PHYSICAL Landauer ·
   COMPUTATIONAL Π^p_2): PASS at workload ceiling (7/8 raw-70 axes PASS,
   CHI2 DEFER).
@@ -136,6 +145,7 @@ random):
 | C0c   | 형식 prerequisite                      | 2026-09-28     | n=30 Bayesian audit 2건 closed (F-NB-2 / F-RB-2)                                       | in-repo     |
 | C1    | Disease slot                           | 즉시 (§0' fix) | 4 class disease 선정 — α=AML / β=SCD / γ=pan-cov / δ=senolytic                         | in-repo     |
 | C2    | In-silico 16-cell 매트릭스             | **closed 2026-05-06** | 4 verb × 4 class 후보 1개씩 — **16/16 PASS** (foreground per classifier rule); 16 wrapper files + 16 raw_77_c2_* witness rows + 4 row kicks + 1 matrix-closure kick + 1 abstract-followons kick (6 cycle-25 kicks total) | in-repo     |
+| TBD | TBD | C0d — cycle 26 follow-up (registered §G; ref §F audit 2026-05-06) |
 | **--- repo boundary ---** |                            |                |                                                                                       |             |
 | C3    | Wet-lab handoff                        | TBD            | 4 class × 1 후보 외부 CRO/collaborator 위탁 (γ-first)                                   | out-of-repo |
 | C4    | In-vitro n=1                           | TBD            | 4 class in-vitro PASS                                                                 | out-of-repo |
@@ -177,3 +187,70 @@ random):
 - **(R6)** hexa-bio scope = **in-silico design + verification까지 (C0~C2)**. C3+ 은 외부 (CRO / collaborator / sponsor / regulatory) — repo 는 handoff 아티팩트 (분자 spec + 시뮬 결과 + safety profile) 까지만 책임
 - **(R7)** Disease-class data sourcing (cancer cell line / GWAS / 바이러스 게놈 / aging biomarker) 별 트랙 — repo 는 schema/슬롯만 보유
 - **(R8)** 4 class **in-silico 평행** (C0~C2) — cancer 우선 시퀀싱 금지. **Handoff (C3+) γ-first** 만 허용 (fast + 수요 명확 근거)
+
+---
+
+## §F STALLED / UNDEFINED — 2026-05-06 감사 등록
+
+5-roadmap 병목/갭 감사(2026-05-06) 결과 umbrella 레벨 정체/미정의 항목.
+sister-verb 항목은 각 `.roadmap.<verb>` §STALLED 섹션 참조.
+status 마커: DRIFT · STALE · UNDEFINED · AMBIGUOUS · BLOCKED · DANGLING · INCONSISTENT.
+
+- **[DRIFT] C2 sister-sync (line 154 vs sister 4파일 line 31~32)** — umbrella `closed 2026-05-06 16/16 PASS`, sister 4개 모두 `TBD`. CHANGELOG + registry 16 cells 확인. **Resolution:** sister C2 게이트 일괄 갱신 (각 .roadmap.<verb> §STALLED 첫 항목 참조). [DEFERRED 2026-05-06 — sister roadmap files handled by parallel sister agents per task constraint]
+- **[BLOCKED] F-NB-5 PARTIAL (§A.4 line 106; .roadmap.nanobot:66)** — hexa-bio mitigation 완료, n6-architecture canonical (`life/therapeutic-nanobot/therapeutic-nanobot.md` §3/§11) 편집 의존. v1.1.0 release "4-verb numerical MVP" 주장이 미해결 상태 가림. **Resolution:** canonical repo 별도 세션에서 N-R2 handshake JSON land. [DEFERRED 2026-05-06 — cross-repo canonical edit per memory/feedback_cross_repo_canonical.md]
+- **[AMBIGUOUS] C0c "closed" 정의 (lines 110–118, 152)** — F-NB-2 `log_bf=0.16` honest negative + F-RB-2 `log_bf=79.74` suspicious-perfect, 게이트 PASS 의미 미정의. **Resolution:** §A.2 v2.0.0 정의에 suspicious-perfect 처리 + inter-rater 게이트화.
+  **Draft 2026-05-06:** C0c PASS criterion = (log_bf > 3 AND inter-rater κ ≥ 0.6) OR (honest-negative documented with rubric-normalization preregister). Suspicious-perfect (log_bf > 50 with single-rater) requires κ ≥ 0.6 across n ≥ 2 independent raters before STRUCTURAL-EXACT promotion. Honest-negative (log_bf < 1) is acceptable closure with documented rubric-normalization plan in next-cycle stretch.
+- **[DANGLING] V-R2 multi-T stretch (line 88 vs .roadmap.virocapsid:37)** — "terminal 도달 시" 사이클 바운드 없음, σ(6)=12 STRUCTURAL-EXACT 주장은 T=1만 검증. **Resolution:** T=3/T=4를 cycle 26 게이트로 정식 등록. [GATE-26 — see §G GATE-26-1]
+- **[UNDEFINED] C3+ wet-lab γ-first criteria (lines 25, 140; §E line 179 R8)** — 발동 조건 / lab 선정 / lead-time milestone / liaison checkpoint 부재. **Resolution:** KPI 정의 + checkpoint 등록.
+  **Draft 2026-05-06:** γ-first C3 trigger KPIs — (a) C2 γ-row 4/4 PASS (closed 2026-05-06); (b) ≥1 BSL-2 surrogate identified with reagent SLA; (c) CRO/collaborator letter-of-intent signed; (d) lead-time ≤ 90 days mock + ≤ 180 days actual handoff; (e) liaison checkpoint cadence = monthly review until in-vitro n=1. Actual gate activation deferred until external partner identified (out-of-repo per R6).
+- **[STALE] CHANGELOG [Unreleased] vs v1.1.0 (V1_1_0_HANDOFF.md §Pending)** — release timestamp 미설정 (cycle 24/25 work는 있으나 [Unreleased] → [1.1.0] promotion 안됨). **Resolution:** tag 결정 + promotion. [RESOLVED 2026-05-06 — CHANGELOG.md [Unreleased] block promoted to [1.1.0] - 2026-05-06]
+- **[UNDEFINED] Falsifier alias registry (line 117–119 vs CHANGELOG line 38–45)** — F-NB-2 / F-RB-2 ↔ `raw_77_*_bayesian_*` 매핑 부재. **Resolution:** schema 인덱스 또는 falsifier alias registry 추가 (cf. R4 witness protocol).
+  **Draft 2026-05-06:** Falsifier ↔ witness-schema alias table:
+
+  | Falsifier | Witness schema | Verb | Cycle |
+  |-----------|----------------|------|-------|
+  | F-TP5-b | `raw_77_weave_compose_v1` | WEAVE | 24 |
+  | F-NB-4 | `raw_77_nanobot_actuation_v1` | NANOBOT | 24 |
+  | F-RB-4 | `raw_77_ribozyme_kinetics_v1` | RIBOZYME | 24 |
+  | F-VIROCAPSID-3 | `raw_77_virocapsid_calibration_v1` | VIROCAPSID | 24 |
+  | F-NB-2 | `raw_77_nanobot_bayesian_v1` | NANOBOT | 25 |
+  | F-RB-2 | `raw_77_ribozyme_bayesian_v1` | RIBOZYME | 25 |
+  | F-VIROCAPSID-2 | `raw_77_virocapsid_bayesian_v1` | VIROCAPSID | 22 |
+  | C2 cells (16) | `raw_77_c2_<verb>_<class>_v1` | all 4 | 25 |
+
+- **[AMBIGUOUS] C2 "16-cell" PASS criterion (line 154; CHANGELOG line 44)** — 4 verb × 4 cell vs 4 global cell 표기 혼재. foreground rule (memory/feedback_subagent_classifier_disease_therapeutic.md) 미참조. **Resolution:** definition lock + foreground rule 명문화.
+  **Draft 2026-05-06:** C2 PASS = (4 verb × 4 disease class = 16 distinct cells, NOT 4 global). Each cell PASS criterion: (a) wrapper script in `_python_bridge/module/<verb>_<class>_candidate.py`; (b) candidate-spec metadata annotated against publicly catalogued markers; (c) verifies via corresponding C0b simulator; (d) emits one `raw_77_c2_<verb>_<class>_v1` registry row. ALL 16 cells foreground-only (sub-agent classifier blocks disease+marker+construct content per memory/feedback_subagent_classifier_disease_therapeutic.md). Honest caveat: PASS = simulator+metadata internal consistency, NOT therapeutic/clinical/efficacy property.
+- **[UNDEFINED] R1 symlink SSOT 자동 감사 (line 172, R1)** — `~/core/n6-architecture/` symlink target validity / freshness / CI gate 부재. **Resolution:** link-validity 테스트 + stale 처리 절차.
+  **Draft 2026-05-06:** Add `selftest/r1_symlink_audit.sh` — for each entry in `docs/n6/`, verify (a) `readlink -e` resolves (target exists); (b) target mtime within 90 days OR `STALE_OK` annotation present; (c) target path begins with `$HOME/core/n6-architecture/`. Wire into `cli/hexa-bio.hexa selftest` dispatcher. CI gate: fail-fast if any link broken; warn if stale without annotation.
+- **[DANGLING] Cycle 26 candidates (V1_1_0_HANDOFF.md lines 90–105)** — lean4 mechanical layer 확장 / WEAVE Π^p_2 verifier 업그레이드 / F-RB-2 inter-rater / F-NB-2 retest — 어떤 .roadmap.* 에도 cycle 26 게이트 부재. **Resolution:** §B 체크포인트 표에 cycle 26 row 추가 + 각 sister 등록. [GATE-26 — see §G GATE-26-2..6; §B C0d row added]
+- **[INCONSISTENT] σ(6)=12 STRUCTURAL-EXACT 비대칭 (§A.3 line 72 vs §A.1 line 86–88 vs .roadmap.virocapsid:78–82)** — 4 verb 주장 / NANOBOT·RIBOZYME APPROXIMATE / VIROCAPSID T=1만 EXACT. **Resolution:** STRUCTURAL-EXACT 적용 verb / T-range 명문화. [RESOLVED 2026-05-06 — §A.3 ASCII diagram line restricted to "σ=12 per-verb (see below)" + per-verb T=1 status block added]
+- **[UNDEFINED] Post-closure regression falsifiers (§A.4 lines 96–101)** — F-TP5-b / F-NB-4 / F-RB-4 / F-VIROCAPSID-3 closed 후 회귀 게이트 zero (CHANGELOG line 24 "no regressions vs v1" 비공식). **Resolution:** F-*-REGRESSION preregister 추가.
+  **Draft 2026-05-06:** Preregister F-*-REGRESSION (one per closed C0b falsifier) — gate fires on any merge that touches `_python_bridge/module/<verb>_*_simulation.py` or `<verb>_calibration.py`. Criterion: re-run canonical seed (deterministic) and assert (a) PASS-rate identical to closure-cycle baseline; (b) all 6/6 deterministic criteria still satisfied; (c) registry row hash matches witness baseline. Stub list: F-TP5-b-REGRESSION · F-NB-4-REGRESSION · F-RB-4-REGRESSION · F-VIROCAPSID-3-REGRESSION. Wire as CI hook in cycle 26.
+- **[UNDEFINED] Disease marker sourcing SLA (§E line 178, R7)** — "schema/슬롯만 보유" vs CHANGELOG cell markers (CD33/CD3/FLT3-ITD/WT1, HBB Glu6Val/CD34 등) 명시 모순, 외부 sourcing SLA / staleness check / curation audit 부재. **Resolution:** 외부 sourcing 절차 명문화. [DEFERRED 2026-05-06 — foreground required per memory/feedback_subagent_classifier_disease_therapeutic.md (disease+marker content); pick up in foreground session next cycle]
+- **[UNDEFINED] "Alien-grade 4.78" (§A.3 line 82)** — cycle-22 closure 인용, 등급 산출 식 / 의미 / 다운스트림 게이팅 부재. **Resolution:** 등급 정의 명시 또는 제거. [RESOLVED 2026-05-06 — §A.3 line 82 expanded with 1-line definition + canonical rubric pointer + "informational only, no downstream gating" disclaimer]
+
+## §G Cycle 26 candidate gates
+
+Registered 2026-05-06 from §F audit. Per-sister registration is sister-agent
+responsibility (cf. §F item "Cycle 26 candidates" resolution).
+
+- **[GATE-26-1]** virocapsid-multi-T (origin §F V-R2 stretch) — opens
+  STRUCTURAL-EXACT claim for VIROCAPSID T-range beyond T=1; PASS = T=3 yield
+  ≥0.85 AND T=4 yield ≥0.85 reproduced from cycle-25 abstract follow-on
+  with peer-reviewable param derivation; deadline cycle 26 (proposed).
+- **[GATE-26-2]** lean4-mechanical-extension (origin §F Cycle 26 candidates)
+  — extend sorry-free Foundation from WEAVE-only to NANOBOT/RIBOZYME/VIROCAPSID
+  in n6-architecture upstream; cross-repo, deadline TBD.
+- **[GATE-26-3]** weave-pi-p2-np-solver (origin §F Cycle 26 candidates) —
+  upgrade WEAVE Π^p_2 verifier from greedy heuristic to true NP-solver path;
+  deadline cycle 26 (proposed).
+- **[GATE-26-4]** rb-2-inter-rater (origin §F C0c definition + Cycle 26
+  candidates) — F-RB-2 30/30 suspicious-perfect requires κ ≥ 0.6 across
+  n ≥ 2 independent raters before STRUCTURAL-EXACT promotion; deadline cycle
+  26 (proposed).
+- **[GATE-26-5]** nb-2-retest (origin §F Cycle 26 candidates) — F-NB-2
+  log_bf=0.16 honest-negative retest with rubric-normalization preregister;
+  deadline cycle 26 (proposed).
+- **[GATE-26-6]** regression-ci-wire (origin §F Post-closure regression)
+  — wire F-*-REGRESSION preregister stubs into CI; deadline cycle 26
+  (proposed).

@@ -6,6 +6,12 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- §F STALLED/UNDEFINED audit (2026-05-06) registered in `.roadmap.hexa_bio`
+  with 14 items + §G Cycle 26 candidate gates section.
+
+## [1.1.0] - 2026-05-06
+
+### Added
 - Roadmap trackers in canonical `.roadmap.<feature>` convention (1 file
   per feature/subsystem, mirroring `hive/` · `hexa-lang/` · `hexa-os/` ·
   `anima/` · `void/` patterns):
@@ -231,4 +237,5 @@ All notable changes to **hexa-bio** are documented here. Format follows
   (registry L23). hexa-bio is the **24th** entry.
 - Closure verdict: **1/4 verbs PASS** (weave); 3/4 axes pre-implementation.
 
+[1.1.0]: https://github.com/need-singularity/hexa-bio/releases/tag/v1.1.0
 [1.0.0]: https://github.com/need-singularity/hexa-bio/releases/tag/v1.0.0
