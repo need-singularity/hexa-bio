@@ -53,13 +53,17 @@ let AXIS_SENTINELS = [
 let SISTER_HEXA_NATIVE_MODULES = [
     "quantum/module/external_pilot_runner.hexa",
     "quantum/module/hexabrain_consumer.hexa",
-    "quantum/module/upstream_pulse_check.hexa"
+    "quantum/module/upstream_pulse_check.hexa",
+    "quantum/module/n6_lattice_check.hexa",
+    "quantum/module/registry_witness_emitter.hexa"
 ]
 
 let SISTER_HEXA_NATIVE_SENTINELS = [
     "__EXTERNAL_PILOT_RUNNER__",
     "__HEXA_BIO_HEXABRAIN__",
-    "__HEXA_BIO_UPSTREAM_PULSE__"
+    "__HEXA_BIO_UPSTREAM_PULSE__",
+    "__HEXA_BIO_N6_LATTICE_CHECK__",
+    "__HEXA_BIO_REGISTRY_EMITTER__"
 ]
 
 fn _file_exists(p: str) -> bool {
