@@ -61,16 +61,30 @@ Selftest emits two sentinel lines on success:
 raw#10 honest caveats
 =====================
 
-1. `live=True` requests qmirror's 4-tier ANU chain (paid → trial →
-   keyed → legacy). Keys are resolved by qmirror's `_qmirror_secret()`
-   chain (secret CLI / 1Password / macOS keychain / aws-sm / printenv),
-   keyed off names ANU_KEY_PAID / ANU_KEY_TRIAL / ANU_KEY_FREE — NOT a
-   single env var. With no keys provisioned, qmirror automatically
-   falls back to T1.a legacy keyless (qrng.anu.edu.au, 1 req/min,
-   provenance="anu_legacy") which is verified end-to-end on this
-   machine 2026-05-06 (docs §22 / §23). If the live endpoint itself
-   fails, qmirror surfaces ok=0 with a tier-prefixed error rather
-   than silently substituting mock bits — provenance never lies.
+1. `live=True` requests qmirror's **3-tier** ANU chain (paid → keyed
+   → legacy). qmirror commit aa58ba8 (2026-05-07) collapsed the
+   previous 4-tier chain by retiring T1.d trial. Keys are resolved
+   by qmirror's `_qmirror_secret()` chain (secret CLI / 1Password /
+   macOS keychain / aws-sm / printenv), keyed off names ANU_KEY_PAID
+   / ANU_KEY_FREE — NOT a single env var, and ANU_KEY_TRIAL is no
+   longer consulted as of aa58ba8. With no keys provisioned,
+   qmirror automatically falls back to T1.a legacy keyless
+   (qrng.anu.edu.au, 1 req/min, provenance="anu_legacy") — verified
+   end-to-end on this machine 2026-05-06 (docs §22 / §23). If the
+   live endpoint itself fails, qmirror surfaces ok=0 with a tier-
+   prefixed error rather than silently substituting mock bits —
+   provenance never lies.
+
+   Recent qmirror robustness improvements absorbed without code change
+   on our side:
+   - 14747ee perf(qrng): 4 env-probe execs collapsed to 1 + orphan-
+     sweep tool — directly mitigates the fork-cap pressure we saw on
+     2026-05-06 (cleanup verify cycle).
+   - ce20751 fix(qrng): accept pretty-printed ANU JSON (handles ANU
+     server returning "success": true with whitespace).
+   - 0b1782d refactor: secret-chain key names unified to
+     ANU_KEY_{PAID,FREE} — matches what this docstring already
+     describes.
 2. Mock-LCG bytes are reproducible by design (qmirror seeds with 42 by
    default, 12345 when `NEXUS_QMIRROR_MOCK=1` is forced upstream). They
    are NOT cryptographically random — adequate for VQE noise seeds and
