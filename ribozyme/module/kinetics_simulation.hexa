@@ -379,7 +379,10 @@ fn parse_argv(av) {
     return r
 }
 
-fn main() {
+// Wrapped under `if argv has CLI flags` so `use`-importers don't trigger
+// the simulator. Direct invocation (`hexa run kinetics_simulation.hexa
+// [--t-end ... --dt ...]`) still runs as before.
+fn cli_main() {
     let parsed = parse_argv(args())
 
     let sample_times = []
@@ -419,4 +422,27 @@ fn main() {
 
     if pass_eval["overall_pass"] { exit(0) }
     exit(1)
+}
+
+// CLI dispatch — run cli_main() only when invoked directly (i.e. argv
+// contains a CLI flag or the script is the entry point). When `use`d by
+// senolytic_candidate.hexa et al., none of these flags are present so
+// the simulator does NOT auto-run.
+fn main() {
+    let av = args()
+    let mut has_cli_flag = false
+    let mut i = 0
+    while i < len(av) {
+        let a = av[i]
+        if a == "--no-emit" || a == "--quiet" || a == "--t-end" || a == "--dt" || a == "--S-eff" {
+            has_cli_flag = true
+        }
+        i = i + 1
+    }
+    // When invoked via `hexa run kinetics_simulation.hexa [args...]`, argv
+    // contains the CLI flags. When `use`-imported, only the parent's argv
+    // is visible — typically without these flags. Run only on direct CLI.
+    if has_cli_flag {
+        cli_main()
+    }
 }
