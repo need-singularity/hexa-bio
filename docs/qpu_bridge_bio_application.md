@@ -706,3 +706,75 @@ vs A5 sweep WITH workarounds (직전 cycle 비교):
 ### 16.6 누적 cycle 진행
 
 Phase 1 5/5 LANDED + Cleanup verify LANDED = 총 6 cycle, 13 falsifier PASS 등가 (cleanup 자체가 selftest 1회 PASS). hexa-bio main 6 commits.
+
+---
+
+## 17. Production smoke — spectroscopic accuracy 도달 (2026-05-06)
+
+### 17.1 Trigger
+
+§15.4 에서 "full E0 = -1.9153706 Ha 도달 검증은 manual smoke test 로 분리, docs 에 paste" 약속. 이 약속 충족하는 자동 cycle.
+
+### 17.2 명령
+
+```bash
+python3 -u _python_bridge/module/quantum_vqe_h2.py --seed 42 --max-iter 80
+```
+
+### 17.3 결과
+
+```
+VQE H2 Nelder-Mead result:
+  energy_Ha = -1.9153702  (E0_exact = -1.9153706, delta = +0.0000004)
+  theta     = [+0.4340, +0.1666, -3.2176, -6.4665]
+  n_iter    = 61  converged = True  engine = qiskit_aer
+  wall      = 37.67s
+```
+
+JSON tail:
+```json
+{"ok":1,"energy_Ha":-1.9153702227703306,
+ "delta_vs_E0":3.772296692794441e-07,
+ "theta":[0.43401534, 0.16657201, -3.21763630, -6.46646818],
+ "n_iter":61, "converged":true, "engine":"qiskit_aer",
+ "wall_seconds":37.67, "seed":42, "seed_provenance":null}
+```
+
+### 17.4 정밀도 분석
+
+| metric | value | reference |
+|--------|-------|-----------|
+| delta from E0 (analytic) | **+0.4 µHa** = 4 × 10⁻⁷ Ha | — |
+| chemical accuracy band (1 kcal/mol) | 1.6 mHa = 1600 µHa | NIST/Pople 표준 |
+| spectroscopic accuracy band | ~1 µHa | quantum chemistry community |
+| **이번 결과 / chem-acc** | **1/4000** (4000× 더 정밀) | — |
+
+**spectroscopic accuracy 도달.** A4 selftest F3 (max_iter=15, qrng init) 에서 1.4 mHa 였던 것이 max_iter=80 + tol=1e-6 + seed=42 에서 0.4 µHa 까지 좁혀짐. NM 4D landscape 가 H₂ 2-qubit ansatz 에서 매우 부드러운 단일 basin 임을 강하게 시사.
+
+### 17.5 wall 관측 — qmirror fix 의 효과
+
+이전 selftest (workaround 적용 시):
+- F3 (max_iter=15, qrng): 118 s
+- F2 (max_iter=15, seed=42): 169 s
+
+이번 production smoke (workaround 제거 후, seed=42, max_iter=80):
+- 37.67 s (n_iter=61 까지만 진행하고 converged)
+
+per-iter wall: 37.67/61 = 0.62 s/iter — 이전 selftest 의 ~1.8 s/iter 의 **~3× 빠름**. qmirror fix 가 path inference + fork 효율을 개선한 부수효과로 추정. 단일 run jitter 가능성도 있어 단정 어렵지만 prima facie 큰 개선.
+
+### 17.6 의의
+
+이번 smoke 는 **Phase 1 의 정량 검증 완성**:
+
+- A1: ✓ entropy 시드 → seed_int=42 (explicit, qrng path 안 거침)
+- A2: ✓ ansatz QASM3 → engine=qiskit_aer 확인
+- A3: ✓ Pauli expectation → energy 함수
+- A4: ✓ Nelder-Mead → converged=True at n_iter=61
+- A5: (multi-restart 는 별도, 이번은 single restart 충분)
+- **end-to-end VQE pipeline → H₂ ground state spectroscopic accuracy**
+
+§15.4 의 manual smoke 약속 종결. Phase 1 의 진정한 verdict: **CYCLE_CLOSURE_FULL_QUANTITATIVELY** (delta < 1 µHa).
+
+### 17.7 cumulative cycles after this entry
+
+7 cycles (A1, A2, A3, A4, A5, Cleanup, Production smoke), 14 commits-or-equivalent (이번 cycle 도 commit).
