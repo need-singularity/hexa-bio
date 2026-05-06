@@ -93,45 +93,14 @@ fn n6_match_per_entry(e) {
     return r
 }
 
-// Lanczos approximation of lgamma (g=7, n=9 coefficients) — interp
-// fallback. Accurate to ~1e-10 for x > 0.5; reflection for x ≤ 0.5.
-// Source: Numerical Recipes 3rd Ed. + Wikipedia "Lanczos approximation".
-// (G1-FLOAT-PRIM lgamma builtin is in runtime.c source but the running
-// hexa_interp.real binary predates the G1 land — workaround below.)
-fn _lanczos_lgamma(x: float) -> float {
-    let pi = 3.141592653589793
-    if x < 0.5 {
-        // Reflection: lgamma(x) = log(π / sin(π x)) − lgamma(1 − x)
-        return log(pi / sin(pi * x)) - _lanczos_lgamma(1.0 - x)
-    }
-    let g = 7.0
-    let c0 = 0.99999999999980993
-    let c1 = 676.5203681218851
-    let c2 = 0.0 - 1259.1392167224028
-    let c3 = 771.32342877765313
-    let c4 = 0.0 - 176.61502916214059
-    let c5 = 12.507343278686905
-    let c6 = 0.0 - 0.13857109526572012
-    let c7 = 9.9843695780195716e-6
-    let c8 = 1.5056327351493116e-7
-    let xm = x - 1.0
-    let mut a = c0
-    a = a + c1 / (xm + 1.0)
-    a = a + c2 / (xm + 2.0)
-    a = a + c3 / (xm + 3.0)
-    a = a + c4 / (xm + 4.0)
-    a = a + c5 / (xm + 5.0)
-    a = a + c6 / (xm + 6.0)
-    a = a + c7 / (xm + 7.0)
-    a = a + c8 / (xm + 8.0)
-    let t = xm + g + 0.5
-    return 0.5 * log(2.0 * pi) + (xm + 0.5) * log(t) - t + log(a)
-}
+// G1-FLOAT-PRIM lgamma builtin (runtime.c hexa_math_lgamma) is available
+// in interp + AOT after the 2026-05-07 upstream rebuild — no Lanczos
+// fallback needed.
 
 fn log_beta_binomial_marginal(s: float, n: float, a: float, b: float) -> float {
     // log Γ(a+s) + log Γ(b+n-s) − log Γ(a+b+n) − [log Γ(a) + log Γ(b) − log Γ(a+b)]
-    return _lanczos_lgamma(a + s) + _lanczos_lgamma(b + n - s) - _lanczos_lgamma(a + b + n) -
-        (_lanczos_lgamma(a) + _lanczos_lgamma(b) - _lanczos_lgamma(a + b))
+    return lgamma(a + s) + lgamma(b + n - s) - lgamma(a + b + n) -
+        (lgamma(a) + lgamma(b) - lgamma(a + b))
 }
 
 fn log_h0_random(s: float, n: float, theta: float) -> float {
