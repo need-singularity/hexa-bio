@@ -153,7 +153,30 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 17  | 2026-05-07        | B1-step4   | quantum_vqe_general.py — generalized VQE optimizer                         | F1 H2 + F2 LiH PASS (infrastructure), commit 82effbc |
 | 18  | 2026-05-07        | B1-HF-init | HF init prefix wired through ansatz/h_molecule/expectation                 | LiH d=2 + HF + max_iter=500 → **delta +1.408 mHa** (F-Q-2 PASS), commit dca8977 |
 | 19  | 2026-05-07        | B1-multi   | LiH 5-seed multi-restart with HF + d=2 + pool                              | 4/5 in chem-acc band [1.4, 2.0] mHa, best seed=42 → 1.408 mHa, commit fa27708 |
-| 20  | 2026-05-07        | B2-h2-scan | H2 dissociation curve (11 R points, FCI ref + VQE per point)               | **11/11 sub-µHa**, R_eq exact 0.740 Å, max \|Δ\|=0.8 µHa, mean 0.4 µHa, **F-Q-3 closed PASS**, commit pending |
+| 20  | 2026-05-07        | B2-h2-scan | H2 dissociation curve (11 R points, FCI ref + VQE per point)               | **11/11 sub-µHa**, R_eq exact 0.740 Å, max \|Δ\|=0.8 µHa, mean 0.4 µHa, **F-Q-3 closed PASS**, commit d4f36d5 |
+| 21  | 2026-05-07        | ext-rev-1 | external review batch 1 — AlphaFold 3 + scGPT (5 axes, 4-stage pipeline)    | review §1-§5 land, **F-Q-EXT-1 PASS**, commit ea3d1b4 |
+| 22  | 2026-05-07        | ext-rev-2 | batch 2 — ESM-2/ESMFold + RoseTTAFold + DiffDock (5-stage pipeline)         | review §6-§10, commit 5fa5257 |
+| 23  | 2026-05-07        | ext-rev-3 | batch 3 — RFdiffusion + ProteinMPNN + OpenFold (commercial-OK pipeline)     | review §11-§15, commit 9493d38 |
+| 24  | 2026-05-07        | ext-rev-4 | batch 4 — RhoFold+ + REINVENT + Chroma (axis-mapping table)                 | review §16-§19, commit b1d33c1 |
+| 25  | 2026-05-07        | ext-rev-5 | batch 5 — oxDNA + OpenMM + GeneFormer (WEAVE axis closed in-principle)      | review §20-§23, commit 25eaa58 |
+| 26  | 2026-05-07        | ext-rev-6 | batch 6 — AF2 deep-dive + Boltz-2 ★ + OmegaFold (4-stage compression)       | review §24-§27, commit eb06731 |
+| 27  | 2026-05-07        | ext-rev-7 | batch 7 — caDNAno + DiffSBDD + RNA-FM ecosystem ★ (5 axes commercial-OK)    | review §28-§31, commit 21c2f66 |
+| 28  | 2026-05-07        | ext-synthesis | review synthesis (1-page TL;DR, witness row F-Q-EXT-1, roadmap section)  | docs/external_systems_synthesis_2026_05_07.md, commit 7b9a793 |
+| 29  | 2026-05-07        | ext-rev-tail | batch 8 — ProtTrans (academic-only) addendum + cron loop stop               | review §27.5, commit a388c12 |
+| 30  | 2026-05-07        | upstream-1 | qmirror 4 commits absorbed (3-tier chain + perf + JSON robust + secret-chain) | commit 78dde91 (cycle 49) |
+| 31  | 2026-05-07        | proposals  | upstream kick proposals (qmirror cond.9 / hexa-lang ext_pool / 5 entries)   | docs/upstream_kick_proposals_2026_05_07.md, commit 7cd4eeb (cycle 51) |
+| 32  | 2026-05-07        | boltz-pilot | Boltz-2 outbound-consumer pilot (trp-cage, plddt 0.957, wall 39s)            | **F-Q-EXT-2 PASS**, commit 9f064e8 (cycle 48) |
+| 33  | 2026-05-07        | pmpnn-pilot | ProteinMPNN pilot (5L33+6MRR, recovery 0.39-0.54, wall ~5s)                  | **F-Q-EXT-4 PASS**, commit ae94f70 (cycle 50) |
+| 34  | 2026-05-07        | rhofold-pilot | RhoFold+ pilot (7elpA 45-nt, energy_min -199.98 kcal/mol, wall 689s)       | **F-Q-EXT-5 PASS**, commit 355cd7e (cycle 52) |
+| 35  | 2026-05-07        | pilot-synth | 3-axis pilot synthesis (cross-cutting findings + Phase 2 status table)      | docs/pilot_smokes_synthesis_2026_05_07.md, commit 8f54cbd (cycle 53) |
+| 36  | 2026-05-07        | chain-pilot | ProteinMPNN→Boltz-2 chain (designed seq plddt 0.943) + caDNAno install      | **F-Q-EXT-6 PASS**, commit 84f972d (cycles 54+55) |
+| 37  | 2026-05-07        | cadnano-blocked | caDNAno smoke BLOCKED (numpy ABI + PyQt5 forced load, negative finding)  | **F-Q-EXT-7b BLOCKED**, commit 87d1a6f (cycle 56) |
+| 38  | 2026-05-07        | hexa-runner | hexa-native external_pilot_runner.hexa (5/5 artifacts present, popen_lines) | commit e7d243c (cycle 57) |
+| 39  | 2026-05-07        | quantum-axis | hexa-native quantum/module/quantum.hexa axis top-level                      | commit c9032b7 (cycle 58) |
+| 40  | 2026-05-07        | test-quantum | tests/test_quantum.hexa axis smoke test                                     | commit 511e309 (cycle 59) |
+| 41  | 2026-05-07        | own-2-3   | .own quantum entries (outbound-consumer + cross-session port discipline)      | commit 63ef37e (cycle 60) |
+| 42  | 2026-05-07        | sister-repos | sister-repos brainstorm (13 repos, 4-tier priority) + scadnano blocked     | commit c57221a (cycle 61) |
+| 43  | 2026-05-07        | scadnano-pilot | scadnano pilot PASS (1-helix, JSON 396 bytes, wall 0.002s) — WEAVE closed | **F-Q-EXT-8 PASS**, commit bb0c9a3 (cycle 62) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
@@ -165,6 +188,16 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 - **F-Q-1-spectroscopic** (closed): same, within spectroscopic accuracy (≤ 1 µHa). PASS (smoke 0.4 µHa).
 - **F-Q-2** (closed 2026-05-07): LiH/STO-3G/R=1.5Å chemical accuracy. Best delta = 1.408 mHa via depth=2 hardware-efficient ansatz + HF init prefix |0011⟩ + multi-restart 5 seeds. 4/5 in band [1.4, 2.0] mHa, 1 stuck @ 12.9. See docs §24.
 - **F-Q-3** (closed 2026-05-07): H2 bond-length scan reproduces equilibrium R_eq + dissociation curve within chemical accuracy. **Actual measurement: 11/11 points sub-µHa, max |Δ|=0.8 µHa, mean 0.4 µHa, R_eq match exact (0.740 Å == FCI), E_min(VQE) − E_min(FCI) = 0.2 µHa**. depth=1 + HF init + seed=42. See docs §25.
+- **F-Q-EXT-1** (closed 2026-05-07): external systems review — 22 systems / 5 axes / commercial-OK pipeline mapping. See `docs/external_systems_synthesis_2026_05_07.md`.
+- **F-Q-EXT-2** (closed 2026-05-07): Boltz-2 pilot smoke — trp-cage 20 aa, complex_plddt 0.957, confidence 0.862, wall 39 s.
+- **F-Q-EXT-3** (closed 2026-05-07): qmirror upstream absorption — 4 commits (3-tier chain + perf + JSON robustness + secret-chain naming).
+- **F-Q-EXT-4** (closed 2026-05-07): ProteinMPNN pilot smoke — 5L33+6MRR, seq_recovery 0.39-0.54, wall ~5 s.
+- **F-Q-EXT-5** (closed 2026-05-07): RhoFold+ pilot smoke — 7elpA 45-nt RNA, energy_min -199.98 kcal/mol, wall 689 s.
+- **F-Q-EXT-6** (closed 2026-05-07): chain pilot ProteinMPNN→Boltz-2 — designed seq 105 aa, complex_plddt 0.943.
+- **F-Q-EXT-7** (closed 2026-05-07): caDNAno install OK (v2.5.2.1, BSD-3 + GPLv3 PyQt5).
+- **F-Q-EXT-7b** (BLOCKED 2026-05-07): caDNAno smoke — numpy ABI + PyQt5 forced load. WEAVE axis pivoted to scadnano.
+- **F-Q-EXT-7c** (BLOCKED 2026-05-07): scadnano initial smoke — Color API positional vs hex_string kwarg quirk. Resolved next cycle.
+- **F-Q-EXT-8** (closed 2026-05-07): scadnano pilot smoke — 1-helix scaffold + 1 staple, JSON export 396 bytes, wall 0.002 s. **WEAVE axis operational closure.** All 5 hexa-bio axes now operationally verified.
 - **F-Q-4** (closed 2026-05-06): live ANU end-to-end. PASS: hexa-bio adapter pull --bytes 8 --live → provenance="anu_legacy" tier="anu-legacy" (T1.a, qrng.anu.edu.au) bytes_hex="5f8b2ee823e965cb". qmirror secret-chain fallback chain landed paid/trial/free 키 부재 → legacy 자동. See docs §22.
 - **F-Q-5** (closed 2026-05-06): long-lived bridge wall reduction ≥ 5×. n=15 re-bench measured **31.39×** (fresh 163.41s vs pool 5.21s; pool per-call **0.35s**), 6× threshold 초과 PASS. See docs §18.8.
 - **F-Q-6** (open): drug-target fragment. Awaits C cycle.
