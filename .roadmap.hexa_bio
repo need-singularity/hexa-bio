@@ -376,9 +376,9 @@ remains PENDING with TBD-cycle26 deadline.
 | Gate          | Topic                          | Falsifier (preregister)              | Deadline                | §B row | Status   |
 |---------------|--------------------------------|---------------------------------------|-------------------------|--------|----------|
 | GATE-26-1     | virocapsid-multi-T             | F-VIROCAPSID-2-MULTI-T (= F-VIROCAPSID-3-multi-T sister-naming) | 2026-06-15 (proposed) | C0d | **CLOSED PASS 2026-05-06** (T=3 yield=0.8546 / T=4 yield=0.8545 via `virocapsid_multi_t_calibration.py`) |
-| GATE-26-2     | lean4-mechanical-extension     | F-LEAN4-MECH-EXTEND (new, cross-repo) | TBD-cycle26 (cross-repo)| C0h    | PROMOTED (cross-repo, lean4 layer absent in-repo) |
+| GATE-26-2     | lean4-mechanical-extension     | F-LEAN4-MECH-EXTEND (new, cross-repo) | TBD-cycle26 (cross-repo)| C0h    | **SCAFFOLD LANDED 2026-05-06** (`weave/spec/lean4_mechanical_layer_v0.scaffold.md` + `weave/spec/lean4_proof_witness_v0.schema.json`; cross-repo canonical work still pending; hexa-bio side ready to consume) |
 | GATE-26-3     | weave-pi-p2-np-solver          | F-TP5-b-NP-SOLVER (new)               | 2026-06-15 (proposed)   | C0f    | **CLOSED PASS 2026-05-06** (`weave_pi_p2_verifier_v3_exhaustive.py`; 50/50 v2-vs-v3 agreement on n=50 deterministic bundle sweep — greedy v2 matches exact NP-solver verdict on canonical 12-strand catalogue) |
-| GATE-26-4     | rb-2-inter-rater               | F-RB-2-INTER-RATER (new; ref F-RB-2)  | 2026-06-15 (proposed)   | C0e    | **SCHEMA LANDED 2026-05-06** (`ribozyme/spec/interrater_v1.schema.json`); audit pending ≥2 raters (external) |
+| GATE-26-4     | rb-2-inter-rater               | F-RB-2-INTER-RATER (new; ref F-RB-2)  | 2026-06-15 (proposed)   | C0e    | **PROVISIONAL AI-AUDIT LANDED 2026-05-06** (`_python_bridge/module/ribozyme_interrater_ai_audit.py`; rater_a=paper_ref-keyword-heuristic, rater_b=class+notes-heuristic; `overall_kappa=0.2007` macro-mean, `stratified_log_bf {mean=33.53, min=12.72, max=54.34}` → AND-gate **FAIL**; witness `raw_77_ribozyme_interrater_v1` schema-validates against `ribozyme/spec/interrater_v1.schema.json`). raw_91 honest C3 — AI-rater NOT equivalent to human raters; full PASS still pending ≥2 external human raters. Schema previously landed at `ribozyme/spec/interrater_v1.schema.json`. |
 | GATE-26-5     | nb-2-retest                    | F-NB-2-RUBRIC-NORM (new; ref F-NB-2)  | 2026-06-15 (proposed)   | C0e    | **CLOSED DECISIVE PASS 2026-05-06** (F-NB-2-n6-decorative PASS + F-NB-2-c HONEST NEG (corpus τ/J₂ under-measured) + F-NB-2-b n=60 log_bf=13.65 decisive after dynamic-corpus extension; lattice IS load-bearing post-remediation) |
 | GATE-26-6     | regression-ci-wire             | F-{TP5-b,NB-4,RB-4,VIROCAPSID-3}-REGRESSION (§A.9) | 2026-06-15 (proposed) | C0g    | **CLOSED PASS 2026-05-06** (`selftest/regression_audit.py`; 4/4 F-*-REGRESSION PASS at canonical seed; baseline essential-fields hashes recorded for downstream diff) |
 
@@ -390,13 +390,17 @@ remains PENDING with TBD-cycle26 deadline.
   ≥0.85 reproduced from cycle-25 abstract follow-on with peer-reviewable
   param derivation. **Achieved via `_python_bridge/module/virocapsid_multi_t_calibration.py`** (cycle-25 stretch code, backward_euler stability + integer-power scaling K12_exp=4, K_CLOSE_exp=11): T=3 yield=0.8546 (K12=1.235e-08, K_CLOSE=5.645e-13, mass_drift_rel=1.48e-13), T=4 yield=0.8545 (K12=3.906e-09, K_CLOSE=2.384e-14, mass_drift_rel=4.76e-14). Both ≥ 0.85 target → 2/2 PASS. Falsifier alias: **F-VIROCAPSID-2-MULTI-T** ≡ **F-VIROCAPSID-3-multi-T** (sister-naming reconciled cycle-25-late).
 
-- **[GATE-26-2] PROMOTED (cross-repo) → §B C0h** (deadline TBD-cycle26) —
-  lean4-mechanical-extension (origin §F Cycle 26 candidates). Extend
-  sorry-free Foundation from WEAVE-only to NANOBOT/RIBOZYME/VIROCAPSID in
-  n6-architecture upstream. Falsifier: **F-LEAN4-MECH-EXTEND** (cross-repo;
-  preregister in n6-architecture, not here, per
-  `memory/feedback_cross_repo_canonical.md`). Status PROMOTED here for
-  tracking only; gate body lives upstream.
+- **[GATE-26-2] SCAFFOLD LANDED 2026-05-06 → §B C0h** (cross-repo canonical
+  work still pending; deadline TBD-cycle26) — lean4-mechanical-extension
+  (origin §F Cycle 26 candidates). Extend sorry-free Foundation from
+  WEAVE-only to NANOBOT/RIBOZYME/VIROCAPSID in n6-architecture upstream.
+  Falsifier: **F-LEAN4-MECH-EXTEND** (cross-repo; preregister in
+  n6-architecture, not here, per `memory/feedback_cross_repo_canonical.md`).
+  **Hexa-bio side ready to consume** via in-repo scaffold:
+  `weave/spec/lean4_mechanical_layer_v0.scaffold.md` (theorem signatures
+  for F-CL-FORMAL-1/2/3) + `weave/spec/lean4_proof_witness_v0.schema.json`
+  (witness `raw_77_lean4_proof_witness_v0`). Gate body still lives
+  upstream; consumer contract locked.
 
 - **[GATE-26-3] PROMOTED → §B C0f** (deadline 2026-06-15 proposed) —
   weave-pi-p2-np-solver. Upgrade WEAVE Π^p_2 verifier from greedy heuristic
@@ -405,11 +409,32 @@ remains PENDING with TBD-cycle26 deadline.
   worked examples. Falsifier: **F-TP5-b-NP-SOLVER** (preregister cycle 26
   open).
 
-- **[GATE-26-4] PROMOTED → §B C0e** (deadline 2026-06-15 proposed) —
-  rb-2-inter-rater. F-RB-2 30/30 suspicious-perfect requires κ ≥ 0.6 across
-  n ≥ 2 independent raters before STRUCTURAL-EXACT promotion. Closes one
-  half of §A.6 C0c PASS criterion for RIBOZYME. Falsifier:
-  **F-RB-2-INTER-RATER** (preregister; ref F-RB-2).
+- **[GATE-26-4] PROVISIONAL AI-AUDIT LANDED 2026-05-06 → §B C0e** (deadline
+  2026-06-15 proposed) — rb-2-inter-rater. F-RB-2 30/30 suspicious-perfect
+  requires κ ≥ 0.6 across n ≥ 2 independent raters before STRUCTURAL-EXACT
+  promotion. Closes one half of §A.6 C0c PASS criterion for RIBOZYME.
+  Falsifier: **F-RB-2-INTER-RATER** (preregister; ref F-RB-2).
+  Schema landed at `ribozyme/spec/interrater_v1.schema.json` (draft-07;
+  rater_count, per_axis_kappa, overall_kappa, stratified_log_bf; AND-gate
+  PASS overall_kappa ≥ 0.6 ∧ stratified_log_bf.max < 5.0).
+  PROVISIONAL AI-rater audit landed at
+  `_python_bridge/module/ribozyme_interrater_ai_audit.py` (stdlib only,
+  raw 9 hexa-only): two independent AI-as-rater heuristic re-scorings
+  (rater_a re-derives axes from `paper_ref` keyword/year heuristic only;
+  rater_b re-derives from `ribozyme_class` + `notes` text only, ignoring
+  `paper_ref`). Result: `overall_kappa=0.2007` (macro-mean across 4 axes
+  — `sigma=0.0000` degenerate-marginal, `tau=−0.1972`, `phi=0.0000`
+  degenerate-marginal, `J2=+1.0000`); `stratified_log_bf {mean=33.53,
+  min=12.72, max=54.34}` → AND-gate **FAIL**. Witness
+  `raw_77_ribozyme_interrater_v1` schema-validates. **raw_91 honest C3
+  disclosure** (embedded inline in witness `notes`): AI-rater is NOT
+  equivalent to ≥2 human raters; full GATE-26-4 closure waits for
+  external human raters scoring the same n=30 corpus catalytic-core nt
+  count + reaction-state ladder mapping. The low AI-rater κ (driven by
+  degenerate marginals where both heuristics near-unanimously assign 1
+  on σ/φ axes) reinforces the cycle-25 30/30 suspicion that the rubric
+  is rater-dependent. Audit kickoff (≥2 external human raters scoring
+  corpus) still tracks G26-RB-1 deadline 2026-06-15.
 
 - **[GATE-26-5] PROMOTED → §B C0e** (deadline 2026-06-15 proposed) —
   nb-2-retest. F-NB-2 log_bf=0.16 honest-negative retest with
