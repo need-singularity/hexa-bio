@@ -1,0 +1,148 @@
+# .roadmap.quantum — qpu_bridge bio integration
+
+> ⚛ external quantum-resource bridge for bio/molecular structure.
+> hexa-bio consumer of `~/core/qmirror` (ANU QRNG + Aer state-vector
+> simulator), composed into a VQE pipeline for molecular ground-state
+> energy. Cross-cutting state → `.roadmap.hexa_bio`.
+
+**Last sync**: 2026-05-06 · **Status**: Phase 1 LANDED + production smoke (spectroscopic accuracy) · **Cycle**: 26 (qpu_bridge L1)
+
+**Canonical doc**: [`docs/qpu_bridge_bio_application.md`](docs/qpu_bridge_bio_application.md) (§1–§17)
+
+---
+
+## Terminal goal
+
+분자 Hamiltonian → Pauli string → variational ansatz → ground-state
+energy 의 end-to-end pipeline. Scope ladder:
+
+1. **L0 — H₂ minimal-basis (2 qubit, 6 Pauli terms)** — spec proof. ⬛ **CLOSED 2026-05-06**: end-to-end 0.4 µHa from E0 (spectroscopic accuracy).
+2. **L1 — small-molecule generalize** (LiH 4 qubit, BeH₂ 6 qubit) — single ansatz pattern, multiple Hamiltonian.
+3. **L2 — bond-length / reaction-coordinate scan** — dissociation curve / activation energy reproduction.
+4. **L3 — drug-target binding pocket fragment** (single active site QM/MM split, single-restart VQE).
+5. **L4 — protein-relevant subsystem (예: 활성부위 single-residue)** — pharma-application reach.
+
+Cell DoD pattern (per molecule / system): Hamiltonian Pauli-decomposed
+(literature or PySCF) → ansatz QASM3 → energy(θ) → optimizer → E_min
+within published reference error band → witness row to
+`state/discovery_absorption/registry.jsonl` schema
+`raw_77_quantum_vqe_v1` (lands §STALLED draft when L1 first cell ships).
+
+---
+
+## Checkpoints
+
+| #   | Date              | Gate                                                                                     |
+|-----|-------------------|------------------------------------------------------------------------------------------|
+| C0  | 2026-05-06 closed | F-Q-1 H₂/STO-3G/parity-mapped E0 reproduce within chemical accuracy (1.6 mHa)            |
+| C0' | 2026-05-06 closed | F-Q-1-spectroscopic — production smoke 0.4 µHa from E0 (4000× chem-acc tighter)         |
+| C1  | open              | F-Q-2 LiH 4-qubit Hamiltonian E0 reproduce within chemical accuracy                      |
+| C2  | open              | F-Q-3 H₂ bond-length scan reproduces equilibrium R_eq + dissociation E_dissoc            |
+| C3  | open              | F-Q-4 live ANU tier (NEXUS_QMIRROR_LIVE=1 + ANU_KEY) end-to-end VQE w/ entropy provenance="anu" |
+| C4  | open              | F-Q-5 long-lived bridge ≥ 5× wall reduction vs subprocess-per-call (qmirror Phase 4 합류) |
+| C5  | open              | F-Q-6 drug-target binding pocket fragment VQE (literature reference dataset 1 system)    |
+
+---
+
+## Require (verb-specific)
+
+- **(R-Q1)** External quantum-resource SSOT = `~/core/qmirror` standalone (v2.0.0+, 8/8 cond). hexa-bio is **consumer-only**: never modify qmirror canonical files from this session (memory `feedback_cross_repo_canonical`). The SSOT change of consumers `+="hexa-bio"` lives in qmirror/nexus repo session.
+- **(R-Q2)** raw#9 spirit: stdlib-only Python in `_python_bridge/module/`. `numpy`/`scipy` allowed only when essential (Aer python bridge invocation already concedes `qiskit`). Current pipeline uses no numpy/scipy in hexa-bio code; Aer is invoked via subprocess + JSON.
+- **(R-Q3)** Hamiltonian coefficients: hardcoded per molecule per cycle (Kandala 2017 H₂ baseline). PySCF re-derivation is a separate cycle deliverable; coefficient drift is tracked per-cell in registry rows.
+- **(R-Q4)** Bridge I/O: hexa-bio adapter passes `QMIRROR_ROOT` env explicitly. Other env (HEXA_FORK_CAP, cwd) historically required (cycle-26 cleanup verify, 2026-05-06) but redundant after qmirror's own path/fork robustness fix. Inline history caveat in `quantum_entropy_qmirror.py:145–152`.
+- **(R-Q5)** Falsifier evidence: every closed cell ships a selftest sentinel `__HEXA_BIO_Q*__ ALL PASS` line + a one-shot wall-clock measurement appended to the canonical doc (§17 production-smoke pattern).
+
+---
+
+## Status snapshot
+
+| Metric                          | Current (cycle 26)              | L1 target                       | L2+ stretch        |
+|---------------------------------|---------------------------------|---------------------------------|--------------------|
+| Falsifier count                 | 6 declared, 14 PASS-equiv (Phase 1 + smoke) | 6 (+L1 cells)        | 6 (+L2/L3/L4 cells) |
+| Wall (single energy() call)     | ~0.6–1.8 s (Aer cold-start jitter) | same                         | qmirror Phase 4 → ~0.1 s |
+| Best E delta from H₂ E0 (analytic) | **0.4 µHa** (max_iter=80, seed=42, conv) | (LiH baseline)         | drug-target fragment |
+| External cost                   | $0 (Mac local, mock LCG)       | $0–$10 (live ANU paid tier)    | TBD                |
+| Cross-repo edits                | 0 committed (consumers += pending in nexus session) | as-needed | as-needed |
+
+**Primary constraint**: Aer state-vector simulator scales as 2ⁿ in
+amplitudes (n=qubits); minimal-basis H₂ = 2 qubits, LiH parity-mapped =
+4 qubits, BeH₂ ≈ 6, H₂O ≈ 8, larger systems require qubit-tapering or
+active-space reduction (out of pipeline scope until L3).
+
+---
+
+## Open work — Phase 2 entries (사용자 결정 필요)
+
+각 entry 는 별도 cycle. 사용자가 next entry 결정 시 진행. 모두 mutually independent.
+
+### B1. LiH 4-qubit (C1)
+- Hamiltonian: published parity-mapped LiH/STO-3G coefficients (Kandala 2017 supplement, ~28 Pauli terms).
+- ansatz: hardware-efficient d=1 또는 d=2 layer, 8–16 parameters.
+- 변경 표면: `quantum_pauli_expectation.py` 의 H2_C* 상수 → `lih_pauli.py` 새 모듈; `quantum_ansatz_h2.py` → `quantum_ansatz_he.py` (qubit 수 + layer depth 인자화).
+- selftest F1: 분석 expectation ⟨I⟩=1 등 sanity. F2: VQE → E0 reference within 1.6 mHa.
+- 예상 wall (selftest infra-only): 5–8 분.
+
+### B2. H₂ bond-length scan (C2)
+- 1D scan: R ∈ [0.4, 2.5] Å, 10–15 points.
+- 매 R 마다 PySCF/CCSD-T 또는 hardcoded Hamiltonian re-derive (1회성 dependency: PySCF, raw#10 caveat 명시).
+- output: dissociation curve, R_eq prediction, E_dissoc prediction.
+- selftest: R=0.74 Å 가 E_min ± 0.05 Å 안에서 검출.
+- 예상 wall: 10 points × wall-per-VQE × 3 restart ≈ 30–60 분 production.
+
+### B3. live ANU tier 검증 (C3)
+- 사전조건: `NEXUS_QMIRROR_ANU_KEY` env 사용자 설정.
+- 변경 표면: `quantum_entropy_qmirror.py:qrng_bytes(live=True)` → A4 vqe_h2 호출 시 live=True 전파.
+- 검증: smoke run 1회 → seed_provenance.tier="anu-live" / provenance="anu" 확인 + ANU rate-limit 처리 (60s 간격) 결과로그.
+- 예상 wall: ANU 1 req ≈ 60 s (rate limit) + VQE wall.
+- raw#10 caveat: live ANU 1 회 호출 = 정확성 검증, 다회 호출 production 은 ANU paid tier 또는 batch fetch 패턴.
+
+### B4. long-lived bridge (C4)
+- qmirror `_python_bridge/aer_runner.py` 를 stdin/stdout 영구 process 로 개조 (request loop).
+- hexa-bio 측은 client 만 변경 (long-lived subprocess pool).
+- 효과: ~10× wall 단축 (subprocess cold-start 제거).
+- **cross-repo**: qmirror 측 작업 큰 비중. 사용자 별도 qmirror session 에서. hexa-bio 측은 client adapter 후속 cycle.
+- 의존: qmirror Phase 4 (C/FFI 커널 retire) 로드맵 합류 가능.
+
+### C. drug-target binding pocket fragment (C5)
+- 첫 시스템: 단일 활성부위 (예: HIV protease + 단일 inhibitor active conformation).
+- QM/MM split: 2–6 atom QM region, MM 환경 frozen.
+- Hamiltonian: PySCF active-space 또는 literature 참조.
+- ansatz: 시스템 크기에 맞춰 generalize (B1 의 결과물 재사용).
+- selftest: 1 system, ΔE_binding within 5 kcal/mol 참고 dataset 일치.
+- 예상 wall: 시스템 1 개 production VQE 1–4 시간.
+- pharma ROI 가장 큰 entry; B1+B4 선행 권장.
+
+---
+
+## Cycle history (cycle 26 이전 + 이번)
+
+| #   | Date              | Cycle | 주요 산출물                                                | Witness                                       |
+|-----|-------------------|-------|-----------------------------------------------------------|-----------------------------------------------|
+| 1   | 2026-05-06        | A1    | qmirror entropy adapter (`quantum_entropy_qmirror.py`)    | F1+F2 PASS, commit a356e0c                    |
+| 2   | 2026-05-06        | A2    | ansatz QASM3 builder (`quantum_ansatz_h2.py`)             | F1+F2+F3 PASS, engine=qiskit_aer, commit 5bc0a87 |
+| 3   | 2026-05-06        | A3    | Pauli expectation (`quantum_pauli_expectation.py`)        | F1+F2+F3 PASS, grid E_min=-1.837, commit e039f76 |
+| 4   | 2026-05-06        | A4    | Nelder-Mead optimizer (`quantum_vqe_h2.py`)               | F1+F2+F3 PASS, F3 delta +1.4 mHa, commit 1ddb7f0 |
+| 5   | 2026-05-06        | A5    | multi-restart sweep (`quantum_vqe_h2_sweep.py`) + Phase 1 closure | F1 PASS, best -1.9064 Ha, commit 9bbc9c7 |
+| 6   | 2026-05-06        | Cleanup | post-qmirror-fix workaround revert                      | sweep ALL PASS w/o workarounds, commit 433d3a4 |
+| 7   | 2026-05-06        | Smoke | production single-run max_iter=80                         | E=-1.9153702, **delta +0.4 µHa**, commit b7d6351 |
+
+**Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
+
+---
+
+## Falsifier preregister (C-axis)
+
+- **F-Q-1** (closed): H₂/STO-3G/parity-mapped E0 within chemical accuracy. PASS (selftest A4 F3 + smoke).
+- **F-Q-1-spectroscopic** (closed): same, within spectroscopic accuracy (≤ 1 µHa). PASS (smoke 0.4 µHa).
+- **F-Q-2** (open): LiH same standard. Awaits B1 cycle.
+- **F-Q-3** (open): bond-length scan. Awaits B2 cycle.
+- **F-Q-4** (open): live ANU end-to-end. Awaits B3 cycle.
+- **F-Q-5** (open): long-lived bridge wall reduction ≥ 5×. Awaits B4 + qmirror Phase 4.
+- **F-Q-6** (open): drug-target fragment. Awaits C cycle.
+
+raw#10 honest C3 (cycle-26 closure):
+
+1. mock LCG 결정성으로 multi-restart 다양성 검증 미완 (B3 live ANU 후 진정 검증).
+2. qmirror python bridge 가 매 호출 cold-start (~1.8 s). long-lived bridge (B4) 까지는 perf 한계.
+3. spectroscopic accuracy 결과는 seed=42 single-run; repeat-variance 측정 미완 (별도 sweep production).
+4. cross-repo SSOT (consumers += hexa-bio in `nexus/.roadmap.qmirror`) uncommitted; nexus 세션에서 commit 분리.
