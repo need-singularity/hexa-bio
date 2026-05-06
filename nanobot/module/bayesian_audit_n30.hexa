@@ -129,6 +129,98 @@ fn _applicable_axes(entry) -> int {
     return n
 }
 
+
+// Constant-injectable variants (R5 sunset 2026-05-07): allow ablation
+// runners to override SIGMA_6/TAU_6/PHI_6/J2 without mutating module
+// globals (which hexa let-bindings forbid).
+pub fn _axis_match_flags_c(entry, sigma_t: int, tau_t: int, phi_t: int, j2_t: int) {
+    let s = entry["sigma_observed"]
+    let t = entry["tau_observed"]
+    let p = entry["phi_observed"]
+    let j = entry["J2_observed"]
+    let mut sigma_m = false
+    if (type_of(s) == "int" || type_of(s) == "float") && to_int(s) > 0 {
+        let si = to_int(s)
+        if si == sigma_t || si % sigma_t == 0 { sigma_m = true }
+    }
+    let mut tau_m = false
+    if (type_of(t) == "int" || type_of(t) == "float") && to_int(t) == tau_t { tau_m = true }
+    let mut phi_m = false
+    if (type_of(p) == "int" || type_of(p) == "float") && to_int(p) == phi_t { phi_m = true }
+    let mut j2_m = false
+    if (type_of(j) == "int" || type_of(j) == "float") && to_int(j) > 0 {
+        let ji = to_int(j)
+        if ji == j2_t || ji % j2_t == 0 { j2_m = true }
+    }
+    let r = []
+    r.push(sigma_m); r.push(tau_m); r.push(phi_m); r.push(j2_m)
+    return r
+}
+
+pub fn n6_match_per_entry_c(entry, sigma_t: int, tau_t: int, phi_t: int, j2_t: int) -> int {
+    let flags = _axis_match_flags_c(entry, sigma_t, tau_t, phi_t, j2_t)
+    let mut n = 0
+    let mut i = 0
+    while i < len(flags) { if flags[i] { n = n + 1 }; i = i + 1 }
+    return n
+}
+
+pub fn applicable_axes_per_entry(entry) -> int {
+    return _applicable_axes(entry)
+}
+
+pub fn log_bayes_factor_c(corpus, prior_alpha: float, prior_beta: float, trial_denominator: string, sigma_t: int, tau_t: int, phi_t: int, j2_t: int) {
+    // Pre-compute match counts under the injected constants, attach to a
+    // shadow corpus, then call log_bayes_factor over the cardinal numbers
+    // directly without re-running n6_match_per_entry (which uses module
+    // globals). We replicate the math inline to avoid module-global mutation.
+    let n_corpus = len(corpus)
+    let matches = []
+    let applicable = []
+    let mut k = 0
+    let mut i = 0
+    while i < n_corpus {
+        let m = n6_match_per_entry_c(corpus[i], sigma_t, tau_t, phi_t, j2_t)
+        let app = _applicable_axes(corpus[i])
+        matches.push(m)
+        applicable.push(app)
+        k = k + m
+        i = i + 1
+    }
+    let mut n = 0
+    if trial_denominator == "applicable" {
+        let mut s = 0
+        let mut j = 0
+        while j < len(applicable) { s = s + applicable[j]; j = j + 1 }
+        n = s
+    } else {
+        n = 4 * n_corpus
+    }
+    let a_post = prior_alpha + to_float(k)
+    let b_post = prior_beta + to_float(n - k)
+    let cdf_half = regularized_incomplete_beta(0.5, a_post, b_post)
+    let p_h1 = 1.0 - cdf_half
+    let p_h0 = cdf_half
+    let mut log10_bf = 0.0
+    let mut bf_sentinel = ""
+    if p_h0 <= 0.0 { bf_sentinel = "+inf" }
+    else if p_h1 <= 0.0 { bf_sentinel = "-inf" }
+    else { log10_bf = log(p_h1 / p_h0) / log(10.0) }
+    let r = {}
+    r["n_match"] = k
+    r["n_total"] = n
+    r["posterior_h1"] = p_h1
+    r["posterior_h0"] = p_h0
+    if bf_sentinel == "" {
+        r["log10_bayes_factor_h1_over_h0"] = log10_bf
+        r["log10_bf_sentinel"] = void
+    } else {
+        r["log10_bayes_factor_h1_over_h0"] = void
+        r["log10_bf_sentinel"] = bf_sentinel
+    }
+    return r
+}
+
 fn log_beta_function(a: float, b: float) -> float {
     return lgamma(a) + lgamma(b) - lgamma(a + b)
 }
