@@ -112,6 +112,7 @@ active-space reduction (out of pipeline scope until L3).
 - selftest: 1 system, ΔE_binding within 5 kcal/mol 참고 dataset 일치.
 - 예상 wall: 시스템 1 개 production VQE 1–4 시간.
 - pharma ROI 가장 큰 entry; B1+B4 선행 권장.
+- **외부 흡수 후보**: scGPT (perturbation prediction) → drug target identification, AlphaFold 3 (structure + ligand binding) → active-site residue + pocket geometry. 본 cycle 의 입력 데이터 source 로 활용. See `docs/external_systems_review_2026_05_07.md` §3.3 for the full 4-stage pipeline (scGPT → AlphaFold 3 → hexa-bio quantum → hexa-bio ribozyme).
 
 ---
 
