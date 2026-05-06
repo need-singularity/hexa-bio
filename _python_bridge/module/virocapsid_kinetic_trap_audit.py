@@ -42,6 +42,11 @@ REGISTRY_PATH = os.path.join(
 # Cycle-24 stability-corner params (T=1 STNV).
 T1_CORNER = {"K12": 1e-6, "K21": 1e-4, "K_CLOSE": 1e-7, "K_OPEN": 1e-14}
 
+# Multi-T calibrated params from virocapsid_multi_t_calibration.py
+# (registry rows raw_77_virocapsid_multi_t_v1, T=3 / T=4).
+T3_PARAMS = {"K12": 1.235e-08, "K21": 1.000e-04, "K_CLOSE": 5.645e-13, "K_OPEN": 1.000e-14}
+T4_PARAMS = {"K12": 3.906e-09, "K21": 1.000e-04, "K_CLOSE": 2.384e-14, "K_OPEN": 1.000e-14}
+
 PASS_R_AGG = 0.15
 PASS_RATIO_ABERRANT = 0.18
 
@@ -94,14 +99,57 @@ def run_trap_audit(c0: float, t_end: float = 10000.0, dt: float = 0.01) -> dict:
     }
 
 
+def _multi_t_verdict(all_audits: dict) -> dict:
+    """Aggregate per-T trap results into F-VIROCAPSID-4-c verdict.
+    PASS criterion: y_aberrant/y_closed_shell < 0.18 at t_end for ALL T values."""
+    per_t = {}
+    all_pass = True
+    for t_num, ad in all_audits.items():
+        ratio = ad["ratio_aberrant_to_closed"]
+        ratio_pass = (ratio is not None) and (ratio < PASS_RATIO_ABERRANT)
+        per_t[f"T{t_num}"] = {
+            "y_aberrant_max": ad["y_aberrant_max"],
+            "y_closed_final": ad["y_closed_final"],
+            "ratio_aberrant_to_closed": ratio,
+            "ratio_pass": ratio_pass,
+        }
+        if not ratio_pass:
+            all_pass = False
+    return {
+        "verdict": "PASS" if all_pass else "FAIL",
+        "criterion": "y_aberrant / y_closed_shell < 0.18 at t_end across T=1, T=3, T=4",
+        "per_t": per_t,
+        "pass_threshold": PASS_RATIO_ABERRANT,
+    }
+
+
+def run_multi_t_audit() -> dict:
+    """Run trap audit at T=1 / T=3 / T=4. Returns dict keyed by T-number."""
+    out = {}
+    _override_params(T1_CORNER)
+    out[1] = run_trap_audit(c0=60.0)
+    _override_params(T3_PARAMS)
+    out[3] = run_trap_audit(c0=180.0)
+    _override_params(T4_PARAMS)
+    out[4] = run_trap_audit(c0=240.0)
+    return out
+
+
 def main(argv: list[str]) -> int:
     p = argparse.ArgumentParser(description="F-VIROCAPSID-4 kinetic-trap audit")
     p.add_argument("--emit", action="store_true")
     p.add_argument("--summary", action="store_true")
+    p.add_argument("--multi-t", action="store_true", help="Run T=1+T=3+T=4 (closes -4-c)")
     args = p.parse_args(argv)
 
-    _override_params(T1_CORNER)
-    audit = run_trap_audit(c0=60.0)  # 60 subunits = T=1 baseline
+    if args.multi_t:
+        all_audits = run_multi_t_audit()
+        # Use T=1 as primary canonical; aggregate per-T results.
+        audit = all_audits[1]
+    else:
+        all_audits = None
+        _override_params(T1_CORNER)
+        audit = run_trap_audit(c0=60.0)  # 60 subunits = T=1 baseline
 
     r_agg_pass = audit["y_aberrant_max"] < PASS_R_AGG
     ratio = audit["ratio_aberrant_to_closed"]
@@ -124,9 +172,9 @@ def main(argv: list[str]) -> int:
             "threshold": PASS_RATIO_ABERRANT,
             "criterion": "y_aberrant / y_closed_shell < 0.18 at t_end",
         },
-        "f_virocapsid_4_c": {
+        "f_virocapsid_4_c": _multi_t_verdict(all_audits) if all_audits else {
             "verdict": "DEFERRED",
-            "reason": "Multi-T (T=3 + T=4) trap audit deferred — needs port of trajectory accounting to multi-T calibration code (T=3 c0=180, T=4 c0=240). Mapping to V-R2 (C4 already PASS).",
+            "reason": "Multi-T (T=3 + T=4) trap audit deferred — run with --multi-t to close.",
         },
     }
 
