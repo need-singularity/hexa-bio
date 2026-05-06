@@ -21,7 +21,7 @@ cycle-46 review synthesis 가 5-axis pipeline mapping 을 종이로 식별했다
 | RIBOZYME | RhoFold+ | **136 s** inference + 473 s Amber relax | unrelaxed PDB + relaxed PDB + ss.ct + npz | energy_min -199.98 kcal/mol | 52 (commit 355cd7e) |
 
 남은 axes:
-- **WEAVE (DNA)**: caDNAno (BSD-3 Python API) + oxDNA (GPL subprocess). pilot 미완. caDNAno 는 pip install 가능; oxDNA 는 build dep 큼.
+- **WEAVE (DNA)**: caDNAno (BSD-3 Python API) + oxDNA (GPL subprocess). pilot 미완. **★ cycle 56 갱신**: caDNAno 2.5.2.1 의 model code 가 PyQt5 (GPLv3) 강제 import + numpy 1.x deprecated `umath_tests.inner1d` 의존 — 우리 Python 3.12 / numpy 1.26 환경에서 invasive patching 없이 smoke 불가. review §28.2 의 "Python API only 로 GUI 회피" 주장 invalidated. 대안 path: scadnano (MIT JS) / Adenita (BSD) / ATHENA (academic) / oxDNA 직접 input (GPL subprocess) / 사용자 별도 conda env (Python 3.7 legacy). 본 cycle 의 정직 negative finding 으로 docs+registry 에 기록 (registry row `raw_77_cadnano_smoke_blocked_v1`).
 
 3/5 = 60% axes 운영 검증. 나머지 2/5 = WEAVE pilot 가능 (caDNAno 단독으로도 가치) + 단순한 design pipeline (RFdiffusion → ProteinMPNN → ESMFold/OpenFold) full chain pilot 미완.
 
