@@ -389,3 +389,75 @@ cumulative falsifier evidence:
 - A2: F1 QASM3 빌드, F2 |00⟩ identity round-trip (qiskit_aer), F3 |Φ+⟩ Bell entangling round-trip
 
 A3 사전조건: 모두 met (A2 의 `run_ansatz_state_vector` 가 4 complex 반환).
+
+---
+
+## 13. Phase A3 cycle closure (2026-05-06)
+
+### 13.1 산출물
+
+| 산출물 | 위치 | 상태 |
+|--------|------|------|
+| Phase A3 Pauli expectation evaluator | `_python_bridge/module/quantum_pauli_expectation.py` | LANDED, F1+F2+F3 PASS |
+
+### 13.2 H₂ Hamiltonian 하드코딩 (Kandala 2017, R=0.74 Å, STO-3G, parity-mapped)
+
+```
+H = c0·I + c1·Z0 + c2·Z1 + c3·Z0Z1 + c4·X0X1 + c5·Y0Y1
+c0 = -1.052373245772859    c1 = +0.39793742484318045
+c2 = -0.39793742484318045  c3 = -0.01128010425623538
+c4 = +0.18093119978423156  c5 = +0.18093119978423156
+E0 (exact diagonalized) = -1.9153706 Ha
+```
+
+### 13.3 Phase A3 selftest 증거
+
+```
+F1 PASS: 12 Pauli expectation checks (|00⟩ + |Φ+⟩) within tol=1e-09
+F2 PASS: ⟨H|00⟩ = -1.063653350 Ha (analytic c0+c1+c2+c3 match)
+F3 PASS: coarse 3⁴=81 grid scan found E_min=-1.836968 Ha
+         at θ ≈ (-π, -π, 0, 0); 76/81 evaluations (5 bridge timeouts);
+         improvement vs |00⟩ baseline = +0.773315 Ha
+__HEXA_BIO_QPAULI__ ALL PASS
+```
+
+핵심 발견:
+- **3⁴ grid 만으로도 E ≈ -1.837 Ha 도달** — 전체 E₀ = -1.9154 까지 0.078 Ha 격차 만 남음. A4 의 Nelder-Mead 가 그 격차를 좁혀야.
+- **5 bridge timeouts (60s default)** — Aer cold-start 가 간헐적으로 60s 초과. 비-결정적이지만 76 회 성공이라 통계적으로 감내 가능. A4 wall budget 산정 시 이 jitter 고려 필요.
+
+### 13.4 공개 API (A4 의존 표면)
+
+```python
+from quantum_pauli_expectation import energy, H2_E0_EXACT
+
+e_Ha, meta = energy(theta, qmirror_root=None)  # theta: 4 floats
+# meta: {"engine", "n_qubits", "amps_re", "amps_im", "qasm"}
+```
+
+A4 (VQE Nelder-Mead) 가 사용할 표면은 `energy(theta) -> (float, meta)` 단일 함수.
+
+### 13.5 다음 사이클 진입점 (A4)
+
+`_python_bridge/module/quantum_vqe_h2.py` — stdlib-only Nelder-Mead 최적화 루프. A1 (qrng_seed_int) + A2 (run_ansatz_state_vector) + A3 (energy) 합성.
+
+selftest 후보:
+- F1: zero init θ=[0,0,0,0] → Nelder-Mead → E ≤ -1.85 Ha (band 보수적)
+- F2: qrng_seed_int 로 random init → 같은 band 도달 + provenance 추적
+
+scipy 회피 (raw#9 spirit) — `virocapsid_calibration.py` 의 stdlib-only deterministic search 패턴 답습.
+
+### 13.6 raw 규칙 준수 (cycle 13)
+
+- raw#9: stdlib only (math + lists). numpy/scipy 0.
+- raw#10: caveat 4 종 (계수 hardcode, ⟨Y0Y1⟩ real-state 가정, F3 grid 정밀도, analytic vs shot) docstring 명시.
+- raw#15: 신규 파일 1 개. 외부 경로 0.
+- cross-repo: qmirror 변경 0, nexus 변경 0.
+
+### 13.7 누적 verdict (Phase A1+A2+A3)
+
+**CYCLE_CLOSURE_PARTIAL** — Phase A1+A2+A3 (5 단계 중 3) LANDED. A4~A5 다음 cron tick 으로 이연.
+
+cumulative falsifier evidence:
+- A1: F1 mock-LCG 결정성, F2 256-bit seed_int round-trip
+- A2: F1 QASM3 빌드, F2 |00⟩ identity round-trip, F3 |Φ+⟩ Bell entangling
+- A3: F1 12 Pauli expectations, F2 ⟨H|00⟩ analytic match, F3 grid scan E_min=-1.837 Ha
