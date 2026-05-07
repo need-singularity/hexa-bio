@@ -203,6 +203,7 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 67  | 2026-05-07        | **F-Q-6-B2-uccsd PASS** ⭐ | H2O 4e/4o UCCSD VQE — n_qubits=6 / n_params=26 / n_pauli=103 / **delta 0.6338 mHa chem-acc PASS** vs CASCI(4,4); wall 1111 s (18.5 min) | F-Q-6-B2 UNLOCK (cycle 85) |
 | 68  | 2026-05-07        | docs(quantum) | closure_summary.hexa F-Q-6 Phase A+B reflection + 4 Python adapters listed | commit 53560cd (cycle 85) |
 | 69  | 2026-05-07        | **F-Q-6-B-real entry PASS** ⭐⭐⭐ | aspirin (13 heavy, wall 4 min) + **nirmatrelvir** (50 heavy = real Paxlovid drug, wall 62 min) build PASS, 2 qubit / 9 Pauli terms each (2e/2o active-space) | (cycle 89) |
+| 70  | 2026-05-07        | **F-Q-6-B-real-aspirin VQE PASS** ⭐ | aspirin 2e/2o → hardware-eff depth=1 VQE → **sub-µHa 0.401 µHa** of CASCI ref; n_iter 50 converged; first real-drug VQE PASS | (cycle 90) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
