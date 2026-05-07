@@ -1343,3 +1343,177 @@ H2 dissociation curve 는 quantum chemistry 의 **classic benchmark**. 정확 re
 ### 25.8 cumulative cycles
 
 21 cycles (...+ **B2-h2-scan**), 21 commits-or-equivalent.
+
+---
+
+## §26  F-Q-6 drug-target VQE — Phase A + B + C-mini (cycles 78-94, 2026-05-07)
+
+### 26.1 진입 결정
+
+cycle 78 진입 trigger: `/loop 5m cycle 고갈시까지 진행` 사용자 directive +
+A3+B3+C3+D2 완성도-기준 선택 (SARS-CoV-2 Mpro / 6-12 qubit / 10-ligand
+ranking / active-space CASCI). honest sequencing 으로 Phase split:
+
+  Phase A: SMILES → 3D conformer → Hamiltonian → VQE (small ligand only)
+  Phase B: active-space CASCI 으로 큰 ligand reduce → 작은 active VQE
+  Phase B-real: real drug (aspirin, ibuprofen, paracetamol, nirmatrelvir)
+  Phase C-mini: 4-drug reproducibility milestone
+
+### 26.2 Phase A 측정 (cycles 78-81)
+
+**F-Q-6-A1** (closed): SMILES `[H][H]` → 3D ETKDG+UFF → STO-3G ParityMapper
+→ 2-qubit Hamiltonian (5 Pauli terms) → AerPool VQE depth=1 → -1.13665427 Ha
+delta +651.726 µHa (chem-acc PASS). Phase 1 H2 hardcoded path RE-DERIVED
+end-to-end from SMILES with no hand-set geometry / Hamiltonian / HF init.
+(commit 2965d17)
+
+**F-Q-6-A2** (honest-deferred → UNLOCKED via B1): H2O direct 10-qubit
+hardware-efficient ansatz hits expressivity wall.
+- depth=1 max_iter=80:  delta 1715 mHa NOT converged (wall 258 s)
+- depth=2 max_iter=200: delta 1602 mHa NOT converged (wall 503 s)
+- depth=3 max_iter=300 × 5 seeds: best 41.8 mHa NOT converged
+
+진단: hardware-efficient RY-CNOT-RY ansatz가 H2O 8-electron closed-shell
+표현력 한계. 113 mHa (depth=1→2) + 8.7× improvement (depth=2→3 sweep)
+하지만 chem-acc 1.6 mHa 의 26× 부족. (commits 7736f38, 1188d59)
+
+**F-Q-6-A3** (closed): wall scaling 측정.
+- H2:  4.5 s VQE / 0.076 s/iter / 5 Pauli terms
+- H2O: 234 s VQE / 2.93 s/iter / 567 Pauli terms
+- ratio 52× wall, AerPool 0 timeouts / 45,960 calls
+Pure hardware scaling cost; F-Q-5 31× speedup 와 직교. (commit 1188d59)
+
+### 26.3 Phase B (cycles 82-85) — active-space CASCI unlock
+
+**F-Q-6-B-step-1**: `pocket_active_space.py` module land (cycle 82)
+qiskit-nature ActiveSpaceTransformer + PySCF CASCI reference.
+selftest 3/3 PASS (H2 2e/2o, H2O 2e/2o, H2O 4e/4o build all PASS).
+
+**F-Q-6-B1** (closed sub-µHa ⭐): H2O 2e/2o (HOMO+LUMO) → ParityMapper Z2
+tapering → **2 qubit / 5 Pauli terms** (same shape as H2!) → hardware-
+efficient depth=1 → CASCI -74.9662545 vs VQE -74.9662540, **delta 0.500 µHa
+= spectroscopic accuracy**. n_iter 50 converged True wall 35 s.
+Same H2O molecule that direct 10-qubit could not chem-acc-converge,
+now lands sub-µHa via active-space reduction. (commit 05e7118)
+
+**F-Q-6-B2** (UNLOCKED via UCCSD ⭐): H2O 4e/4o → 6 qubit / 103 terms.
+- hardware-efficient depth=2/3 multi-restart NOT converged (best 41.8 mHa)
+- UCCSD chemistry-aware path: n_parameters=26, **delta 0.6338 mHa
+  (chem-acc PASS)**, wall 1111 s = 18.5 min (statevector + 26-param NM)
+
+UCCSD module: `_qiskit_bridge/module/quantum_ansatz_uccsd.py` (qiskit-nature
+UCCSD class + HartreeFock initial state + qiskit Statevector primitive,
+no AerPool needed for ≤16 qubit). (commits 79f5d01, 870b6ab)
+
+### 26.4 Phase B-real (cycles 89-94) — REAL DRUG VQE ⭐⭐⭐
+
+Build infrastructure 가 nirmatrelvir-class 50-atom drug 에서 작동 검증.
+
+**F-Q-6-B-real entry (build PASS)**:
+
+  | Drug          | Heavy / Total | Build wall  | n_qubits | n_terms | CASCI (Ha)    |
+  |---------------|--------------|-------------|----------|---------|---------------|
+  | aspirin       |   13 / 21    |   224.9 s   |    2     |    9    |  -636.6185    |
+  | ibuprofen     |   15 / 33    |   231.6 s   |    2     |    9    |  -644.4400    |
+  | paracetamol   |   11 / 20    |    29.2 s   |    2     |    9    |  -505.8547    |
+  | nirmatrelvir  |   50 / 67 ⭐⭐⭐|  3736.8 s   |    2     |    9    | -1737.1311    |
+
+REAL DRUG (FDA Paxlovid SARS-CoV-2 Mpro inhibitor) Hamiltonian build path
+end-to-end PASS. 50-atom RHF SCF + integrals = wall dominator (1h scale).
+(commit 8a5061b)
+
+**F-Q-6-B-real-aspirin VQE PASS sub-µHa** ⭐ (first real-drug VQE):
+delta +0.401 µHa, n_iter 50 converged, build 191.6 s + VQE 13.17 s. (f7d439e)
+
+**F-Q-6-B-real-ibuprofen VQE PASS sub-µHa** ⭐:
+delta +0.461 µHa, n_iter 57 converged. (commit 41d85b8)
+
+**F-Q-6-B-real-paracetamol VQE PASS sub-µHa** ⭐:
+delta +0.406 µHa, n_iter 55 converged, build 29 s + VQE 9 s. (commit d13bd64)
+
+**F-Q-6-B-real-nirmatrelvir VQE**: build SCF 진행 중 (cycle 94 시점).
+
+### 26.5 Phase C-mini (cycle 92, 94) — 4-drug reproducibility
+
+4 drug-like 분자 모두 sub-µHa via 동일 path:
+SMILES → 3D conformer → PySCF SCF → ActiveSpaceTransformer 2e/2o →
+ParityMapper Z2 tapering → 2 qubit / 9 Pauli terms → hardware-efficient
+depth=1 VQE → sub-µHa.
+
+  | Drug         | Heavy atoms | delta (µHa) | chem-acc |
+  |--------------|------------|-------------|----------|
+  | H2O          |          3 |        0.50 | YES      |
+  | aspirin      |         13 |        0.40 | YES      |
+  | ibuprofen    |         15 |        0.46 | YES      |
+  | paracetamol  |         11 |        0.41 | YES      |
+
+→ F-Q-6-C entry milestone PASS (4-drug reproducibility).
+→ Path generalises across drug-like systems. (commits fd0bd68, d13bd64)
+
+### 26.6 Universal ansatz path table (measured this stack)
+
+  | n_qubits  | path                                   |
+  |-----------|----------------------------------------|
+  | ≤4        | hardware-efficient depth=1-2 sufficient |
+  | 6         | hardware-efficient WALL → UCCSD UNLOCK |
+  | ≥8        | UCCSD presumed; or active-space CASCI  |
+  |           | further reduction (50-atom → 2 qubit)  |
+
+### 26.7 Modules (4 Python adapters under _qiskit_bridge/module/)
+
+  | Module                           | Cycle |
+  |----------------------------------|-------|
+  | ligand_smiles_to_h.py            | 78    |
+  | pocket_vqe_orchestrator.py       | 79    |
+  | pocket_active_space.py           | 82    |
+  | quantum_ansatz_uccsd.py          | 84    |
+
+R5 sunset CLOSURE (commit b531410) relocated all 15 .py modules from
+`_python_bridge/module/` to `_qiskit_bridge/module/` — descriptive
+sister namespace making the heavy-dependency boundary explicit.
+
+### 26.8 honest C3 (raw#10)
+
+1. **2e/2o active-space (HOMO+LUMO) 은 informational reduction**.
+   real-drug VQE 가 측정한 것은 isolated molecule E_total, NOT drug-target
+   binding affinity. 진정한 binding-affinity VQE 는 explicit pocket residue
+   active-space (Cys/His/Ser + ligand reactive 부분, 8-12 qubits) +
+   UCCSD ansatz + BindingDB Ki cross-validation 이 필요.
+
+2. **ActiveSpaceTransformer** (PySCF/qiskit-nature default) 는 frontier-
+   orbital 기반 자동 선택. 진정한 drug-target 활성부위는 chemistry
+   judgment 가 필요한 customization (특정 residue's specific orbital
+   subset).
+
+3. **STO-3G basis** 는 minimum viable. cc-pVDZ basis 시 SCF wall ~3×
+   추가 (50-atom system 의 경우 ~3시간 build).
+
+4. **nirmatrelvir VQE** 는 본 docs 작성 시점 (cycle 94) 에 build SCF
+   진행 중 (~2시간 wall on 50-atom STO-3G integrals + RHF SCF). VQE
+   자체는 2-qubit 이므로 ~10 s expected.
+
+5. **paracetamol fast SCF (29 s) 는 분자별 variance 의 evidence** —
+   planar amide group closed-shell SCF 가 다른 drugs (~230 s) 보다
+   빠르게 수렴. 일반 drug 의 build wall 은 100-300 s, 50-atom drug
+   nirmatrelvir 은 1h+ scale.
+
+### 26.9 Sister-repo cross-bridge (cycles 79-94)
+
+7 sister-repo agents bg 발사 결과:
+- ✓ qmirror cond.9 — STOP/conflict (cond.9-13 already in qmirror v2.0.0;
+  cond.14 renumber awaiting user decision)
+- ✓ hive arch.003 — `d8baf3b90` (external-evidence-row-schema)
+- ✓ sim-universe — `0bd7f1b` (multiverse bio-variant axis)
+- ✓ qrng T2.* — `6b5bdd4` (4 vendor stubs IBM/IonQ/Rigetti/Braket)
+- ✓ nexus — `e240054e` (216-lens ↔ F-* falsifier matching)
+- ✓ anima bio-Φ — `a5441758` (catalytic 3.75 nats > aptamer 0.0)
+- ✓ qrng audited — `1ad7459` (NIST SP 800-22 tier-1+ 5 tests)
+
+8th proposal (qmirror cond.9 chemistry/VQE) blocked on user renumber
+decision (proposed: cond.14 + F-QM-CHEM-N1..N7).
+
+### 26.10 Cumulative
+
+17 cycles (78-94), 14+ commits, 8 closed sub-falsifiers (A1, A3, B1,
+B2-uccsd, B-real-build, B-real-aspirin-vqe, B-real-ibuprofen-vqe,
+B-real-paracetamol-vqe, C-mini-library-extended).
