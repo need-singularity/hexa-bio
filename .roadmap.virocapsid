@@ -142,3 +142,40 @@ status 마커: DRIFT · STALE · UNDEFINED · AMBIGUOUS · BLOCKED · DANGLING.
 
 `docs/n6/hexa-virocapsid.md` (symlink to
 `~/core/n6-architecture/domains/biology/hexa-virocapsid/hexa-virocapsid.md`)
+
+---
+
+## 신규 약물 기준 재구성 (2026-05-07 cycle 110)
+
+본 VIROCAPSID axis 의 main work scope 가 hexa-bio 의 신규 약물 (de novo drug) lifecycle 안에서 representative role 로 reframe. 기존 F-VIROCAPSID-* falsifier (icosahedral T=1 60-subunit cage + kinetic-trap audit) 는 axis canonical 보존; novel drug delivery context 의 representative falsifier path 추가.
+
+cross-link:
+- `.roadmap.novel_drugs` — de novo drug list (initial 5 hxq-* candidates)
+- `.roadmap.fda_drug_verification` — verification phase historical
+- `.roadmap.meta_novel_drugs` — 5-axis representative + 6-stage lifecycle (§1.3 VIROCAPSID)
+- `.roadmap.disease_{cancer,alopecia,mi,lung_normalization}` — disease-specific Phase α-δ
+
+### Novel drug contribution (VIROCAPSID axis)
+
+- **novel mRNA-LNP encapsulation** — cancer neoantigen vaccine / IPF gene therapy / cardiac regenerative
+- **novel AAV capsid tissue-tropism** — cardiotropic AAV6/9 (mi) / lung-tropic (lung_normalization) / hair-follicle (alopecia)
+- **viral capsid kinetic-trap audit** — novel capsid 의 self-assembly stability (F-VIROCAPSID-3 cycle 31)
+- **icosahedral T=1 60-subunit cage** — novel vaccine antigen presentation
+- COVID-class antiviral cross-link: F-Q-6-B-real-nirmatrelvir-vqe (cycle 97 sub-µHa) + viral RNA cleavage RIBOZYME axis
+
+### Representative falsifier (novel drug 기준)
+
+| ID                  | scope (novel drug context)                                |
+|---------------------|----------------------------------------------------------|
+| F-novel-ca-V-N      | mRNA-LNP neoantigen vaccine for hxq-ca-* (BNT122-class)   |
+| F-novel-al-V-N      | follicle stem-cell mRNA-LNP gene therapy for hxq-al-*     |
+| F-novel-mi-V-N      | cardiotropic AAV6/9 delivery for hxq-mi-*                 |
+| F-novel-ln-V-N      | lung-tropic mRNA-LNP / AAV (CFTR/COVID/IPF) for hxq-ln-*  |
+| F-novel-V-cross-N   | per-novel-drug 5-axis Stage 3 delivery validation         |
+
+### Phase plan (novel drug 기준)
+
+- Phase α: each disease 의 hxq-* 의 delivery modality 결정 (mRNA-LNP vs AAV vs naked)
+- Phase β: novel capsid / LNP encapsulation efficiency > threshold
+- Phase γ: tissue-selectivity in vitro / mock-cell pilot
+- Phase δ: cross-axis Stage 3 — hxq-* + VIROCAPSID delivery + RIBOZYME mechanism

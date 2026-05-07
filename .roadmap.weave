@@ -197,3 +197,39 @@ Checkpoints table; GATE-26-2 stays in §G pending lean4 theorem-ref work.
 
 `docs/n6/hexa-weave.md` (symlink to
 `~/core/n6-architecture/domains/biology/hexa-weave/hexa-weave.md`)
+
+---
+
+## 신규 약물 기준 재구성 (2026-05-07 cycle 110)
+
+본 WEAVE axis 의 main work scope 가 hexa-bio 의 신규 약물 (de novo drug) lifecycle 안에서 representative role 로 reframe. 기존 F-WEAVE-* falsifier (write-side multi-strand molecular design + scadnano scaffold) 는 axis canonical 보존; novel drug DNA-scaffold-delivery context 의 representative falsifier path 추가.
+
+cross-link:
+- `.roadmap.novel_drugs` — de novo drug list (initial 5 hxq-* candidates)
+- `.roadmap.fda_drug_verification` — verification phase historical
+- `.roadmap.meta_novel_drugs` — 5-axis representative + 6-stage lifecycle (§1.2 WEAVE)
+- `.roadmap.disease_{cancer,alopecia,mi,lung_normalization}` — disease-specific Phase α-δ
+
+### Novel drug contribution (WEAVE axis)
+
+- **novel DNA-origami scaffold** — folate-targeted (cancer) / transferrin (BBB cross) / aptamer (HER2/CD20)
+- **novel scaffold + drug payload smoke** — covalent (intercalation) 또는 non-covalent (groove binding) loading
+- **microenvironment-responsive release** — pH (tumor) / temperature (cancer hyperthermia) / specific aptamer trigger
+- **AlphaFold 3 / scadnano** scaffold design — F-WEAVE-EXT-8 (cycle 62 scadnano pilot smoke evidence)
+
+### Representative falsifier (novel drug 기준)
+
+| ID                  | scope (novel drug context)                                |
+|---------------------|----------------------------------------------------------|
+| F-novel-ca-W-N      | folate/transferrin/aptamer scaffold tumor delivery for hxq-ca-* |
+| F-novel-al-W-N      | follicle-targeted DNA scaffold uptake for hxq-al-*        |
+| F-novel-mi-W-N      | foam-cell-targeted (CD68/SR-A) scaffold for hxq-mi-*      |
+| F-novel-ln-W-N      | inhalable DNA-origami alveolar-uptake for hxq-ln-*        |
+| F-novel-W-cross-N   | per-novel-drug 5-axis Stage 3 delivery validation         |
+
+### Phase plan (novel drug 기준)
+
+- Phase α: each disease 의 hxq-* 의 DNA-scaffold compatibility 검증 (intercalation / groove-binding / chemical conjugation)
+- Phase β: novel scaffold targeted-uptake > non-targeted control (in vitro mock cell line)
+- Phase γ: microenvironment-responsive release demonstration
+- Phase δ: cross-axis Stage 3 — hxq-* + WEAVE scaffold + 다른 axis (VIROCAPSID capsid / NANOBOT precision) 결합

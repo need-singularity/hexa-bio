@@ -229,3 +229,39 @@ PASS criterion → deadline → status).
 
 `docs/n6/hexa-ribozyme.md` (symlink to
 `~/core/n6-architecture/domains/biology/hexa-ribozyme/hexa-ribozyme.md`)
+
+---
+
+## 신규 약물 기준 재구성 (2026-05-07 cycle 110)
+
+본 RIBOZYME axis 의 main work scope 가 hexa-bio 의 신규 약물 (de novo drug) lifecycle 안에서 representative role 로 reframe. 기존 F-RB-* falsifier 와 4-state catalytic ladder evidence 는 axis canonical 으로 보존; novel drug context 의 representative falsifier path 추가.
+
+cross-link:
+- `.roadmap.novel_drugs` — de novo drug list (initial 5 hxq-* candidates)
+- `.roadmap.fda_drug_verification` — verification phase historical
+- `.roadmap.meta_novel_drugs` — 5-axis representative + 6-stage lifecycle (§1.4 RIBOZYME)
+- `.roadmap.disease_{cancer,alopecia,mi,lung_normalization}` — disease-specific Phase α-δ
+
+### Novel drug contribution (RIBOZYME axis)
+
+- **novel hammerhead/hairpin ribozyme variant design** — target-specific catalytic RNA cleavage of disease mRNA
+- **antisense oligonucleotide design** — gapmer / steric-blocker / siRNA / miRNA antagomir
+- **4-state catalytic ladder** (substrate / TS / cleaved / released) Eyring TST k_cat — novel ribozyme catalytic efficiency
+- **aptamer null comparison** — catalytic vs non-catalytic discrimination (F-RB-1-c)
+- sister-repo: anima bio-Φ (cycle 89) + sim-universe multiverse (cycle 80) 가 novel ribozyme variant ensemble 의 KS-test + Φ ratchet evidence
+
+### Representative falsifier (novel drug 기준)
+
+| ID                  | scope (novel drug context)                                |
+|---------------------|----------------------------------------------------------|
+| F-novel-ca-RB-N     | oncogenic mRNA cleavage (MYC/KRAS antagomir) for hxq-ca-* |
+| F-novel-al-RB-N     | DKK1 antagomir / Wnt modulation for hxq-al-*              |
+| F-novel-mi-RB-N     | apoB/PCSK9 mRNA cleavage (inclisiran-class) for hxq-mi-*  |
+| F-novel-ln-RB-N     | TGF-β/IL-6/SARS-CoV-2 viral RNA cleavage for hxq-ln-*     |
+| F-novel-RB-cross-N  | per-novel-drug 5-axis Stage 4 mechanism validation        |
+
+### Phase plan (novel drug 기준)
+
+- Phase α: each disease 의 hxq-* 후보의 mRNA target 정의 + 4-state ladder modeling
+- Phase β: novel ribozyme variant 의 k_cat > threshold (F-RB-* path 확장)
+- Phase γ: hxq-* + ribozyme target mRNA modulation cross-axis pilot
