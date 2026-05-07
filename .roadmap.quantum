@@ -227,6 +227,7 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 91  | 2026-05-07        | **F-Q-EXT-qmirror-cond-14 PASS** ⭐⭐⭐ | qmirror v2.1.0 release `8047011` — chemistry_vqe cond.14 (14/14 closure). N5 H2 0.000483 µHa, N6 H2O 4e/4o UCCSD 0.65 mHa chem-acc. F-Q-6-A2 honest-deferred resolved upstream | F-Q-EXT-15 (cycle 106) |
 | 92  | 2026-05-07        | **8/8 sister-repo proposals COMPLETE** ⭐⭐⭐⭐⭐ | 7 PASS (qmirror/hive/sim-universe/qrng-T2/nexus/anima/qrng-audited) + 1 user-direct (hexa-lang). 모든 upstream cross-bridge land | milestone (cycle 106) |
 | 93  | 2026-05-07        | **Novel drug Phase B COMPLETE** ⭐⭐⭐ | 5/5 novel drugs (hxq-gen-001/al-ar-001/ln-tgf-001/mi-hmg-001/ca-krs-001) all VQE-PASS sub-µHa. **hxq-gen-001 0.026 µHa NEW LIBRARY BEST** (paper-rounding limit territory) | milestone (cycle 111) |
+| 94  | 2026-05-07        | **F-Q-6-G PASS** | runtime FCI correction — H2 paper -1.137306 vs runtime -1.1372838345 = paper-rounding 22.17 µHa. F-Q-6-A1 진정한 delta = **0.144 µHa** (NOT 651.726 µHa) | (cycle 112) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
