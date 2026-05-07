@@ -236,6 +236,7 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 100 | 2026-05-08        | F-Q-6-D-attempt-6-drug-target-fail | acrylamide + methanethiol pre-reaction supersystem — silent SCF non-convergence (cc-pVDZ + 16-atom + distant geometry). water dimer protocol 가 drug-target 직접 transfer 안됨 — system-specific tuning 필요 | diagnosis (cycle 137) |
 | 101 | 2026-05-08        | F-Q-6-D-attempt-7-hf-sanity | HF/3-21G acrylamide+methanethiol sanity → E_int +9.23 kcal/mol wrong sign (HF no correlation = no dispersion = repulsive, standard chemistry confirmed) | diagnosis (cycle 138) |
 | 102 | 2026-05-08        | F-Q-6-D-attempt-8-b3lyp-no-d3 | B3LYP/cc-pVDZ no-D3 → E_int +7.80 kcal/mol still wrong sign (B3LYP alone underestimates dispersion). D3 module 미설치, install pyscf-dftd3 필요 | diagnosis (cycle 139) |
+| 103 | 2026-05-08        | F-Q-6-D-attempt-9-d3-env-fail | pyscf-dispersion install PASS but import FAIL (numpy load_library API). wb97x_d3 functional NotImplementedError. Python 3.14 + PySCF dispersion blocked | software bottleneck (cycle 140) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
