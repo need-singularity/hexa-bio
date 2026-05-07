@@ -276,3 +276,130 @@ raw#10 honest C3 (cycle-26 closure):
 2. qmirror python bridge 가 매 호출 cold-start (~1.8 s). long-lived bridge (B4) 까지는 perf 한계.
 3. spectroscopic accuracy 결과는 seed=42 single-run; repeat-variance 측정 미완 (별도 sweep production).
 4. cross-repo SSOT (consumers += hexa-bio in `nexus/.roadmap.qmirror`) uncommitted; nexus 세션에서 commit 분리.
+
+---
+
+## Next ramps catalog (post-cycle 106, ramp inventory)
+
+기록일: 2026-05-07
+구동: 사용자 directive "다음 가능 ramp 일단 로드맵 모두 기록"
+
+본 catalog 는 진정한 next ramp 후보를 priority + scope + dependency + 추정 wall 으로 모두 기록. 사용자 directive 시 ramp-by-ramp 진입.
+
+### Tier 1 — drug-target binding affinity (진정한 drug-target 가치)
+
+#### F-Q-6-D : explicit pocket residue active-space + supersystem VQE
+- **scope**: 단일 분자 isolated E_total 가 아닌 supersystem (pocket + ligand) binding-affinity. 이게 진정한 drug-target VQE.
+- **prerequisites**: pocket_active_space.py 확장 — explicit residue/atom selection (아니라 frontier orbital 자동 선택). UCCSD ansatz 가 6+ qubit 시 필수 (이미 cycle 84 land).
+- **target candidates**:
+  - F-Q-6-D-1 : nirmatrelvir + Cys145 + His41 (SARS-CoV-2 Mpro covalent reactive site). 8-12 qubit supersystem.
+  - F-Q-6-D-2 : aspirin + Ser530 (COX-1 acetylation site). 6-10 qubit.
+  - F-Q-6-D-3 : sotorasib + Cys12 (KRAS-G12C covalent site). 8-12 qubit.
+  - F-Q-6-D-4 : finasteride + 5α-reductase active site (Asn193 + Glu/Asp residues). 8-12 qubit.
+- **estimated wall**: explicit-pocket SCF (10-20 atoms supersystem) ~30 min build + UCCSD VQE ~10-30 min. per-target.
+- **evidence path**: raw_77_drug_target_pocket_vqe_v1
+- **honest C3**: pocket selection 의 chemistry judgment 가 critical; 자동 frontier-orbital 으로는 보장 안됨. 단순 supersystem E_total 도 binding-affinity 와 한 layer 차이 (ΔG = E_complex − E_protein − E_ligand).
+
+#### F-Q-6-E : UCCSD ansatz integration for disease drugs (>4q)
+- **scope**: disease drug 의 4e/4o or 8e/8o active-space VQE — UCCSD ansatz 사용 (cycle 84 module). 4-disease 의 each drug 에 대해 더 큰 active-space chem-acc.
+- **prerequisites**: quantum_ansatz_uccsd.py (already land). pocket_active_space.py 의 4e/4o 또는 8e/8o 확장.
+- **estimated wall**: per-drug ~1-2 hours (UCCSD statevector + 26-50 params NM).
+- **evidence path**: raw_77_drug_target_uccsd_v1
+- **honest C3**: 더 큰 active-space 가 isolated drug 에서도 frontier-orbital 한계를 우회 (F-Q-6-A2 → B2-uccsd 유형).
+
+#### F-Q-6-F : drug library ranking + BindingDB Ki cross-validation
+- **scope**: 10-20 ligand library × 1-3 conformation pose 의 binding-energy ranking. Spearman correlation vs experimental Ki ≥ 0.8 가 PASS 기준.
+- **prerequisites**: F-Q-6-D 의 explicit pocket active-space + UCCSD VQE infrastructure. BindingDB API access (free).
+- **target candidates**:
+  - F-Q-6-F-1 : SARS-CoV-2 Mpro 10-inhibitor library (nirmatrelvir + 9 BindingDB top-Ki)
+  - F-Q-6-F-2 : KRAS-G12C 10-inhibitor library (sotorasib + 9 candidates)
+  - F-Q-6-F-3 : HMG-CoA reductase 7-statin library (atorvastatin / rosuvastatin / simvastatin / pravastatin / lovastatin / fluvastatin / pitavastatin) ranking
+- **estimated wall**: 10 ligand × ~수시간 = ~수일 wall.
+- **evidence path**: raw_77_drug_ranking_vqe_v1
+
+### Tier 2 — F-Q-6 family expansion + correctness
+
+#### F-Q-6-G : runtime FCI retroactive reference correction
+- **scope**: hexa-bio docs / registry / commit messages 의 H2 reference (-1.137306, paper-rounded literature) 를 PySCF FCI runtime (-1.1372838345) 으로 retroactive correction. F-Q-6-A1 의 22 µHa delta artifact 도 sub-µHa scale 로 corrected.
+- **prerequisites**: 없음 (single Python script + grep + sed).
+- **estimated wall**: <30 min.
+- **evidence path**: raw_77_reference_correction_v1
+- **honest C3**: historical commit messages 는 그대로 둠 (immutable). 새 docs / new measurements 만 runtime FCI 사용.
+
+#### F-Q-6-H : additional disease roadmaps
+- **scope**: 4-disease 외 추가 disease roadmap (사용자 directive 따라).
+- **candidates**:
+  - immune dysregulation (autoimmune: SLE / RA / IBD)
+  - neurodegenerative (Alzheimer / Parkinson / ALS)
+  - aging (senolytics / NAD precursors / sirtuins)
+  - infection (multi-pathogen antiviral / antibiotic resistance)
+  - psychiatric (depression / schizophrenia targets)
+  - metabolic (diabetes / obesity / NAFLD)
+- **estimated wall**: per-disease ~1-2 hours (roadmap skeleton + 5-axis matrix + falsifier list).
+- **evidence path**: 새 .roadmap.disease_<name> file
+
+#### F-Q-6-I : cross-axis pilot (QUANTUM + WEAVE + VIROCAPSID + RIBOZYME + NANOBOT)
+- **scope**: 단일 disease 의 5-axis end-to-end pilot. 예: cancer = QUANTUM-ranked top inhibitor + WEAVE folate scaffold + VIROCAPSID mRNA neoantigen + RIBOZYME oncogenic mRNA cleavage + NANOBOT TME-responsive delivery.
+- **prerequisites**: 4 axis 모두 operational (이미 land). cross-axis integration test harness 신규.
+- **estimated wall**: ~수일 (4 axis CLI orchestration + falsifier alignment).
+- **evidence path**: raw_77_cross_axis_pilot_v1
+- **honest C3**: in-silico end-to-end; wet-lab integration 없음.
+
+### Tier 3 — sister-repo absorption + sustained loop
+
+#### F-Q-EXT-15..N : qmirror cond.14 absorption + sister-repo upstream chains
+- **scope**: hexa-bio 가 qmirror cond.14 chemistry/VQE 를 outbound consumer 로 swap (이미 reference impl 존재; cli wrapper land 만). 다른 6 sister-repo 의 새 features 도 absorption.
+- **prerequisites**: qmirror cond.14 cli stable (v2.1.0 PASS).
+- **estimated wall**: ~수시간 per absorption.
+- **evidence path**: raw_77_upstream_absorption_v1 (existing schema)
+- **target absorptions**:
+  - qmirror cond.14 chemistry/VQE — hexa-bio 의 quantum_*.py 가 qmirror cli 호출 형태로 swap 가능
+  - hive arch.003 — registry rows envelope schema audit
+  - sim-universe multiverse bio-variant — RIBOZYME variant ensemble 가 sim-universe data 흡수
+  - nexus 216-lens matching — F-* falsifier 의 lens cross-evidence 흡수
+  - anima bio-Φ — RIBOZYME TPM 의 Φ ratchet 측정 흡수
+
+#### F-Q-EXT-N+1 : hexa-lang stdlib EI absorption (사용자 직접 전달 후 결과 도착 시)
+- **scope**: hexa-lang `self/stdlib/iit_ei.hexa` 가 land 시 hexa-bio 의 quantum_anima_phi.py 가 stdlib 호출로 swap.
+- **prerequisites**: hexa-lang 의 user-session 결과 (stdlib EI module land).
+- **estimated wall**: ~1 시간 swap.
+
+### Tier 4 — out-of-hexa-bio (사용자 결정 + external ecosystem)
+
+#### Phase D-real : preclinical (out of hexa-bio scope)
+- in-vitro validation (drug-target binding assay)
+- in-vivo xenograft / animal model
+- IND filing
+- → out of hexa-bio (in-silico only) scope; 사용자 결정 시 외부 partner.
+
+#### cc-pVDZ basis upgrade
+- **scope**: STO-3G (minimum viable) 에서 cc-pVDZ (chem-acc-grade) 로 basis 확장. SCF wall ~3× 추가.
+- **estimated wall**: per-drug 3× 기존 build wall (50-atom drug 2-3시간 → ~6-10 시간).
+- **evidence path**: raw_77_basis_upgrade_v1
+
+#### wet-lab boundary docs
+- **scope**: in-silico → in-vitro → in-vivo → clinical trial 의 boundary 문서. 각 axis 의 wet-lab partner candidates.
+- **prerequisites**: 없음.
+- **estimated wall**: ~수시간 docs.
+- **evidence path**: docs/wet_lab_boundary_2026_*.md
+
+### Priority + sequencing 권장
+
+| priority | ramp | reason |
+|----------|------|--------|
+| **HIGH** | F-Q-6-D-1 (nirmatrelvir + Cys145 + His41 supersystem) | 진정한 drug-target binding 의 첫 evidence — F-Q-6-B-real-nirmatrelvir-vqe 의 자연 진화 |
+| HIGH | F-Q-6-G (runtime FCI correction) | 작은 wall, 큰 정확도 향상 (paper-rounding artifact 해소) |
+| MED | F-Q-6-F-1 (SARS-CoV-2 Mpro 10-inhibitor ranking) | F-Q-6-D 의 직접 application |
+| MED | F-Q-6-E (UCCSD for disease drugs 4e/4o) | hardware-efficient ansatz 한계 우회 |
+| MED | F-Q-EXT-15 (qmirror cond.14 absorption) | hexa-bio 가 qmirror cli 사용 으로 swap |
+| LOW | F-Q-6-H (additional disease roadmaps) | scope expansion only |
+| LOW | F-Q-6-I (cross-axis pilot) | 5-axis 전체 통합 — 큰 작업 |
+| LOW | cc-pVDZ basis | wall 매우 큼 |
+| OUT-OF-SCOPE | Phase D-real preclinical | wet-lab partner 필요 |
+
+### raw#10 honest C3 (post-ramp catalog)
+
+1. **본 catalog 는 plan-only**, work 진입 없음. 사용자 directive 시 ramp-by-ramp 진입.
+2. Tier 1 (F-Q-6-D/E/F) 가 hexa-bio 의 진정한 drug-target VQE path. isolated drug E_total (현재 11-drug library) 만 으로는 wet-lab 의미 한정.
+3. Tier 4 (preclinical / cc-pVDZ / wet-lab) 는 hexa-bio in-silico-only scope 밖 — 사용자 결정 + 외부 ecosystem 필요.
+4. 본 ramp catalog 는 이번 cron loop (cycles 78-106) 의 진정한 closure 점 — 더 진행 시 사용자 explicit directive.
