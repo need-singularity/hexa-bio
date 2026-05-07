@@ -208,6 +208,9 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 72  | 2026-05-07        | **F-Q-6-C-mini-library milestone** | 3-drug reproducibility: H2O / aspirin / ibuprofen 모두 sub-µHa via 2e/2o + hardware-eff depth=1 path | (cycle 92) |
 | 73  | 2026-05-07        | **F-Q-6-B-real-paracetamol VQE PASS** ⭐ | paracetamol (11 heavy NSAID/analgesic) → 2 qubit / 9 terms → VQE **sub-µHa 0.406 µHa**; build 29 s + VQE 9 s | (cycle 94) |
 | 74  | 2026-05-07        | **F-Q-6-C-mini-library extended** | 4-drug reproducibility: H2O / aspirin / ibuprofen / paracetamol 모두 sub-µHa via 2e/2o + hardware-eff depth=1 | (cycle 94) |
+| 75  | 2026-05-07        | **F-Q-6-B-real-caffeine VQE PASS** ⭐ | caffeine (14 heavy purine ring CNS stimulant) → **sub-µHa 0.177 µHa = BEST delta**; build 48 s + VQE 1.87 s | (cycle 96) |
+| 76  | 2026-05-07        | **F-Q-6-C-mini-library 5-drug** | 5-drug reproducibility: H2O / aspirin / ibuprofen / paracetamol / caffeine 모두 sub-µHa, range 0.18-0.50 µHa | (cycle 96) |
+| 77  | 2026-05-07        | docs(quantum) | docs/qpu_bridge_bio_application.md §26 — F-Q-6 Phase A+B+C-mini full cycle docs (174 lines) | commit bfe37ea (cycle 95) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
