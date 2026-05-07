@@ -197,6 +197,8 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 61  | 2026-05-07        | F-Q-6-Phase-B-enter | _python_bridge/module/pocket_active_space.py — qiskit-nature ActiveSpaceTransformer + PySCF CASCI reference (3/3 selftest H2/H2O 2e2o/H2O 4e4o build PASS) | (cycle 82) |
 | 62  | 2026-05-07        | **F-Q-6-B1 PASS** ⭐ | H2O 2e/2o (HOMO+LUMO) → 2 qubit / 5 terms (parity tapering) → VQE **0.5 µHa = sub-µHa = spectroscopic accuracy**; F-Q-6-A2 unlock evidence | (cycle 82) |
 | 63  | 2026-05-07        | F-Q-6-B2-attempt1 | H2O 4e/4o → 6 qubit / 103 terms → depth=2 NOT converged delta 365 mHa; depth=3 또는 multi-restart 또는 UCCSD next | (cycle 82) |
+| 64  | 2026-05-07        | F-Q-6-B2-attempt2-sweep | H2O 4e/4o depth=3 max_iter=300 × 5 seeds — best delta 41.8 mHa (8.7× 개선), 모두 NOT converged, variance 17.6× | (cycle 83) |
+| 65  | 2026-05-07        | **F-Q-6-B2 honest-deferred** | hardware-efficient ansatz 가 6-qubit 부터 expressivity wall 도달; UCCSD chemistry-aware ansatz 가 next ramp | diagnosis row (cycle 83) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
@@ -232,7 +234,7 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
   - **F-Q-6-A2** (UNLOCKED 2026-05-07 via Phase B): H2O 10 qubit / 567 terms direct VQE chem-acc 미달 (depth=1/2 모두 NOT converged) — 그러나 active-space CASCI 2e/2o 으로 reduce 후 sub-µHa (F-Q-6-B1) 도달. 즉 active-space reduction 이 진정한 path 임을 측정 검증.
   - **F-Q-6-A3** (closed 2026-05-07): wall scaling 2q→10q. H2 4.5s VQE / H2O 234s VQE = **52× wall**, AerPool timeouts 0 / 45960 calls. F-Q-5 의 31× speedup (cold-vs-pool) 와 직교 — pure hardware scaling cost.
   - **F-Q-6-B1** (closed 2026-05-07 ⭐): H2O 2e/2o (HOMO+LUMO) active-space → 2 qubit / 5 Pauli terms (ParityMapper Z2 tapering) → hardware-efficient depth=1 VQE → CASCI ref -74.9662545 vs VQE -74.9662540, delta **0.5 µHa = sub-µHa = spectroscopic accuracy**. n_iter 50 converged, wall 35 s.
-  - **F-Q-6-B2** (open / partial 2026-05-07): H2O 4e/4o → 6 qubit / 103 terms. depth=2 max_iter 200 NOT converged (delta 365 mHa). next ramp = depth=3 / multi-restart 5 seed / UCCSD ansatz.
+  - **F-Q-6-B2** (honest-deferred 2026-05-07): H2O 4e/4o → 6 qubit / 103 terms. depth=2 NOT converged (365 mHa) → depth=3 multi-restart 5 seed NOT converged (best 41.8 mHa, 8.7× 개선이지만 26× chem-acc 미달, variance 17.6×). 진단: hardware-efficient depth-ramp 가 6-qubit 부터 expressivity wall 도달. **next ramp = UCCSD ansatz (chemistry-aware Trotter cluster operator)** — qmirror cond.14 (renumber 사용자 결정 후) 또는 hexa-bio 직접 land.
   - **F-Q-6-B-real** (open): pocket_active_space.py active-space for nirmatrelvir-class real ligand (Cys145 + His41 + warhead reactive 부분).
   - **F-Q-6-C** (open): 10-ligand library ranking + BindingDB Ki correlation.
 
