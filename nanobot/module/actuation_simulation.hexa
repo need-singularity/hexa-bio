@@ -54,6 +54,9 @@ let DT_CYCLE_S = 1.0e-3
 let STROKE_NM = 4.0
 let STROKE_M = 4.0e-9
 
+// pi (intrinsic `pi` constant absent in some interp builds — define locally).
+let PI_CONST = 3.141592653589793
+
 // Markov state indices
 let S0_IDLE = 0
 let S1_FWD = 1
@@ -87,7 +90,7 @@ fn isfinite(v: float) -> bool {
 }
 
 fn stokes_drag(r_m: float, eta: float) -> float {
-    return 6.0 * pi * eta * r_m
+    return 6.0 * PI_CONST * eta * r_m
 }
 
 // ---------------------------------------------------------------------------
@@ -141,8 +144,8 @@ fn rng_gauss(rng) -> float {
     let u1 = rng_uniform_open(rng)
     let u2 = rng_uniform_open(rng)
     let mag = sqrt(0.0 - 2.0 * log(u1))
-    let g0 = mag * cos(2.0 * pi * u2)
-    let g1 = mag * sin(2.0 * pi * u2)
+    let g0 = mag * cos(2.0 * PI_CONST * u2)
+    let g1 = mag * sin(2.0 * PI_CONST * u2)
     rng[1] = g1
     rng[2] = 1
     return g0
@@ -230,9 +233,10 @@ fn get_skeleton(name: string) {
 // ---------------------------------------------------------------------------
 
 fn det3(M) -> float {
-    return M[0][0] * (M[1][1] * M[2][2] - M[1][2] * M[2][1])
-         - M[0][1] * (M[1][0] * M[2][2] - M[1][2] * M[2][0])
-         + M[0][2] * (M[1][0] * M[2][1] - M[1][1] * M[2][0])
+    let a = M[0][0] * (M[1][1] * M[2][2] - M[1][2] * M[2][1])
+    let b = M[0][1] * (M[1][0] * M[2][2] - M[1][2] * M[2][0])
+    let c = M[0][2] * (M[1][0] * M[2][1] - M[1][1] * M[2][0])
+    return a - b + c
 }
 
 fn build_octahedral_24() {
@@ -259,13 +263,19 @@ fn build_octahedral_24() {
                 while c < 2 {
                     let mut s2 = 1.0
                     if c == 0 { s2 = 0.0 - 1.0 }
-                    let row0 = [0.0, 0.0, 0.0]
-                    let row1 = [0.0, 0.0, 0.0]
-                    let row2 = [0.0, 0.0, 0.0]
-                    let M = [row0, row1, row2]
-                    M[0][p[0]] = s0
-                    M[1][p[1]] = s1
-                    M[2][p[2]] = s2
+                    // Build M as a fresh nested literal — separate row
+                    // literals would otherwise alias under interp interning.
+                    let r0 = []
+                    r0.push(0.0); r0.push(0.0); r0.push(0.0)
+                    let r1 = []
+                    r1.push(0.0); r1.push(0.0); r1.push(0.0)
+                    let r2 = []
+                    r2.push(0.0); r2.push(0.0); r2.push(0.0)
+                    r0[p[0]] = s0
+                    r1[p[1]] = s1
+                    r2[p[2]] = s2
+                    let M = []
+                    M.push(r0); M.push(r1); M.push(r2)
                     if fabs(det3(M) - 1.0) < 1.0e-9 { mats.push(M) }
                     c = c + 1
                 }
@@ -372,11 +382,15 @@ fn canonicalize_pose(pose, octa) -> string {
 // ---------------------------------------------------------------------------
 
 fn build_rate_matrix(omega: float) {
-    let row0 = [0.0, 0.0, 0.0, 0.0]
-    let row1 = [0.0, 0.0, 0.0, 0.0]
-    let row2 = [0.0, 0.0, 0.0, 0.0]
-    let row3 = [0.0, 0.0, 0.0, 0.0]
-    let Q = [row0, row1, row2, row3]
+    // Build Q with explicit fresh rows to avoid interp literal-aliasing.
+    let Q = []
+    let mut qi = 0
+    while qi < 4 {
+        let r = []
+        r.push(0.0); r.push(0.0); r.push(0.0); r.push(0.0)
+        Q.push(r)
+        qi = qi + 1
+    }
     let k01 = omega * exp(0.0 - DE_S0_S1_KT)
     let k13 = omega * exp(0.0 - DE_S1_S3_KT)
     let k02 = omega * exp(0.0 - DE_S0_S2_KT)
@@ -479,15 +493,13 @@ pub fn run_actuation(cfg) {
     let mut pose_sample_n = 200
     let mut verbose = false
 
-    if type_of(cfg) == "object" {
-        if cfg.has_key("n_cycles") { n_cycles = to_int(cfg["n_cycles"]) }
-        if cfg.has_key("T_kelvin") { T_kelvin = to_float(cfg["T_kelvin"]) }
-        if cfg.has_key("skeleton") { skeleton = cfg["skeleton"] }
-        if cfg.has_key("seed") { seed = to_int(cfg["seed"]) }
-        if cfg.has_key("eta") { eta = to_float(cfg["eta"]) }
-        if cfg.has_key("pose_sample_n") { pose_sample_n = to_int(cfg["pose_sample_n"]) }
-        if cfg.has_key("verbose") { verbose = cfg["verbose"] }
-    }
+    if type_of(cfg["n_cycles"]) != "void" { n_cycles = to_int(cfg["n_cycles"]) }
+    if type_of(cfg["T_kelvin"]) != "void" { T_kelvin = to_float(cfg["T_kelvin"]) }
+    if type_of(cfg["skeleton"]) != "void" { skeleton = cfg["skeleton"] }
+    if type_of(cfg["seed"]) != "void" { seed = to_int(cfg["seed"]) }
+    if type_of(cfg["eta"]) != "void" { eta = to_float(cfg["eta"]) }
+    if type_of(cfg["pose_sample_n"]) != "void" { pose_sample_n = to_int(cfg["pose_sample_n"]) }
+    if type_of(cfg["verbose"]) != "void" { verbose = cfg["verbose"] }
 
     let rng = rng_new(seed)
     let octa = build_octahedral_24()
