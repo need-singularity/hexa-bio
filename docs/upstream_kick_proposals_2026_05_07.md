@@ -6,7 +6,7 @@
 
 ---
 
-## 1. qmirror — chemistry / VQE tier (cond.9 신설)
+## 1. qmirror — chemistry / VQE tier (cond.14 신설)
 
 ### 1.1 동기
 
@@ -21,7 +21,7 @@ hexa-bio 가 `quantum_h_molecule.py` + `quantum_ansatz_he.py` + `quantum_pauli_e
 
 **부재**: 분자 Hamiltonian → Pauli string → VQE energy 의 chemistry path. anima / nexus / hexa-bio 의 다수 consumer 가 이를 자체 구현 (hexa-bio 의 `_python_bridge/module/quantum_*.py`).
 
-### 1.2 제안: qmirror cond.9 — Chemistry / Molecular VQE
+### 1.2 제안: qmirror cond.14 — Chemistry / Molecular VQE
 
 새 cond:
 - F-QM-CHEM-N1: 분자 Hamiltonian generator (PyscfDriver wrapper, 2-qubit H₂ ~ 4-qubit LiH 적어도 두 reference 시스템 cover)
@@ -44,7 +44,7 @@ qmirror 측 작업 = (a) hexa native port (Python → hexa) + (b) cond schema la
 
 - raw#9: hexa-bio 의 Python reference 를 hexa native 로 port. 단 qiskit_aer / qiskit_nature import 는 python_bridge concession (이미 qmirror 가 _python_bridge/aer_runner.py 보유).
 - raw#10: Kandala 2017 이 R=0.74Å H₂ ground truth — hexa-bio 가 reproduce 함.
-- raw#15: cond.9 의 모든 evidence 는 `qmirror/state/` 안에 confined.
+- raw#15: cond.14 의 모든 evidence 는 `qmirror/state/` 안에 confined.
 
 ---
 
@@ -199,7 +199,7 @@ hexa-lang 의 stdlib 가 이 multi-modal 시대를 지원 = 다음 cycle 의 vis
 
 | # | proposal | session | priority | hexa-bio reference impl |
 |---|----------|---------|----------|------------------------|
-| 1 | qmirror cond.9 chemistry/VQE | qmirror session | high | `_python_bridge/module/quantum_*.py` |
+| 1 | qmirror cond.14 chemistry/VQE | qmirror session | high | `_python_bridge/module/quantum_*.py` |
 | 2 | hexa-lang stdlib `external_pool.hexa` | hexa-lang session | high | `quantum_aer_pool.py` |
 | 3 | hive mk2 `raw_77_external_evidence_v1` | hive session | medium | `state/discovery_absorption/registry.jsonl` rows 7115-7118 |
 | 4 | qrng multi-vendor T2.* | qmirror session | medium | (no impl yet, design only) |
@@ -215,7 +215,7 @@ hexa-lang 의 stdlib 가 이 multi-modal 시대를 지원 = 다음 cycle 의 vis
 
 1. 본 proposals 는 **hexa-bio session 의 outsider view** — 각 repo (hexa-lang / qmirror / qrng) 의 internal roadmap / 사용자 직접 directive / 진행 중인 cycle 와 conflict 가능. 각 repo session 에서 본 docs 를 reference 로 검토 후 자체 결정.
 
-2. **qmirror cond.9** 는 우리 hexa-bio 의 use case 1 개 (drug-target VQE) 가 driver. 다른 consumer (anima 등) 의 use case 가 다르면 cond.9 의 falsifier 가 달라질 수 있음.
+2. **qmirror cond.14** 는 우리 hexa-bio 의 use case 1 개 (drug-target VQE) 가 driver. 다른 consumer (anima 등) 의 use case 가 다르면 cond.14 의 falsifier 가 달라질 수 있음.
 
 3. **hexa-lang external_pool stdlib** 은 우리 quantum_aer_pool 가 reference. 다른 사용 (LLM serving, generic ML inference) 에서는 추가 features 필요 가능 (streaming response, batch request, etc).
 
