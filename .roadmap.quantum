@@ -219,6 +219,11 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 83  | 2026-05-07        | **F-disease-mi-Q-aspirin-crosslink** | aspirin (MI primary/secondary prevention) cross-link evidence reuse from F-Q-6-B-real-aspirin-vqe (cycle 90, delta 0.401 µHa); .roadmap.disease_mi Phase B entry first drug | (cycle 101) |
 | 84  | 2026-05-07        | **F-disease-cancer-Q-vorinostat PASS** ⭐ | vorinostat (HDAC inhibitor CTCL FDA 2006 SAHA) → sub-µHa 0.211 µHa; build 516s + VQE 14.5s; .roadmap.disease_cancer Phase B entry first drug | (cycle 103) |
 | 85  | 2026-05-07        | **4-DISEASE PHASE-B ENTRY COMPLETE** ⭐⭐⭐⭐ | 4/4 disease roadmaps (cancer / alopecia / mi / lung_normalization) Phase B first-drug all sub-µHa | milestone (cycle 103) |
+| 86  | 2026-05-07        | docs(disease) | docs/disease_milestone_2026_05_07.md (170 lines) — 4-disease milestone single-page TL;DR + per-disease detail + 5-axis matrix | commit 9402b8c (cycle 104) |
+| 87  | 2026-05-07        | docs(quantum) | qmirror cond.9 → cond.14 renumber (5 occurrences in upstream_kick_proposals docs) per user "권장: A" | commit bca36ff (cycle 104) |
+| 88  | 2026-05-07        | F-disease-alopecia-Q-finasteride | finasteride (24 heavy 4-aza-androstane AGA Propecia 1997) → delta **1.020 µHa** (FIRST ≥1 µHa observation, chem-acc 안); build 82.8 min | (cycle 105) |
+| 89  | 2026-05-07        | **F-disease-mi-Q-simvastatin PASS** ⭐ | simvastatin (30 heavy decalin+lactone HMG-CoA reductase Zocor 1991) → sub-µHa **0.168 µHa = NEW BEST library**; build 85.7 min | (cycle 105) |
+| 90  | 2026-05-07        | **F-Q-6-C-mini-library 11-drug** | 11-drug library: 10 sub-µHa + 1 just-above (finasteride). simvastatin 0.168 best, finasteride 1.020 first ≥1 µHa | (cycle 105) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
