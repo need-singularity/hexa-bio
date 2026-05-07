@@ -206,6 +206,8 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 70  | 2026-05-07        | **F-Q-6-B-real-aspirin VQE PASS** ⭐ | aspirin 2e/2o → hardware-eff depth=1 VQE → **sub-µHa 0.401 µHa** of CASCI ref; n_iter 50 converged; first real-drug VQE PASS | (cycle 90) |
 | 71  | 2026-05-07        | **F-Q-6-B-real-ibuprofen VQE PASS** ⭐ | ibuprofen 15 heavy atom NSAID → 2 qubit / 9 terms → VQE **sub-µHa 0.461 µHa**; build 232 s + VQE 11 s | (cycle 92) |
 | 72  | 2026-05-07        | **F-Q-6-C-mini-library milestone** | 3-drug reproducibility: H2O / aspirin / ibuprofen 모두 sub-µHa via 2e/2o + hardware-eff depth=1 path | (cycle 92) |
+| 73  | 2026-05-07        | **F-Q-6-B-real-paracetamol VQE PASS** ⭐ | paracetamol (11 heavy NSAID/analgesic) → 2 qubit / 9 terms → VQE **sub-µHa 0.406 µHa**; build 29 s + VQE 9 s | (cycle 94) |
+| 74  | 2026-05-07        | **F-Q-6-C-mini-library extended** | 4-drug reproducibility: H2O / aspirin / ibuprofen / paracetamol 모두 sub-µHa via 2e/2o + hardware-eff depth=1 | (cycle 94) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
