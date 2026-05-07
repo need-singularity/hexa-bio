@@ -1,0 +1,119 @@
+# .roadmap.disease_als_specific
+
+작성: 2026-05-08
+구동: 사용자 directive `/loop 5m keep going` cron `34b18744` + 대량 bg batch (141-144)
+
+본 file 은 disease-axis-orthogonal roadmap. hexa-bio 의 5 axis 가 ALS specific (amyotrophic lateral sclerosis + SOD1 + C9orf72 + FUS + TARDBP 만성 motor neuron disease) 에 어떻게 기여하는지 cross-axis mapping + 신규 약물 기준 falsifier inventory.
+
+(Distinct from `.roadmap.disease_neurodegen` (broad — AChE/AD/PD) + `.roadmap.disease_inherited_adult` (ATTR + 일부 ALS): ALS specific = 만성 amyotrophic lateral sclerosis + SOD1 + C9orf72 + FUS + TARDBP + 만성 SOD1 ASO 2023 + 만성 paradigm. 양자-VQE 의 fit: SOD1 + 만성 motor neuron + 만성 NfL biomarker 결합.)
+
+scope:
+- 만성 ALS (amyotrophic lateral sclerosis)
+- 만성 SOD1-mutated ALS (~20%)
+- 만성 C9orf72-expanded ALS (~10%)
+- 만성 FUS + TARDBP + 만성 가족성 + 만성 sporadic
+- 만성 spinal-bulbar muscular atrophy (SBMA — Kennedy disease — AR-mutated cross-mens_health)
+- 만성 spinal muscular atrophy (SMA — cross-pediatric_rare nusinersen + Zolgensma 일부 cover)
+- 만성 frontotemporal dementia + ALS overlap (FTD-ALS — cross-dementia_specific)
+- 만성 청소년 + 영유아 ALS rare (cross-adolescent + pediatric_rare)
+- 만성 K-ALS 임상 framework + 식약처
+- 만성 만성 + 만성 + 만성 long-term + 만성 만성 + 만성 만성
+
+---
+
+## 1. Targets + drugs (ALS specific 특화)
+
+| Target                            | Drug                                          | Year FDA   | Mechanism / 적응증                                   |
+|-----------------------------------|-----------------------------------------------|------------|------------------------------------------------------|
+| glutamate antagonist              | riluzole (Rilutek)                            | 1995       | first FDA ALS — 만성 glutamate antagonist            |
+| antioxidant (Nrf2 / free radical) | edaravone (Radicava)                          | 2017 IV → 2022 oral | first FDA antioxidant ALS                  |
+| ER stress + bile acid combo       | sodium phenylbutyrate + taurursodiol (Relyvrio AMX0035) | 2022 → 2024 withdrawn | second FDA → PHOENIX Phase 3 fail withdrawal |
+| SOD1 mRNA ASO                     | tofersen (Qalsody)                            | 2023       | first FDA SOD1 ASO (accelerated — NfL biomarker, no clinical endpoint) |
+| FUS pre-mRNA ASO (n-of-1)         | jacifusen (research)                          | research   | Boston Children's 2020 individualized ASO (cross-n_of_1) |
+| FUS ASO                           | ION363 (research, Ionis)                      | Phase 3    | FUS-ALS ASO follow-up                                |
+| C9orf72 ASO                       | BIIB078 (Biogen, terminated)                  | terminated 2022 | Phase 1 fail — C9orf72 G4C2 repeat ASO          |
+| c-Kit / PDGFR                     | masitinib (research, AB Science)              | Phase 3 EU | c-Kit/PDGFR mast cell + microglial — ALS Phase 3 EU |
+| SOD1 AAV gene therapy             | AMT-162 (research, uniQure)                   | research   | SOD1 AAV intrathecal gene therapy                    |
+| TTR ASO (cross-iag)               | inotersen (Tegsedi)                           | 2018       | TTR ASO — hATTR amyloidosis (cross-iag)              |
+| fast skeletal muscle troponin     | tirasemtiv + reldesemtiv (Cytokinetics)       | Phase 3 fail 2020 | FSTA — VITALITY-ALS + COURAGE-ALS Phase 3 fail |
+| SMN2 splice modulator (ASO)       | nusinersen (Spinraza)                         | 2016       | first FDA SMA — SMN2 splice ASO IT (cross-pediatric_rare) |
+| SMN1 AAV9 gene therapy            | onasemnogene abeparvovec (Zolgensma)          | 2019       | first FDA AAV9 SMA Type 1 IV (cross-gene_therapy_platform) |
+| SMN2 splice modulator (oral small mol) | risdiplam (Evrysdi)                      | 2020       | first oral SMA SMN2 splice modulator                 |
+| AAV CNS capsid                    | AAV9 + AAV-PHP.eB (research)                  | research   | CNS gene therapy capsid (cross-gene_therapy_platform) |
+| BTKi (research C9orf72)           | tolebrutinib + remibrutinib                   | research   | C9orf72 ALS microglial BTKi (cross-multiple_sclerosis_specific) |
+| NfL biomarker (Quanterix Simoa)   | NfL plasma assay                              | research/lab | ALS prognostic + tofersen accelerated approval basis (cross-mass_spec_proteomics + dementia_specific) |
+| supportive care                   | BiPAP + gastrostomy + suction + speech device | standard   | secondary 만성 supportive care                       |
+
+## 2. 5-axis cross-contribution (신규 약물 기준)
+
+| hexa-bio axis | 기여 (ALS specific)                                                     | falsifier link             |
+|---------------|------------------------------------------------------------------------|----------------------------|
+| QUANTUM       | SOD1 misfolding pocket + C9orf72 G4C2 repeat secondary structure VQE   | F-novel-als-Q-N            |
+| WEAVE         | AAV CNS capsid scaffold + intrathecal delivery scaffold                | F-novel-als-W-N            |
+| VIROCAPSID    | AAV9 + AAV-PHP.eB CNS gene therapy capsid (Zolgensma + AMT-162)        | F-novel-als-V-N            |
+| RIBOZYME      | SOD1 / FUS / C9orf72 / TARDBP ASO + RAN-translation 차단 modulation     | F-novel-als-RB-N           |
+| NANOBOT       | motor neuron homing + spinal cord BBB + intrathecal delivery selectivity | F-novel-als-NB-N         |
+
+## 3. Falsifier inventory (entry skeleton)
+
+- F-disease-als-Q-1: SOD1 misfolding + tofersen ASO target seed VQE (first FDA SOD1 2023)
+- F-disease-als-Q-2: C9orf72 G4C2 repeat secondary structure + RAN-translation 차단 small mol VQE
+- F-disease-als-Q-3: FUS pre-mRNA + jacifusen + ION363 ASO target VQE (n-of-1 + Phase 3)
+- F-disease-als-Q-4: TARDBP / TDP-43 cytoplasmic aggregate VQE
+- F-disease-als-Q-5: SMN2 splice + nusinersen + risdiplam splice modulator VQE (cross-SMA)
+- F-disease-als-Q-6: glutamate AMPA/NMDA + riluzole vs perampanel VQE
+- F-disease-als-Q-7: Nrf2 antioxidant + edaravone radical scavenger VQE
+- F-disease-als-Q-8: 14-ALS/SMA drug library ranking
+- F-disease-als-W-1: AAV intrathecal scaffold + BBB bypass geometry
+- F-disease-als-V-1: AAV9 + AAV-PHP.eB CNS capsid (Zolgensma + AMT-162 SOD1 + research)
+- F-disease-als-RB-1: SOD1 / FUS / C9orf72 / TARDBP ASO + RAN-translation 차단
+- F-disease-als-NB-1: motor neuron + spinal cord nanobot 선택적 delivery
+- F-disease-als-cross-1: tofersen + AAV-SOD1 + NfL biomarker combo (cross-axis pilot)
+
+## 4. Phase plan (novel-drug-first)
+
+- **Phase α (entry)**: roadmap stub + 14+ drug list + 5-axis matrix.
+- **Phase β**: hxq-als-c9orf72-001 (next-gen C9orf72 small-molecule + repeat-expansion modulator + RAN-translation 차단 — BIIB078 fail 2022 후 small-molecule paradigm) build + VQE.
+- **Phase γ**: C9orf72 G4C2 repeat secondary structure + hxq-als-c9orf72-001 explicit binding VQE.
+- **Phase δ**: 14-ALS-drug library ranking (riluzole + edaravone + tofersen + nusinersen + risdiplam + AAV heterogeneous).
+- **Phase ε**: cross-axis pilot — top-ranked + VIROCAPSID AAV CNS capsid + RIBOZYME SOD1/C9orf72 ASO.
+
+## 5. raw#10 honest C3
+
+1. **tofersen Qalsody 2023** = first FDA SOD1 ASO ALS — accelerated approval based on NfL plasma biomarker (Quanterix Simoa) without clinical endpoint. VALOR Phase 3 missed primary ALSFRS-R but NfL drop sufficient. quantum-VQE 의 ASO target seed + SOD1 misfolding pocket 가 직접 fit.
+2. **AMX0035 Relyvrio 2022 → 2024 withdrawn** = second FDA ALS approval (sodium phenylbutyrate + taurursodiol) but PHOENIX Phase 3 confirmatory fail → manufacturer Amylyx voluntary withdrawal 2024. accelerated approval failure 사례.
+3. **edaravone Radicava 2017 IV → 2022 oral** = first FDA antioxidant ALS — Japanese MCI-186 free radical scavenger. IV burdensome → 2022 oral suspension approval improved compliance.
+4. **riluzole Rilutek 1995** = first FDA ALS approval — glutamate antagonist (NMDA + AMPA + voltage Na channel). 만성 modest survival benefit 3 month. 30년 paradigm.
+5. **BIIB078 C9orf72 ASO Phase 1 fail 2022** = Biogen termination — C9orf72 G4C2 repeat ASO 적응 어려움. Phase 1 efficacy 부족 + 부작용. small-molecule + RAN-translation 차단 paradigm shift 필요.
+6. **nusinersen Spinraza 2016 + Zolgensma 2019 + risdiplam 2020** = SMA gene therapy paradigm — first ASO (nusinersen) + first AAV9 (Zolgensma) + first oral splice mod (risdiplam) 동일 disease 3 modality 모두 FDA 승인. ALS ASO + AAV bridge model.
+7. **jacifusen 2020 (research)** = Boston Children's individualized FUS ASO n-of-1. patient-specific pre-mRNA ASO. n-of-1 model — Mila (Batten CLN7) 2018 다음 ALS adaptation.
+8. **ION363 (Ionis FUS Phase 3)** = jacifusen 후 commercialized FUS ASO Phase 3. 일반 FUS-ALS adaptation.
+9. **AMT-162 uniQure** = SOD1 AAV intrathecal gene therapy research — tofersen ASO 후 single-dose alternative.
+10. **wet-lab + 임상 RCT 없음** — quantum-only in-silico, ALS 임상 의미 한정. NfL biomarker accelerated approval 사례 (tofersen 2023) 가 quantum-only roadmap 의 in-silico → biomarker bridge 가능성 제시.
+
+## 6. cross-link
+
+- `.roadmap.novel_drugs` — initial candidate: hxq-als-c9orf72-001
+- `.roadmap.fda_drug_verification` — verification phase historical
+- `.roadmap.disease_neurodegen` — broad neurodegen (AChE/AD/PD) cross-link
+- `.roadmap.disease_inherited_adult` — ATTR + 일부 ALS familial cross-link
+- `.roadmap.disease_dementia_specific` — FTD-ALS overlap + NfL biomarker cross-link
+- `.roadmap.disease_pediatric_rare` — SMA + 영유아 ALS rare cross-link
+- `.roadmap.disease_n_of_1` — jacifusen + Mila individualized ASO cross-link
+- `.roadmap.disease_gene_therapy_platform` — Zolgensma + AMT-162 + AAV9 + AAV-PHP.eB CNS capsid cross-link
+- `.roadmap.disease_multiple_sclerosis_specific` — tolebrutinib + remibrutinib BTKi C9orf72 cross-link
+- `.roadmap.disease_mens_health` — SBMA Kennedy disease AR-mutated cross-link
+- `.roadmap.disease_adolescent` — 청소년 ALS rare cross-link
+- `.roadmap.disease_mass_spec_proteomics` — NfL Quanterix Simoa biomarker cross-link
+- `.roadmap.disease_pharmacogenomics` — SOD1 + C9orf72 + FUS + TARDBP variant cross-link
+- `.roadmap.disease_palliative_care` — ALS terminal hospice + BiPAP + gastrostomy cross-link
+- `.roadmap.disease_critical_care` — respiratory failure ICU cross-link
+- `.roadmap.disease_pulmonology` — diaphragm + BiPAP NIV cross-link
+- `.roadmap.disease_k_pharma_industry` — K-ALS + 식약처 framework + 산정특례 + 한국 ALS Korea Registry cross-link
+- `.roadmap.meta_novel_drugs` — 5-axis representative + 6-stage lifecycle
+- `.roadmap.disease_*` — sister 44+ disease roadmaps (141-144 batch fold)
+- 본 disease = 141st disease roadmap entry, F-Q-6-H ramp 의 137th land.
+
+## 7. Cumulative cycles
+
+1 cycle (267). 141st, F-Q-6-H ramp = 137th land. Entry skeleton land 2026-05-08.
