@@ -188,6 +188,12 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 52  | 2026-05-07        | n6-lattice-check | quantum/module/n6_lattice_check.hexa — first cross-axis n=6 invariant verifier (5/5 consistent) | **F-Q-EXT-14 PASS**, commit b401098 (cycle 72) |
 | 53  | 2026-05-07        | registry-emitter | quantum/module/registry_witness_emitter.hexa — raw_77_*_v1 row builder + dry-run selftest | commit 4d59bf7 (cycle 73) |
 | 54  | 2026-05-07        | sister-axes-extend | sister_axes_status updated — 5 hexa-native modules tracked, 10/10 PASS | commit 5e8b02b (cycle 74) |
+| 55  | 2026-05-07        | F-Q-6-A-step-1 | _python_bridge/module/ligand_smiles_to_h.py — RDKit SMILES → 3D conformer → ParityMapper Hamiltonian (4/4 selftest H2/H2O/CH4/HCOOH) | commit e62f283 (cycle 78) |
+| 56  | 2026-05-07        | **F-Q-6-A1 PASS** | pocket_vqe_orchestrator.py — SMILES "[H][H]" → VQE end-to-end **0.65 mHa** of FCI ref (chem-acc 영역 안), wall 18.4 s | commit 2965d17 (cycle 79) |
+| 57  | 2026-05-07        | F-Q-6-A2-attempt | H2O 10qubit depth=1 max_iter 80 — delta 1715 mHa (NOT converged) | wall 258 s (cycle 80) |
+| 58  | 2026-05-07        | F-Q-6-A2-attempt2 | H2O 10qubit depth=2 max_iter 200 — delta 1602 mHa (113 mHa 개선, NOT converged) | wall 503 s (cycle 81) |
+| 59  | 2026-05-07        | **F-Q-6-A3 PASS** | wall scaling 측정 — 2q 4.5s → 10q 234s (52× wall, AerPool timeouts 0/45960 calls) | (cycle 81) |
+| 60  | 2026-05-07        | **F-Q-6-A2 honest-deferred** | hardware-efficient ansatz 가 10q 부터 expressivity 한계; UCCSD 또는 Phase B CASCI 가 다음 진입 | diagnosis row (cycle 81) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
@@ -218,7 +224,12 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 - **F-Q-EXT-14** (closed 2026-05-07): n6 lattice cross-axis check — 5/5 axes literal consistent (σ=12 / τ=4 / φ=2 / J₂=24, drift 0/5/4 axes). first cross-axis hexa-native invariant verifier.
 - **F-Q-4** (closed 2026-05-06): live ANU end-to-end. PASS: hexa-bio adapter pull --bytes 8 --live → provenance="anu_legacy" tier="anu-legacy" (T1.a, qrng.anu.edu.au) bytes_hex="5f8b2ee823e965cb". qmirror secret-chain fallback chain landed paid/trial/free 키 부재 → legacy 자동. See docs §22.
 - **F-Q-5** (closed 2026-05-06): long-lived bridge wall reduction ≥ 5×. n=15 re-bench measured **31.39×** (fresh 163.41s vs pool 5.21s; pool per-call **0.35s**), 6× threshold 초과 PASS. See docs §18.8.
-- **F-Q-6** (open): drug-target fragment. Awaits C cycle.
+- **F-Q-6** (PARTIAL 2026-05-07): drug-target pocket VQE. Phase A SMILES → VQE 의 첫 sub-falsifier (A1 H2 round-trip) closed; Phase A2/A3 + Phase B/C TBD.
+  - **F-Q-6-A1** (closed 2026-05-07): SMILES → 3D conformer → ParityMapper Hamiltonian → VQE round-trip H2 within chemical accuracy. Achieved **0.65 mHa = 0.41 kcal/mol** vs FCI ref -1.137306 Ha. RDKit ETKDGv3+UFF (no QM relaxation), STO-3G, depth=1, NM single-restart, seed=42, wall 18.4 s. commit 2965d17.
+  - **F-Q-6-A2** (honest-deferred 2026-05-07): H2O 10 qubit / 567 terms VQE chem-acc. depth=1 attempt: delta 1715 mHa NOT converged (wall 258 s); depth=2 attempt: delta 1602 mHa NOT converged (wall 503 s, 113 mHa 개선만). diagnosis: hardware-efficient RY-CNOT-RY ansatz 가 H2O 8-electron closed-shell expressivity 한계. **다음 ramp = UCCSD ansatz 또는 Phase B CASCI**.
+  - **F-Q-6-A3** (closed 2026-05-07): wall scaling 2q→10q. H2 4.5s VQE / H2O 234s VQE = **52× wall**, AerPool timeouts 0 / 45960 calls. F-Q-5 의 31× speedup (cold-vs-pool) 와 직교 — pure hardware scaling cost.
+  - **F-Q-6-B** (open): pocket_active_space.py CASCI for nirmatrelvir-class real ligand. **다음 cycle 진입 trigger**.
+  - **F-Q-6-C** (open): 10-ligand library ranking + BindingDB Ki correlation.
 
 raw#10 honest C3 (cycle-26 closure):
 
