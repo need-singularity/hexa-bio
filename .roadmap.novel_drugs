@@ -97,18 +97,34 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 
 ## 5. Phase plan
 
-### Phase A — Initial design land (this cycle 108)
+### Phase A — Initial design land (cycle 108) ✓ COMPLETE
 - 5 entry skeleton + naming convention
 - SMILES specified (derivation 명시)
 
-### Phase B — Build + VQE (next cycles)
-- 5 novel drug 의 build_active_space_hamiltonian 시도
-- chem-acc PASS = F-novel-drug-vqe-N
-- Phase B-real path (F-Q-6-B-real 의 자연 진화)
+### Phase B — Build + VQE (cycle 111) ✓ COMPLETE ⭐⭐⭐
+- 5/5 novel drugs all sub-µHa
+- hxq-gen-001 0.026 µHa = NEW LIBRARY BEST (paper-rounding limit territory)
+- F-Q-6-B-real path universality 검증 (FDA + de novo 모두 동일 path)
 
-### Phase C — Pocket supersystem (Tier 1 ramp F-Q-6-D)
-- per-drug + target active-site supersystem VQE
-- 진정한 drug-target binding affinity
+### Phase C — Pocket supersystem (Tier 1 ramp F-Q-6-D) — IN-PROGRESS
+
+#### Attempt 1: 자동 frontier-orbital ActiveSpaceTransformer (cycle 113) — honest-fail
+- methyl_acrylate (Michael acceptor) + methyl_thiol (Cys mimic) supersystem
+- 자동 2e/2o ActiveSpaceTransformer 가 fragment HOMO+LUMO 와 supersystem HOMO+LUMO 에 다른 orbital mapping
+- E_int = E(super) − E(acrylate) − E(thiol) = +5308 kcal/mol (physically nonsensical, wrong sign + magnitude)
+- 진단: apples-to-oranges 2e/2o 비교 — interaction energy 계산 invalid
+
+#### Attempt 2: 4e/4o UCCSD on supersystem (cycle 113-114) — IN-PROGRESS
+- cycle 85 H2O 4e/4o UCCSD chem-acc 0.6338 mHa PASS 의 자연 진화
+- 4e/4o = 4 frontier orbitals → 두 fragment 의 HOMO+LUMO 모두 cover 가능
+- UCCSD ansatz (chemistry-aware Trotter cluster operator)
+- 결과 도착 시 land
+
+#### Attempt 3+ (TBD): 추가 candidates
+- explicit orbital indices selection (chemistry judgment)
+- full FCI without active-space reduction (very small system 만)
+- 8e/8o + UCCSD (larger active-space)
+- explicit pocket residue active-space (Cys145 + His41 + ligand reactive 부분 — F-Q-6-D-1 nirmatrelvir target)
 
 ### Phase D — Library ranking (Tier 1 ramp F-Q-6-F)
 - 각 target 마다 5-10 candidate library
