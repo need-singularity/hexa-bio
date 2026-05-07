@@ -403,3 +403,25 @@ raw#10 honest C3 (cycle-26 closure):
 2. Tier 1 (F-Q-6-D/E/F) 가 hexa-bio 의 진정한 drug-target VQE path. isolated drug E_total (현재 11-drug library) 만 으로는 wet-lab 의미 한정.
 3. Tier 4 (preclinical / cc-pVDZ / wet-lab) 는 hexa-bio in-silico-only scope 밖 — 사용자 결정 + 외부 ecosystem 필요.
 4. 본 ramp catalog 는 이번 cron loop (cycles 78-106) 의 진정한 closure 점 — 더 진행 시 사용자 explicit directive.
+
+---
+
+## 신규 약물 기준 cross-link (2026-05-07 cycle 110)
+
+본 .roadmap.quantum 의 §Next ramps catalog Tier 1-4 가 신규 약물 (de novo drug) 기준 ramp 와 직결. 11 roadmap files 일관 cross-link 의 QUANTUM axis representative section.
+
+cross-link:
+- `.roadmap.novel_drugs` — de novo drug list (5 hxq-* candidates, cycle 108 entry)
+- `.roadmap.fda_drug_verification` — verification phase historical (cycles 78-107, 11-drug FDA library)
+- `.roadmap.meta_novel_drugs` §1.1 — QUANTUM axis representative role
+- `.roadmap.disease_{cancer,alopecia,mi,lung_normalization}` §7 — disease-specific Phase α-δ
+- `.roadmap.{ribozyme,virocapsid,nanobot,weave}` §reframe — sister axis representatives
+- `.roadmap.hexa_bio` §reframe — top-level cross-cutting
+- `.roadmap.lean4_formal` §reframe — formal verification representative
+
+→ 14 .roadmap files 신규 약물 기준 일관 cross-link 완료.
+
+진정한 main work scope:
+- main: `.roadmap.novel_drugs` Phase B (de novo build + VQE)
+- meta: `.roadmap.meta_novel_drugs` Phase γ (5-axis lifecycle)
+- ramp: 본 §Next ramps catalog Tier 1 (F-Q-6-D pocket VQE, F-Q-6-E UCCSD, F-Q-6-F library ranking)

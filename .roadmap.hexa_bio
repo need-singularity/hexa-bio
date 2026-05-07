@@ -494,3 +494,24 @@ remains PENDING with TBD-cycle26 deadline.
   PASS = each of F-TP5-b/F-NB-4/F-RB-4/F-VIROCAPSID-3 regression criteria
   fires deterministically on synthetic-bad fixture and stays green on
   baseline. Falsifier set: §A.9 regression preregister.
+
+---
+
+## 신규 약물 기준 재구성 (2026-05-07 cycle 110)
+
+본 top-level cross-cutting roadmap 의 main work scope 가 hexa-bio 의 신규 약물 (de novo drug) lifecycle 로 reframe. 기존 5-axis canonical content 는 per-axis roadmap (`.roadmap.{ribozyme/virocapsid/nanobot/weave/quantum}`) 으로 위임 + 본 file 은 cross-axis n=6 invariant + cross-cutting state 유지.
+
+cross-link (top-level inventory of all .roadmap files):
+- main work: `.roadmap.novel_drugs` (entry, 5 hxq-* candidates) + `.roadmap.meta_novel_drugs` (5-axis representative + 6-stage lifecycle)
+- verification historical: `.roadmap.fda_drug_verification` (cycles 78-107)
+- 4 disease-specific: `.roadmap.disease_{cancer,alopecia,mi,lung_normalization}`
+- 5 axis canonical: `.roadmap.{ribozyme,virocapsid,nanobot,weave,quantum}`
+- formal verification: `.roadmap.lean4_formal`
+- top-level (this): `.roadmap.hexa_bio`
+→ 14 .roadmap files 모두 신규 약물 기준 일관 cross-link.
+
+본 cross-cutting state 의 신규 약물 contribution = **n=6 invariant validation** for novel drugs:
+- σ(6)=12 / τ(6)=4 / φ(6)=2 / J₂(6)=24 가 novel drug 의 5-axis 통합 lifecycle 에서 보존
+- F-Q-EXT-14 n6_lattice_check (cycle 72) 가 novel drug context 에서 재검증 — `.roadmap.meta_novel_drugs` Phase γ pilot 시 자동 run.
+
+§A.9 regression preregister 의 F-{TP5-b/NB-4/RB-4/VIROCAPSID-3}-REGRESSION 가 novel drug 진입 시 baseline gate — synthetic-bad fixture 의 deterministic fire 검증이 novel drug axis-specific evidence land 시 prerequisite.

@@ -134,3 +134,29 @@ promotion trajectory. `.roadmap.weave` F-CL-FORMAL entries reference
 this file for cycle 30+ tracking. Do NOT promote axes 2/3/4 to
 "REAL-SEMANTICS PROVEN" anywhere else without updating §1 status table
 and §3 work-order checkmarks here first.
+
+---
+
+## 신규 약물 기준 재구성 (2026-05-07 cycle 110)
+
+본 lean4 formal verification roadmap 의 main work scope 가 hexa-bio 의 신규 약물 (de novo drug) lifecycle 안에서 formal verification representative role 로 reframe. 기존 F-CL-FORMAL-* axes (1-4) WEAVE composition algebra 는 canonical 보존; novel drug context 의 formal verification scope 추가.
+
+cross-link:
+- `.roadmap.novel_drugs` — de novo drug list
+- `.roadmap.meta_novel_drugs` — 5-axis + 6-stage lifecycle
+- `.roadmap.weave` — WEAVE composition algebra (lean4 single source of truth)
+
+### Novel drug formal verification scope
+
+novel drug lifecycle 의 formal verification 가능 부분:
+- **Stage 1 Design**: SMILES → 3D conformer 의 RDKit determinism (ETKDGv3+UFF seed reproducibility)
+- **Stage 2 Quantum VQE**: ParityMapper Z2 tapering 의 algebraic preservation (lean4 group-theoretic proof)
+- **Stage 3 Delivery**: WEAVE scaffold composition 의 lean4 axes 1-4 (existing formal track)
+- **Stage 5 Disease phenotype**: σ(6)=12 / τ(6)=4 / φ(6)=2 / J₂(6)=24 invariant 의 lean4 mechanical proof
+- **Stage 6 Ranking**: Spearman correlation algebraic property
+
+본 lean4 track 의 진정한 next ramp = novel drug 의 lifecycle 안에서 axes 1-4 promote 시 5-axis 통합 검증 자동 prerequisite.
+
+raw#10 honest C3:
+  - lean4 mechanical proof = real-semantics promotion (axes 2/3/4); novel drug 의 wet-lab efficacy 와는 별도 layer.
+  - formal verification 의 scope = WEAVE composition + 5-axis invariant; novel drug binding-affinity 의 quantum chem-acc 자체는 lean4 외부 (PySCF + qiskit-nature 의 numerical verification).
