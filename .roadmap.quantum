@@ -199,6 +199,7 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 63  | 2026-05-07        | F-Q-6-B2-attempt1 | H2O 4e/4o → 6 qubit / 103 terms → depth=2 NOT converged delta 365 mHa; depth=3 또는 multi-restart 또는 UCCSD next | (cycle 82) |
 | 64  | 2026-05-07        | F-Q-6-B2-attempt2-sweep | H2O 4e/4o depth=3 max_iter=300 × 5 seeds — best delta 41.8 mHa (8.7× 개선), 모두 NOT converged, variance 17.6× | (cycle 83) |
 | 65  | 2026-05-07        | **F-Q-6-B2 honest-deferred** | hardware-efficient ansatz 가 6-qubit 부터 expressivity wall 도달; UCCSD chemistry-aware ansatz 가 next ramp | diagnosis row (cycle 83) |
+| 66  | 2026-05-07        | F-Q-6-B-step-3 | _python_bridge/module/quantum_ansatz_uccsd.py — qiskit-nature UCCSD + HartreeFock + Statevector primitive (NM optimizer); H2 UCCSD F1 PASS delta 22 µHa | (cycle 84) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
