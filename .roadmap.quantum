@@ -216,6 +216,7 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 80  | 2026-05-07        | docs(disease) | 4 disease roadmap skeleton — `.roadmap.disease_{cancer,alopecia,mi,lung_normalization}` (5-axis cross-contribution) | commit 64bfc8d (cycle 98) |
 | 81  | 2026-05-07        | **F-disease-lung-Q-pirfenidone PASS** ⭐ | pirfenidone (IPF FDA antifibrotic) → sub-µHa 0.215 µHa; .roadmap.disease_lung_normalization Phase B entry first drug | (cycle 99) |
 | 82  | 2026-05-07        | **F-disease-alopecia-Q-minoxidil PASS** ⭐ | minoxidil aminopyrimidine fragment (AGA topical Rogaine 1988) → sub-µHa 0.611 µHa; .roadmap.disease_alopecia Phase B entry first drug (fragment, full N-oxide SMILES TBD) | (cycle 100) |
+| 83  | 2026-05-07        | **F-disease-mi-Q-aspirin-crosslink** | aspirin (MI primary/secondary prevention) cross-link evidence reuse from F-Q-6-B-real-aspirin-vqe (cycle 90, delta 0.401 µHa); .roadmap.disease_mi Phase B entry first drug | (cycle 101) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
