@@ -32,8 +32,18 @@ hexa-bio 의 5 axis (RIBOZYME / VIROCAPSID / NANOBOT / WEAVE / QUANTUM) 가 20 d
 | 18| disease_musculoskeletal   | 12 (OA/osteo/DMD/SMA)| 19 targets | hxq-msk-rsd-001              |  130  |
 | 19| disease_endocrine         | 8 systems        | 18 targets    | hxq-endo-sstr-001            |  131  |
 | 20| disease_urological        | 12 (BPH/ED/OAB/UTI)| 21 targets  | hxq-uro-ar-001               |  132  |
+| 21| disease_pediatric_rare    | umbrella ~7000 orphan| 21 targets | hxq-rare-cftr-001            |  133  |
+| 22| disease_transplant        | 8 conditions     | 17 targets    | hxq-transplant-cna-001       |  143  |
+| 23| disease_vaccinology       | preventive paradigm| 19 vaccines | hxq-vacc-cpg-001             |  144  |
+| 24| disease_reproductive      | 10 conditions    | 19 targets    | hxq-repro-fshr-001           |  145  |
+| 25| disease_cardiology        | 12 (HF/AFib/HCM/PAH)| 21 targets | hxq-cardio-myosin-001        |  147  |
+| 26| disease_sleep             | 10 conditions    | 19 targets    | hxq-sleep-orexin-001         |  148  |
+| 27| disease_critical_care     | 10 conditions    | 21 antidotes/agents | hxq-icu-tlr4-001       |  149  |
+| 28| disease_allergy_immunodef | 11 conditions    | 18 targets    | hxq-allergy-cyslt1-001       |  150  |
+| 29| disease_toxicology        | 13 categories    | 24 antidotes  | hxq-tox-mor-001              |  152  |
+| 30| disease_nutrition ⭐      | 11 categories    | 23 nutrients/drugs | hxq-nutr-vdr-001       |  153  |
 
-→ **20 disease roadmaps × ~17 targets = ~340 unique drug-target opportunities**.
+→ **30 disease roadmaps × ~19 targets = ~570 unique drug-target opportunities** ⭐ round-number milestone.
 
 ---
 
