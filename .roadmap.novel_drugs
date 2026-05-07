@@ -37,15 +37,29 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 
 (entries land as VQE evidence becomes available)
 
-### Initial design (cycle 108)
+### Initial design (cycle 108) → Phase B VQE (cycle 111) ALL VQE-PASS sub-µHa ⭐⭐⭐
 
-| ID                  | disease | target            | SMILES (initial design)                          | derivation                                  | status |
-|---------------------|---------|-------------------|--------------------------------------------------|---------------------------------------------|--------|
-| `hxq-ca-krs-001`    | cancer  | KRAS-G12C         | `CC(C)Cn1c2c(c(=O)n(c1=O)Cc1ccc(F)cc1)CC(N2)CCl` | sotorasib-like covalent acrylamide simplified | DESIGN |
-| `hxq-al-ar-001`     | alopecia| androgen receptor | `CC(C)(C)N(C(=O)C1CC(=O)N=C1)C1CCCCC1`          | finasteride-like aza-steroid simplification | DESIGN |
-| `hxq-mi-hmg-001`    | mi      | HMG-CoA reductase | `OC(=O)CC(O)CC(=O)Oc1ccc(C(C)(C)C)cc1`          | statin HMG-mimetic + bulky aryl ester       | DESIGN |
-| `hxq-ln-tgf-001`    | lung    | TGF-β receptor    | `Cc1cc(=O)n(-c2ccc(N)cc2)cc1`                    | pirfenidone-like pyridinone + amine handle | DESIGN |
-| `hxq-gen-001`       | general | scaffold          | `OC(=O)c1cc(F)ccc1NC(=O)C(C)C`                    | aspirin-like aryl-amide-acid                | DESIGN |
+| ID                  | disease | target            | heavy | delta (µHa) | status     | cycle |
+|---------------------|---------|-------------------|-------|-------------|------------|-------|
+| `hxq-gen-001`       | general | scaffold          |   13  |   **0.026** ⭐ NEW BEST | VQE-PASS | 111 |
+| `hxq-al-ar-001`     | alopecia| AR / 5α-reductase |   16  |     0.175   | VQE-PASS   | 111   |
+| `hxq-ln-tgf-001`    | lung    | TGF-β receptor    |   13  |     0.247   | VQE-PASS   | 111   |
+| `hxq-ca-krs-001`    | cancer  | KRAS-G12C         |   19  |     0.311   | VQE-PASS   | 111   |
+| `hxq-mi-hmg-001`    | mi      | HMG-CoA reductase |   17  |     0.526   | VQE-PASS   | 111   |
+
+5/5 chem-acc + sub-µHa, all converged. 동일 path (2e/2o + ParityMapper + hardware-eff depth=1).
+
+**Library snapshot post-Phase-B**: 16 drugs total (11 FDA + 5 novel) — 15 sub-µHa + 1 above-µHa (finasteride 1.020 µHa). hxq-gen-001 0.026 µHa = library best.
+
+### Initial design SMILES (reference)
+
+| ID                  | SMILES                                                  | derivation                                  |
+|---------------------|---------------------------------------------------------|---------------------------------------------|
+| `hxq-ca-krs-001`    | `CC(C)Cn1c2c(c(=O)n(c1=O)Cc1ccc(F)cc1)CC(N2)CCl`        | sotorasib-like covalent acrylamide simpl.   |
+| `hxq-al-ar-001`     | `CC(C)(C)N(C(=O)C1CC(=O)N=C1)C1CCCCC1`                  | finasteride-like aza-steroid simplification |
+| `hxq-mi-hmg-001`    | `OC(=O)CC(O)CC(=O)Oc1ccc(C(C)(C)C)cc1`                  | statin HMG-mimetic + bulky aryl ester       |
+| `hxq-ln-tgf-001`    | `Cc1cc(=O)n(-c2ccc(N)cc2)cc1`                           | pirfenidone-like pyridinone + amine handle  |
+| `hxq-gen-001`       | `OC(=O)c1cc(F)ccc1NC(=O)C(C)C`                          | aspirin-like aryl-amide-acid                |
 
 ---
 
