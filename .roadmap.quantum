@@ -213,6 +213,8 @@ Witness: `state/discovery_absorption/registry.jsonl` row `raw_77_external_system
 | 77  | 2026-05-07        | docs(quantum) | docs/qpu_bridge_bio_application.md §26 — F-Q-6 Phase A+B+C-mini full cycle docs (174 lines) | commit bfe37ea (cycle 95) |
 | 78  | 2026-05-07        | **F-Q-6-B-real-nirmatrelvir VQE PASS** ⭐⭐⭐ | REAL DRUG nirmatrelvir (FDA Paxlovid 50 heavy atom SARS-CoV-2 Mpro inhibitor) → 2 qubit / 9 terms → VQE **sub-µHa 0.557 µHa**; build 62 min + VQE 1.76 s | F-Q-6-B-real ENTIRE PATH CLOSED (cycle 97) |
 | 79  | 2026-05-07        | **F-Q-6-C-mini-library 6-drug** | 6-drug reproducibility: H2O / aspirin / ibuprofen / paracetamol / caffeine / nirmatrelvir 모두 sub-µHa, range 0.177-0.557 µHa across 3-50 heavy atoms | (cycle 97) |
+| 80  | 2026-05-07        | docs(disease) | 4 disease roadmap skeleton — `.roadmap.disease_{cancer,alopecia,mi,lung_normalization}` (5-axis cross-contribution) | commit 64bfc8d (cycle 98) |
+| 81  | 2026-05-07        | **F-disease-lung-Q-pirfenidone PASS** ⭐ | pirfenidone (IPF FDA antifibrotic) → sub-µHa 0.215 µHa; .roadmap.disease_lung_normalization Phase B entry first drug | (cycle 99) |
 
 **Cumulative**: 7 commits, 14 falsifier-equivalent PASS, end-to-end H₂ ground-state spectroscopic accuracy. cost $0, external dep added 0, cross-repo edits committed 0 (consumers += pending in nexus session).
 
