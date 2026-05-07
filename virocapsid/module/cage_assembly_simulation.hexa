@@ -428,7 +428,101 @@ fn parse_argv(av) {
     return r
 }
 
+
+
+// Constant-injectable variants (R5 sunset 2026-05-07): allow ablation /
+// remediation runners to override K12/K21/K_CLOSE/K_OPEN without mutating
+// module globals (hexa let-bindings forbid post-init mutation).
+fn rhs_c(state, k12: float, k21: float, k_close: float, k_open: float) {
+    let C1 = state[0]; let C2 = state[1]; let C3 = state[2]; let C4 = state[3]
+    let C1p = fmax(C1, 0.0); let C2p = fmax(C2, 0.0); let C3p = fmax(C3, 0.0); let C4p = fmax(C4, 0.0)
+    let r12 = k12 * pow(C1p, 5.0)
+    let r21 = k21 * C2p
+    let r13 = K13 * pow(C1p, 6.0)
+    let r31 = K31 * C3p
+    let r_close = k_close * pow(C2p, to_float(N_PENT_PER_CAGE))
+    let r_open = k_open * C4p
+    return [
+        0.0 - 5.0 * r12 + 5.0 * r21 - 6.0 * r13 + 6.0 * r31,
+        r12 - r21 - 12.0 * r_close + 12.0 * r_open,
+        r13 - r31,
+        r_close - r_open
+    ]
+}
+
+fn step_be_c(state, dt: float, k12: float, k21: float, k_close: float, k_open: float) {
+    let d0 = rhs_c(state, k12, k21, k_close, k_open)
+    let mut y = add_scaled(state, d0, dt)
+    let omega = 0.5
+    let max_iter = 12
+    let tol = 1.0e-10
+    let mut iter = 0
+    while iter < max_iter {
+        let d = rhs_c(y, k12, k21, k_close, k_open)
+        let y_new = add_scaled(state, d, dt)
+        let y_d = [
+            omega * y_new[0] + (1.0 - omega) * y[0],
+            omega * y_new[1] + (1.0 - omega) * y[1],
+            omega * y_new[2] + (1.0 - omega) * y[2],
+            omega * y_new[3] + (1.0 - omega) * y[3]
+        ]
+        let mut err = 0.0
+        let mut ie = 0
+        while ie < 4 {
+            let e = fabs(y_d[ie] - y[ie])
+            if e > err { err = e }
+            ie = ie + 1
+        }
+        y = y_d
+        if err < tol { return y }
+        iter = iter + 1
+    }
+    return y
+}
+
+pub fn integrate_be_c(c0: float, t_end: float, dt: float, sample_times, k12: float, k21: float, k_close: float, k_open: float) {
+    let mut state = [c0, 0.0, 0.0, 0.0]
+    let mass0 = state[0] + 5.0 * state[1] + 6.0 * state[2] + to_float(N_CP_PER_CAGE) * state[3]
+    let samples_t = []
+    let samples_s = []
+    samples_t.push(0.0)
+    samples_s.push(state)
+    let mut sample_idx = 1
+    let n_steps = to_int(t_end / dt + 0.5)
+    let mut i = 0
+    while i < n_steps {
+        state = step_be_c(state, dt, k12, k21, k_close, k_open)
+        let t = to_float(i + 1) * dt
+        while sample_idx < len(sample_times) && t + 1.0e-9 >= sample_times[sample_idx] {
+            samples_t.push(sample_times[sample_idx])
+            samples_s.push(state)
+            sample_idx = sample_idx + 1
+        }
+        i = i + 1
+    }
+    let r = {}
+    r["samples_t"] = samples_t
+    r["samples_s"] = samples_s
+    r["final"] = state
+    r["mass0"] = mass0
+    r["n_steps"] = n_steps
+    return r
+}
+
+pub fn n_cp_per_cage() -> int { return N_CP_PER_CAGE }
+
 fn main() {
+    let av = args()
+    let mut has_cli = false
+    let mut ai = 0
+    while ai < len(av) {
+        let a = av[ai]
+        if a == "--no-emit" || a == "--quiet" || a == "--c0" || a == "--t-end" || a == "--dt" || a == "--preset" || a == "--secondary-method" || a == "--t-number" {
+            has_cli = true
+        }
+        ai = ai + 1
+    }
+    if !has_cli { return }
     let parsed = parse_argv(args())
 
     if parsed["preset"] == "hbv" {
