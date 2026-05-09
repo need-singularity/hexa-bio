@@ -60,19 +60,19 @@ Two-phase session on 2026-05-06:
 
 ## §2 Outstanding items by category
 
-### §2.1 Cross-repo (n6-architecture canonical work)
+### §2.1 Cross-repo (canon canonical work)
 
-These require a separate session **in n6-architecture's own repo**, per
+These require a separate session **in canon's own repo**, per
 `memory/feedback_cross_repo_canonical.md`. Do NOT attempt cross-repo
 canonical edits from hexa-bio.
 
 - **GATE-26-2 lean4 mechanical layer** — in-repo scaffold landed
   (`weave/spec/lean4_mechanical_layer_v0.scaffold.md`,
   `weave/spec/lean4_proof_witness_v0.schema.json`). Proof bodies for
-  F-CL-FORMAL-1/2/3 must materialise upstream in n6-architecture
+  F-CL-FORMAL-1/2/3 must materialise upstream in canon
   (cycle 30+ realistic horizon). Hexa-bio side is consumer-contract-locked.
 - **F-NB-5 cross-repo handshake** — N-R2 handshake JSON must land in
-  `~/core/n6-architecture/life/therapeutic-nanobot/therapeutic-nanobot.md`
+  `~/core/canon/life/therapeutic-nanobot/therapeutic-nanobot.md`
   §3 / §11. Until then, F-NB-1-c sub-clause (in-silico) remains
   DEFERRED. PARTIAL mitigation in hexa-bio already complete this session.
 - **synbio repo stub** — if present in cycle-26 candidate set, edits
@@ -124,7 +124,7 @@ Run these commands first thing, before any new work:
 ```sh
 # 1. Pull latest on both repos (canonical SSOT may have moved upstream)
 cd ~/core/hexa-bio && git pull origin main
-cd ~/core/n6-architecture && git pull origin main
+cd ~/core/canon && git pull origin main
 cd ~/core/hexa-bio
 
 # 2. Pre-merge gate (≥3 PASS / 4 selftests required; f_tp5_e expected

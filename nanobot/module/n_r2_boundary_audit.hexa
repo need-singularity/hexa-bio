@@ -14,7 +14,7 @@
 //
 // Per cross-cutting Require (R5) raw 9 hexa-only: hexa stdlib only.
 
-let DEFAULT_CANONICAL_HANDOFF_REL = "/core/n6-architecture/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json"
+let DEFAULT_CANONICAL_HANDOFF_REL = "/core/canon/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json"
 let THRESHOLD_OVERLAP_RATIO = 0.5
 
 fn registry_path() -> string {
@@ -243,7 +243,7 @@ fn build_witness(l0_l6, canonical_path: string, ch_present: bool, ch_l7_l9, ch_e
 
     if !ch_present || type_of(ch_l7_l9) == "void" || ch_l7_l9 == void {
         status = "CANONICAL_PENDING"
-        c3_extra = "Canonical handoff JSON absent at expected path (~/core/n6-architecture/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json). Hexa-bio side mitigation already declared in .roadmap.nanobot N-R2 (single-molecule architectural primitive scope L0-L6 vs clinical-application system L7-L9). Full F-NB-5 closure blocked on n6-architecture canonical session per memory/feedback_cross_repo_canonical.md. F-NB-1-c remains DEFERRED until canonical handoff JSON lands and ratio < 0.5 is verified."
+        c3_extra = "Canonical handoff JSON absent at expected path (~/core/canon/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json). Hexa-bio side mitigation already declared in .roadmap.nanobot N-R2 (single-molecule architectural primitive scope L0-L6 vs clinical-application system L7-L9). Full F-NB-5 closure blocked on canon canonical session per memory/feedback_cross_repo_canonical.md. F-NB-1-c remains DEFERRED until canonical handoff JSON lands and ratio < 0.5 is verified."
         if type_of(ch_error) == "string" {
             c3_extra = c3_extra + " Parse error encountered: " + ch_error + "."
         }
@@ -303,7 +303,7 @@ fn build_witness(l0_l6, canonical_path: string, ch_present: bool, ch_l7_l9, ch_e
     w["deferred_to_cross_repo"] = !ch_present
     w["raw_138_sentinel"] = "__N_R2_BOUNDARY_AUDIT__ " + status
     w["raw_91_c3_disclose"] = "(1) Hexa-bio L0-L6 primitives extracted by direct-read of cycle-24 raw_77_nanobot_actuation_v1 fields (skeleton, n6_invariant, T_kelvin/kT_J, gamma_Ns_per_m, state_visit_counts, pose_canonicalize_speedup_factor, work_per_cycle_kT_units). (2) Collision overlap is Jaccard on canonical-string set representation; semantic equivalence between L0-L6 and L7-L9 labels is intentionally string-strict — overlap should be ZERO for proper L-layer separation, not merely <0.5. (3) Threshold 0.5 is the F-NB-1-c gate per .roadmap.nanobot:66; tighter audit may apply during cycle-26 canonical handshake. " + c3_extra
-    w["raw_47_cross_repo"] = "Self-contained hexa-bio-side audit; READ-ONLY consumer of canonical handoff JSON published by n6-architecture canonical session. Schema raw_77_nanobot_n_r2_boundary_audit_v1 parallel to raw_77_nanobot_l6_handoff_v1 (emission contract) and raw_77_nanobot_subclause_direct_read_v* (sister-genus closures)."
+    w["raw_47_cross_repo"] = "Self-contained hexa-bio-side audit; READ-ONLY consumer of canonical handoff JSON published by canon canonical session. Schema raw_77_nanobot_n_r2_boundary_audit_v1 parallel to raw_77_nanobot_l6_handoff_v1 (emission contract) and raw_77_nanobot_subclause_direct_read_v* (sister-genus closures)."
     w["raw_9_hexa_only"] = "hexa stdlib only (R5 sunset 2026-05-07) — no jsonschema / no requests / no yaml. Filesystem read via file_exists + read_file; JSON via json_parse builtin."
     w["raw_53_deterministic"] = "deterministic given the cycle-24 actuation witness and (when present) canonical handoff JSON snapshot."
     w["raw_77_append_only"] = true

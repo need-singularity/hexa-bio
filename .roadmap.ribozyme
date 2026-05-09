@@ -45,7 +45,7 @@ C2 cells delivered (cycle 25) cover (1) at metadata-annotation grade; (2) and (3
 - **(R-R2)** Sister-axis 분담 (C0a 결과 2026-05-05 — F-RB-5 **PASS WITH MITIGATION**, upgraded 2026-05-06 to **PASS** on synbio-canonical landing): hexa-bio RIBOZYME = catalytic-RNA **architectural primitive** (active-site σ(6)=12 core residues, τ(6)=4 reaction states, k_cat/K_M Eigen-Hammes diffusion ceiling, in-silico chemical-kinetics simulation L0-L4); `life/crispr-gene-editing/` = Cas9-sgRNA **system integration** + clinical delivery (downstream, no genus collision); `life/synbio/` = **in-vitro selection / SELEX** library construction + metabolic-chassis embedding. **Formalised boundary (RIBOZYME ↔ synbio/SELEX, lands §STALLED draft 2026-05-06):**
   - **Design-stage (RIBOZYME owner)**: in-silico sequence proposal, σ(6)=12 catalytic-core annotation, k_cat/K_M Eigen-Hammes margin estimate, 4-state ladder simulation (L0–L4 of n6 lattice). Output = registry row schemas `raw_77_ribozyme_kinetics_v1` (cycle 24 MVP) + `raw_77_ribozyme_design_v1` (R-R1 contract; sequence + rate constants + structural-grade tag).
   - **Selection-stage (synbio/SELEX owner, out-of-repo)**: wet-lab library construction, in-vitro round-by-round enrichment, catalytic-activity assay, hit deconvolution. Routes to L9 application layer.
-  - **Handshake artefact**: registry SA-row schema family `raw_77_ribozyme_selex_handoff_v0` (joint pair: hexa-bio emits `raw_77_ribozyme_design_v1` per R-R1 contract; synbio emits `raw_77_ribozyme_selex_v0` defined in canonical synbio-side schema). **synbio canonical stub LANDED 2026-05-06** at `~/core/n6-architecture/domains/life/synbio/synbio.md` "Canonical boundary spec" block (§1 Scope / §2 Boundary / §3 Handoff schema spec / §4 raw_91 honest C3) + `~/core/n6-architecture/domains/life/synbio/spec/selex_v0.schema.json` (draft 2020-12 schema for the synbio-side selection-stage row). Handshake schema `raw_77_ribozyme_selex_handoff_v0` / `raw_77_ribozyme_selex_v0` formally defined; live cross-repo dependency live. **raw_91 honest C3**: synbio repo is stub (no live wet-lab SELEX assays at land time; live SELEX rounds scheduled hexa-bio cycle 30+); R-R2 reference no longer declarative-only (canonical SSOT exists), but no `raw_77_ribozyme_selex_v0` rows have been emitted (no wet-lab data).
+  - **Handshake artefact**: registry SA-row schema family `raw_77_ribozyme_selex_handoff_v0` (joint pair: hexa-bio emits `raw_77_ribozyme_design_v1` per R-R1 contract; synbio emits `raw_77_ribozyme_selex_v0` defined in canonical synbio-side schema). **synbio canonical stub LANDED 2026-05-06** at `~/core/canon/domains/life/synbio/synbio.md` "Canonical boundary spec" block (§1 Scope / §2 Boundary / §3 Handoff schema spec / §4 raw_91 honest C3) + `~/core/canon/domains/life/synbio/spec/selex_v0.schema.json` (draft 2020-12 schema for the synbio-side selection-stage row). Handshake schema `raw_77_ribozyme_selex_handoff_v0` / `raw_77_ribozyme_selex_v0` formally defined; live cross-repo dependency live. **raw_91 honest C3**: synbio repo is stub (no live wet-lab SELEX assays at land time; live SELEX rounds scheduled hexa-bio cycle 30+); R-R2 reference no longer declarative-only (canonical SSOT exists), but no `raw_77_ribozyme_selex_v0` rows have been emitted (no wet-lab data).
 - **(R-R3)** Meta `.roadmap.hexa_bio` §E (R1-R8) 전 도메인 Require 상속
 
 ## Status snapshot
@@ -72,7 +72,7 @@ candidate gates" section below._
 - **Genus distinction** (vs WEAVE / NANOBOT): F-RB-1-genus / F-RB-1-b / F-RB-1-c
 - **n6 invariant binding**: F-RB-2-n6-decorative / F-RB-2-b / F-RB-2-c / F-RB-2-inter-rater
 - **90-day MVP gate**: F-RB-4-MVP-90day / F-RB-4-b / F-RB-4-c
-- **Sister-axis collision**: F-RB-5-sister-axis-collision / F-RB-5-b / F-RB-5-c — **PASS** (synbio boundary canonical-side LANDED 2026-05-06 at `~/core/n6-architecture/domains/life/synbio/`, declarative — handshake schema pair `raw_77_ribozyme_design_v1` / `raw_77_ribozyme_selex_v0` formally defined; no wet-lab assays. C0a audit 2026-05-05: CRISPR clean genus separation. Mitigation cleared on synbio-canonical landing; raw_91 honest C3 stub-repo state retained.)
+- **Sister-axis collision**: F-RB-5-sister-axis-collision / F-RB-5-b / F-RB-5-c — **PASS** (synbio boundary canonical-side LANDED 2026-05-06 at `~/core/canon/domains/life/synbio/`, declarative — handshake schema pair `raw_77_ribozyme_design_v1` / `raw_77_ribozyme_selex_v0` formally defined; no wet-lab assays. C0a audit 2026-05-05: CRISPR clean genus separation. Mitigation cleared on synbio-canonical landing; raw_91 honest C3 stub-repo state retained.)
 - **Diffusion limit**: F-RB-3-diffusion-limit / F-RB-3-b / F-RB-3-c
 
 ### Sub-falsifier scaffolding (lands §STALLED drafts 2026-05-06; mirrors NANOBOT F-NB-1/F-NB-3 pattern; deadline 2026-09-28 unless noted)
@@ -116,7 +116,7 @@ status 마커: DRIFT · STALE · UNDEFINED · AMBIGUOUS · INFORMAL · DANGLING.
 - **[STALE] Status snapshot CHI2 (lines 42–48)** — Current `n=0` 표기, 실제 F-RB-2 n=30 PASS (CHANGELOG L54). **Resolution:** snapshot 갱신. [RESOLVED 2026-05-06]
 - **[STALE] "Open work" 섹션 (lines 54–60)** — 모두 PASS / closed (hammerhead-minimal 빌드, Bayesian audit 등 cycle 24–25 완료). **Resolution:** 섹션 prune 또는 cycle 26 항목으로 교체. [RESOLVED 2026-05-06]
 - **[STALE] F-RB-2 suspicious-perfect caveat 미반영 (line 30 + CHANGELOG L54–62)** — `log_bf=79.74` 30/30 perfect, "scoring-rubric subjectivity" + inter-rater follow-up 필요. 로드맵엔 게이트 없음. **Resolution:** "PASS PENDING INTER-RATER" 표기 + cycle 26 follow-up 게이트. [PROMOTED 2026-05-06 — see §G G26-RB-1 (PASS κ ≥ 0.6 deadline 2026-06-15, falsifier mapping F-RB-2-inter-rater, witness raw_77_ribozyme_interrater_v1).]
-- **[INFORMAL] R-R2 SELEX boundary (line 37)** — `life/synbio/` repo 비-존재 reference, "design-stage vs selection-stage" 경계 비공식. **Resolution:** 경계 공식 정의 또는 SA 핸드오프 별도 등록. [LANDED 2026-05-06 — R-R2 expanded with formalised 3-bullet design/selection/handshake boundary; draft retained below for traceability.] [UPGRADED 2026-05-06 — synbio canonical-side stub LANDED at `~/core/n6-architecture/domains/life/synbio/` (synbio.md "Canonical boundary spec" block + spec/selex_v0.schema.json). R-R2 reference upgraded from declarative-only → live cross-repo dependency. F-RB-5 promoted PASS WITH MITIGATION → PASS. raw_91 honest C3: synbio side is stub repo (no wet-lab assays); selex_v0 row data unpopulated until cycle 30+.]
+- **[INFORMAL] R-R2 SELEX boundary (line 37)** — `life/synbio/` repo 비-존재 reference, "design-stage vs selection-stage" 경계 비공식. **Resolution:** 경계 공식 정의 또는 SA 핸드오프 별도 등록. [LANDED 2026-05-06 — R-R2 expanded with formalised 3-bullet design/selection/handshake boundary; draft retained below for traceability.] [UPGRADED 2026-05-06 — synbio canonical-side stub LANDED at `~/core/canon/domains/life/synbio/` (synbio.md "Canonical boundary spec" block + spec/selex_v0.schema.json). R-R2 reference upgraded from declarative-only → live cross-repo dependency. F-RB-5 promoted PASS WITH MITIGATION → PASS. raw_91 honest C3: synbio side is stub repo (no wet-lab assays); selex_v0 row data unpopulated until cycle 30+.]
   **Draft 2026-05-06:** Boundary formalisation (RIBOZYME ↔ synbio/SELEX):
   - Design-stage (RIBOZYME owner): in-silico sequence proposal,
     σ(6)=12 catalytic-core annotation, k_cat/K_M Eigen-Hammes margin
@@ -131,7 +131,7 @@ status 마커: DRIFT · STALE · UNDEFINED · AMBIGUOUS · INFORMAL · DANGLING.
     `raw_77_ribozyme_selex_handoff_v0` — TBD cycle 26 if synbio repo
     materialises). Until repo exists: reference is **declarative
     only** (R-R2 mitigation; no live cross-repo dependency).
-- **[DANGLING] J₂=24 quotient L4 reduction stretch (line 48)** — 사이클/게이트 미할당, 24× speedup 최적화이나 영구 deprioritized 위험. **Resolution:** 명시적 demote 결정 또는 cycle 26 등록. [PROMOTED-AS-DECISION 2026-05-06 — see §G G26-RB-2 (branch-lock 2026-06-15: PROMOTE w/ ≥12× speedup PASS criterion + F-RB-4-c falsifier mapping, OR default DEMOTE to n6-architecture upstream).]
+- **[DANGLING] J₂=24 quotient L4 reduction stretch (line 48)** — 사이클/게이트 미할당, 24× speedup 최적화이나 영구 deprioritized 위험. **Resolution:** 명시적 demote 결정 또는 cycle 26 등록. [PROMOTED-AS-DECISION 2026-05-06 — see §G G26-RB-2 (branch-lock 2026-06-15: PROMOTE w/ ≥12× speedup PASS criterion + F-RB-4-c falsifier mapping, OR default DEMOTE to canon upstream).]
 - **[AMBIGUOUS] C2 cell DoD (line 22)** — "in-silico ribozyme design" 정의 부재 (구조 예측? arm sequence gen? off-target?). 후보 rows는 kinetics reuse만 검증. **Resolution:** "design" 범위 명시. [LANDED 2026-05-06 — Cell DoD section now formalises 3-component pipeline; partial-stub uplift tracked under §G G26-RB-3. Draft retained below for traceability.]
   **Draft 2026-05-06:** "in-silico ribozyme design" = 3-component
   pipeline:
@@ -215,7 +215,7 @@ PASS criterion → deadline → status).
 - **[G26-RB-2]** rb-j2-quotient-decision (origin §STALLED J₂=24 L4 reduction DANGLING) — **PROMOTED-AS-DECISION 2026-05-06**.
   Two-branch decision (must resolve at cycle-26 kickoff; no further drift):
   - **(a) PROMOTE**: implement single-pose → 24-pose quotient symmetry-reduction in `_python_bridge/module/ribozyme_kinetics_simulation.py`; re-run F-RB-4 MVP sim; PASS criterion = measured speedup ≥ 12× (half of theoretical 24× allowed for overhead) AND identical numerical output to within mass-drift tolerance 1e-12. Falsifier mapping: extends F-RB-4-c (correctness) + new audit row schema `raw_77_ribozyme_j2_quotient_v1`. Deadline: **2026-09-28** (co-runs with C0c).
-  - **(b) DEMOTE (default if no implementation by 2026-06-15)**: declare J₂=24 quotient L4 reduction **out-of-scope for hexa-bio v1.x**, redirect to n6-architecture group-theory side as upstream concern. Permanently stretch in this repo; no further gate registration.
+  - **(b) DEMOTE (default if no implementation by 2026-06-15)**: declare J₂=24 quotient L4 reduction **out-of-scope for hexa-bio v1.x**, redirect to canon group-theory side as upstream concern. Permanently stretch in this repo; no further gate registration.
   Decision deadline: **2026-06-15** (PROMOTE/DEMOTE branch lock); execution deadline (if PROMOTE): 2026-09-28.
   Status: PROMOTED-AS-DECISION → §G; default branch (b) DEMOTE if branch-lock deadline passes without implementation.
 
@@ -228,7 +228,7 @@ PASS criterion → deadline → status).
 ## Canonical spec
 
 `docs/n6/hexa-ribozyme.md` (symlink to
-`~/core/n6-architecture/domains/biology/hexa-ribozyme/hexa-ribozyme.md`)
+`~/core/canon/domains/biology/hexa-ribozyme/hexa-ribozyme.md`)
 
 ---
 

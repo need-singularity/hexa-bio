@@ -7,8 +7,8 @@ message: |
   out-of-repo per cross-cutting Require (R6).
 title: "hexa-bio: 4-verb molecular-toolkit numerical primitive sandbox (HEXA family, biology axis)"
 abstract: |
-  hexa-bio is the empirical companion to the n6-architecture biology axis
-  (https://github.com/need-singularity/n6-architecture). It implements
+  hexa-bio is the empirical companion to the canon biology axis
+  (https://github.com/need-singularity/canon). It implements
   four verb-aligned numerical primitive simulators — composition (WEAVE),
   actuation (NANOBOT), catalysis (RIBOZYME), assembly (VIROCAPSID) — and
   a 16-cell in-silico matrix (4 verb × 4 disease class label) that
@@ -38,8 +38,8 @@ version: "1.1.0"
 date-released: "2026-05-06"
 references:
   - type: software
-    title: "n6-architecture (canonical sister-domain specs)"
-    url: "https://github.com/need-singularity/n6-architecture"
+    title: "canon (canonical sister-domain specs)"
+    url: "https://github.com/need-singularity/canon"
   - type: software
     title: "qmirror (sister-extracted standalone, registry L22)"
     url: "https://github.com/need-singularity/qmirror"
@@ -114,7 +114,7 @@ preferred-citation:
     Cycle 24 + cycle 25 closure: 4-verb numerical MVP simulators
     (F-TP5-b / F-NB-4 / F-RB-4 / F-VIROCAPSID-3 PASS), sister-axis
     collision audits (F-RB-5 + F-VIROCAPSID-COLLISION PASS, F-NB-5
-    PARTIAL pending out-of-repo n6-architecture canonical-side fix),
+    PARTIAL pending out-of-repo canon canonical-side fix),
     Bayesian audits (F-RB-2 PASS log_bf 79.74 with 30/30 axes; F-NB-2
     honest negative log_bf 0.16 maintaining STRUCTURAL-APPROXIMATE),
     multi-T extension (V-R2 stretch T=3/T=4 PASS via integer-power

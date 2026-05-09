@@ -8,11 +8,11 @@
 #   (a) `readlink -e` resolves (target exists)
 #   (b) target mtime within 90 days OR companion `<entry>.STALE_OK` annotation
 #       file is present in the same directory
-#   (c) target absolute path begins with $HOME/core/n6-architecture/
+#   (c) target absolute path begins with $HOME/core/canon/
 #
 # Exit codes:
 #   0  all PASS
-#   1  any link broken / target missing / outside n6-architecture
+#   1  any link broken / target missing / outside canon
 #   2  warnings only (stale without STALE_OK annotation)
 #
 # Designed to be wired into `cli/hexa-bio.hexa selftest` dispatcher and into
@@ -23,7 +23,7 @@ set -u
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DOCS_N6="${REPO_ROOT}/docs/n6"
-N6_CANONICAL_ROOT="${HOME}/core/n6-architecture"
+N6_CANONICAL_ROOT="${HOME}/core/canon"
 STALE_DAYS=90
 
 if [[ ! -d "${DOCS_N6}" ]]; then
@@ -105,7 +105,7 @@ for entry in "${DOCS_N6}"/*; do
     continue
   fi
 
-  # (c) target inside n6-architecture canonical root
+  # (c) target inside canon canonical root
   case "${resolved}" in
     "${N6_CANONICAL_ROOT}"/*) ;;
     *)

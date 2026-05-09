@@ -3,7 +3,7 @@
 # Spec: shared/hexa-lang/hexa-toml-spec.json (version 1.0.0)
 # Distribution target: hx install hexa-bio
 # Provenance: extracted from nexus/sim_bridge/weave/ on 2026-05-04
-#             (canonical-from cycle 24, 2026-04-29 — n6-architecture sister)
+#             (canonical-from cycle 24, 2026-04-29 — canon sister)
 
 [package]
 name = "hexa-bio"
@@ -82,7 +82,7 @@ python_aux_bsd3 = "numpy >= 1.24, scipy >= 1.11 (weave empirical path only; BSD-
 # ── Closure provenance (raw#10 honest C3) ─────────────────
 # v1.0.0 closure: 1/4 verbs PASS (weave) + 3/4 stubs.
 # Honest scope: weave is empirical-sandbox only — theoretical / formal-mech
-# content lives in n6-architecture/lean4-n6/N6/MechVerif/. n=6 invariant
+# content lives in canon/lean4-n6/N6/MechVerif/. n=6 invariant
 # itself is verified via sympy + literature corpus only (no proprietary
 # calibration).
 [closure]

@@ -42,7 +42,7 @@
   "raw_91_c3_disclose": [
     "Energy ladder is synthetic per spec §8 seed 3 (kT·ln(N!) at N=4) — not calibrated against Howard 2001 motor-protein dataset (no dataset bundled, raw 9 stdlib only).",
     "J₂=24 speedup_factor=24× = theoretical maximum (= group order); achieved because all 24 orientations of the icosahedron map to a single canonical pose under exact octahedral subgroup (Caspar-Klug T=1 geometric coincidence).",
-    "F-NB-5 sister-axis fix NOT touched — PARTIAL out-of-repo dependency (separate session in n6-architecture).",
+    "F-NB-5 sister-axis fix NOT touched — PARTIAL out-of-repo dependency (separate session in canon).",
     "Falsifier rename F-NANOBOT-N → F-NB-1..5 applied per spec/.roadmap convention.",
     "(R5) raw 9 stdlib only — math/random/json/argparse only; no numpy/scipy/networkx/torch."
   ],

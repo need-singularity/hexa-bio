@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hexa-bio/nanobot/spec/n_r2_boundary_audit_v1.schema.json",
   "title": "raw_77_nanobot_n_r2_boundary_audit_v1 — F-NB-5 sister-axis collision-overlap measurement",
-  "description": "Quantitative collision-overlap audit between hexa-bio NANOBOT (single-molecule architectural primitive, L0-L6) and life/therapeutic-nanobot/ (clinical-application system, L7-L9). Consumes hexa-bio L0-L6 enumeration extracted from raw_77_nanobot_actuation_v1 plus canonical handoff JSON at ~/core/n6-architecture/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json. Computes Jaccard collision_overlap_ratio = |L0_L6 ∩ L7_L9| / |L0_L6 ∪ L7_L9|. PASS if ratio < 0.5 per F-NB-1-c gate. Witness gracefully degrades to status=CANONICAL_PENDING with collision_overlap_ratio=null when canonical handoff JSON has not yet been published by n6-architecture canonical session.",
+  "description": "Quantitative collision-overlap audit between hexa-bio NANOBOT (single-molecule architectural primitive, L0-L6) and life/therapeutic-nanobot/ (clinical-application system, L7-L9). Consumes hexa-bio L0-L6 enumeration extracted from raw_77_nanobot_actuation_v1 plus canonical handoff JSON at ~/core/canon/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json. Computes Jaccard collision_overlap_ratio = |L0_L6 ∩ L7_L9| / |L0_L6 ∪ L7_L9|. PASS if ratio < 0.5 per F-NB-1-c gate. Witness gracefully degrades to status=CANONICAL_PENDING with collision_overlap_ratio=null when canonical handoff JSON has not yet been published by canon canonical session.",
   "type": "object",
   "required": [
     "schema",
@@ -116,7 +116,7 @@
     },
     "deferred_to_cross_repo": {
       "type": "boolean",
-      "description": "true when canonical edits required in n6-architecture canonical session per memory/feedback_cross_repo_canonical.md."
+      "description": "true when canonical edits required in canon canonical session per memory/feedback_cross_repo_canonical.md."
     },
     "raw_138_sentinel": {"type": "string"},
     "raw_91_c3_disclose": {"type": "string"},

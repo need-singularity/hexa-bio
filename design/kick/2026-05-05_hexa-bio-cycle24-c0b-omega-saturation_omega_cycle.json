@@ -54,7 +54,7 @@
     "v1.1.0 candidate = formalism-prereq closure, NOT terminal-goal progress. Per user-validated reframe (memory/feedback_goal_framing.md): formalism is correctness machinery, not destination.",
     "16-cell matrix (4 verb × {α AML / β SCD / γ pan-cov / δ senolytic}) — terminal goal — has 0/16 cells filled. C2 in-silico per-cell candidate design phase NOT STARTED.",
     "Out-of-repo handoffs (C3+) explicitly deferred per (R6) hexa-bio scope.",
-    "F-NB-5 sister-axis full PASS still PARTIAL — n6-architecture canonical-side fix is out-of-repo dependency.",
+    "F-NB-5 sister-axis full PASS still PARTIAL — canon canonical-side fix is out-of-repo dependency.",
     "Cycle 24 work bundled 6 omega-cycle kicks (this + 4 per-verb + 1 C0a sister-axis closure + 1 roadmap-restructure).",
     "Pure HEXA migration (hexa-lang upstream stdlib/optim + math) feasible PoC NOT executed — agent classifier refused on virus-related framing terms; deferred."
   ],
@@ -64,13 +64,13 @@
     {"id": "F-CYCLE24-C2-START-1", "condition": "C2 in-silico 16-cell matrix not started by 2026-09-28 (would slip terminal-goal trajectory)", "deadline": "2026-09-28", "status": "preregistered"}
   ],
   "downstream_consumers": [
-    "n6-architecture (canonical biology axis ledger — these 6 kicks should mirror to ~/core/n6-architecture/design/kick/ via separate session)",
+    "canon (canonical biology axis ledger — these 6 kicks should mirror to ~/core/canon/design/kick/ via separate session)",
     "papers/hexa-weave-formal-mechanical-w2-2026-04-28.md (cite hooks for C0b closure)",
     "Zenodo deposit prep (cycle-24 closure aggregate as DOI-eligible artifact)"
   ],
   "next_cycle_25_candidate_topics": [
     "C2 entry: α=AML × first verb cell (e.g., RIBOZYME R·α: FLT3-ITD mRNA cleavage candidate ribozyme design)",
-    "F-NB-5 cross-repo handshake (separate session in ~/core/n6-architecture/)",
+    "F-NB-5 cross-repo handshake (separate session in ~/core/canon/)",
     "C0c F-NB-2 / F-RB-2 n=30 Bayesian audit corpus build",
     "WEAVE Π^p_2 verifier upgrade from stub toward true NP-solver path",
     "VIROCAPSID multi-T (T=3 CCMV / T=4 HBV) preset re-derivation (V-R2 stretch)"

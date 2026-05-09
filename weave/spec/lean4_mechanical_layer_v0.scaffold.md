@@ -1,7 +1,7 @@
 # lean4_mechanical_layer_v0.scaffold
 
 > **Scaffold spec — consumer's contract, NOT implementation.**
-> Actual lean4 code lives in canonical upstream `~/core/n6-architecture/` per
+> Actual lean4 code lives in canonical upstream `~/core/canon/` per
 > cross-repo memory rule
 > (`memory/feedback_cross_repo_canonical.md`). This file describes what
 > hexa-bio expects the canonical layer to expose so that when upstream work
@@ -14,8 +14,8 @@ LANDED 2026-05-06** (cross-repo, under human-in-the-loop authorization).
 Tracks `.roadmap.hexa_bio` §G GATE-26-2 / §B C0h and `.roadmap.weave`
 §Falsifier preregister F-CL-FORMAL-1/2/3/4.
 
-**Canonical stub-layer location** (n6-architecture):
-`~/core/n6-architecture/formal/lean4/` — see its `README.md` for axis-file
+**Canonical stub-layer location** (canon):
+`~/core/canon/formal/lean4/` — see its `README.md` for axis-file
 map and raw_91 honest C3 disclosure. **sorry-count = 4** (one `sorry` per
 axis; no axis is PASS).
 
@@ -150,7 +150,7 @@ Required fields (see schema for full constraints):
   - `sorry_count`      — integer ≥ 0 (PASS = 0)
   - `last_modified_cycle` — integer ≥ 0 (cycle index of last canonical edit)
   - `canonical_repo_ref` — string, points into upstream
-                          (e.g. `n6-architecture@<sha>:domains/biology/...`)
+                          (e.g. `canon@<sha>:domains/biology/...`)
   - `pass`             — boolean, `true` iff `sorry_count == 0`
   - `recorded_at`      — RFC3339 timestamp on hexa-bio side
 
@@ -159,7 +159,7 @@ protocol).
 
 ## §4 Cross-repo blockers (PENDING — outside hexa-bio)
 
-Until the following land in `~/core/n6-architecture/` they are out of scope
+Until the following land in `~/core/canon/` they are out of scope
 for hexa-bio:
 
   1. Canonical `Strategy`, `LandauerPass`, `compose`, `heatConsumed`,
@@ -198,4 +198,4 @@ When (1)-(4) land, hexa-bio promotes:
   - `.roadmap.hexa_bio` §G GATE-26-2 · §B C0h · §A.1 invariant lattice
   - `memory/feedback_cross_repo_canonical.md` — cross-repo edit rule
   - `weave/spec/lean4_proof_witness_v0.schema.json` — witness schema
-  - `docs/n6/hexa-weave.md` (symlink → `n6-architecture` canonical)
+  - `docs/n6/hexa-weave.md` (symlink → `canon` canonical)

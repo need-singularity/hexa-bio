@@ -35,7 +35,7 @@
 
 `hexa-bio` is a **standalone Molecular Toolkit** that exposes 4 sister verbs
 for write-side molecular sandboxing. It is the empirical companion to
-`n6-architecture/domains/biology/` and the canonical extraction-of-record
+`canon/domains/biology/` and the canonical extraction-of-record
 for the WEAVE axis (cycle 24, 2026-04-29 → standalone 2026-05-04).
 
 The 4 verbs form a **tetrahedron** organized around the n=6 invariant lattice:
@@ -267,7 +267,7 @@ Per-verb interpretation (where empirically grounded vs hypothesized — see
 ## Provenance
 
 - WEAVE module **imported** from `nexus/sim_bridge/weave/` (cycle 24
-  canonical, 2026-04-29). Original concept: `n6-architecture/domains/
+  canonical, 2026-04-29). Original concept: `canon/domains/
   biology/hexa-weave/hexa-weave.md` empirical companion.
 - NANOBOT/RIBOZYME/VIROCAPSID modules created **fresh** as stub
   placeholders during this extraction (2026-05-04) — no prior nexus
@@ -297,7 +297,7 @@ Per-verb interpretation (where empirically grounded vs hypothesized — see
    catalytic cycles, and T>1 virocapsids is conjecture inherited from the
    lattice's algebraic structure, not from independent experimental fit.
 4. **Migration of `nexus/sim_bridge/weave/` may break edge-case consumers.**
-   Cross-link consumers (n6-architecture papers,
+   Cross-link consumers (canon papers,
    `nexus/state/audit/cage_assembly_events.jsonl` readers) reference the
    old path; the path-migration shim is left to the nexus consumer
    refactor cycle. The `runs/` ledger (~10MB jsonl) is not vendored into
@@ -325,7 +325,7 @@ Apache-2.0 under FSF MereAggregation.
 - Sister standalone: [`qmirror v2.0.0`](https://github.com/need-singularity/qmirror/releases/tag/v2.0.0) (quantum substrate — closure 13/13 conds, 8 v1 + 5 v2)
 - Sister standalone: [`sim-universe v1.0.0`](https://github.com/need-singularity/sim-universe) (simulation substrate)
 - Sister standalone: [`honesty-monitor v1.0.0`](https://github.com/need-singularity/honesty-monitor) (AI honesty-bit falsifier)
-- Upstream concept SSOT: `n6-architecture/domains/biology/hexa-weave/hexa-weave.md` (declarative)
-- Upstream formal SSOT: `n6-architecture/lean4-n6/N6/MechVerif/`
-- Upstream paper SSOT: `n6-architecture/papers/hexa-weave-formal-mechanical-w2-2026-04-28.md`
+- Upstream concept SSOT: `canon/domains/biology/hexa-weave/hexa-weave.md` (declarative)
+- Upstream formal SSOT: `canon/lean4-n6/N6/MechVerif/`
+- Upstream paper SSOT: `canon/papers/hexa-weave-formal-mechanical-w2-2026-04-28.md`
 - HEXA package registry: [`hexa-lang/tool/pkg/registry.tsv`](https://github.com/need-singularity/hexa-lang/blob/main/tool/pkg/registry.tsv) L24

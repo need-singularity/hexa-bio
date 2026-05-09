@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "hexa-bio/weave/spec/lean4_proof_witness_v0.schema.json",
   "title": "lean4 mechanical-layer proof witness v0 (raw_77_lean4_proof_witness_v0)",
-  "description": "Witness row emitted by hexa-bio when the canonical (n6-architecture) lean4 mechanical layer reports a proof-state change for one of the F-CL-FORMAL-* formal axes. Scaffold-level v0 — promotes to v1 when canonical theorem names + module paths lock in. See weave/spec/lean4_mechanical_layer_v0.scaffold.md and .roadmap.weave §Falsifier preregister F-CL-FORMAL-1/2/3 + .roadmap.hexa_bio §G GATE-26-2.",
+  "description": "Witness row emitted by hexa-bio when the canonical (canon) lean4 mechanical layer reports a proof-state change for one of the F-CL-FORMAL-* formal axes. Scaffold-level v0 — promotes to v1 when canonical theorem names + module paths lock in. See weave/spec/lean4_mechanical_layer_v0.scaffold.md and .roadmap.weave §Falsifier preregister F-CL-FORMAL-1/2/3 + .roadmap.hexa_bio §G GATE-26-2.",
   "type": "object",
   "required": [
     "schema",
@@ -54,7 +54,7 @@
     "canonical_repo_ref": {
       "type": "string",
       "minLength": 1,
-      "description": "Pointer into upstream canonical repo. Convention: '<repo-name>@<sha-or-tag>:<path>'. Example: 'n6-architecture@a1b2c3d:domains/biology/hexa-weave/lean4/SigmaLatticeCard.lean'."
+      "description": "Pointer into upstream canonical repo. Convention: '<repo-name>@<sha-or-tag>:<path>'. Example: 'canon@a1b2c3d:domains/biology/hexa-weave/lean4/SigmaLatticeCard.lean'."
     },
     "pass": {
       "type": "boolean",

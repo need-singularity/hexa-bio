@@ -39,7 +39,7 @@
 //             — PASS via nanobot_actuation_simulation.py (cycle 24, C0b)
 //   F-NB-5   sister-axis collision (life/therapeutic-nanobot)
 //             — PARTIAL (C0a audit 2026-05-05; full closure blocked on
-//             n6-architecture canonical-side, out-of-repo)
+//             canon canonical-side, out-of-repo)
 //
 // raw#10 honest C3:
 //   - Energy ladder uses synthetic kT*ln(N!) at N=4 (= ln(24) ~ 3.178 kT)
@@ -54,7 +54,7 @@
 //     octahedral rotation matrices hard-coded; pose canonicalization
 //     by lex-min representative). 24× speedup measured = group order.
 //   - F-NB-5 sister-axis closure is PARTIAL — out-of-repo dependency on
-//     n6-architecture canonical-side. Hexa-bio side declared in N-R2.
+//     canon canonical-side. Hexa-bio side declared in N-R2.
 //   - Skeleton sentinel `__HEXA_BIO_NANOBOT__ PASS` indicates module loads;
 //     `__NANOBOT_MVP_RESULT__ PASS` indicates actuation MVP 6/6 criteria.
 
@@ -100,14 +100,14 @@ fn _print_falsifiers() {
     println("    F-NB-2   n6 invariant load-bearing      (Bayesian audit deadline 2026-09-28)")
     println("    F-NB-3   Brownian thermal floor at 310K (3 preregistered)")
     println("    F-NB-4   4-state 12-vertex DNA-origami  (PASS cycle 24 C0b)")
-    println("    F-NB-5   sister-axis collision          (PARTIAL — n6-architecture out-of-repo)")
+    println("    F-NB-5   sister-axis collision          (PARTIAL — canon out-of-repo)")
 }
 
 fn _print_status() {
     println("  status: STUB v1.0.0 + C0b actuation MVP (cycle 24)")
     println("          F-NB-4 4-state 12-vertex DNA-origami simulation: PASS 6/6")
     println("          F-NB-2 n=30 Bayesian audit deferred to cycle 25+")
-    println("          F-NB-5 sister-axis closure PARTIAL (n6-architecture canonical-side)")
+    println("          F-NB-5 sister-axis closure PARTIAL (canon canonical-side)")
 }
 
 fn run_bayesian_audit(no_emit: bool, quiet: bool) -> str {

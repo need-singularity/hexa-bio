@@ -112,7 +112,7 @@ CLOSED 2026-05-06 (T=3 yield=0.8546, T=4 yield=0.8545).
   assembly (thermodynamic).
 - **Alien-grade**: 4.78 (cycle 22 close) — scale 0–10 internal heuristic
   (formal-rigor + physical-grounding + computational-saturation composite,
-  see `~/core/n6-architecture/RUBRIC.md`); informational only, no
+  see `~/core/canon/RUBRIC.md`); informational only, no
   downstream gating.
 - **Tri-axis Ω-saturation** (FORMAL Π¹₁-CA₀ · PHYSICAL Landauer ·
   COMPUTATIONAL Π^p_2): PASS at workload ceiling (7/8 raw-70 axes PASS,
@@ -141,7 +141,7 @@ from APPROACH grade to PROPOSED. Per-verb detail in sister files.
 
 | Verb        | Falsifier              | Collision target                                | Status (2026-05-05)                                                                                       |
 |-------------|------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| NANOBOT     | F-NB-5                 | `life/therapeutic-nanobot/`                     | **PASS** 2026-05-06 — collision_overlap_ratio=0.0 (< 0.5 gate); canonical handoff JSON v1.0.0-stub DECLARED at `~/core/n6-architecture/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json`; n=7 L0-L6 vs n=7 L7-L9 string-disjoint; wet-lab + IP review deferred to cycle 30+ |
+| NANOBOT     | F-NB-5                 | `life/therapeutic-nanobot/`                     | **PASS** 2026-05-06 — collision_overlap_ratio=0.0 (< 0.5 gate); canonical handoff JSON v1.0.0-stub DECLARED at `~/core/canon/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json`; n=7 L0-L6 vs n=7 L7-L9 string-disjoint; wet-lab + IP review deferred to cycle 30+ |
 | RIBOZYME    | F-RB-5                 | `life/crispr-gene-editing/`, `life/synbio/`     | **PASS WITH MITIGATION** — CRISPR clean genus separation, synbio SELEX handshake declared (R-R2)            |
 | VIROCAPSID  | F-VIROCAPSID-COLLISION | `life/virology/`, `life/vaccine/`               | **PASS clean** — orthogonal abstraction, cage = downstream consumer input (V-R3)                            |
 
@@ -230,7 +230,7 @@ Closes §F UNDEFINED "R1 symlink SSOT 자동 감사". Implementation:
   (a) symlink resolves to an existing file;
   (b) target mtime within 90 days OR companion `<entry>.STALE_OK`
       annotation file present;
-  (c) target absolute path under `$HOME/core/n6-architecture/`.
+  (c) target absolute path under `$HOME/core/canon/`.
 
 CI gate: fail-fast on any broken / off-root link; warn on stale without
 annotation. To be wired into `cli/hexa-bio.hexa selftest` dispatcher.
@@ -244,7 +244,7 @@ annotation. To be wired into `cli/hexa-bio.hexa selftest` dispatcher.
   `~/core/nexus/sim_bridge/weave/` (canonical cycle 24+).
 - This repo (`hexa-bio`) hosts: CLI verbs, examples, selftest, tests,
   module Python bridges. Spec text → `docs/n6/` (symlink to
-  n6-architecture canonical).
+  canon canonical).
 
 ---
 
@@ -261,7 +261,7 @@ annotation. To be wired into `cli/hexa-bio.hexa selftest` dispatcher.
 | C0e   | 형식 prerequisite (cycle 26 — Bayesian closure) | 2026-06-15 (proposed cycle 26) | F-RB-2 inter-rater κ ≥ 0.6 across n ≥ 2 raters (§G GATE-26-4) AND F-NB-2 rubric-normalization preregister + retest (§G GATE-26-5) — together close §A.6 C0c criterion for both | in-repo |
 | C0f   | 형식 prerequisite (cycle 26 — verifier upgrade) | 2026-06-15 (proposed cycle 26) | WEAVE Π^p_2 verifier upgrade greedy → true NP-solver (§G GATE-26-3) — F-TP5-b-NP-SOLVER preregister | in-repo |
 | C0g   | 형식 prerequisite (cycle 26 — regression CI) | 2026-06-15 (proposed cycle 26) | F-*-REGRESSION CI hooks wired (§G GATE-26-6) for F-TP5-b/F-NB-4/F-RB-4/F-VIROCAPSID-3 per §A.9 | in-repo |
-| C0h   | 형식 prerequisite (cycle 26+ — cross-repo) | TBD-cycle26 (cross-repo, deadline TBD) | lean4 mechanical-layer extension WEAVE → NANOBOT/RIBOZYME/VIROCAPSID in n6-architecture upstream (§G GATE-26-2) | out-of-repo (canonical) |
+| C0h   | 형식 prerequisite (cycle 26+ — cross-repo) | TBD-cycle26 (cross-repo, deadline TBD) | lean4 mechanical-layer extension WEAVE → NANOBOT/RIBOZYME/VIROCAPSID in canon upstream (§G GATE-26-2) | out-of-repo (canonical) |
 | **--- repo boundary ---** |                            |                |                                                                                       |             |
 | C3    | Wet-lab handoff                        | TBD            | 4 class × 1 후보 외부 CRO/collaborator 위탁 (γ-first)                                   | out-of-repo |
 | C4    | In-vitro n=1                           | TBD            | 4 class in-vitro PASS                                                                 | out-of-repo |
@@ -290,7 +290,7 @@ annotation. To be wired into `cli/hexa-bio.hexa selftest` dispatcher.
 
 - Per-verb trackers: `.roadmap.weave` · `.roadmap.nanobot` ·
   `.roadmap.ribozyme` · `.roadmap.virocapsid`
-- Canonical specs: `docs/n6/` (symlinks to n6-architecture)
+- Canonical specs: `docs/n6/` (symlinks to canon)
 - Empirical SSOT: `~/core/nexus/sim_bridge/weave/`
 - Release notes: `RELEASE_NOTES_v1.0.0.md`
 - Changelog: `CHANGELOG.md`
@@ -303,7 +303,7 @@ annotation. To be wired into `cli/hexa-bio.hexa selftest` dispatcher.
 
 ## §E Cross-cutting Require (전 도메인 상속)
 
-- **(R1)** `~/core/n6-architecture/` canonical SSOT 수정 금지 — symlink 소스, repo 는 consumer
+- **(R1)** `~/core/canon/` canonical SSOT 수정 금지 — symlink 소스, repo 는 consumer
 - **(R2)** WEAVE Bayesian audit (posterior 0.9668 RESOLVED) 회귀 금지
 - **(R3)** Empirical SSOT = `~/core/nexus/sim_bridge/weave/` (cycle 24+ canonical)
 - **(R4)** Witness = raw 108 schema → `state/discovery_absorption/registry.jsonl` (append-only)
@@ -332,7 +332,7 @@ sister-verb 항목은 각 `.roadmap.<verb>` §STALLED 섹션 참조.
 status 마커: DRIFT · STALE · UNDEFINED · AMBIGUOUS · BLOCKED · DANGLING · INCONSISTENT.
 
 - **[DRIFT] C2 sister-sync (line 154 vs sister 4파일 line 31~32)** — umbrella `closed 2026-05-06 16/16 PASS`, sister 4개 모두 `TBD`. CHANGELOG + registry 16 cells 확인. **Resolution:** sister C2 게이트 일괄 갱신 (각 .roadmap.<verb> §STALLED 첫 항목 참조). [DEFERRED 2026-05-06 — sister roadmap files handled by parallel sister agents per task constraint]
-- **[BLOCKED] F-NB-5 PARTIAL (§A.4 line 106; .roadmap.nanobot:66)** — hexa-bio mitigation 완료, n6-architecture canonical (`life/therapeutic-nanobot/therapeutic-nanobot.md` §3/§11) 편집 의존. v1.1.0 release "4-verb numerical MVP" 주장이 미해결 상태 가림. **Resolution:** canonical repo 별도 세션에서 N-R2 handshake JSON land. [RESOLVED PASS 2026-05-06 — user-authorised one-shot waiver of memory/feedback_cross_repo_canonical.md; canonical handoff JSON `~/core/n6-architecture/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json` v1.0.0-stub DECLARED + therapeutic-nanobot.md §3.1/§11.1 acknowledgment landed; audit re-run yields collision_overlap_ratio=0.0 → status=PASS; v1.1.0 release claim now fully closed]
+- **[BLOCKED] F-NB-5 PARTIAL (§A.4 line 106; .roadmap.nanobot:66)** — hexa-bio mitigation 완료, canon canonical (`life/therapeutic-nanobot/therapeutic-nanobot.md` §3/§11) 편집 의존. v1.1.0 release "4-verb numerical MVP" 주장이 미해결 상태 가림. **Resolution:** canonical repo 별도 세션에서 N-R2 handshake JSON land. [RESOLVED PASS 2026-05-06 — user-authorised one-shot waiver of memory/feedback_cross_repo_canonical.md; canonical handoff JSON `~/core/canon/domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json` v1.0.0-stub DECLARED + therapeutic-nanobot.md §3.1/§11.1 acknowledgment landed; audit re-run yields collision_overlap_ratio=0.0 → status=PASS; v1.1.0 release claim now fully closed]
 - **[AMBIGUOUS] C0c "closed" 정의 (lines 110–118, 152)** — F-NB-2 `log_bf=0.16` honest negative + F-RB-2 `log_bf=79.74` suspicious-perfect, 게이트 PASS 의미 미정의. **Resolution:** §A.2 v2.0.0 정의에 suspicious-perfect 처리 + inter-rater 게이트화. [LANDED 2026-05-06 → §A.6 C0c PASS criterion subsection; suspicious-perfect → §G GATE-26-4; honest-negative → §G GATE-26-5]
   **Draft 2026-05-06:** C0c PASS criterion = (log_bf > 3 AND inter-rater κ ≥ 0.6) OR (honest-negative documented with rubric-normalization preregister). Suspicious-perfect (log_bf > 50 with single-rater) requires κ ≥ 0.6 across n ≥ 2 independent raters before STRUCTURAL-EXACT promotion. Honest-negative (log_bf < 1) is acceptable closure with documented rubric-normalization plan in next-cycle stretch.
 - **[DANGLING] V-R2 multi-T stretch (line 88 vs .roadmap.virocapsid:37)** — "terminal 도달 시" 사이클 바운드 없음, σ(6)=12 STRUCTURAL-EXACT 주장은 T=1만 검증. **Resolution:** T=3/T=4를 cycle 26 게이트로 정식 등록. [GATE-26 — see §G GATE-26-1] [PROMOTED 2026-05-06 → §B C0d, deadline 2026-06-15 proposed]
@@ -355,8 +355,8 @@ status 마커: DRIFT · STALE · UNDEFINED · AMBIGUOUS · BLOCKED · DANGLING �
 
 - **[AMBIGUOUS] C2 "16-cell" PASS criterion (line 154; CHANGELOG line 44)** — 4 verb × 4 cell vs 4 global cell 표기 혼재. foreground rule (memory/feedback_subagent_classifier_disease_therapeutic.md) 미참조. **Resolution:** definition lock + foreground rule 명문화. [LANDED 2026-05-06 → §0'.lock C2 16-cell PASS criterion subsection]
   **Draft 2026-05-06:** C2 PASS = (4 verb × 4 disease class = 16 distinct cells, NOT 4 global). Each cell PASS criterion: (a) wrapper script in `_python_bridge/module/<verb>_<class>_candidate.py`; (b) candidate-spec metadata annotated against publicly catalogued markers; (c) verifies via corresponding C0b simulator; (d) emits one `raw_77_c2_<verb>_<class>_v1` registry row. ALL 16 cells foreground-only (sub-agent classifier blocks disease+marker+construct content per memory/feedback_subagent_classifier_disease_therapeutic.md). Honest caveat: PASS = simulator+metadata internal consistency, NOT therapeutic/clinical/efficacy property.
-- **[UNDEFINED] R1 symlink SSOT 자동 감사 (line 172, R1)** — `~/core/n6-architecture/` symlink target validity / freshness / CI gate 부재. **Resolution:** link-validity 테스트 + stale 처리 절차. [LANDED 2026-05-06 → §A.10 R1 SSOT symlink audit + `selftest/r1_symlink_audit.sh` (executable, BSD/GNU portable)]
-  **Draft 2026-05-06:** Add `selftest/r1_symlink_audit.sh` — for each entry in `docs/n6/`, verify (a) `readlink -e` resolves (target exists); (b) target mtime within 90 days OR `STALE_OK` annotation present; (c) target path begins with `$HOME/core/n6-architecture/`. Wire into `cli/hexa-bio.hexa selftest` dispatcher. CI gate: fail-fast if any link broken; warn if stale without annotation.
+- **[UNDEFINED] R1 symlink SSOT 자동 감사 (line 172, R1)** — `~/core/canon/` symlink target validity / freshness / CI gate 부재. **Resolution:** link-validity 테스트 + stale 처리 절차. [LANDED 2026-05-06 → §A.10 R1 SSOT symlink audit + `selftest/r1_symlink_audit.sh` (executable, BSD/GNU portable)]
+  **Draft 2026-05-06:** Add `selftest/r1_symlink_audit.sh` — for each entry in `docs/n6/`, verify (a) `readlink -e` resolves (target exists); (b) target mtime within 90 days OR `STALE_OK` annotation present; (c) target path begins with `$HOME/core/canon/`. Wire into `cli/hexa-bio.hexa selftest` dispatcher. CI gate: fail-fast if any link broken; warn if stale without annotation.
 - **[DANGLING] Cycle 26 candidates (V1_1_0_HANDOFF.md lines 90–105)** — lean4 mechanical layer 확장 / WEAVE Π^p_2 verifier 업그레이드 / F-RB-2 inter-rater / F-NB-2 retest — 어떤 .roadmap.* 에도 cycle 26 게이트 부재. **Resolution:** §B 체크포인트 표에 cycle 26 row 추가 + 각 sister 등록. [GATE-26 — see §G GATE-26-2..6; §B C0d row added] [PROMOTED 2026-05-06 → §B C0d/C0e/C0f/C0g/C0h split + §G all 6 PROMOTED with deadlines]
 - **[INCONSISTENT] σ(6)=12 STRUCTURAL-EXACT 비대칭 (§A.3 line 72 vs §A.1 line 86–88 vs .roadmap.virocapsid:78–82)** — 4 verb 주장 / NANOBOT·RIBOZYME APPROXIMATE / VIROCAPSID T=1만 EXACT. **Resolution:** STRUCTURAL-EXACT 적용 verb / T-range 명문화. [RESOLVED 2026-05-06 — §A.3 ASCII diagram line restricted to "σ=12 per-verb (see below)" + per-verb T=1 status block added]
 - **[UNDEFINED] Post-closure regression falsifiers (§A.4 lines 96–101)** — F-TP5-b / F-NB-4 / F-RB-4 / F-VIROCAPSID-3 closed 후 회귀 게이트 zero (CHANGELOG line 24 "no regressions vs v1" 비공식). **Resolution:** F-*-REGRESSION preregister 추가. [LANDED 2026-05-06 → §A.9 Post-closure regression preregister; CI wire promoted as §G GATE-26-6 → §B C0g]
@@ -397,11 +397,11 @@ remains PENDING with TBD-cycle26 deadline.
   placeholder; deadline TBD-cycle26 for actual proof bodies) —
   lean4-mechanical-extension (origin §F Cycle 26 candidates). Extend
   sorry-free Foundation from WEAVE-only to NANOBOT/RIBOZYME/VIROCAPSID in
-  n6-architecture upstream. Falsifier: **F-LEAN4-MECH-EXTEND** (cross-repo;
-  preregister in n6-architecture, per
+  canon upstream. Falsifier: **F-LEAN4-MECH-EXTEND** (cross-repo;
+  preregister in canon, per
   `memory/feedback_cross_repo_canonical.md`). **Stub-layer landed
   cross-repo 2026-05-06** under explicit human-in-the-loop authorization at
-  `~/core/n6-architecture/formal/lean4/` — covers all four axes
+  `~/core/canon/formal/lean4/` — covers all four axes
   F-CL-FORMAL-1/2/3/4 with structurally-correct theorem skeletons; every
   proof body is `sorry`. raw_91 honest C3 disclosure: structural skeleton
   only, no formal verification, **sorry-count=4**. Witness emit script

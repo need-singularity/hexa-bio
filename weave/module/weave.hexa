@@ -7,7 +7,7 @@
 //
 // Provenance: extracted from nexus/sim_bridge/weave/ on 2026-05-04
 //             (canonical-from cycle 24, 2026-04-29).
-// Concept: n6-architecture/domains/biology/hexa-weave/hexa-weave.md
+// Concept: canon/domains/biology/hexa-weave/hexa-weave.md
 //          empirical companion. Caspar-Klug 1962 + Zlotnick 2003 polyhedral
 //          protein cage self-assembly ODE + Bayesian σ(6)=12 STRUCTURAL-EXACT
 //          audit. T=1 60-subunit icosahedral cage as reference target.

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hexa-bio/nanobot/spec/handoff_l6_emission_v0.schema.json",
   "title": "raw_77_nanobot_l6_handoff_v1 — hexa-bio L6 emission contract",
-  "description": "N-R2 hexa-bio-side L6 single-machine-kinetics emission to therapeutic-nanobot consumer. Lands draft from .roadmap.nanobot §STALLED N-R2 (line 95). Therapeutic-nanobot acceptance side (raw_77_therapeutic_nanobot_l7_acceptance_v1) is defined in n6-architecture canonical session per memory/feedback_cross_repo_canonical.md and is intentionally out of scope here.",
+  "description": "N-R2 hexa-bio-side L6 single-machine-kinetics emission to therapeutic-nanobot consumer. Lands draft from .roadmap.nanobot §STALLED N-R2 (line 95). Therapeutic-nanobot acceptance side (raw_77_therapeutic_nanobot_l7_acceptance_v1) is defined in canon canonical session per memory/feedback_cross_repo_canonical.md and is intentionally out of scope here.",
   "type": "object",
   "required": [
     "schema_version",
@@ -71,7 +71,7 @@
     "emission_blocked_until_schema_lock": {
       "type": "boolean",
       "default": true,
-      "description": "hexa-bio repo blocks live emission until therapeutic-nanobot acceptance schema is locked in n6-architecture canonical session. v0 status."
+      "description": "hexa-bio repo blocks live emission until therapeutic-nanobot acceptance schema is locked in canon canonical session. v0 status."
     }
   },
   "additionalProperties": false

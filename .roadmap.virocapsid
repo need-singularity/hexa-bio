@@ -141,7 +141,7 @@ status 마커: DRIFT · STALE · UNDEFINED · AMBIGUOUS · BLOCKED · DANGLING.
 ## Canonical spec
 
 `docs/n6/hexa-virocapsid.md` (symlink to
-`~/core/n6-architecture/domains/biology/hexa-virocapsid/hexa-virocapsid.md`)
+`~/core/canon/domains/biology/hexa-virocapsid/hexa-virocapsid.md`)
 
 ---
 

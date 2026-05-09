@@ -131,7 +131,7 @@ In-silico falsifier closure pass following R2 audit-resolution. 22 commits,
 **Outstanding (post-session, all external / large work):**
 - F-RB-2-inter-rater (G26-RB-1) — needs ≥2 human raters (external).
 - F-NB-2-extended-inter-rater — same; on n=60 dynamic-balanced corpus.
-- F-NB-1-c — depends on F-NB-5 cross-repo n6-architecture canonical edits.
+- F-NB-1-c — depends on F-NB-5 cross-repo canon canonical edits.
 - F-CL-FORMAL-* — depends on lean4 mechanical layer materialisation.
 - GATE-26-3 weave-π_p_2-NP-solver — code work, ≥1 session.
 - GATE-26-6 regression-CI-wire — CI infra setup.
@@ -155,7 +155,7 @@ C3 below), 100% spec coverage of all 7098 registry rows.
 - `weave/spec/lean4_mechanical_layer_v0.scaffold.md` +
   `weave/spec/lean4_proof_witness_v0.schema.json` — GATE-26-2 in-repo
   consumer-contract scaffold. Proof bodies still PENDING upstream
-  (n6-architecture cycle 30+ horizon).
+  (canon cycle 30+ horizon).
 - `_python_bridge/module/weave_pi_p2_verifier_v3_exhaustive.py` —
   GATE-26-3 NP-solver path **CLOSED PASS** (50/50 v2-vs-v3 agreement
   on n=50 deterministic bundle sweep; greedy v2 matches exact NP-solver
@@ -191,12 +191,12 @@ User authorised one-shot cross-repo memory-rule waiver
 bg agents addressed the remaining external-dependency items:
 
 **F-NB-5 + F-NB-1-c CLOSED PASS** (collision_overlap_ratio=0.0):
-- n6-architecture canonical handoff JSON `domains/life/therapeutic-nanobot/handoff/2026-05-28_*.json` LANDED with 7 L7-L9 primitives definitionally disjoint from hexa-bio L0-L6.
+- canon canonical handoff JSON `domains/life/therapeutic-nanobot/handoff/2026-05-28_*.json` LANDED with 7 L7-L9 primitives definitionally disjoint from hexa-bio L0-L6.
 - hexa-bio audit `nanobot_n_r2_boundary_audit.py` re-run: CANONICAL_PENDING → PASS auto-promote.
 - §A.5 collision audit table: 3/3 PASS (vs prior 2 PASS + 1 PARTIAL).
 
 **F-RB-5 PASS** (mitigation cleared):
-- n6-architecture `domains/life/synbio/` canonical stub LANDED — synbio.md spec + spec/selex_v0.schema.json + _index.json bumped 1.4.0 → 1.5.0.
+- canon `domains/life/synbio/` canonical stub LANDED — synbio.md spec + spec/selex_v0.schema.json + _index.json bumped 1.4.0 → 1.5.0.
 - hexa-bio R-R2 boundary section: declarative-only → live cross-repo dependency.
 
 **F-CL-FORMAL all 4 axes PROVEN** (sorry-count=0, GATE-26-2 CLOSED):
@@ -245,7 +245,7 @@ decision points pending user.
   - `.roadmap.virocapsid` — stub; F-VIROCAPSID-3 calibration MVP gate
     (cage yield 0.68 plateau); F-VIROCAPSID-2 RESOLVED cycle 22
     (posterior 0.9668); 16 falsifiers; σ(6)=12 STRUCTURAL-EXACT.
-- `docs/n6/` symlinks to canonical n6-architecture sister-domain specs
+- `docs/n6/` symlinks to canonical canon sister-domain specs
   (`hexa-weave.md` / `hexa-nanobot.md` / `hexa-ribozyme.md` /
   `hexa-virocapsid.md`) so spec edits stay single-sourced and propagate
   bidirectionally.
@@ -299,9 +299,9 @@ decision points pending user.
   (7) `2026-05-05_hexa-bio-cycle24-c0b-omega-saturation_omega_cycle.json` —
   aggregate 4/4 PASS witness, v1.1.0 candidate, with explicit terminal-neutral
   caveat (16-cell matrix 0/16 cells filled, C2 not started, medical efficacy 0%).
-  Schema `omega_cycle.witness_v1` mirrors n6-architecture canonical pattern.
+  Schema `omega_cycle.witness_v1` mirrors canon canonical pattern.
   These are local kicks (R1-compatible); cross-repo mirroring to
-  `~/core/n6-architecture/design/kick/` is a separate-session task.
+  `~/core/canon/design/kick/` is a separate-session task.
 - F-TP5-b C0b closure (2026-05-05, cycle 24) —
   `_python_bridge/module/weave_composition.py` (813 LOC, Python stdlib
   only): `weave_compose()` end-to-end MVP composition pipeline. 12-strand
@@ -395,7 +395,7 @@ decision points pending user.
   handshake), F-VIROCAPSID-COLLISION **PASS clean** (vs virology / vaccine
   둘 다 downstream consumer of cage spec), F-NB-5 **PARTIAL** (COLLISION
   verdict — hexa-bio side declared in N-R2; full closure blocked on
-  n6-architecture canonical-side acknowledgment in
+  canon canonical-side acknowledgment in
   `domains/life/therapeutic-nanobot/`, out-of-repo dependency). Boundary
   statements applied to (N-R2) (R-R2) (V-R3) in respective domain roadmaps;
   meta `.roadmap.hexa_bio` §A.5 + §B + §C updated with disposition.
@@ -446,7 +446,7 @@ decision points pending user.
   independent verification.
 - Falsifiers for stub verbs are *initial-guess* deadlines (open-ended).
 - Migration of `nexus/sim_bridge/weave/` may break edge-case consumers
-  (n6-architecture cross-link, runs/ ledger path).
+  (canon cross-link, runs/ ledger path).
 
 ### Provenance
 - Extracted from `nexus/sim_bridge/weave/` (commit f81239d6+) on 2026-05-04.

@@ -92,7 +92,7 @@ adds 3 further disclosures specific to the v1.0.0 publication:
 ## Provenance
 
 - WEAVE module imported from `nexus/sim_bridge/weave/` (commit `f81239d6+`,
-  cycle 24 canonical, 2026-04-29). Original concept: `n6-architecture/
+  cycle 24 canonical, 2026-04-29). Original concept: `canon/
   domains/biology/hexa-weave/hexa-weave.md` empirical companion.
 - NANOBOT/RIBOZYME/VIROCAPSID modules created **fresh** as stub
   placeholders during this extraction (2026-05-04) — no prior nexus

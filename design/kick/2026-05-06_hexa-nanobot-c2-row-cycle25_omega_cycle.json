@@ -50,7 +50,7 @@
     "Affinity 1e-9 M is illustrative literature value.",
     "Payload slot is unspecified placeholder — no molecule modeled, no biological action implied.",
     "PASS verifies mechanical/thermodynamic properties under decoration topology, not in-vivo distribution / pharmacokinetics / immunogenicity / efficacy.",
-    "F-NB-5 sister-axis collision remains PARTIAL pending n6-architecture canonical-side closure (out-of-repo).",
+    "F-NB-5 sister-axis collision remains PARTIAL pending canon canonical-side closure (out-of-repo).",
     "F-NB-2 Bayesian audit (cycle 25, separate kick) returned honest negative — log_bf 0.16, STRUCTURAL-APPROXIMATE preserved for NANOBOT."
   ],
   "raw_47_cross_repo": "Imports nanobot_actuation_simulation (F-NB-4 PASS, cycle 24 C0b) without modification (R2 preserved).",

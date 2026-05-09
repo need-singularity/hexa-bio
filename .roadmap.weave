@@ -80,7 +80,7 @@ Provisional definition (2026-05-06): F-CL-FORMAL-k FAILS iff lean4 mechanical la
 
 - **F-CL-FORMAL-1/2/3/4** — formal-axis claims (4 axes; lean4 mechanical layer). **Tracked separately** in [`.roadmap.lean4_formal`](.roadmap.lean4_formal) — real-semantics promotion is a long-horizon (cycle 30+) formal-verification trajectory, not part of weave's in-silico falsifier closure cadence.
 
-  **Current state (2026-05-06)**: 4/4 axes sorry-count=0, kernel-checked on lean4 4.30.0-rc1. Axis 1 REAL-SEMANTICS PROVEN (`sigma_lattice_card := rfl`); axes 2/3/4 PROVEN-OVER-PLACEHOLDER (statements verify on stub semantics). See `.roadmap.lean4_formal` §1 status table for per-axis details + §3 cycle-30+ work order. Canonical lean4 stub: `~/core/n6-architecture/formal/lean4/`.
+  **Current state (2026-05-06)**: 4/4 axes sorry-count=0, kernel-checked on lean4 4.30.0-rc1. Axis 1 REAL-SEMANTICS PROVEN (`sigma_lattice_card := rfl`); axes 2/3/4 PROVEN-OVER-PLACEHOLDER (statements verify on stub semantics). See `.roadmap.lean4_formal` §1 status table for per-axis details + §3 cycle-30+ work order. Canonical lean4 stub: `~/core/canon/formal/lean4/`.
 
 ### Other active falsifiers
 
@@ -196,7 +196,7 @@ Checkpoints table; GATE-26-2 stays in §G pending lean4 theorem-ref work.
 ## Canonical spec
 
 `docs/n6/hexa-weave.md` (symlink to
-`~/core/n6-architecture/domains/biology/hexa-weave/hexa-weave.md`)
+`~/core/canon/domains/biology/hexa-weave/hexa-weave.md`)
 
 ---
 

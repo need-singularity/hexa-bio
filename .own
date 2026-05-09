@@ -22,7 +22,7 @@
 # ## project_directives
 # - 4-verb domain (weave / nanobot / ribozyme / virocapsid) + meta-lattice umbrella
 # - .roadmap.<feature> per-subsystem convention (never ROADMAP.md / .roadmap.meta)
-# - n6-architecture canonical SSOT — symlink consumer (cross-repo edits in canonical session only)
+# - canon canonical SSOT — symlink consumer (cross-repo edits in canonical session only)
 # - C2 disease-specific cell work — foreground-only (sub-agent classifier blocks)
 # - virocapsid 정체 caveat — DEPRECATED 2026-05-06 (own 1; 3 demote 조건 모두 MET cycle-25-late closure)
 #

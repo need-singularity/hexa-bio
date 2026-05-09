@@ -97,7 +97,7 @@ fn audit_f_nb_1(actuation_witness) {
 
     let nb_c = {}
     nb_c["verdict"] = "DEFERRED"
-    nb_c["reason"] = "Requires F-NB-5 collision audit collision_overlap_ratio (currently PARTIAL — hexa-bio side declared in N-R2; full closure blocked on n6-architecture canonical-side edits)."
+    nb_c["reason"] = "Requires F-NB-5 collision audit collision_overlap_ratio (currently PARTIAL — hexa-bio side declared in N-R2; full closure blocked on canon canonical-side edits)."
 
     let r = {}
     r["f_nb_1_genus"] = nb_genus

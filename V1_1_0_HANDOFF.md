@@ -16,7 +16,7 @@ decision before tagging v1.1.0.
     VIROCAPSID F-VIROCAPSID-3 PASS
 - [x] Sister-axis collision audits (cycle 24 C0a, 2/3)
   - F-RB-5 PASS WITH MITIGATION, F-VIROCAPSID-COLLISION PASS clean
-  - F-NB-5 PARTIAL (blocked on out-of-repo n6-architecture canonical-side fix)
+  - F-NB-5 PARTIAL (blocked on out-of-repo canon canonical-side fix)
 - [x] Bayesian audits (cycle 25 C0c)
   - F-RB-2 PASS log_bf 79.74 (suspicious-perfect 30/30, flagged for inter-rater)
   - F-NB-2 honest negative log_bf 0.16 (STRUCTURAL-APPROXIMATE preserved)
@@ -53,7 +53,7 @@ decision before tagging v1.1.0.
 
 ## Out-of-repo (separate sessions, after tag)
 
-- [ ] **F-NB-5 closure** — open `~/core/n6-architecture` session.
+- [ ] **F-NB-5 closure** — open `~/core/canon` session.
   Tasks per `.roadmap.nanobot` (N-R2):
   1. Edit `domains/biology/hexa-nanobot/hexa-nanobot.md` §11 DEPENDENCIES
      — add therapeutic-nanobot consumer note
@@ -61,7 +61,7 @@ decision before tagging v1.1.0.
      — acknowledge hexa-nanobot prior registration (2026-04-28)
   3. Emit joint witness: `design/kick/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json`
   4. Update hexa-bio `.roadmap.nanobot` — F-NB-5 PARTIAL → PASS
-- [ ] **Mirror cycle-24 + cycle-25 kicks** to `~/core/n6-architecture/design/kick/`
+- [ ] **Mirror cycle-24 + cycle-25 kicks** to `~/core/canon/design/kick/`
   Files (13 total):
   - `2026-05-05_*` (7 cycle-24 kicks)
   - `2026-05-06_*` (6 cycle-25 kicks)
@@ -89,7 +89,7 @@ decision before tagging v1.1.0.
 
 - Cycle 26 candidates (in-repo):
   - lean4 mechanical layer extension to NANOBOT / RIBOZYME / VIROCAPSID
-    (currently only WEAVE has sorry-free Foundation in n6-architecture
+    (currently only WEAVE has sorry-free Foundation in canon
     upstream)
   - WEAVE Π^p_2 verifier upgrade from greedy heuristic toward true
     NP-solver path (deferred from cycle 24)

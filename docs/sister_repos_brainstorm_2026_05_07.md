@@ -14,7 +14,7 @@
 |------|---------------|--------------------|
 | sim-universe | virtual universe + QRNG + qpu_bridge — Apache 2.0, 11 modules, ~17.8k LoC | **HIGH ★ direct sister** |
 | anima | consciousness + Φ ratchet + IIT 4.0 + 1030 laws — MIT, Python 3.14 | **HIGH** (Φ for biology) |
-| n6-architecture | 225 AI techniques + chip + crypto/OS/display — MIT, biology canonical | **HIGH** (existing consumer) |
+| canon | 225 AI techniques + chip + crypto/OS/display — MIT, biology canonical | **HIGH** (existing consumer) |
 | nexus | 216 lenses + OUROBOROS evolution + 5-phase singularity | **MED-HIGH** (bio lenses) |
 | hexa-lang | self-hosted 100% .hexa runtime — host of our hexa native modules | **HIGH** (runtime) |
 | hexa-bot | 4-verb robot substrate (ROBOTICS/TRANSPORT/AUTOMATION/DOG_ROBOT) | LOW (different domain) |
@@ -77,7 +77,7 @@ A (Φ_bio measurement) — RIBOZYME/VIROCAPSID 의 새 falsifier 후보. cycle �
 
 ---
 
-## 3. n6-architecture — 225 AI techniques + biology canonical
+## 3. canon — 225 AI techniques + biology canonical
 
 ### 3.1 already deeply connected
 
@@ -249,7 +249,7 @@ LOW (paper publication 은 user decision).
 1. 본 brainstorm 은 **README + 1-line 1-paragraph** 수준. 각 connection 의 진정한 흡수 가능성 검증은 별도 cycle (Tier 1 부터 시작 권장).
 2. **off-domain repos** (orpheus / wraith-wallet / ghost) 는 connection priority LOW 로 marked. 미래 연관 가능성 (예: Bitcoin 이 wet-lab funding 으로 흐름) 은 가능하지만 immediate ML/code path 없음.
 3. **hexa family** 의 다수가 **spec-first, working impl 적음** (예: hexa-antimatter 0/3 wired, hexa-cern 3-pillar 초기). 즉 "connection 가능" 이 곧 "code-ready" 의미 아님.
-4. **n6-architecture connection (§3)** 은 "이미 connected" 상태 — 본 brainstorm 의 "discovery" 가 아니라 "expansion" 영역.
+4. **canon connection (§3)** 은 "이미 connected" 상태 — 본 brainstorm 의 "discovery" 가 아니라 "expansion" 영역.
 5. **사용자 cron `97d9422c`** 는 hexa-bio session-bound. 다른 repo session 진입 시 본 docs 가 reference 로 사용 가능 (memory `feedback_cross_repo_canonical` 규칙 — actual edits 는 그 repo 자체 session 에서).
 
 ---

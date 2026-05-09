@@ -115,7 +115,7 @@ fn _print_caveats() {
     println("     T=1 cage (weave's Bayesian audit, posterior 0.97). Lattice claim")
     println("     for nanobot/ribozyme + T>1 virocapsid is speculative.")
     println("  4. Migration of nexus/sim_bridge/weave/ may break edge-case consumers")
-    println("     (n6-architecture cross-link path, runs/ ledger schema readers).")
+    println("     (canon cross-link path, runs/ ledger schema readers).")
     println("  5. Dual-mirror sync (GitHub→HF) requires HF_TOKEN secret in repo settings;")
     println("     USER_ACTION pending. Until then, GitHub canonical only.")
 }

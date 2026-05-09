@@ -27,7 +27,7 @@
     "C3_through_C7": "out-of-repo: wet-lab → in-vitro → in-vivo → IND → phase I"
   },
   "track_c_cross_cutting_require": {
-    "R1": "n6-architecture canonical SSOT 무수정",
+    "R1": "canon canonical SSOT 무수정",
     "R2": "WEAVE Bayesian audit (posterior 0.9668 RESOLVED) 보존",
     "R3": "Empirical SSOT = ~/core/nexus/sim_bridge/weave/",
     "R4": "Witness raw 108 → state/discovery_absorption/registry.jsonl (append-only)",

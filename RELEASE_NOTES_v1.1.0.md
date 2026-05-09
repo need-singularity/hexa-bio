@@ -28,7 +28,7 @@ regulatory, or efficacy release — see the honest-scope section below.
     target).
 - **C0a sister-axis collisions closed** (cycle 24) — 2 PASS + 1 PARTIAL
   (RB-5 PASS WITH MITIGATION · VIROCAPSID PASS clean · NB-5 PARTIAL
-  pending out-of-repo n6-architecture canonical-side acknowledgment).
+  pending out-of-repo canon canonical-side acknowledgment).
 - **C2 16-cell matrix first traversal** (cycle 25, 2026-05-06) —
   W·{α,β,γ,δ} / N·{α,β,γ,δ} / R·{α,β,γ,δ} / V·{α,β,γ,δ} all ship a
   candidate-spec wrapper script that records publicly catalogued
@@ -74,7 +74,7 @@ dispatcher flag, gated on `HEXA_BIO_WITH_NUMPY=1`.
   MITIGATION (CRISPR clean genus separation, synbio SELEX handshake);
   F-VIROCAPSID-COLLISION PASS clean (orthogonal abstraction, cage =
   downstream consumer); F-NB-5 PARTIAL (hexa-bio side declared in N-R2,
-  full closure pending out-of-repo n6-architecture canonical edit).
+  full closure pending out-of-repo canon canonical edit).
 - **Bayesian audits (C0c, cycle 25)** — F-RB-2 n=30 corpus log Bayes
   factor 79.74, posterior 1.0, 30/30 axes (suspicious-perfect, flagged
   for inter-rater reliability); F-NB-2 n=30 corpus log Bayes factor
@@ -160,7 +160,7 @@ invariant is partially load-bearing in DNA-nanotech literature (above
    registry audit, two Bayesian audits) ran in parallel on the
    sub-agent track because they use no disease-specific vocabulary.
 3. **F-NB-5 PARTIAL persists** — full closure depends on an
-   out-of-repo edit to the n6-architecture canonical-side spec at
+   out-of-repo edit to the canon canonical-side spec at
    `domains/life/therapeutic-nanobot/`. hexa-bio side has declared
    the boundary statement in (N-R2). No in-repo workaround exists.
 4. **Bayesian-audit subjectivity.** F-RB-2 30/30 perfect match is
@@ -205,11 +205,11 @@ invariant is partially load-bearing in DNA-nanotech literature (above
   (16-cell matrix at IN-SILICO grade, terminal-neutral caveat explicit).
   Companions: 4 per-row kicks (W / N / R / V) + abstract-followons
   aggregate kick.
-- Schema `omega_cycle.witness_v1` mirrors the n6-architecture canonical
+- Schema `omega_cycle.witness_v1` mirrors the canon canonical
   pattern. Cross-repo mirroring to
-  `~/core/n6-architecture/design/kick/` is a separate-session task.
+  `~/core/canon/design/kick/` is a separate-session task.
 - Cross-cutting Require (R1) preserved: no edits to
-  `~/core/n6-architecture/` canonical SSOT. (R2) preserved: no
+  `~/core/canon/` canonical SSOT. (R2) preserved: no
   regression of WEAVE Bayesian audit (posterior 0.9668). (R4)
   preserved: append-only `state/discovery_absorption/registry.jsonl`.
 

@@ -4,7 +4,7 @@
 //
 // HEXA-NATIVE port of _python_bridge/module/lean4_proof_witness_emit.py
 // (R5 sunset 3/57, 2026-05-07). Reads each axis lean4 file in canonical
-// n6-architecture/formal/lean4/ stub layer, counts `sorry` occurrences
+// canon/formal/lean4/ stub layer, counts `sorry` occurrences
 // in theorem body region (skipping comments), emits one
 // `raw_77_lean4_proof_witness_v0` row per axis.
 //
@@ -20,7 +20,7 @@
 // Usage:
 //   hexa run weave/module/lean4_proof_witness_emit.hexa [--dry-run] [--cycle N]
 
-let CANONICAL_ROOT_REL = "/core/n6-architecture/formal/lean4"
+let CANONICAL_ROOT_REL = "/core/canon/formal/lean4"
 
 fn canonical_root() -> string {
     return env("HOME") + CANONICAL_ROOT_REL
@@ -182,13 +182,13 @@ fn build_row(entry, cycle: int) {
         let sha_full = sha256_file(abs_path)
         let sha_short = sha_full.substring(0, 12)
         row["sorry_count"] = n_sorry
-        row["canonical_repo_ref"] = "n6-architecture@sha256-" + sha_short +
+        row["canonical_repo_ref"] = "canon@sha256-" + sha_short +
             ":formal/lean4/" + entry["rel_path"]
         row["pass"] = n_sorry == 0
         row["notes"] = "Stub-layer landed 2026-05-06; raw_91 honest C3: structurally-correct skeleton, no proof body, sorry-count=4 across all axes; actual proof bodies cycle 30+."
     } else {
         row["sorry_count"] = 1000000000
-        row["canonical_repo_ref"] = "n6-architecture@MISSING:formal/lean4/" + entry["rel_path"]
+        row["canonical_repo_ref"] = "canon@MISSING:formal/lean4/" + entry["rel_path"]
         row["pass"] = false
         row["notes"] = "Canonical file missing — placeholder sorry_count=1e9. Investigate: stub layer expected at " + abs_path
     }
