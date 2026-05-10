@@ -18,7 +18,7 @@ hxq-<disease-tag>-<target-tag>-<NNN>
 | component       | values                                         |
 |-----------------|------------------------------------------------|
 | prefix          | `hxq-` (hexa-bio quantum)                      |
-| disease-tag     | `ca` (cancer) / `al` (alopecia) / `mi` (myocardial) / `ln` (lung) / `gen` (general) / `cmt` (Charcot-Marie-Tooth) |
+| disease-tag     | `ca` (cancer) / `al` (alopecia) / `mi` (myocardial) / `ln` (lung) / `gen` (general) / `cmt` (Charcot-Marie-Tooth) / `als` (amyotrophic lateral sclerosis) |
 | target-tag      | abbreviated target identifier (3-4 letters)    |
 | NNN             | 3-digit serial number per (disease, target)    |
 
@@ -29,6 +29,7 @@ Example:
 - `hxq-ln-tgf-001` = lung normalization, TGF-β receptor
 - `hxq-gen-water-001` = generic / scaffold exploration
 - `hxq-cmt-pmp22-001` = Charcot-Marie-Tooth, PMP22 3'UTR allele-selective siRNA target
+- `hxq-als-hd6-001`   = ALS, HDAC6 inhibitor (CNS-penetrant variant — CMT 말초 한정 chemotype 와 분기)
 
 ---
 
@@ -81,6 +82,18 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 
 부작용 회피 7-axis constraint (CNS / HNPP overshoot / TLR / 가역성 / paralog selectivity / 간-신장 detarget / AAV 면역원성) 적용 — 자세한 mapping 은 `.roadmap.disease_cmt_specific` v2 §2 참조.
 
+### ALS subtype expansion (v2 land 2026-05-10 — `.roadmap.disease_als_specific` v2) — 3 DESIGN candidates
+
+axonal common pathway sync — CMT2 axonal + ALS motor neuron axon paradigm 공유. HDAC6 chemotype = CMT(말초 한정 P-gp 회피) ↔ ALS(CNS 침투 필수) 정반대 → 별도 ID 분기. SARM1 chemotype = CMT 와 동일 (TIR/ARM domain 보존), separate ID 는 BBB audit tracking 용. C9orf72 = ALS-specific (CMT 무관).
+
+| ID                    | disease | target / mechanism                                       | modality                              | axis | heavy | SMILES / schematic (placeholder)                                  | status |
+|-----------------------|---------|----------------------------------------------------------|---------------------------------------|------|-------|--------------------------------------------------------------------|--------|
+| `hxq-als-c9orf72-001` | als     | C9orf72 G4C2 repeat secondary structure binder / RAN-translation 차단 | 경구 소분자 (CNS-penetrant, BIIB078 fail 후 small-mol paradigm) | Q    | n/a   | scaffold class TBD (G-quadruplex / hairpin selective binder) — Phase β specify | DESIGN |
+| `hxq-als-hd6-001`     | als     | HDAC6 inhibitor — **CNS-penetrant variant** (motor neuron axonal transport α-tubulin 아세틸화) | 경구 소분자 (BBB-penetrant, reversible) | Q    | 20    | `Cc1ccc(NC(=O)CN2C(=S)NN=C2c2ccccc2)cc1` (CMT chemotype 의 polar acid → methyl 치환, lipophilic 강화)  | DESIGN |
+| `hxq-als-sar1-001`    | als     | SARM1 TIR NAD+ pocket reversible inhibitor (Wallerian-like 축삭변성) | 경구 소분자 (BBB audit Phase β)       | Q    | 17    | `Nc1nc2cc(F)c(F)cc2c(=O)n1Cc1ccncc1` (CMT chemotype 동일, BBB 침투 audit 별도) | DESIGN |
+
+부작용 회피 — als-hd6-001: non-hydroxamate ZBG + HDAC1/2/3 selectivity ≥1000 + reversible + 자율신경/인지 audit 필수 (CNS HDAC6 monitoring) + AGT-100216 ALS adapt paradigm. als-sar1-001: CMT design + BBB audit + Lilly/Disarm IP-회피 chemotype. als-c9orf72-001: G4C2-selective + off-target G-quadruplex/hairpin 회피 + BIIB078 ASO fail 회피 small-mol paradigm.
+
 ---
 
 ## 3. Status legend
@@ -122,6 +135,13 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 | F-novel-cmt-vqe-4                   | hxq-cmt-mfn2-001 VQE chem-acc + R94Q dominant-negative selectivity | TBD |
 | F-novel-cmt-constraint-7            | 7-axis side-effect-avoidance audit (10 candidate × 7 constraint = 70 gate) | TBD |
 | F-novel-cmt-schematic-X             | pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001 schematic precision | TBD |
+| F-novel-als-build-1                 | hxq-als-c9orf72-001 schematic + RNA secondary structure binder Hamiltonian build | TBD |
+| F-novel-als-build-2                 | hxq-als-hd6-001 build PASS (CNS-penetrant variant, CMT chemotype divergence)     | TBD |
+| F-novel-als-build-3                 | hxq-als-sar1-001 build PASS (chemotype = CMT, BBB audit 추가 별도)                | TBD |
+| F-novel-als-vqe-1                   | hxq-als-c9orf72-001 VQE chem-acc + G-quadruplex/hairpin selectivity              | TBD |
+| F-novel-als-vqe-2                   | hxq-als-hd6-001 VQE + HDAC1/2/3 selectivity ≥1000 + BBB-penetrant audit          | TBD |
+| F-novel-als-vqe-3                   | hxq-als-sar1-001 VQE + Lilly/Disarm IP-회피 chemotype + BBB 침투 audit            | TBD |
+| F-novel-als-cross-1                 | hxq-cmt-{hd6,sar1}-001 ↔ hxq-als-{hd6,sar1}-001 chemotype divergence audit       | TBD |
 
 ---
 
@@ -166,6 +186,7 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 
 ### Phase F — disease-specific subtype expansion (cycle TBD — ongoing)
 - CMT 10-candidate land 2026-05-10 (`.roadmap.disease_cmt_specific` v2)
+- ALS 3-candidate land 2026-05-10 (`.roadmap.disease_als_specific` v2 — axonal common pathway sync, hd6/sar1 CMT chemotype divergence audit + c9orf72 ALS-specific)
 - 향후 disease entry 의 신약-우선 rebuild 시 본 file 에 row 추가
 
 ---
@@ -178,12 +199,13 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 4. **target-tag 의 chemistry judgment 한정** — 본 cycle 의 target-tag 는 known FDA-target 와 동일; 새 target discovery 는 별도 scope.
 5. **wet-lab validation 없음** — quantum-only in-silico, 임상 의미 없음.
 6. **CMT 10-candidate (v2 2026-05-10)** — 부작용 회피 7-axis design constraint 위에서 land. SMILES 4 종 (hd6/clc1/sar1/mfn2) = scaffold simplification placeholder, 6 종 (pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001) = schematic only. "부작용 없는" 절대 보장 불가 — known liability avoidance 까지가 honest scope (`.roadmap.disease_cmt_specific` v2 §9-1 참조).
+7. **ALS 3-candidate (v2 2026-05-10)** — axonal common pathway sync. `hxq-als-hd6-001` = CMT 후보의 polar acid → methyl 치환 → CNS-penetrant variant (CMT 말초 한정 paradigm 정반대). `hxq-als-sar1-001` = CMT chemotype 동일, BBB audit 별도 ID 분기. `hxq-als-c9orf72-001` = ALS-specific (BIIB078 ASO fail 후 small-mol paradigm shift). 모두 wet-lab 0건 + Lilly/Disarm SARM1 chemotype IP-회피 의무.
 
 ---
 
 ## 7. Cumulative cycles
 
-2 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (`.roadmap.disease_cmt_specific` v2 — 신약-우선 + 부작용 회피 design rebuild). Library 26 drugs total (11 FDA + 5 cycle-108 novel + 10 CMT novel).
+3 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (`.roadmap.disease_cmt_specific` v2 — 신약-우선 + 부작용 회피 design rebuild). ALS 3-candidate batch land 2026-05-10 (`.roadmap.disease_als_specific` v2 — axonal common pathway sync, hd6 chemotype divergence). Library 29 drugs total (11 FDA + 5 cycle-108 novel + 10 CMT novel + 3 ALS novel).
 
 cross-link with:
 - `.roadmap.quantum` Phase A-B-C-mini path (cycles 78-107 infrastructure)
