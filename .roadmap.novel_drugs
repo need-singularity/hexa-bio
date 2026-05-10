@@ -213,7 +213,7 @@ axonal common pathway sync — CMT2 axonal + ALS motor neuron axon paradigm 공�
 
 1. **SMILES "derivation" 은 existing scaffold 의 simplification/modification** — 진정한 de novo (scaffold-free) 가 아님. 첫 cycle 의 scope 한정. 진정한 de novo = generative model (chemical-language-model 또는 RL) + VQE binding score reward; 본 roadmap 의 Phase E 가 그 scope.
 2. **isolated molecule VQE = infrastructure 검증** — Phase B 만 으로는 wet-lab 의미 없음. Phase C (pocket supersystem) 가 진정한 binding affinity entry.
-3. **Lipinski rule-of-5 검증 없음 (cycle 108 entry)** — molecular weight / logP / H-bond donor-acceptor count / rotatable bonds 등 drug-likeness rule 의 자동 audit 가 추후 ramp.
+3. ~~**Lipinski rule-of-5 검증 없음 (cycle 108 entry)**~~ → **§8 Lipinski Ro5 audit (v6 land 2026-05-10)** — CMT/ALS placeholder SMILES 5종 hand-heuristic Ro5 audit PASS. rdkit 정밀 audit (TPSA / RotB / formal charge) 는 추후 ramp.
 4. **target-tag 의 chemistry judgment 한정** — 본 cycle 의 target-tag 는 known FDA-target 와 동일; 새 target discovery 는 별도 scope.
 5. **wet-lab validation 없음** — quantum-only in-silico, 임상 의미 없음.
 6. **CMT 10-candidate (v2 2026-05-10)** — 부작용 회피 7-axis design constraint 위에서 land. SMILES 4 종 (hd6/clc1/sar1/mfn2) = scaffold simplification placeholder, 6 종 (pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001) = schematic only. "부작용 없는" 절대 보장 불가 — known liability avoidance 까지가 honest scope (`.roadmap.disease_cmt_specific` v2 §9-1 참조).
@@ -225,7 +225,37 @@ axonal common pathway sync — CMT2 axonal + ALS motor neuron axon paradigm 공�
 
 ## 7. Cumulative cycles
 
-5 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (`.roadmap.disease_cmt_specific` v2 — 신약-우선 + 부작용 회피 design rebuild). ALS 3-candidate batch land 2026-05-10 (`.roadmap.disease_als_specific` v2 — axonal common pathway sync). ALS goal-saturation v4 land 2026-05-10 (4 subagent audit → nano-001 NB 강화). ALS goal-saturation v5 land 2026-05-10 (RB+Q axis 직접 후보 — kif5a/stmn2/atxn2/tbk1 4 candidate). Library 34 drugs total (11 FDA + 5 cycle-108 novel + 10 CMT novel + 8 ALS novel).
+6 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (v2). ALS 3-candidate batch land 2026-05-10 (v2 axonal sync). ALS goal-saturation v4 land 2026-05-10 (nano-001). ALS goal-saturation v5 land 2026-05-10 (kif5a/stmn2/atxn2/tbk1). **v6 Lipinski Ro5 audit land 2026-05-10** (§8 — 5 placeholder SMILES hand-heuristic audit PASS, rdkit 정밀 audit ramp 대기). Library 34 drugs total.
+
+---
+
+## 8. Lipinski Ro5 + Veber drug-likeness audit (v6 land 2026-05-10)
+
+방법: hand-heuristic (rdkit 미설치 — local Mac). MW/logP/HBD/HBA 추정 — Phase β 에 정밀 audit (rdkit + TPSA + RotB + formal charge + Lipinski violations) 권장. Veber: TPSA<140 + RotB<10 (본 audit 미포함, 후속 ramp).
+
+| ID                  | SMILES (heavy)                                                       | est. MW | est. logP | HBD | HBA | Ro5 verdict |
+|---------------------|----------------------------------------------------------------------|---------|-----------|-----|-----|-------------|
+| `hxq-cmt-hd6-001`   | `OC(=O)c1ccc(NC(=O)CN2C(=S)NN=C2c2ccccc2)cc1` (22)                  | ~289    | ~1.5      | 2   | 7   | ✅ PASS     |
+| `hxq-cmt-clc1-001`  | `OC(=O)c1ccccc1Nc1ccc(C(F)(F)F)nc1F` (17)                            | ~300    | ~2.5      | 2   | 6   | ✅ PASS     |
+| `hxq-cmt-sar1-001`  | `Nc1nc2cc(F)c(F)cc2c(=O)n1Cc1ccncc1` (17)                            | ~289    | ~1.5      | 1   | 5   | ✅ PASS     |
+| `hxq-cmt-mfn2-001`  | `O=C(NC1CCCCC1NC(=O)c1cccnc1)c1cccnc1` (19)                          | ~324    | ~1.8      | 2   | 6   | ✅ PASS     |
+| `hxq-als-hd6-001`   | `Cc1ccc(NC(=O)CN2C(=S)NN=C2c2ccccc2)cc1` (20)                        | ~323    | ~3.0      | 1   | 4   | ✅ PASS (BBB 적합) |
+
+핵심: CMT hd6-001 (말초 한정, logP ~1.5) ↔ ALS hd6-001 (CNS-penetrant, logP ~3.0) — 의도된 BBB design 차이가 Ro5 audit 에서도 정합. 5/5 PASS. ALS sar1-001 = CMT sar1-001 SMILES 동일 (BBB audit 별도 ID).
+
+ASO/AAV/Fc-fusion/PLGA-nanocarrier (5종) 은 small-molecule Ro5 적용 NA — biologic/oligo guideline 별도 (예: GalNAc-siRNA 의 dosing PK / AAV titer + 면역원성 / Fc-fusion 의 반감기) 가 후속 ramp.
+
+candidate without SMILES (DESIGN schematic only — Phase β SMILES commit 대기):
+- `hxq-cmt-pmp22-001/002` (siRNA/ASO oligo)
+- `hxq-cmt-gjb1-001` (mutant fold-rescue scaffold class TBD)
+- `hxq-cmt-nrg1-001` (Fc-fusion biologic)
+- `hxq-cmt-fig4-001` (AAV9 vector)
+- `hxq-cmt-nano-001` (PLGA-PEG)
+- `hxq-als-c9orf72-001` (G4C2 binder scaffold class TBD)
+- `hxq-als-stmn2-001`, `hxq-als-atxn2-001` (gapmer ASO oligo)
+- `hxq-als-kif5a-001` (kinesin chemistry novel — discovery-stage)
+- `hxq-als-tbk1-001` (LoF rescue chemistry novel — discovery-stage)
+- `hxq-als-nano-001` (PLGA-PEG)
 
 cross-link with:
 - `.roadmap.quantum` Phase A-B-C-mini path (cycles 78-107 infrastructure)
