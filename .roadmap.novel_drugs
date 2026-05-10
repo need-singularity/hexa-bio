@@ -18,7 +18,7 @@ hxq-<disease-tag>-<target-tag>-<NNN>
 | component       | values                                         |
 |-----------------|------------------------------------------------|
 | prefix          | `hxq-` (hexa-bio quantum)                      |
-| disease-tag     | `ca` (cancer) / `al` (alopecia) / `mi` (myocardial) / `ln` (lung) / `gen` (general) |
+| disease-tag     | `ca` (cancer) / `al` (alopecia) / `mi` (myocardial) / `ln` (lung) / `gen` (general) / `cmt` (Charcot-Marie-Tooth) |
 | target-tag      | abbreviated target identifier (3-4 letters)    |
 | NNN             | 3-digit serial number per (disease, target)    |
 
@@ -28,6 +28,7 @@ Example:
 - `hxq-mi-hmg-001` = myocardial infarction, HMG-CoA reductase
 - `hxq-ln-tgf-001` = lung normalization, TGF-β receptor
 - `hxq-gen-water-001` = generic / scaffold exploration
+- `hxq-cmt-pmp22-001` = Charcot-Marie-Tooth, PMP22 3'UTR allele-selective siRNA target
 
 ---
 
@@ -61,6 +62,25 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 | `hxq-ln-tgf-001`    | `Cc1cc(=O)n(-c2ccc(N)cc2)cc1`                           | pirfenidone-like pyridinone + amine handle  |
 | `hxq-gen-001`       | `OC(=O)c1cc(F)ccc1NC(=O)C(C)C`                          | aspirin-like aryl-amide-acid                |
 
+### CMT subtype expansion (v2 land 2026-05-10 — `.roadmap.disease_cmt_specific` v2) — 10 DESIGN candidates
+
+신약-우선 + 부작용 회피 7-axis design constraint 위에서 land. Phase β VQE refinement 대기 (4 small molecule + 1 nano) — 5 biologic/oligo/AAV 는 schematic only.
+
+| ID                  | disease | target / mechanism                                    | modality                                | axis | heavy | SMILES / schematic (placeholder)                                   | status |
+|---------------------|---------|-------------------------------------------------------|-----------------------------------------|------|-------|---------------------------------------------------------------------|--------|
+| `hxq-cmt-pmp22-001` | cmt     | PMP22 3'UTR allele-selective knockdown                | siRNA + 지방산/SQ conjugate (Schwann)   | RB   | n/a   | siRNA antisense seed (21nt, GalNAc/SQ alt) — Phase β specify        | DESIGN |
+| `hxq-cmt-pmp22-002` | cmt     | PMP22 pre-mRNA splice-modulating ASO (transient)      | gapmer ASO 18-mer (PS+MOE)              | RB   | n/a   | ASO 5-10-5 gapmer — Phase β specify                                 | DESIGN |
+| `hxq-cmt-hd6-001`   | cmt     | HDAC6 selective, peripherally-restricted (non-hydroxamate ZBG) | 경구 소분자                       | Q    | 22    | `OC(=O)c1ccc(NC(=O)CN2C(=S)NN=C2c2ccccc2)cc1`                      | DESIGN |
+| `hxq-cmt-clc1-001`  | cmt     | 골격근 ClC-1 state-dependent partial blocker         | 경구 소분자 BID                         | Q    | 17    | `OC(=O)c1ccccc1Nc1ccc(C(F)(F)F)nc1F`                                | DESIGN |
+| `hxq-cmt-sar1-001`  | cmt     | SARM1 TIR NAD+ pocket reversible inhibitor (CMT2)     | 경구 소분자                             | Q    | 17    | `Nc1nc2cc(F)c(F)cc2c(=O)n1Cc1ccncc1`                                | DESIGN |
+| `hxq-cmt-mfn2-001`  | cmt     | MFN2 GTPase corrector + dominant-negative destabilizer | 경구 소분자 + mito-targeting            | Q    | 19    | `O=C(NC1CCCCC1NC(=O)c1cccnc1)c1cccnc1`                              | DESIGN |
+| `hxq-cmt-gjb1-001`  | cmt     | Cx32 mutant-selective folding chaperone (CMT1X)       | 척수강내 + Schwann-한정 소분자         | Q    | n/a   | scaffold class TBD (mutant-selective fold-rescue) — Phase β specify  | DESIGN |
+| `hxq-cmt-nrg1-001`  | cmt     | NRG1-III/ErbB2-3 partial agonist Schwann-restricted   | Fc-fusion + Schwann-target peptide      | W    | n/a   | NRG1-III EGF + Fc + Schwann-targeting peptide — Phase β specify      | DESIGN |
+| `hxq-cmt-fig4-001`  | cmt     | FIG4 gene replacement (CMT4J) — liver-detarget        | AAV9 척수강내 + 4×miR-122 BS + de-imm cap | V  | n/a   | AAV9-CAG-FIG4-WPRE + miR-122 BS — Phase β specify                    | DESIGN |
+| `hxq-cmt-nano-001`  | cmt     | Schwann-perineurium nanocarrier (모듈 cargo: pmp22 siRNA / hd6 small mol) | PLGA-PEG hybrid 50-80nm | NB | n/a   | PLGA-PEG + Schwann-target ligand + pH-responsive PEG-shedding — Phase β specify | DESIGN |
+
+부작용 회피 7-axis constraint (CNS / HNPP overshoot / TLR / 가역성 / paralog selectivity / 간-신장 detarget / AAV 면역원성) 적용 — 자세한 mapping 은 `.roadmap.disease_cmt_specific` v2 §2 참조.
+
 ---
 
 ## 3. Status legend
@@ -92,6 +112,16 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 | F-novel-drug-vqe-5                  | hxq-gen-001 VQE chem-acc                              | TBD      |
 | F-novel-drug-pocket-X               | per-drug pocket supersystem VQE                        | Tier 1 ramp |
 | F-novel-drug-ranking-X              | per-target library ranking vs FDA reference           | Tier 1 ramp |
+| F-novel-cmt-build-1                 | hxq-cmt-hd6-001 build PASS                             | TBD      |
+| F-novel-cmt-build-2                 | hxq-cmt-clc1-001 build PASS                            | TBD      |
+| F-novel-cmt-build-3                 | hxq-cmt-sar1-001 build PASS                            | TBD      |
+| F-novel-cmt-build-4                 | hxq-cmt-mfn2-001 build PASS                            | TBD      |
+| F-novel-cmt-vqe-1                   | hxq-cmt-hd6-001 VQE chem-acc + HDAC1/2/3 selectivity ≥1000 | TBD  |
+| F-novel-cmt-vqe-2                   | hxq-cmt-clc1-001 VQE chem-acc + ClC-2/Kb selectivity ≥500 | TBD   |
+| F-novel-cmt-vqe-3                   | hxq-cmt-sar1-001 VQE chem-acc + IP-회피 chemotype confirm | TBD   |
+| F-novel-cmt-vqe-4                   | hxq-cmt-mfn2-001 VQE chem-acc + R94Q dominant-negative selectivity | TBD |
+| F-novel-cmt-constraint-7            | 7-axis side-effect-avoidance audit (10 candidate × 7 constraint = 70 gate) | TBD |
+| F-novel-cmt-schematic-X             | pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001 schematic precision | TBD |
 
 ---
 
@@ -134,6 +164,10 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 - low-binding candidates 에 대한 atom modification
 - iterative chem-space exploration
 
+### Phase F — disease-specific subtype expansion (cycle TBD — ongoing)
+- CMT 10-candidate land 2026-05-10 (`.roadmap.disease_cmt_specific` v2)
+- 향후 disease entry 의 신약-우선 rebuild 시 본 file 에 row 추가
+
 ---
 
 ## 6. raw#10 honest C3
@@ -143,12 +177,13 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 3. **Lipinski rule-of-5 검증 없음 (cycle 108 entry)** — molecular weight / logP / H-bond donor-acceptor count / rotatable bonds 등 drug-likeness rule 의 자동 audit 가 추후 ramp.
 4. **target-tag 의 chemistry judgment 한정** — 본 cycle 의 target-tag 는 known FDA-target 와 동일; 새 target discovery 는 별도 scope.
 5. **wet-lab validation 없음** — quantum-only in-silico, 임상 의미 없음.
+6. **CMT 10-candidate (v2 2026-05-10)** — 부작용 회피 7-axis design constraint 위에서 land. SMILES 4 종 (hd6/clc1/sar1/mfn2) = scaffold simplification placeholder, 6 종 (pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001) = schematic only. "부작용 없는" 절대 보장 불가 — known liability avoidance 까지가 honest scope (`.roadmap.disease_cmt_specific` v2 §9-1 참조).
 
 ---
 
 ## 7. Cumulative cycles
 
-1 cycle (108). Initial 5 entry skeleton land 2026-05-07.
+2 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (`.roadmap.disease_cmt_specific` v2 — 신약-우선 + 부작용 회피 design rebuild). Library 26 drugs total (11 FDA + 5 cycle-108 novel + 10 CMT novel).
 
 cross-link with:
 - `.roadmap.quantum` Phase A-B-C-mini path (cycles 78-107 infrastructure)

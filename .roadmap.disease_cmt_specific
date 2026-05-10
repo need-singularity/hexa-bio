@@ -39,8 +39,9 @@ scope:
 | `hxq-cmt-gjb1-001`  | CMT1X (GJB1/Cx32)    | Cx32 mutant-selective folding chaperone              | 척수강내 + Schwann 세포 한정 소분자             | Q    | (a) Cx32 mutant fold-rescue 한정 — wild-type Cx32 + 청신경 Cx26 미결합 (deafness 회피) (b) 척수강내 dosing → 전신 노출 최소 (c) ataluren-class readthrough 보다 fold-rescue 가 paralog cross-rxn 적음 | scaffold class TBD (mutant-selective fold-rescue) — Phase β specify           | DESIGN |
 | `hxq-cmt-nrg1-001`  | CMT1A (myelin 두께)  | NRG1-III/ErbB2-3 partial agonist Fc-fusion (WEAVE)   | Fc-fusion 단백질 + Schwann-restricted display   | W    | (a) **Schwann-restricted display** (Schwann 세포 surface marker 결합 도메인 추가) → 심근 (cardiotoxicity, 트라스투주맙 교훈) + 유방 ErbB 회피 (b) **partial agonist** — full agonist 시 Schwann 과증식 (schwannoma 위험) 회피 (c) Fc-fusion → 반감기 연장 → 저빈도 dosing | NRG1-III EGF domain + Fc + Schwann-targeting peptide (Phase β specify)        | DESIGN |
 | `hxq-cmt-fig4-001`  | CMT4J (FIG4 LoF)     | AAV9 intrathecal FIG4 gene replacement (VIROCAPSID) | AAV9 + 차세대 capsid + liver-detarget 3'UTR     | V    | (a) **liver-detarget**: 3'UTR 에 miR-122 binding sites 4개 → 간 트랜스진 silencing (insertional 우려 + ALT/AST 상승 회피) (b) 척수강내 only — 전신 노출 회피 → 면역원성 최소화 (c) 차세대 de-immunized capsid (AAVrh.10 / AAV-PHP.eB 변형) → pre-existing nAb seropositive 환자 우회 (d) empty capsid decoy 옵션 (2nd-dose 가능성)         | AAV9-CAG-FIG4-WPRE + 4×miR-122 BS + de-immunized VP3 (Phase β specify)        | DESIGN |
+| `hxq-cmt-nano-001`  | CMT1·CMT2 (cargo modular: pmp22 siRNA / hd6 small mol) | Schwann-perineurium nanocarrier — perineurium tight junction 투과 + 축삭 미세소관 수송 보조 (kinesin-1 retrograde) | PLGA-PEG hybrid nanocarrier 50-80nm, modular cargo | NB | (a) **Schwann-targeting ligand** (P0 / MBP surface anchor 또는 GalNAc-class) → 간/신장 detarget (b) **biodegradable PLGA-PEG** → 만성 축적 회피 (c) **size 50-80 nm** — perineurium tight junction 침투, RES uptake 회피 (>200 nm 회피) (d) **pH-responsive PEG-shedding** — extracellular 안정 + intracellular 방출 → off-target 노출 최소 (e) modular cargo (pmp22 siRNA / hd6 small mol / NT-3 펩티드) — multi-axis combo platform | PLGA-PEG hybrid + Schwann-target ligand (peptide / antibody-fragment) + pH-cleavable PEG + modular cargo (Phase β specify) | DESIGN |
 
-(9 후보 — RIBOZYME 2 / QUANTUM 4 / WEAVE 1 / VIROCAPSID 1 / NANOBOT 0. NANOBOT axis 후속 추가 예정 — Schwann perineurium 투과 / 축삭 미세소관 수송 보조 nanocarrier `hxq-cmt-nano-001`.)
+(10 후보 — RIBOZYME 2 / QUANTUM 4 / WEAVE 1 / VIROCAPSID 1 / NANOBOT 1. 5-axis 모두 cover.)
 
 > **subtype 우선순위**: CMT1A (PMP22 dup, 50-60% 환자) → CMT1X (GJB1, 10-15%) → CMT2A (MFN2) → CMT2 axonal common (SARM1) → ultra-rare (CMT4J FIG4). 본 9 후보가 대다수 환자 (>80%) 커버 + 축삭/탈수초/CMT1X·2A/희귀 4 sub-strata 모두 cover.
 
@@ -106,7 +107,7 @@ scope:
 | WEAVE         | nrg1-001 (Schwann-restricted Fc-fusion)             | NT-3 protein arm                                     | F-disease-cmt-W-N     |
 | VIROCAPSID    | fig4-001 (de-immunized + miR-122 detarget)         | ELP-02, AAV1.tMCK.NT-3, AAV9-GJB1, Sarepta AAV      | F-disease-cmt-V-N     |
 | RIBOZYME      | pmp22-001 (siRNA conjugate), pmp22-002 (ASO)        | DTx-1252, SQ-siRNA, Ionis ASO                        | F-disease-cmt-RB-N    |
-| NANOBOT       | (placeholder hxq-cmt-nano-001 — Phase β-γ 추가)     | preclinical Schwann-tropic nanocarrier              | F-disease-cmt-NB-N    |
+| NANOBOT       | hxq-cmt-nano-001 (PLGA-PEG hybrid 50-80nm, Schwann-target + perineurium 투과 + pH-shed) | preclinical Schwann-tropic nanocarrier              | F-disease-cmt-NB-N    |
 
 ---
 
@@ -125,7 +126,7 @@ scope:
 - F-disease-cmt-W-1: hxq-cmt-nrg1-001 — Schwann-restricted Fc-fusion + ErbB1/4 cross-rxn audit (cardiotoxicity / 유방) + partial agonism dose-response (Schwann 과증식 회피)
 - F-disease-cmt-V-1: hxq-cmt-fig4-001 — AAV9 capsid de-immunization + 4×miR-122 BS liver detarget + nAb seroprevalence simulation
 - F-disease-cmt-RB-1: hxq-cmt-pmp22-001 (지방산 vs SQ conjugate) + hxq-cmt-pmp22-002 (gapmer ASO) — knockdown 정밀도 + duration + Schwann biodistribution + HNPP overshoot rescue audit
-- F-disease-cmt-NB-1: hxq-cmt-nano-001 (placeholder) — Schwann-perineurium 투과 + 축삭 미세소관 수송 보조 nanocarrier
+- F-disease-cmt-NB-1: hxq-cmt-nano-001 — Schwann-targeting ligand selectivity + perineurium tight junction 투과 (50-80nm size optimum) + pH-responsive PEG-shedding kinetics + RES uptake 회피 + modular cargo loading efficiency (pmp22 siRNA / hd6 small mol / NT-3 펩티드)
 - F-disease-cmt-cross-1: hd6-001 + pmp22-001 + EN001 (MSC, comparator) combo / sequencing — 탈수초형 multi-mechanism cross-axis pilot
 - F-disease-cmt-cross-2: sar1-001 + nrg1-001 (축삭형 CMT2 neuroprotection + regeneration combo)
 
@@ -147,11 +148,11 @@ scope:
 
 **Tier 0-5 progress (본 roadmap)**:
 - Tier 0 (skeleton): ✅ v1 land 2026-05-10
-- Tier 1 (신약 candidate ID): ✅ v2 land 2026-05-10 — 9 hxq-cmt-* + 7-axis constraint
-- Tier 2 (SMILES/schematic Phase β): ⏳ DESIGN — 4 small-molecule SMILES placeholder commit, 5 schematic only
+- Tier 1 (신약 candidate ID): ✅ v2 land 2026-05-10 — 10 hxq-cmt-* (5-axis 모두 cover) + 7-axis constraint
+- Tier 2 (SMILES/schematic Phase β): ⏳ DESIGN — 4 small-molecule SMILES placeholder commit, 6 schematic only (pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001)
 - Tier 3 (VQE binding Phase γ): ⏳ pending hxq Q-build (PMP22 3'UTR / HDAC6 / ClC-1 / SARM1 / MFN2 / Cx32 pocket)
-- Tier 4 (library ranking Phase δ): ⏳ pending — 25-comparator + 9-novel
-- Tier 5 (cross-axis pilot Phase ε): ⏳ pending — combo + Schwann-restricted Fc-fusion + capsid
+- Tier 4 (library ranking Phase δ): ⏳ pending — 25-comparator + 10-novel
+- Tier 5 (cross-axis pilot Phase ε): ⏳ pending — combo + Schwann-restricted Fc-fusion + capsid + nanocarrier modular cargo
 
 **양자-VQE adoption ladder (qubit 추정)**:
 - hxq-cmt-clc1-001 (heavy 17): 2e/2o ParityMapper hardware-eff depth=1, sub-µHa 가능권 — `.roadmap.novel_drugs` 선례 ⊆
@@ -171,7 +172,8 @@ scope:
 - gjb1-001 (소분자 척수강내): 3 — 척수강내 dosing 임상 인프라 한정 (삼성서울병원 신경과 제한적)
 - nrg1-001 (Fc-fusion): 4 — 셀트리온/삼성바이오로직스 항체 인프라 적합
 - fig4-001 (AAV9): 3 — 한국 AAV CDMO (큐로셀, 헬릭스미스) 신생, scale-up 의존
-- 평균: ~4.0 — K-platform 적합 (소분자 4종 중심, biologic/AAV 보완 필요)
+- nano-001 (PLGA-PEG nanocarrier): 4 — KAIST/POSTECH 나노전달 + 한국 polymer chemistry CDMO 적합
+- 평균: ~4.0 — K-platform 적합 (소분자 4종 + 나노 1종 중심, biologic/AAV 보완 필요)
 
 ---
 
@@ -185,22 +187,23 @@ scope:
 | RNA-editing (ADAR)    | allele-specific mRNA edit — dominant-negative point mutation 표적 적합 | hxq-cmt-mfn2-002 (DESIGN 후속) — MFN2 R94Q ADAR-recruiting guide RNA (REPAIR/RESCUE paradigm)              |
 | cell-therapy (MSC / Schwann iPSC) | EN001 (comparator) — 본 신약 axis 와 직교, combo 가능 | 미채택 (직접) — hd6-001 + pmp22-001 + EN001 (comparator) combo F-disease-cmt-cross-1 falsifier            |
 | Antibody (mAb)        | NRG1-III / ErbB / PMP22 surface 한정 + Schwann selectivity | nrg1-001 의 Fc-fusion 이 monoclonal 보다 Schwann-restricted display 에 적합                                |
-| Small molecule        | CMT 의 다수 paralog cross-rxn 회피 가능 + 경구 dosing                | hd6-001, clc1-001, sar1-001, mfn2-001, gjb1-001 — 본 roadmap 의 backbone (5/9)                            |
-| Oligonucleotide (siRNA/ASO) | PMP22 dosage / splice / mutant allele 표적 — CMT master modality | pmp22-001 (siRNA), pmp22-002 (ASO) — 2/9                                                                  |
-| AAV gene therapy      | rare subtype gene replacement / knockdown 적합              | fig4-001 (CMT4J) — 1/9; 추가 (CMT1X-GJB1, CMT2A-MFN2 AAV arm 후속)                                       |
+| Small molecule        | CMT 의 다수 paralog cross-rxn 회피 가능 + 경구 dosing                | hd6-001, clc1-001, sar1-001, mfn2-001, gjb1-001 — 본 roadmap 의 backbone (5/10)                           |
+| Oligonucleotide (siRNA/ASO) | PMP22 dosage / splice / mutant allele 표적 — CMT master modality | pmp22-001 (siRNA), pmp22-002 (ASO) — 2/10                                                                 |
+| AAV gene therapy      | rare subtype gene replacement / knockdown 적합              | fig4-001 (CMT4J) — 1/10; 추가 (CMT1X-GJB1, CMT2A-MFN2 AAV arm 후속)                                      |
+| Nanocarrier (PLGA-PEG hybrid) | Schwann-perineurium 투과 + RES uptake 회피 + modular cargo (multi-axis combo platform) | nano-001 (modular cargo: pmp22 siRNA / hd6 small mol / NT-3) — 1/10                |
 
-(분포: 소분자 5 + oligo 2 + Fc-fusion 1 + AAV 1 = 9. modality diversity 명시적 + LNP / CRISPR-DNA / ADC 회피 paradigm 명시적.)
+(분포: 소분자 5 + oligo 2 + Fc-fusion 1 + AAV 1 + nano 1 = 10. modality diversity 명시적 + LNP / CRISPR-DNA / ADC 회피 paradigm 명시적.)
 
 ---
 
 ## 8. Phase plan (novel-drug-first)
 
 - **Phase α (v1 entry)**: web research catalog + 25-drug landscape + 5-axis matrix + falsifier skeleton. ✅ COMPLETE 2026-05-10
-- **Phase α' (v2 rebuild — 본 land)**: 신약-우선 + 부작용 회피 7-axis design constraint + 9 hxq-cmt-* candidate skeleton + paradigm_shift_potential + platform_cross_link. ✅ LAND 2026-05-10
-- **Phase β**: hxq-cmt-{hd6,clc1,sar1,mfn2}-001 SMILES 정밀 commit (placeholder → IP-회피 chemotype 확정) + Hamiltonian build (`pocket_active_space.py` 2e/2o or 4e/4o) + 7-axis constraint audit checklist 자동화. pmp22-001/002 / nrg1-001 / fig4-001 / gjb1-001 schematic 정밀화.
+- **Phase α' (v2 rebuild — 본 land)**: 신약-우선 + 부작용 회피 7-axis design constraint + 10 hxq-cmt-* candidate skeleton (5-axis 모두 cover) + paradigm_shift_potential + platform_cross_link. ✅ LAND 2026-05-10
+- **Phase β**: hxq-cmt-{hd6,clc1,sar1,mfn2}-001 SMILES 정밀 commit (placeholder → IP-회피 chemotype 확정) + Hamiltonian build (`pocket_active_space.py` 2e/2o or 4e/4o) + 7-axis constraint audit checklist 자동화. pmp22-001/002 / nrg1-001 / fig4-001 / gjb1-001 / nano-001 schematic 정밀화.
 - **Phase γ**: pocket VQE — PMP22 3'UTR / HDAC6 catalytic / ClC-1 state-dep / SARM1 TIR / MFN2 GTPase / Cx32 fold-rescue. Selectivity audit: HDAC1/2/3, ClC-2/Kb, ErbB1/4, Cx26 paralog cross-VQE.
-- **Phase δ**: 9-novel + 25-comparator library ranking — 탈수초형 (pmp22-001, pmp22-002, hd6-001, nrg1-001, gjb1-001, fig4-001) vs 축삭형 (sar1-001, mfn2-001, hd6-001) sub-stratified. K-platform 적합도 점수 align.
-- **Phase ε**: cross-axis pilot — top-ranked 후보 + WEAVE NRG1-Fc + RIBOZYME pmp22 + VIROCAPSID FIG4 capsid + NANOBOT Schwann-perineurium nanocarrier (`hxq-cmt-nano-001` 추가).
+- **Phase δ**: 10-novel + 25-comparator library ranking — 탈수초형 (pmp22-001, pmp22-002, hd6-001, nrg1-001, gjb1-001, fig4-001, nano-001 cargo-pmp22) vs 축삭형 (sar1-001, mfn2-001, hd6-001, nano-001 cargo-hd6) sub-stratified. K-platform 적합도 점수 align.
+- **Phase ε**: cross-axis pilot — top-ranked 후보 + WEAVE NRG1-Fc + RIBOZYME pmp22 + VIROCAPSID FIG4 capsid + NANOBOT nano-001 modular cargo (pmp22 siRNA / hd6 small mol / NT-3) combo.
 
 ---
 
@@ -254,7 +257,7 @@ scope:
 
 ## 11. Cumulative cycles
 
-2 cycle. v1 entry skeleton land 2026-05-10 (web research catalog). v2 신약-우선 rebuild land 2026-05-10 (9 hxq-cmt-* candidate + 7-axis side-effect-avoidance constraint + paradigm_shift_potential + platform_cross_link cycle 209-300 mandate). 210th disease roadmap entry. v2 directive: "신약기준 — 부작용없는" → de novo hxq-cmt-* 9 candidates + 7-axis constraint set + paradigm_shift + platform_cross_link section land. wet-lab + 임상 0건 disclaimer 유지, AUP-safe, 5-axis lock 유지. SMILES placeholder 4종 (`hd6-001` `clc1-001` `sar1-001` `mfn2-001`) + schematic 5종 (`pmp22-001` `pmp22-002` `gjb1-001` `nrg1-001` `fig4-001`) — Phase β IP-회피 정밀화 + Hamiltonian build 대기.
+2 cycle. v1 entry skeleton land 2026-05-10 (web research catalog). v2 신약-우선 rebuild land 2026-05-10 (10 hxq-cmt-* candidate, 5-axis 모두 cover + 7-axis side-effect-avoidance constraint + paradigm_shift_potential + platform_cross_link cycle 209-300 mandate + `.roadmap.novel_drugs` SSOT 동기화). 210th disease roadmap entry. v2 directive: "신약기준 — 부작용없는" → de novo hxq-cmt-* 10 candidates + 7-axis constraint set + paradigm_shift + platform_cross_link section land. wet-lab + 임상 0건 disclaimer 유지, AUP-safe, 5-axis lock 유지. SMILES placeholder 4종 (`hd6-001` `clc1-001` `sar1-001` `mfn2-001`) + schematic 6종 (`pmp22-001` `pmp22-002` `gjb1-001` `nrg1-001` `fig4-001` `nano-001`) — Phase β IP-회피 정밀화 + Hamiltonian build 대기.
 
 ### web research sources (2026-05-10 snapshot)
 - Expert Rev Neurother 2025 "CMT: a review of clinical developments and its management — What's new in 2025?" (tandfonline 10.1080/14737175.2025.2470980 / PubMed 40014417)
