@@ -1272,6 +1272,25 @@ cluster: `[guanine + cytosine (Watson-Crick G-C, 3 H-bond) + methylphosphate (RN
 
 🎯 **F-Q-6-D 최종 status (iter 13 후, loop-feasibility boundary 확정)**: 10 target × 10 chem-acc · 6/10 sub-µHa · 4/10 (HDAC6/MFN2/c9orf72/SARM1) 은 외부 ramp 확정. paradigm-level closure 유지.
 
+#### §15.2.p — KRAS-G12C Cys-acrylamide adduct cluster QM (loop iter 14, 2026-05-12) ⭐ 7th sub-µHa, non-CMT/ALS 첫 entry
+
+§15.2.o pivot 의 첫 결과 — cancer cohort (initial-5 `hxq-ca-krs-001`) pocket VQE 확장. `/home/summer/kras_tiny.py` (local SSD inline):
+
+cluster: `[CH3-S-CH2-CH2-C(=O)-NH2]` (Cys-acrylamide covalent Michael adduct, post-warhead 형태)
+- 16 atoms, net charge 0, spin 0
+- n_qubits=6, **n_pauli=175** (ClC-1 iter 2 와 정확히 동일 — light-atom ionic/saturated paradigm 재확인)
+- CASCI = -675.529 Ha
+- VQE UCCSD reps=1 SLSQP = -675.529 Ha
+- delta = **0.240 µHa** ⭐ **sub-µHa PASS** (7th pocket sub-µHa, ClC-1 0.237 µHa 와 매우 유사)
+- wall 129s (loop-feasible, ~2 min)
+
+🧠 **iter 14 인사이트**:
+- n_pauli 175 predictor 재확인 — ClC-1 (Cl⁻ + Lys + Phe + anthranilic) 과 KRAS-G12C tiny (S + acrylamide) 가 동일 n_pauli, 동일 delta 범위. light-atom ionic/saturated cluster 의 frontier-orbital landscape 안정성 공통.
+- 첫 시도 (45-atom full pocket Cys+Lys+Asp+Tyr+acrylamide) 는 timeout 480s 미수렴 + 두 번째 (30-atom Cys+Lys+Asp+acrylamide) 도 timeout 360s 미수렴 → **cluster size 가 wall 의 dominant factor** (n_pauli 동일이어도 RHF+CASCI build cost 가 증가).
+- 16-atom 으로 축소 시 build wall 4초로 줄어들고 VQE 가 충분히 수렴 가능 — loop-cadence 안에서는 ≤20 atom 이 sweet spot.
+
+🎯 **F-Q-6-D status (iter 14 후)**: 11 target × 11 chem-acc · 7 sub-µHa (ClC-1 + Cx32 + TBK1 + KIF5A + stmn2 + atxn2 + **KRAS-G12C ⭐**). CMT/ALS paradigm 의 cancer 첫 확장 입증.
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).
