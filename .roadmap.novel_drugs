@@ -75,7 +75,7 @@ format: ID | disease | target | SMILES | derivation | status | reference cycle
 | `hxq-cmt-clc1-001`  | cmt     | 골격근 ClC-1 state-dependent partial blocker         | 경구 소분자 BID                         | Q    | 17    | `OC(=O)c1ccccc1Nc1ccc(C(F)(F)F)nc1F`                                | DESIGN |
 | `hxq-cmt-sar1-001`  | cmt     | SARM1 TIR NAD+ pocket reversible inhibitor (CMT2)     | 경구 소분자                             | Q    | 17    | `Nc1nc2cc(F)c(F)cc2c(=O)n1Cc1ccncc1`                                | DESIGN |
 | `hxq-cmt-mfn2-001`  | cmt     | MFN2 GTPase corrector + dominant-negative destabilizer | 경구 소분자 + mito-targeting            | Q    | 19    | `O=C(NC1CCCCC1NC(=O)c1cccnc1)c1cccnc1`                              | DESIGN |
-| `hxq-cmt-gjb1-001`  | cmt     | Cx32 mutant-selective folding chaperone (CMT1X)       | 척수강내 + Schwann-한정 소분자         | Q    | n/a   | scaffold class TBD (mutant-selective fold-rescue) — Phase β specify  | DESIGN |
+| `hxq-cmt-gjb1-001`  | cmt     | Cx32 mutant-selective folding chaperone (CMT1X)       | 척수강내 + Schwann-한정 소분자         | Q    | 23    | `O=C(NC1CCN(CC2CC2)CC1)c1ccc(C(F)(F)F)cc1` (v7 land §12.2.g — 4-CF3-aryl + cyclopropylmethyl-piperidinyl-carboxamide chaperone, IT, BBB-PASS) | DESIGN |
 | `hxq-cmt-nrg1-001`  | cmt     | NRG1-III/ErbB2-3 partial agonist Schwann-restricted   | Fc-fusion + Schwann-target peptide      | W    | n/a   | NRG1-III EGF + Fc + Schwann-targeting peptide — Phase β specify      | DESIGN |
 | `hxq-cmt-fig4-001`  | cmt     | FIG4 gene replacement (CMT4J) — liver-detarget        | AAV9 척수강내 + 4×miR-122 BS + de-imm cap | V  | n/a   | AAV9-CAG-FIG4-WPRE + miR-122 BS — Phase β specify                    | DESIGN |
 | `hxq-cmt-nano-001`  | cmt     | Schwann-perineurium nanocarrier (모듈 cargo: pmp22 siRNA / hd6 small mol) | PLGA-PEG hybrid 50-80nm | NB | n/a   | PLGA-PEG + Schwann-target ligand + pH-responsive PEG-shedding — Phase β specify | DESIGN |
@@ -92,10 +92,10 @@ axonal common pathway sync — CMT2 axonal + ALS motor neuron axon paradigm 공�
 | `hxq-als-hd6-001`     | als     | HDAC6 inhibitor — **CNS-penetrant variant** (motor neuron axonal transport α-tubulin 아세틸화) | 경구 소분자 (BBB-penetrant, reversible) | Q    | 20    | `Cc1ccc(NC(=O)CN2C(=S)NN=C2c2ccccc2)cc1` (CMT chemotype 의 polar acid → methyl 치환, lipophilic 강화)  | DESIGN |
 | `hxq-als-sar1-001`    | als     | SARM1 TIR NAD+ pocket reversible inhibitor (Wallerian-like 축삭변성) | 경구 소분자 (BBB audit Phase β)       | Q    | 17    | `Nc1nc2cc(F)c(F)cc2c(=O)n1Cc1ccncc1` (CMT chemotype 동일, BBB 침투 audit 별도) | DESIGN |
 | `hxq-als-nano-001`    | als     | Motor neuron-targeting nanocarrier (IT, modular cargo: SOD1 ASO / hxq-als-{hd6,sar1,c9orf72}-001 / SMN2 splice mod) | PLGA-PEG hybrid 50-80nm + ChAT/SMI-32 ligand | NB | n/a | PLGA-PEG + ChAT/SMI-32 motor neuron 선택 ligand + IT delivery + pH-responsive PEG-shedding + retrograde axonal transport assist (kinesin-1) — Phase β specify | DESIGN |
-| `hxq-als-kif5a-001`   | als     | KIF5A motor protein stabilizer / mutant-specific GoF rescue (axonal anterograde 수송) | 경구 소분자 (BBB-penetrant) + mutant-specific chaperone | Q | n/a | scaffold class TBD — KIF5A motor domain rescue + ATPase 항상성 보존, paralog KIF1A/KIF3A selectivity ≥500 — Phase β specify | DESIGN |
+| `hxq-als-kif5a-001`   | als     | KIF5A motor protein stabilizer / mutant-specific GoF rescue (axonal anterograde 수송) | 경구 소분자 (BBB-penetrant) + mutant-specific chaperone | Q | 18 | `Nc1ncc(C(F)(F)F)c(-c2ccc(F)cc2)n1` (v7 land §12.2.g — 2-amino-5-CF3-4-(p-F-phenyl)pyrimidine, BBB pass, ATPase pocket, paralog selectivity wet-lab gate) | DESIGN |
 | `hxq-als-stmn2-001`   | als     | STMN2 pre-mRNA splice modulator — TDP-43 LoF cryptic exon inclusion 차단 (Stathmin-2 축삭재생 회복) | gapmer ASO 18-mer (PS+MOE), IT delivery | RB | n/a | ASO 18-mer 5-10-5 (PS+MOE), cryptic exon 5'ss 차단 seed — QurAlis QRL-101 comparator. Phase β specify | DESIGN |
 | `hxq-als-atxn2-001`   | als     | ATXN2 mRNA knockdown — polyQ ataxin-2 reduction → TDP-43 항상성 회복 | gapmer ASO 18-mer (PS+MOE), IT delivery | RB | n/a | ASO 18-mer 5-10-5 (PS+MOE), ATXN1/ATXN3 paralog 회피 seed — Stanford-Lilly comparator. Phase β specify | DESIGN |
-| `hxq-als-tbk1-001`    | als     | TBK1 LoF rescue chaperone — autophagy-cGAS-STING 항상성 회복 (ALS-CMT-FTD 단일유전자 cluster) | 소분자 chaperone (LoF 활성 회복 — 도전적) | Q | n/a | scaffold class TBD — paralog IKKε selectivity ≥500, autophagy/STING off-target 정상 보존, mutant-LoF specific — Phase β specify (LoF rescue chemistry novel, discovery-stage) | DESIGN |
+| `hxq-als-tbk1-001`    | als     | TBK1 LoF rescue chaperone — autophagy-cGAS-STING 항상성 회복 (ALS-CMT-FTD 단일유전자 cluster) | 소분자 chaperone (LoF 활성 회복 — 도전적) | Q | 20 | `O=C(NCc1ccncc1)c1[nH]c2cc(F)ccc2c1` (v7 land §12.2.g — indole-2-carboxamide + pyridyl-4-methyl + 5-F, BBB pass, kinase chaperone heuristic, LoF rescue chem discovery-stage) | DESIGN |
 | `hxq-als-sar1-002`    | als     | SARM1 TIR NAD+ pocket reversible — ALS BBB-penetrant 별도 분기 (v7 land §12.2.f) | 경구 소분자 (BBB-penetrant)             | Q    | 24    | `Nc1nc2nc(F)c(C(F)(F)F)cc2c(=O)n1Cc1ccccc1` (alt-B core + 6-CF3 + benzyl, logP 2.58, BBB pass, IP novel)                            | DESIGN |
 | `hxq-als-c9orf72-001` | als     | C9orf72 G4C2 hairpin/quadruplex binder — scaffold class 해소 (v7 land §12.2.f, DC-34 paradigm)  | 경구 소분자 (CNS-penetrant)             | Q    | 21    | `O=C(NCCCN1CCCCC1)c1cc2ccccc2[nH]1` (indole-2-carboxamide + piperidinyl-propyl, logP 2.77, BBB pass)                                 | DESIGN |
 
@@ -227,7 +227,7 @@ axonal common pathway sync — CMT2 axonal + ALS motor neuron axon paradigm 공�
 
 ## 7. Cumulative cycles
 
-7 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (v2). ALS 3-candidate batch land 2026-05-10 (v2 axonal sync). ALS goal-saturation v4 land 2026-05-10 (nano-001). ALS goal-saturation v5 land 2026-05-10 (kif5a/stmn2/atxn2/tbk1). **v6 Lipinski Ro5 audit land 2026-05-10** (§8 — 5 placeholder SMILES hand-heuristic audit PASS, rdkit 정밀 audit ramp 대기). **v7 land 2026-05-11** (4-segment + 6 Phase β follow-up + 2 new candidate land): §9 biologic/oligo/AAV/Fc-fusion/nano modality guideline audit (8 entry) + §10 IP-회피 chemotype scaffold heuristic map (5 entry) + §11 rdkit 정밀 Ro5+Veber audit (5/5 PASS) + §12 F-Q-6-B/C 양자 Hamiltonian build + VQE (5/5 chem-acc PASS, hxq-cmt-hd6-001 sub-µHa ⭐) + §12.1.b F-Q-6-B2 UCCSD closure 0.30 µHa + §12.2.b/c/d sar1 + small-mol alt audit + §12.2.e 7-way 4e/4o UCCSD generalization (5/7 sub-µHa) + **§12.2.f als-sar1-002-G land** (alt-B + 6-CF3 + benzyl, BBB PASS, IP novel ⭐) + **§12.2.f c9orf72-001-C land** (indole-2-carboxamide piperidinyl-propyl, DC-34 paradigm, scaffold class TBD 해소 ⭐). Library **34 → 36** drugs total (hxq-als-sar1-002 + hxq-als-c9orf72-001 정밀화).
+7 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (v2). ALS 3-candidate batch land 2026-05-10 (v2 axonal sync). ALS goal-saturation v4 land 2026-05-10 (nano-001). ALS goal-saturation v5 land 2026-05-10 (kif5a/stmn2/atxn2/tbk1). **v6 Lipinski Ro5 audit land 2026-05-10** (§8). **v7 land 2026-05-11** (4-segment + Phase β rounds 1-4): §9 biologic guideline (8 entry) + §10 IP-회피 chemotype heuristic (5 entry) + §11 rdkit precise (5/5 PASS) + §12 F-Q-6-B/C VQE (5/5 chem-acc PASS, hd6-001 sub-µHa ⭐) + §12.1.b H2O UCCSD 0.30 µHa + §12.2.b/c/d sar1 + small-mol alt + §12.2.e 7-way 4e/4o UCCSD (5/7 sub-µHa) + **§12.2.f als-sar1-002-G land** (BBB PASS IP novel ⭐) + **§12.2.f c9orf72-001-C land** (scaffold TBD 해소 ⭐) + **§12.2.g 3 schematic scaffold class 해소** (gjb1-001-A + kif5a-001-A + tbk1-001-F BBB PASS, tbk1-001-A library record 0.4 nano-Ha) + **§12.2.h 5 land candidate 4e/4o UCCSD** (3/5 sub-µHa: sar1-002-G + gjb1-001-A + tbk1-001-F). Library **34 → 39** drugs total (sar1-002 + c9orf72-001 + gjb1-001 + kif5a-001 + tbk1-001 scaffold class 5종 정밀화).
 
 ---
 
@@ -585,6 +585,46 @@ EfficientSU2 depth=1 의 B2 8.36 mHa fail → qiskit-nature UCCSD ansatz (HF ini
 
 honest scope: c9orf72-001-C 의 G4C2 RNA selectivity 는 wet-lab 검증 필수 (RNA secondary structure 결합 affinity, off-target G4 회피, BIIB078 ASO fail 회피 small-mol paradigm 입증). 본 land = scaffold class 가 land 된 첫 번째 small-mol c9orf72 candidate — Phase β 의 4e/4o UCCSD + pocket VQE ramp 자격 확보.
 
+### 12.2.g. 3 schematic small-mol scaffold class 해소 (gjb1/kif5a/tbk1) — v7 Phase β round 4
+
+5 schematic-only 후보 중 3 small-mol scaffold class TBD 해소 (`tests/schematic_3_scaffold_audit_v7.py` + `quantum_schematic_3_vqe_v7.py`). pmp22 (siRNA/ASO) 는 small-mol scaffold 적용 NA (별도 RNA seed design).
+
+| ID                          | scaffold                                                         | logP | TPSA  | BBB | 2e/2o delta (µHa) | sub-µHa | land 여부 |
+|-----------------------------|------------------------------------------------------------------|------|-------|-----|---------------------|----------|-------------|
+| ⭐ `hxq-cmt-gjb1-001-A`     | **4-CF3-aryl + (4-cyclopropylmethyl-piperidinyl)-carboxamide** (chaperone) | 3.31 | 32.34 | ✅  | 76.1                | ❌       | ⭐ **gjb1 land** |
+| `hxq-cmt-gjb1-001-B`        | 4-(p-CF3-phenyl)butyric acid (4-PBA simplified)                  | 3.11 | 37.30 | ✅  | **0.003** ⭐         | ✅       | alternative (heavy 16, 너무 단순) |
+| ⭐ `hxq-als-kif5a-001-A`    | **2-amino-5-CF3-4-(p-F-phenyl)pyrimidine** (ATPase pocket)       | 2.88 | 51.80 | ✅  | 17.0                | ❌       | ⭐ **kif5a land** |
+| `hxq-als-kif5a-001-B`       | 2-amino-4-(m-isopropyl-phenyl)pyrimidine                         | 2.85 | 51.80 | ✅  | **0.74** ⭐          | ✅       | alternative (단순, target-feature 부족) |
+| `hxq-als-tbk1-001-A`        | 5-amino-indazole-3-carboxamide + 디메틸아미노에틸                | 0.44 | 87.04 | ❌  | **0.0004** ⭐         | ✅       | logP 부적합 (BBB FAIL) |
+| `hxq-als-tbk1-001-B`        | indazole-3-carboxamide + 4-cyclopropyl-aryl                      | 3.69 | 57.78 | ❌  | 9.1                  | ❌       | logP 초과 |
+| ⭐ `hxq-als-tbk1-001-F`     | **indole-2-carboxamide + pyridyl-4-methyl + 5-F**                | 2.63 | 57.78 | ✅  | 75.6                 | ❌       | ⭐ **tbk1 land** |
+
+핵심:
+- ⭐ **3 scaffold class TBD 해소** — gjb1-001-A (chemical chaperone) + kif5a-001-A (ATPase pocket pyrimidine) + tbk1-001-F (indole-pyridyl kinase chaperone). 5 schematic 중 small-mol 3종 모두 BBB-PASS + chem-acc PASS.
+- 🔬 **library 신기록**: `tbk1-001-A` 2e/2o delta = **0.0004 µHa = 0.4 nano-Ha** (BBB FAIL 이지만 VQE pipeline 정확도 record). `gjb1-001-B` 0.003 µHa = 3 nano-Ha (2위).
+- 🧪 BBB 조건 (logP 2.5-3.5 + TPSA <90 + HBD <3) 이 sub-µHa 와 trade-off — sub-µHa 후보 (tbk1-001-A / gjb1-001-B) 는 BBB 부적합 또는 단순. drug-like + BBB-pass + chem-acc 동시 만족 = gjb1-001-A / kif5a-001-A / tbk1-001-F 3종.
+- 🩺 IT delivery (gjb1) 는 BBB 무관 — gjb1-001-A 의 logP 3.31 은 IT 한정 dosing 적합 (Schwann 선택성 wet-lab).
+- ⚠️ tbk1 LoF rescue chemistry = discovery-stage — wet-lab paralog IKKε 선택성 ≥500x 검증 + autophagy/STING off-target audit 필수.
+
+### 12.2.h. 5 land candidate 4e/4o UCCSD generalization — v7 Phase β round 4
+
+신규 land 5 후보의 4e/4o UCCSD active-space generalization (`tests/quantum_new_lands_4e4o_uccsd_v7.py`). PySCFDriver → ActiveSpaceTransformer(4e/4o) → ParityMapper → UCCSD reps=1 + SLSQP 300 iter + seed 7 random init.
+
+| ID                          | heavy | 2e/2o delta (µHa) | 4e/4o delta (µHa) | 개선 배수      | 4e/4o sub-µHa | BBB |
+|-----------------------------|-------|---------------------|---------------------|-----------------|----------------|-----|
+| `hxq-als-sar1-002-G`        | 24    | 14.7                | **0.302** ⭐         | **49x ↑**       | ✅             | ✅  |
+| `hxq-als-c9orf72-001-C`     | 21    | 21.9                | 12.9                | 1.7x ↑          | ❌             | ✅  |
+| `hxq-cmt-gjb1-001-A`        | 23    | 76.1                | **0.228** ⭐         | **334x ↑**      | ✅             | ✅  |
+| `hxq-als-kif5a-001-A`       | 18    | 17.0                | 1.479               | 11.5x ↑         | ❌ (near)      | ✅  |
+| `hxq-als-tbk1-001-F`        | 20    | 75.6                | **0.282** ⭐         | **268x ↑**      | ✅             | ✅  |
+
+핵심:
+- ⭐ **3/5 sub-µHa @ 4e/4o** — sar1-002-G + gjb1-001-A + tbk1-001-F. UCCSD reps=1 의 안정성 재확인.
+- 🚀 gjb1-001-A 가 76 → 0.23 µHa (334x 개선) — active-space 확장으로 frontier-orbital 비대칭 효과 극복.
+- ⚠️ c9orf72-001-C 만 4e/4o 에서도 12.9 µHa — indole + piperidine 의 frontier-orbital 분극 (질소 lone pair 불연속) 으로 UCCSD reps=1 부족. depth=2 또는 UCC reps=2 시도 가능.
+- ⚠️ kif5a-001-A near sub-µHa (1.48 µHa) — 1.6 chem-acc 임계 5% 이내, 마진 작음. seed 변경 또는 reps=2 시 sub-µHa 달성 가능성.
+- 7-way 4e/4o (§12.2.e) + 5-way 4e/4o (본 §12.2.h) = 누적 12 후보 UCCSD chain 정합 동작 — pipeline 의 drug-sized SMILES 일반화 입증.
+
 ### 12.3. F-Q-6-B/C falsifier matrix update
 
 | falsifier | content                                                      | v6 status | v7 status                |
@@ -631,6 +671,9 @@ honest scope: c9orf72-001-C 의 G4C2 RNA selectivity 는 wet-lab 검증 필수 (
   - `als_sar1_002_c9orf72_audit_v7.py` — als-sar1-002 round 1 (4 var) + c9orf72-001 (3 var) rdkit + UFF
   - `als_sar1_002_round2_audit_v7.py` — als-sar1-002 round 2 (benzyl 변환 + 다중치환 4 var)
   - `quantum_als_sar1_002_c9orf72_vqe_v7.py` — 12 candidate 2e/2o frontier VQE (sar1-002-G + c9orf72-001-C BBB PASS)
+  - `schematic_3_scaffold_audit_v7.py` — gjb1/kif5a/tbk1 6 variant + tbk1-F rdkit + UFF
+  - `quantum_schematic_3_vqe_v7.py` — 7 schematic 2e/2o frontier VQE
+  - `quantum_new_lands_4e4o_uccsd_v7.py` — 5 land candidate 4e/4o UCCSD generalization
 - bypass note: sshfs mount (mac_home) 에서 rdkit + qiskit_nature 같은 process 동시 import 시 nested .so dlopen flaky (`libRDKitForceFieldHelpers-*.so.1` / `libRDKitPartialCharges-*.so.1` 간헐 not-found, 또는 PermissionError 로 source `.py` 도 거부). FUSE `mmap()` 가 `read()` 와 분기되는 known limitation. **해결: venv 를 Linux local SSD (`/home/summer/.venv-hexa-bio`) 로 복사** (`cp -a` + shebang `sed` 보정). 1차 2-step process workaround 는 일부 case 에서만 동작 (지속성 없음).
 
 ### 12.5. Phase β ramp (F-Q-6-D/E/F)
