@@ -197,7 +197,7 @@ hexa-bio quantum n6                   # n=6 invariant binding for the H₂/LiH p
 | `weave` | composition | STRUCTURAL-EXACT (T=1, post 0.97) | ✅ **~100%** | cage-assembly ODE + Bayesian audit |
 | `virocapsid` | assembly | STRUCTURAL-EXACT (T=1 corpus + multi-T) | 🟢 **~95%** — C5 schema lock + 4-fixture conformance in-repo ✅; C3b n≥100 PDB corpus out-of-repo | PDB-corpus T-number discrimination |
 | `ribozyme` | catalysis | STRUCTURAL-EXACT-CANDIDATE (12-nt; deductive PASS) | 🟢 **~98%** — R-R1 (Nussinov MFE) / G26-RB-3 comp 3 (Hamming off-target screen) / G26-RB-2 (J₂=\|S₄\|=24 quotient) / G26-RB-1′ (4-state kinetics sim re-impl, F-RB-4 6/6) all in-repo ✅ 2026-05-12; remaining: G26-RB-3 *full* host-transcriptome corpus (out-of-repo robustness) | hammerhead 4-state kinetics (Eyring TST, k_cat≈0.6/min) + Nussinov MFE + Hamming off-target screen |
-| `nanobot` | actuation | STRUCTURAL-EXACT-CANDIDATE (12-vertex; deductive PASS) | 🟡 **~85%** — N-R1 v2 reference emitter in-repo ✅; C0d cuboctahedron sim re-run + N-R2 canon-side L6 lock out-of-repo | 4-state DNA-origami actuation sim |
+| `nanobot` | actuation | STRUCTURAL-EXACT-CANDIDATE (12-vertex; deductive PASS) | 🟢 **~95%** — N-R1 v2 reference emitter ✅ · C0d cuboctahedron dual-skeleton 4-state actuation sim re-impl ✅ 2026-05-12 (both skeletons F-NB-4 6/6); remaining: N-R2 canon-side L6 acceptance lock (out-of-repo, `canon` repo) | 4-state DNA-origami actuation sim (work 50 kT, J₂=24 pose-canon) — both truncated-icosahedron & cuboctahedron skeletons |
 | `quantum` | computation | VERIFIED (H₂ 6-Pauli / LiH path) + pocket-scale (F-Q-6-D) | 🟢 **~75%** — F-Q-1…5 + F-Q-EXT-1…6+ + **F-Q-6-D PASS** (Mpro [Cys145 thiolate + His41 imidazolium + nirmatrelvir nitrile] pocket cluster, 2e/2o → 2 qubit → VQE sub-µHa 0.0001 µHa vs CASCI(2,2), `tests/mpro_pocket_vqe_v7.py`); remaining: L4 single-residue (subsumed) + Phase D library ranking + GATE-26-2 lean4 → v2.0.0 | VQE (H₂ 0.4 µHa, LiH 1.41 mHa) + 11-drug pocket library + ML pilots |
 
 Verdict: **PARTIAL_PASS** — `weave` fully wired (v1.x ✅). The **in-repo / deductive
@@ -241,6 +241,10 @@ all 5 axes**:
   of virocapsid **GATE-26-V-R1 (C5)**.
 - `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` — `raw_77_nanobot_actuation_v2`
   reference emitter (closes the in-repo part of nanobot **N-R1**).
+- `_python_bridge/module/nanobot_actuation_simulation.py` — nanobot **C0d** dual-skeleton
+  re-run: stdlib re-implementation of the R5-sunset 4-state 12-vertex DNA-origami
+  actuation simulator; runs both `truncated_icosahedron` & `cuboctahedron` skeletons,
+  each F-NB-4 6/6 PASS (work 50 kT, J₂=24 pose-canon speedup 24×, no Brownian collapse).
 
 All of the above are wired into `selftest/run_all.sh` as gate steps.
 

@@ -6,6 +6,38 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Nanobot C0d closed in-repo — `nanobot_actuation_simulation.py` re-implemented, dual-skeleton F-NB-4 6/6 PASS (2026-05-12)** —
+  the R5-sunset original 4-state 12-vertex DNA-origami actuation simulator (relocated
+  out of the tree, not present on this machine) is re-implemented from the documented
+  F-NB-4 MVP behaviour (`.roadmap.nanobot` C0b + the `raw_77_nanobot_actuation_v1`
+  witness schema): a stdlib-only ~280 LOC simulator — 4-state motor cycle
+  (S0_idle → S1_fwd_stroke → S3_reset → S0, with S2_back_stroke futile step penalised
+  by ΔE = kT·ln(4!) = kT·ln 24 ≈ 3.178 kT); Arrhenius/Kramers transition propensities
+  ∝ exp(−ΔE/kT); synthetic motor calibration work_per_cycle = 50 kT (margin 40 kT over
+  the 10 kT thermal floor at T = 310 K); J₂ = 24 pose-canonicalization (octahedral
+  pose-equivalence group, 24 raw poses → 1 canonical → speedup 24×); n=6 invariant
+  (σ = 12 12-vertex polyhedral skeleton, τ = 4 motor states, φ = 2, J₂ = 24, master
+  identity σ·φ = n·τ = 24). Runs **both** `skeleton ∈ {truncated_icosahedron,
+  cuboctahedron}` (cuboctahedron has 12 vertices natively; truncated-icosahedron
+  carries 12 decorated sites) → **each F-NB-4 6/6 PASS** → C0d dual-skeleton verdict
+  BOTH PASS. Fixed-seed deterministic (re-runs byte-identical; no `hash()` randomization);
+  sentinel `__NANOBOT_MVP_RESULT__ PASS`. Wired into `selftest/run_all.sh` as the 12th
+  gate step; two fresh `raw_77_nanobot_actuation_v1` witness rows (one per skeleton, with
+  fixed `ts`) appended to `state/discovery_absorption/registry.jsonl` via `--emit-witness`
+  (registry_consistency_audit PASS). Closes the in-repo execution of nanobot **C0d**
+  (GATE-26-1, F-NB-4-cuboctahedron) and the sim half of **G26-NB-1′** (the deductive
+  geometric/group rubric — `nanobot_rubric_G26_NB_1prime` group in
+  `n6_axis_computational_verification.py` — was already passing). nanobot closure-grade
+  ~85% → ~95% (remaining: N-R2 canon-side L6 acceptance schema lock, out-of-repo `canon`).
+  Honest C3 (raw#10): reproduces the documented F-NB-4 *deterministic* headline exactly
+  (work 50 kT, σ=12/τ=4/φ=2/J₂=24, pose speedup 24×, master identity); the *stochastic*
+  cycle-24 counts (productive 3018, backslip 249) cannot be byte-reproduced — the original
+  RNG/stepper is gone — so the fixed-seed re-impl run produces plausible/consistent counts
+  (productive ≫ 2500, no collapse) that clear the F-NB-4 thresholds, not the identical
+  numbers; the energy ladder and motor calibration are synthetic literature-informed
+  surrogates, not a fit to a specific dataset. `.roadmap.nanobot` (C0b + C0d),
+  `AXIS_CLOSURE_PLAN.md` §1/§4/§8/§11, README, `hexa.toml [closure]` updated.
+
 - **Ribozyme G26-RB-1′ closed in-repo — `ribozyme_kinetics_simulation.py` re-implemented (2026-05-12)** —
   the R5-sunset original hammerhead 12-nt 4-state kinetics simulator (relocated out of the
   tree and not present on this machine) is re-implemented from the documented F-RB-4 MVP
