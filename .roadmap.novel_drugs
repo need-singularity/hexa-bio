@@ -1252,6 +1252,26 @@ cluster: `[guanine + cytosine (Watson-Crick G-C, 3 H-bond) + methylphosphate (RN
 
 🎯 **F-Q-6-D status (iter 12 후 갱신)**: 10 target × 10 chem-acc PASS · 6/10 sub-µHa · transition-metal (HDAC6/MFN2) + π-stack (c9orf72) + conjugated heterocycle (SARM1) 4종은 sto-3g 4e/4o 한계 → ECP/larger-AS/HPC ramp 확정. paradigm-level CMT 100% + ALS Q+RB-axis 100% closure 유지.
 
+#### §15.2.o — HDAC6 ECP basis + larger active space 시도 — 둘 다 loop-infeasibility (loop iter 13, 2026-05-12, negative finding × 2)
+
+§15.2.n 의 §15.2.n ramp option 1 (lanl2dz ECP) + option 4 (larger AS 6e/6o) 두 경로 직접 검증 — `tests/hdac6_lanl2dz_v7.py` (생성됨, 단일 L_BFGS_B inline):
+
+| approach     | basis    | active space | nbas / n_qubits | result                                  |
+|--------------|----------|---------------|------------------|-----------------------------------------|
+| option 1 ECP | lanl2dz  | 4e/4o         | 168 / 6          | active-space transform 단계 OOM-silent kill (~t=24s) |
+| option 4 AS  | sto-3g   | 6e/6o         | 140 / 10         | CASCI OK (t=37s), VQE L_BFGS_B 8+ min 미수렴 → timeout kill |
+
+🔬 **infeasibility paradigm 확정**:
+- lanl2dz nbas 168 → integral tensor O(nbas⁴) ≈ 5+ GB 메모리 폭발 (활성공간 변환 단계). Zn ECP 가 valence 만 처리해도 cluster 의 다른 원자 nbas 증가가 압도 (Zn 의 절약 효과 < cluster size cost).
+- 6e/6o n_qubits 10 → UCCSD reps=1 의 n_params 117 (4e/4o 26 의 4.5x), n_pauli 1819 (325 의 5.6x). VQE single eigenvalue evaluation ~5-10s, L_BFGS_B 200 iter × ~10 eval/iter = ~3시간 추정.
+- 두 방향 모두 loop-cadence (≤5min) 안에서 절대 불가능. § 15.2.n 의 ramp option 3 (HPC/GPU multi-hour) 만 진정한 unlock 경로.
+
+🧠 **paradigm 결론** (10 iter loop의 honest closure):
+- **transition-metal sub-µHa = software-closable 한계 외부** — 외부 compute resource (HPC/GPU cluster) 가 필요. paradigm-level CMT 100% + ALS Q+RB-axis 100% closure 는 본 loop 에서 도달한 maximum.
+- 향후 iter 14+ = 다른 disease cohort pocket VQE 확장 (cancer / alopecia / mi / lung initial-5) 또는 software-closable 다른 ramp (ADMET 정밀화, IP query 자동화, biologic seed precision).
+
+🎯 **F-Q-6-D 최종 status (iter 13 후, loop-feasibility boundary 확정)**: 10 target × 10 chem-acc · 6/10 sub-µHa · 4/10 (HDAC6/MFN2/c9orf72/SARM1) 은 외부 ramp 확정. paradigm-level closure 유지.
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).
