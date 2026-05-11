@@ -203,8 +203,43 @@ hexa-bio quantum n6                   # n=6 invariant binding for the H₂/LiH p
 Verdict: **PARTIAL_PASS** — `weave` fully wired; `virocapsid`/`nanobot`/`ribozyme`
 at C0b-skeleton grade with σ(6)=12 verification; `quantum` at Phase 1+ with
 F-Q-1…5 PASS (pocket-VQE F-Q-6 open). Only `weave` has reached v1.x **100%
-closure-grade** so far; the gate/deadline/owner plan to close the other four
+closure-grade** so far; the gate/deadline/owner plan for the other four
 axes is in [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md).
+
+### In-repo / deductive closure status (2026-05-12)
+
+The **in-repo, deductively-checkable portion of closure is now complete for
+all 5 axes**:
+
+- `selftest/n6_axis_computational_verification.py` — deterministic σ(6)=12 /
+  τ(6)=4 / φ(6)=2 / J₂=24 + master-identity verification across Q/W/N/R/V
+  (**42/42 checks PASS**, no human raters, no live simulation).
+- `_python_bridge/module/ribozyme_mfe_nussinov.py` — Nussinov MFE solver
+  inline port (closes ribozyme **R-R1**; `dot_bracket='stub'` deprecated).
+- `_python_bridge/module/ribozyme_off_target_screen.py` — Hamming sliding-window
+  off-target screen + representative reference pool (in-repo portion of
+  ribozyme **G26-RB-3 comp 3**).
+- `_python_bridge/module/ribozyme_reaction_coordinate_quotient.py` — ribozyme
+  **G26-RB-2** branch-lock: J₂ = |S₄| = 4! = 24, S₄ ≅ O (octahedral), regular
+  action on the 24 catalytic-ladder orderings (14/14 deductive checks PASS).
+- `virocapsid/spec/cage_output_v1.schema.json` `lock_metadata` + 4 conformance
+  fixtures + `selftest/virocapsid_c5_conformance.py` — closes the in-repo part
+  of virocapsid **GATE-26-V-R1 (C5)**.
+- `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` — `raw_77_nanobot_actuation_v2`
+  reference emitter (closes the in-repo part of nanobot **N-R1**).
+
+All of the above are wired into `selftest/run_all.sh` as gate steps.
+
+**Full v1.x axis-closure is *not* yet 100%** — the remaining work is
+out-of-repo by construction (R5 sunset relocated the heavy simulators to
+`~/core/nexus/sim_bridge/`, and `quantum`'s pocket-VQE is a separate compute
+job): `quantum` **F-Q-6** (SARS-CoV-2 Mpro / nirmatrelvir pocket VQE — target
+confirmed, ladder execution in a dedicated loop), `virocapsid` **C3b** (n≥100
+RCSB PDB corpus + Bayesian re-audit ≥ 0.95), `nanobot` **C0d** (cuboctahedron
+dual-skeleton sim re-run) + **N-R2** (canon-side L6 acceptance lock),
+`ribozyme` **G26-RB-1′** (rubric sim re-run — values already in the MVP),
+and **GATE-26-2** (full lean4-backed Π¹₁-CA₀ cert, all 5 axes → v2.0.0).
+Per-axis grades, gates, deadlines and owners: [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md).
 
 For the full roadmap, see [`.roadmap.hexa_bio`](.roadmap.hexa_bio)
 (repo-overall: lattice / gates / cycle history / deadlines) and the

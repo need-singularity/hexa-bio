@@ -5,6 +5,20 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Changed
+- **README + `AXIS_CLOSURE_PLAN.md` §11 — in-repo closure status (2026-05-12)** —
+  README gains an "In-repo / deductive closure status" section enumerating the
+  six in-repo closure artifacts (`n6_axis_computational_verification` 42/42 +
+  the five per-axis closure modules: ribozyme MFE Nussinov port, ribozyme
+  off-target screen, ribozyme reaction-coordinate quotient, virocapsid C5
+  schema lock + conformance, nanobot N-R1 v2 reference emitter) and stating
+  plainly that **full v1.x axis-closure is *not* yet 100%** — the residual
+  (quantum F-Q-6 Mpro pocket VQE, virocapsid C3b n≥100 corpus, nanobot
+  C0d/N-R2, ribozyme G26-RB-1′ sim re-run, GATE-26-2 lean4 cert) is
+  out-of-repo by construction. `AXIS_CLOSURE_PLAN.md` §11 adds a table of the
+  five run_all.sh per-axis-closure gate steps and an "in-repo closure 완결"
+  verdict line. No behavioural change — doc sync only.
+
 ### Added
 - **Ribozyme G26-RB-2 branch-lock landed — J₂=24 reaction-coordinate quotient (2026-05-12, ahead of 2026-06-15 branch-lock deadline)** —
   `_python_bridge/module/ribozyme_reaction_coordinate_quotient.py` records and

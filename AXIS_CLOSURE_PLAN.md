@@ -261,6 +261,21 @@ group-theory/closed-form 만; subjective rater / live-sim 없음) 으로 검증:
 `selftest/run_all.sh` 의 pre-merge gate 에 `n6_axis_computational_verification`
 스텝으로 wire-up 됨 (PASS gate). `__N6_AXIS_VERIFY__ PASS` 센티넬 emission.
 
+추가로, **in-repo-codeable 한 per-axis closure 컴포넌트 5개가 모두 run_all.sh
+gate step 으로 wired-in** 되었다 (전부 pure-stdlib, deterministic, sentinel emit):
+
+| gate step | 모듈 | 닫는 것 | sentinel |
+|-----------|------|---------|----------|
+| `ribozyme_mfe_nussinov` | `_python_bridge/module/ribozyme_mfe_nussinov.py` | ribozyme **R-R1** (Nussinov MFE inline port; `dot_bracket='stub'` deprecated) | `__RIBOZYME_MFE_NUSSINOV__ PASS` |
+| `ribozyme_off_target_screen` | `_python_bridge/module/ribozyme_off_target_screen.py` | ribozyme **G26-RB-3 comp 3** (Hamming off-target screen + representative pool) | `__RIBOZYME_OFF_TARGET_SCREEN__ PASS` |
+| `ribozyme_reaction_coordinate_quotient` | `_python_bridge/module/ribozyme_reaction_coordinate_quotient.py` | ribozyme **G26-RB-2** (J₂ = \|S₄\| = 24, S₄ ≅ O, regular action on 24 ladder-orderings) | `__RIBOZYME_REACTION_COORDINATE_QUOTIENT__ PASS` |
+| `virocapsid_c5_conformance` | `selftest/virocapsid_c5_conformance.py` (+ schema `lock_metadata` + 4 fixtures) | virocapsid **GATE-26-V-R1 (C5)** (cage_output schema lock + 4-cell conformance) | `__VIROCAPSID_C5_CONFORMANCE__ PASS` |
+| `nanobot_actuator_v2_reference_emit` | `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` | nanobot **N-R1** (`raw_77_nanobot_actuation_v2` reference emitter) | `__NANOBOT_ACTUATOR_V2_REFERENCE_EMIT__ PASS` |
+
+> **In-repo closure 완결 (2026-05-12)**: σ/τ/φ/J₂ deductive verification (42/42)
+> + 위 5개 per-axis closure 컴포넌트 = 이 repo 안에서 코드/문서로 닫을 수 있는
+> 모든 것이 닫혔다. 잔여 = 전부 out-of-repo (아래 "닫히지 않은 것").
+
 ### 닫힌 것 (in-repo deductive)
 
 | Axis | σ(6)=12 *deductive* | τ(6)=4 *enumeration* | φ(6)=2 *binary* | J₂=24 *group* | master identity |
