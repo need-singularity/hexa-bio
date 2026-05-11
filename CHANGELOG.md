@@ -20,6 +20,18 @@ All notable changes to **hexa-bio** are documented here. Format follows
   axes; this is a doc/manifest sync only.
 
 ### Added
+- **`AXIS_CLOSURE_PLAN.md` (root, 2026-05-12)** — gate / deadline / owner /
+  sequencing plan to take the 4 non-`weave` axes to v1.x 100% closure-grade
+  (`ribozyme` G26-RB-1 inter-rater → `nanobot` G26-NB-EXT inter-rater +
+  cuboctahedron → `virocapsid` C5 schema lock + C3b n≥100 corpus →
+  `quantum` F-Q-6 pocket VQE, USER-GATED on target-system selection).
+  Linked from `README.md` and `.roadmap.hexa_bio`.
+- **README "Optional deps" clarification (2026-05-12)** — `hx install
+  hexa-bio` needs only the hexa-lang stdlib (zero Python, no `qmirror`, no
+  QRNG). `numpy`/`scipy` (weave ODE) and `qiskit-aer` + a `qmirror`
+  checkout (ANU QRNG + Aer simulator, quantum full VQE path) are opt-in
+  only; documented in the Installation section + `hexa.toml`
+  `[dependencies.optional]`.
 - **`hexa-bio quantum` CLI subcommand + `quantum` in `selftest` (advisory)
   (2026-05-12)** — the CLI router (`cli/hexa-bio.hexa`) now routes
   `quantum [status|falsifiers|n6|pilot-runner|help]` to

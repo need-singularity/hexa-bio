@@ -9,7 +9,9 @@
 > tetrahedron; `quantum` (qpu_bridge VQE over `qmirror`) is the 5th axis —
 > the compute substrate spanning all four. Integrated platform manifest:
 > `.roadmap.platform_index` (5 axes + 5 cross-cutting platform layers +
-> disease-orthogonal entries).
+> disease-orthogonal entries). 5-axis 100% closure plan (only `weave`
+> closed so far — gates / deadlines / owners for the other four): root
+> `AXIS_CLOSURE_PLAN.md`.
 
 **Last sync**: 2026-05-12 · **Current release**: v1.0.0 · **Branch**: `main`
 

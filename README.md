@@ -101,6 +101,15 @@ hexa-bio --version           # → 1.0.0
 > registry (`hexa-lang/tool/pkg/registry.tsv` L24). `hx install hexa-bio`
 > pulls from <https://github.com/need-singularity/hexa-bio> and installs
 > the standalone CLI under `$HX_HOME/bin/hexa-bio`.
+>
+> **Dependencies**: `hx install hexa-bio` itself needs only the hexa-lang
+> stdlib — **zero** Python, no `qmirror`, no QRNG. Optional, opt-in only:
+> `numpy`/`scipy` for `weave`'s full cage-assembly ODE + Bayesian audit
+> (`HEXA_BIO_WITH_NUMPY=1`), and `qiskit-aer` + a [`qmirror`](https://github.com/need-singularity/qmirror)
+> checkout (ANU QRNG seed + Aer state-vector simulator) for the `quantum`
+> axis's full VQE path. The default paths — all 4 bio-axis skeletons, the
+> 16-cell C2 sweep, and `hexa-bio quantum`'s status snapshot — run with no
+> extra deps. See "Optional deps" below and `.roadmap.quantum`.
 
 ### Via git clone (works today)
 
@@ -113,10 +122,13 @@ export PATH="$HEXA_BIO_ROOT/cli:$PATH"
 hexa run $HEXA_BIO_ROOT/cli/hexa-bio.hexa selftest
 ```
 
-### Optional Python aux for weave's empirical-sandbox path
+### Optional deps — none required for the default paths
 
-The default path needs **zero** Python deps (cached corpus result + pure-hexa
-skeleton). For weave's full cage-assembly ODE + live Bayesian audit:
+`hx install hexa-bio` and every default subcommand (4 bio-axis skeletons,
+16-cell C2 sweep, `hexa-bio quantum` status snapshot) run with **zero**
+Python deps and **no** `qmirror` / QRNG. Two opt-in extras:
+
+**1. `weave` full empirical sandbox** — cage-assembly ODE + live Bayesian audit:
 
 ```bash
 pip install --user numpy scipy
@@ -124,10 +136,21 @@ export HEXA_BIO_WITH_NUMPY=1
 hexa-bio weave --all
 ```
 
-> The `quantum` axis's full VQE path additionally needs `qiskit-aer` and a
-> `qmirror` checkout (ANU QRNG + Aer state-vector simulator); the default
-> `hexa-bio quantum` subcommand prints a Phase/falsifier status snapshot
-> only and needs no extra deps. See [`.roadmap.quantum`](.roadmap.quantum).
+**2. `quantum` axis full VQE path** — H₂/LiH ground-state energy via VQE on the
+Aer state-vector simulator, seeded by ANU QRNG through the `qmirror` CLI:
+
+```bash
+pip install --user qiskit-aer            # Aer simulator (Apache-2.0)
+git clone https://github.com/need-singularity/qmirror.git ~/.qmirror   # ANU QRNG + Aer bridge
+export QMIRROR_ROOT=~/.qmirror
+# then the quantum_*.py adapters under _python_bridge/module/ can run the full pipeline.
+hexa-bio quantum falsifiers              # F-Q-* inventory (works without the above)
+```
+
+> Without `qiskit-aer` / `qmirror`, `hexa-bio quantum` still prints its
+> Phase + falsifier status snapshot (pure hexa, `$0`); only the live VQE
+> runs need the extras. ANU QRNG is a free public API — no key, no account.
+> See [`.roadmap.quantum`](.roadmap.quantum) for the full qpu_bridge ladder.
 
 ---
 
@@ -198,7 +221,9 @@ hexa-bio quantum n6                   # n=6 invariant binding for the H₂/LiH p
 
 Verdict: **PARTIAL_PASS** — `weave` fully wired; `virocapsid`/`nanobot`/`ribozyme`
 at C0b-skeleton grade with σ(6)=12 verification; `quantum` at Phase 1+ with
-F-Q-1…5 PASS (pocket-VQE F-Q-6 open).
+F-Q-1…5 PASS (pocket-VQE F-Q-6 open). Only `weave` has reached v1.x **100%
+closure-grade** so far; the gate/deadline/owner plan to close the other four
+axes is in [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md).
 
 For the full roadmap, see [`.roadmap.hexa_bio`](.roadmap.hexa_bio)
 (repo-overall: lattice / gates / cycle history / deadlines) and the
@@ -401,5 +426,6 @@ core stays Apache-2.0 under FSF MereAggregation.
 - Upstream formal SSOT: `canon/lean4-n6/N6/MechVerif/`
 - Upstream paper SSOT: `canon/papers/hexa-weave-formal-mechanical-w2-2026-04-28.md`
 - 5-axis lock record: [`.roadmap.axis_expansion_decision_2026_05_08`](.roadmap.axis_expansion_decision_2026_05_08)
+- 5-axis 100% closure plan (gates / deadlines / owners): [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md)
 - Integrated platform manifest: [`.roadmap.platform_index`](.roadmap.platform_index)
 - HEXA package registry: [`hexa-lang/tool/pkg/registry.tsv`](https://github.com/need-singularity/hexa-lang/blob/main/tool/pkg/registry.tsv) L24
