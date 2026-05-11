@@ -953,6 +953,20 @@ next ramp (외부 도구 + 실 target 의존):
 - explicit active_orbital_indices (Zn 3d + ligand HOMO/LUMO)
 - F-Q-6-D sub-falsifier set 신설
 
+#### §15.2.b — SARM1 TIR pocket cluster QM (loop iter 1, 2026-05-11)
+
+`tests/sarm1_pocket_vqe_v7.py` — 두 번째 pocket VQE entry (HDAC6 paradigm 적용 to SARM1):
+
+cluster: `[acetate (E642 mimic) + nicotinamide (NAD+ headgroup) + 2-aminopyridine (sar1 quinazolinone NH2 mimic)]`
+- 33 atoms, 138 electrons, net charge 0, spin 0
+- n_qubits=6, n_pauli=325, basis sto-3g, active space 4e/4o
+- CASCI = -891.182 Ha
+- VQE UCCSD reps=1 SLSQP = -891.182 Ha
+- delta = **192.6 µHa** ✅ chem-acc PASS (sub-µHa FAIL)
+- build wall 16s + VQE wall 64s
+
+cumulative pocket VQE: **2 target cluster QM** (HDAC6 + SARM1) — F-Q-6-D paradigm 일반화 입증, drug pipeline 안정 동작.
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).
