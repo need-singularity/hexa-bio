@@ -33,6 +33,7 @@ run "r1_symlink_audit"          "$HERE/r1_symlink_audit.sh"
 run "f_tp5_e_uptake_enumerator" python3 "$HERE/f_tp5_e_uptake_enumerator.py" --root "$REPO_ROOT"
 run "regression_audit"          python3 "$HERE/regression_audit.py"
 run "registry_consistency_audit" python3 "$HERE/registry_consistency_audit.py"
+run "n6_axis_computational_verification" python3 "$HERE/n6_axis_computational_verification.py"
 
 echo "─────────────────────────────────────────────"
 echo "selftest summary: $passes PASS / $fails FAIL"

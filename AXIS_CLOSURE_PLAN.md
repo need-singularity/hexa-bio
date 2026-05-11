@@ -239,13 +239,72 @@
 
 ---
 
+## §11 In-repo deductive-closure status — 42 / 42 PASS (2026-05-12)
+
+`selftest/n6_axis_computational_verification.py` (선행 commit 69dbe10 의 §0
+검증 정책 후속). 이 스크립트는 다음을 **deterministic** (math/physics/geometry/
+group-theory/closed-form 만; subjective rater / live-sim 없음) 으로 검증:
+
+| 묶음 | 항목 수 | 내용 |
+|------|--------:|------|
+| `master_identity` | 3 | σ·φ = n·τ = J₂ = 24 (산술) |
+| `sigma_geometry` | 6 | σ(6)=12 가 cuboctahedron·icosahedron vertex count, Euler χ=2, T=1 capsid 12-pentamer, quantum H₂ 6-Pauli×2-qubit 에서 polysemously 일치 (기하·closed-form) |
+| `J2_group` | 1 | J₂=24 = \|O\| (chiral octahedral) — 두 독립 유도 일치 |
+| `tau_phi_states` | 10 | 5축 각각의 τ(6)=4 4-state ladder enumeration + φ(6)=2 binary dichotomy |
+| `ribozyme_rubric_G26_RB_1prime` | 9 | §3 의 7-point rubric (12-nt core *by construction*, Eyring TST, Turner-NN K_M, Eigen-Hammes 부등식, mass/RK4 invariants, 4-state count) |
+| `nanobot_rubric_G26_NB_1prime` | 7 | §4 의 geometric+group-theoretic verification (cuboctahedron + icosahedron vertex==12, \|O\|==24, master identity, work_per_cycle ≥ 10 kT, no-collapse, 4-state count) |
+| `quantum_anchor` | 3 | H₂ 6-Pauli expansion (Kandala 2017 STO-3G parity), d=1 hardware-efficient ansatz Ry·Ry·CX·Ry·Ry → 4 rotations, F-Q-6-B1 H2O 2e/2o Δ=0.056 mHa 로컬 재현 |
+| `supporting_mvp_regressions` | 3 | weave T=1 cage posterior 0.9668, virocapsid PDB n=10 posterior 1.0, multi-T T=3/T=4 yield ≥0.85 |
+| **TOTAL** | **42** | 42 / 42 PASS — verdict: PASS |
+
+`selftest/run_all.sh` 의 pre-merge gate 에 `n6_axis_computational_verification`
+스텝으로 wire-up 됨 (PASS gate). `__N6_AXIS_VERIFY__ PASS` 센티넬 emission.
+
+### 닫힌 것 (in-repo deductive)
+
+| Axis | σ(6)=12 *deductive* | τ(6)=4 *enumeration* | φ(6)=2 *binary* | J₂=24 *group* | master identity |
+|------|:---:|:---:|:---:|:---:|:---:|
+| weave | ✅ | ✅ | ✅ | ✅ | ✅ |
+| virocapsid | ✅ | ✅ | ✅ | ✅ | ✅ |
+| nanobot | ✅ (CANDIDATE→EXACT *deductive*) | ✅ | ✅ | ✅ | ✅ |
+| ribozyme | ✅ (CANDIDATE→EXACT *deductive*) | ✅ | ✅ | ✅ | ✅ |
+| quantum | ✅ (H₂ 6-Pauli×2-qubit) | ✅ | ✅ | ✅ (σ·τ=24) | ✅ |
+
+> **In-repo deductive verdict (2026-05-12)**: **5/5 axes PASS** σ/τ/φ/J₂ +
+> master identity (deterministic, 42/42 checks, no human raters, no live sim).
+> 이는 §0 closure DoD 의 *deductive structural* 항목 (cell 1·5 의 일부) 의
+> **in-repo 가능 최대치**다.
+
+### 닫히지 않은 것 (out-of-repo execution required)
+
+`§1` 표의 "🟡 / 🔴" 부분은 이 repo 안에서 코드/문서만으로 닫을 수 없다:
+
+- **virocapsid C3b** — n≥100 RCSB PDB corpus + posterior ≥0.95: nexus
+  `sim_bridge/virocapsid_pdb_corpus.py` 재실행 + canon paper / atlas append.
+  cycle 28+ deadline.
+- **virocapsid C5** — `cage_output_v1.schema.json` lock + 4-cell conformance:
+  schema 자체는 in-repo (다음 cycle 가능), conformance 실행은 sim 재실행.
+  07-28 deadline.
+- **nanobot N-R2** — L6 handoff schema lock + actuator_output_v1 v2 emission:
+  schema in-repo, emission 은 sim 재실행 필요.
+- **ribozyme R-R1 / G26-RB-3** — `structure_2d.dot_bracket` stub 을 inline
+  MFE solver (Nussinov/Zuker) 로 port; off-target screen 도 실 host-transcriptome
+  Hamming pool 로 uplift. cycle-26 stretch / 09-28.
+- **quantum F-Q-6** — Mpro/nirmatrelvir pocket VQE Phase C → L3 → L4 → Phase D.
+  Target ✅CONFIRMED, 실행은 `_qiskit_bridge/module/pocket_vqe_orchestrator.py`
+  + `qiskit-aer` + `hx install qmirror` (concurrent /loop 세션이 진행 중 —
+  recent commits 278cd28 v7.1 iter 12 등).
+- **GATE-26-2** — full lean4-backed Π¹₁-CA₀ cert (전 5축) → v2.0.0.
+
+---
+
 ## §10 atlas.n6 / nexus registration (cross-repo follow-up)
 
 본 작업(5-axis doc reconciliation + closure plan + 검증 정책 확정)의 n6
 atlas 등재 (nexus-side bookkeeping):
 
 - [ ] `nexus/n6/atlas.append.hexa-bio-5axis-recon-and-closure-plan.n6` —
-  hexa-bio v1.x 5-axis reconciliation (need-singularity→dancinlab org fix,
+  hexa-bio v1.x 5-axis reconciliation (dancinlab→dancinlab org fix,
   quantum 5번째 axis 등재 in README/manifests/CLI, `AXIS_CLOSURE_PLAN.md`
   생성, ribozyme/nanobot 검증을 human-rater → deterministic computational
   rubric 로 전환) 을 atlas append entry 로 등록. (이 repo 가 아닌
@@ -255,5 +314,5 @@ atlas 등재 (nexus-side bookkeeping):
   target = SARS-CoV-2 Mpro (Cys145+His41) / nirmatrelvir comparator
   (user decision 2026-05-12) 등재.
 - nexus check: `nexus status` (harness self-check + health-all) 로 hexa-bio
-  ↔ nexus ↔ canon 정합성 점검. atlas.n6 entries 는 `~/core/n6-architecture/
+  ↔ nexus ↔ canon 정합성 점검. atlas.n6 entries 는 `~/core/CANON/
   atlas/atlas.n6` (canonical) + per-domain `atlas.append.*.n6` 로 분산.

@@ -5,10 +5,35 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Added
+- **`selftest/n6_axis_computational_verification.py` wired into pre-merge gate
+  (2026-05-12)** — deterministic σ/τ/φ/J₂ + master-identity verification across
+  all 5 axes (Q/W/N/R/V). **42 / 42 checks PASS** (`__N6_AXIS_VERIFY__ PASS`).
+  Groups: `master_identity` (3) · `sigma_geometry` (6, includes
+  cuboctahedron/icosahedron vertex counts, Euler χ=2, T=1 capsid 12-pentamer,
+  quantum H₂ 6-Pauli×2-qubit) · `J2_group` (1, two independent derivations of
+  |O|=24) · `tau_phi_states` (10, 4-state ladder + binary dichotomy for each
+  axis) · `ribozyme_rubric_G26_RB_1prime` (9, 12-nt core *by construction* +
+  Eyring TST + Turner-NN K_M + Eigen-Hammes inequality + mass/RK4 invariants
+  + 4-state count) · `nanobot_rubric_G26_NB_1prime` (7, geometric +
+  group-theoretic, vertex==12 + |O|==24 + master identity + work/cycle ≥ 10
+  kT + no-collapse + 4-state count) · `quantum_anchor` (3, F-Q-6-B1 H2O 2e/2o
+  Δ=0.056 mHa local-exec) · `supporting_mvp_regressions` (3, weave/virocapsid
+  posteriors + multi-T yield). Establishes **in-repo deductive closure
+  verdict: 5/5 axes PASS the σ/τ/φ/J₂ portion of the §0 closure DoD** — the
+  remaining gates (full sim re-runs, n≥100 corpus, F-Q-6 Mpro live VQE,
+  lean4-cert) are out-of-repo per §11 of `AXIS_CLOSURE_PLAN.md`. Hooked into
+  `selftest/run_all.sh` after `registry_consistency_audit`. No external deps
+  (stdlib only — pre-existing `_qiskit_bridge/module/quantum_h2o_*` regression
+  value is the only pinned MVP value).
+- **`AXIS_CLOSURE_PLAN.md` §11 added (2026-05-12)** — "In-repo deductive-closure
+  status — 42 / 42 PASS" section: scope, table of PASSed/remaining gates,
+  pointer to out-of-repo execution paths.
+
 ### Fixed
-- **GitHub org corrected `need-singularity` → `dancinlab` (2026-05-12)** —
+- **GitHub org corrected stale repo URLs → `dancinlab` (2026-05-12)** —
   the canonical repo is `https://github.com/dancinlab/hexa-bio` (per
-  `git remote`); all `need-singularity/…` URLs in `README.md`,
+  `git remote`); all stale URLs in `README.md`,
   `CITATION.cff`, `hexa.toml`, `cli/hexa-bio.hexa`, `CHANGELOG.md`,
   `RELEASE_NOTES_v1.0.0.md`, `RELEASE_NOTES_v1.1.0.md`, and `docs/*` were
   stale and now point to `dancinlab` (incl. sister repos `qmirror`,
