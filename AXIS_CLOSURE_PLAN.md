@@ -314,5 +314,5 @@ atlas 등재 (nexus-side bookkeeping):
   target = SARS-CoV-2 Mpro (Cys145+His41) / nirmatrelvir comparator
   (user decision 2026-05-12) 등재.
 - nexus check: `nexus status` (harness self-check + health-all) 로 hexa-bio
-  ↔ nexus ↔ canon 정합성 점검. atlas.n6 entries 는 `~/core/CANON/
+  ↔ nexus ↔ canon 정합성 점검. atlas.n6 entries 는 `~/core/canon/
   atlas/atlas.n6` (canonical) + per-domain `atlas.append.*.n6` 로 분산.
