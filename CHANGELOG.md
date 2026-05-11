@@ -6,6 +6,28 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Ribozyme G26-RB-2 branch-lock landed — J₂=24 reaction-coordinate quotient (2026-05-12, ahead of 2026-06-15 branch-lock deadline)** —
+  `_python_bridge/module/ribozyme_reaction_coordinate_quotient.py` records and
+  verifies the G26-RB-2 decision: the J₂=24 invariant for the RIBOZYME axis is
+  realized as the full permutation group `S₄` of the 4 directed catalytic states
+  {substrate_bound → transition_state → cleaved_intermediate → product_released},
+  with `|S₄| = 4! = 24 = J₂`. `S₄ ≅ O` (the rotational octahedral group, |O| = 24),
+  realized concretely as O acting on the 4 cube body-diagonals — the bridge to the
+  geometric J₂=24 used by WEAVE/VIROCAPSID. The group acts *regularly* (simply
+  transitively) on the 24 total orderings of the ladder, so the physical reaction
+  trajectory's orbit has size 24 = J₂; the trajectory itself is the unique strictly
+  monotone Hamiltonian path 0→1→2→3. 14/14 deductive checks PASS: group axioms for
+  S₄ and for the generated O, `order(A)=4 ∧ order(B)=3 ∧ |⟨A,B⟩|=24 ∧ ⟨A,B⟩=S₄`,
+  orbit-stabilizer `24 = 24·1`, uniqueness of the monotone ordering, master identity
+  `4! = |O| = σ·φ = n·τ = 24`, and a from-scratch determinism re-derivation. Sentinel
+  `__RIBOZYME_REACTION_COORDINATE_QUOTIENT__ PASS`. Wired into `selftest/run_all.sh`
+  as the 10th gate step. Lifts ribozyme closure-grade ~90% → ~95% (in-repo portion of
+  ribozyme closure now complete; remaining = G26-RB-1′ rubric sim re-run + full
+  host-transcriptome corpus, both out-of-repo with values already in the MVP).
+  Honest C3 (raw#10): the group-order arithmetic (`4! = |O| = 24`) is a deductive
+  certainty; the *interpretive choice* (that the relevant order-24 structure is S₄
+  acting on the catalytic ladder) is the branch-lock — STRUCTURAL-EXACT-CANDIDATE per
+  `.roadmap.hexa_bio §A.1`, revisable if a stronger mechanism-derived structure emerges.
 - **Ribozyme G26-RB-3 in-repo portion closed — Hamming off-target screen (2026-05-12)** —
   `_python_bridge/module/ribozyme_off_target_screen.py` is a pure-stdlib
   deterministic off-target screen for ribozyme substrate-recognition arms:
