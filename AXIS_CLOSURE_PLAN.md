@@ -69,7 +69,7 @@
 | Axis | Role | σ(6)=12 | Bayesian audit | output schema | C2 | 종합 |
 |------|------|---------|----------------|---------------|----|----|
 | **weave** | composition | ✅ STRUCTURAL-EXACT (T=1, post 0.9668) | F-VIROCAPSID-2 n=34 RESOLVED (cycle 22) | ✅ `composition_output_v1` lock | 4/4 | **✅ 100% closure (v1.x)** |
-| **virocapsid** | assembly | ✅ STRUCTURAL-EXACT (T=1 corpus n=10 post 1.0 / log10_BF 16.63 · multi-T T=3/T=4 yield ≥0.85) | ✅ decisive (PDB corpus + calibration) | ⚠️ `cage_output_v1` LANDED, **lock 미완** (GATE-26-V-R1 / C5) | 4/4 | **🟡 ~90% — schema lock + full-corpus 잔여** |
+| **virocapsid** | assembly | ✅ STRUCTURAL-EXACT (T=1 corpus n=10 post 1.0 / log10_BF 16.63 · multi-T T=3/T=4 yield ≥0.85) | ✅ decisive (PDB corpus + calibration) | ✅ `cage_output_v1` LOCKED 2026-05-12 (GATE-26-V-R1 / C5 in-repo CLOSED, 4-fixture conformance PASS) | 4/4 | **🟢 ~95% (v1.x closure-grade) — 잔여 = C3b n≥100 corpus live emit (long pole, cycle 28+)** |
 | **nanobot** | actuation | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-vertex) | 🟡 n=60 curated log10_BF 13.65 decisive, 단 canonical n=30 은 51% match (STRUCTURAL-APPROXIMATE); **inter-rater 미완** | ⚠️ `actuator_output_v1` v2 emission 미완 + L6 handoff schema v0 (lock 미완) | 4/4 | **🟡 ~70% — inter-rater + schema 잔여** |
 | **ribozyme** | catalysis | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-nt) — deductive PASS via §11 verifier | 🟡 F-RB-2 n=30 log_bf 79.74 PASS, deterministic-rubric 하 PASS | ✅ `ribozyme_output_v1` MFE inline port LANDED 2026-05-12 (Nussinov, R-R1 closed) — `nussinov_inline` 인스턴스 schema-valid; stub allowance DEPRECATED | 4/4 | **🟡 ~85% — 잔여: G26-RB-3 off-target screen real impl + G26-RB-2 J₂ branch-lock** |
 | **quantum** | computation | 🟡 VERIFIED (H₂ 6-Pauli / LiH path) — pocket-scale 미확장 | F-Q-1…5 PASS · F-Q-EXT-1…6 PASS | (n/a — `raw_77_quantum_*_v1` witness 스키마들) | (n/a — 4 bio axis 만 C2) | **🔴 ~55% — F-Q-6 pocket VQE: target ✅CONFIRMED (Mpro/nirmatrelvir, 2026-05-12), Phase C 실행 out-of-repo + L3/L4 ladder** |
@@ -144,7 +144,7 @@
 
 | Gate | 내용 | Deadline | Owner | Status |
 |------|------|----------|-------|--------|
-| **GATE-26-V-R1 (C5)** | cage output schema lock — `virocapsid/spec/cage_output_v1.schema.json` (LANDED) + 4 cells 가 conformance witness emit | **2026-07-28** | hexa-bio session | ⚠️ schema landed, lock+conformance 미완 |
+| **GATE-26-V-R1 (C5)** | cage output schema lock — `virocapsid/spec/cage_output_v1.schema.json` (LANDED) + 4 cells 가 conformance witness emit | **2026-07-28** | hexa-bio session | ✅ **LANDED 2026-05-12** — schema `lock_metadata` 블록 추가 (field_set_frozen=true; gate_id GATE-26-V-R1; ahead of deadline by 77d). 4 fixture (`virocapsid/spec/examples/cage_output_v0__{aml,scd,pancov,senolytic}.json`, T=1/3/4/1, y_closed[-1] ≥ 0.85) 가 schema 에 conformance (selftest/json_schema_validator.py). `selftest/virocapsid_c5_conformance.py` 가 run_all.sh gate 에 wired-in, 5/5 PASS, sentinel `__VIROCAPSID_C5_CONFORMANCE__ PASS`. **In-repo C5 portion CLOSED**; live witness emission (running simulator → registry.jsonl rows) 은 out-of-repo (R5 sunset → `~/core/nexus/sim_bridge/`). |
 | GATE-26-V-1b (C3b) | F-VIROCAPSID-1 full corpus — n≥100 PDB entries + posterior ≥ 0.95 (현재 n=10 post 1.0) | 2027-04-28 (deferred cycle 28+) | hexa-bio session | ⬜ infra ready (C3a), 확장 대기 |
 | F-VIROCAPSID-1-c | source bias 독립축 — textbook vs experimental vs designed stratum (현재 5:4:1) | cycle 28+ | hexa-bio session | 🟡 partial |
 | F-VIROCAPSID-1-d | annotation completeness 독립축 (현재 1.0 on n=10) | cycle 28+ | hexa-bio session | 🟡 |
@@ -152,7 +152,7 @@
 | (sandbox 평준화) | weave 급 empirical sandbox — 현재 cage assembly 는 `~/core/nexus/sim_bridge/weave/` 의 ODE 를 공유 + `virocapsid_calibration.py` / `virocapsid_multi_t_calibration.py`; 독립 Zlotnick ODE 를 CLI 에 wiring | cycle 28+ | hexa-bio session | 🟡 shared bridge |
 
 **잔여 작업 요약**:
-- [ ] **C5 schema lock + 4-cell conformance witness** (07-28, 단기 — 코드 작업).
+- [x] **C5 schema lock + 4-cell conformance witness LANDED 2026-05-12** — `cage_output_v1.schema.json` `lock_metadata` 블록 + 4 fixture (`examples/cage_output_v0__{aml,scd,pancov,senolytic}.json`) + `selftest/virocapsid_c5_conformance.py` (run_all.sh wired, sentinel `__VIROCAPSID_C5_CONFORMANCE__ PASS`). In-repo portion CLOSED; live witness emission 은 out-of-repo (R5 sunset → `~/core/nexus/sim_bridge/`).
 - [ ] C3b full corpus 확장: RCSB PDB API 로 n≥100 (T strata ≥3, source class ≥2 유지) + Bayesian re-audit posterior ≥ 0.95 (long pole).
 - [ ] F-VIROCAPSID-1-c / -1-d 독립축 정량화.
 - 비차단: T=7/T=13/T=21 (cycle 30+); 독립 ODE wiring.
@@ -282,9 +282,10 @@ group-theory/closed-form 만; subjective rater / live-sim 없음) 으로 검증:
 - **virocapsid C3b** — n≥100 RCSB PDB corpus + posterior ≥0.95: nexus
   `sim_bridge/virocapsid_pdb_corpus.py` 재실행 + canon paper / atlas append.
   cycle 28+ deadline.
-- **virocapsid C5** — `cage_output_v1.schema.json` lock + 4-cell conformance:
-  schema 자체는 in-repo (다음 cycle 가능), conformance 실행은 sim 재실행.
-  07-28 deadline.
+- **virocapsid C5 in-repo portion** — ✅ **LANDED 2026-05-12**: schema lock
+  metadata 추가 + 4-fixture conformance validator (`selftest/virocapsid_c5_conformance.py`,
+  5/5 PASS). 잔여 = live witness emission (running simulator → registry.jsonl rows)
+  은 out-of-repo per R5 sunset (`~/core/nexus/sim_bridge/`).
 - **nanobot N-R2** — L6 handoff schema lock + actuator_output_v1 v2 emission:
   schema in-repo, emission 은 sim 재실행 필요.
 - **ribozyme G26-RB-3** — off-target screen 을 실 host-transcriptome Hamming

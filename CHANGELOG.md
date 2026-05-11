@@ -6,6 +6,26 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Virocapsid GATE-26-V-R1 (C5) in-repo portion closed — cage_output schema lock + 4-fixture conformance (2026-05-12, 77 days ahead of 2026-07-28 deadline)** —
+  `virocapsid/spec/cage_output_v1.schema.json` gains a `lock_metadata` block
+  (`field_set_frozen=true`, `gate_id="GATE-26-V-R1"`, `successor_schema="cage_output_v2.schema.json"`
+  for cycle 28+ multi-T/source-stratum extensions; the existing `schema` const
+  `v_r1_cage_output_v0` is preserved unchanged to avoid breaking the 19+
+  registry-consistency-audit rows that already cite it). Four conformance
+  fixtures landed at `virocapsid/spec/examples/cage_output_v0__{aml,scd,pancov,senolytic}.json`
+  spanning T=1 (aml, senolytic) / T=3 (scd) / T=4 (pancov) — each with full
+  `assembly_kinetics` (zlotnick_2003_4state, K12/K21/K_CLOSE/K_OPEN per STNV
+  reference), `yield_curve` with y_closed[-1] ≥ 0.85 cell DoD, and
+  `witness_ref` pointing into `state/discovery_absorption/registry.jsonl`.
+  New validator `selftest/virocapsid_c5_conformance.py` checks lock_metadata
+  presence + validates all 4 fixtures against the live schema via the
+  project's stdlib JSON Schema validator; 5/5 PASS, sentinel
+  `__VIROCAPSID_C5_CONFORMANCE__ PASS`. Wired into `selftest/run_all.sh` as
+  the 7th gate step. Lifts virocapsid closure-grade ~90% → ~95% (v1.x
+  closure-grade reached for the in-repo portion). Honest C3 (raw#10): this
+  is schema-conformance only; live witness emission (running simulator →
+  registry.jsonl rows across the 4 cells) remains out-of-repo per R5 sunset
+  (`~/core/nexus/sim_bridge/`).
 - **Ribozyme R-R1 closed — Nussinov MFE solver inline port (2026-05-12)** —
   `_python_bridge/module/ribozyme_mfe_nussinov.py` is a pure-stdlib O(n³)
   dynamic-programming Nussinov base-pair-maximization secondary-structure
