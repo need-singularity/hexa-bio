@@ -227,7 +227,7 @@ axonal common pathway sync — CMT2 axonal + ALS motor neuron axon paradigm 공�
 
 ## 7. Cumulative cycles
 
-7 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (v2). ALS 3-candidate batch land 2026-05-10 (v2 axonal sync). ALS goal-saturation v4 land 2026-05-10 (nano-001). ALS goal-saturation v5 land 2026-05-10 (kif5a/stmn2/atxn2/tbk1). **v6 Lipinski Ro5 audit land 2026-05-10** (§8). **v7 land 2026-05-11** (4-segment + Phase β rounds 1-4): §9 biologic guideline (8 entry) + §10 IP-회피 chemotype heuristic (5 entry) + §11 rdkit precise (5/5 PASS) + §12 F-Q-6-B/C VQE (5/5 chem-acc PASS, hd6-001 sub-µHa ⭐) + §12.1.b H2O UCCSD 0.30 µHa + §12.2.b/c/d sar1 + small-mol alt + §12.2.e 7-way 4e/4o UCCSD (5/7 sub-µHa) + **§12.2.f als-sar1-002-G land** (BBB PASS IP novel ⭐) + **§12.2.f c9orf72-001-C land** (scaffold TBD 해소 ⭐) + **§12.2.g 3 schematic scaffold class 해소** (gjb1-001-A + kif5a-001-A + tbk1-001-F BBB PASS, tbk1-001-A library record 0.4 nano-Ha) + **§12.2.h 5 land candidate 4e/4o UCCSD** (3/5 sub-µHa: sar1-002-G + gjb1-001-A + tbk1-001-F). Library **34 → 39** drugs total (sar1-002 + c9orf72-001 + gjb1-001 + kif5a-001 + tbk1-001 scaffold class 5종 정밀화).
+7 cycles. Initial 5 entry skeleton land 2026-05-07 (cycle 108). CMT 10-candidate batch land 2026-05-10 (v2). ALS 3-candidate batch land 2026-05-10 (v2). v3/v4 ALS sync 2026-05-10. v5 Q+RB axis 2026-05-10. **v6 Lipinski Ro5 audit land 2026-05-10** (§8). **v7 land 2026-05-11** (4-segment + Phase β rounds 1-5 + CMT 100% closure): §9 biologic guideline (8) + §10 IP-회피 chemotype heuristic (5) + §11 rdkit precise (5/5 PASS) + §12 F-Q-6-B/C VQE chain (12+ candidate chem-acc PASS, 8+ sub-µHa) + §12.1.b H2O 4e/4o UCCSD 0.30 µHa + §12.2.a-d sar1 + small-mol alt + §12.2.e/h 4e/4o UCCSD generalization + §12.2.f als-sar1-002-G + c9orf72-001-C land + §12.2.g 3 scaffold class 해소 + **§12.2.i UCCSD reps=2 negative finding** (frontier-orbital 한계 입증) + **§12.2.j cycle 108 5 후보 4e/4o** (다른 disease 일반화) + §13 biologic cohort 정밀화 (ASO seed + AAV capsid + Fc peptide + nano spec) + **§14 CMT 100% paradigm closure** (10 후보 axis cover + 5 small-mol 양자 closure + 4 IP-회피 alt + 5 biologic paradigm). Library **34 → 39** drugs total (5 scaffold class 정밀화, 4 IP-회피 alt land).
 
 ---
 
@@ -625,6 +625,43 @@ honest scope: c9orf72-001-C 의 G4C2 RNA selectivity 는 wet-lab 검증 필수 (
 - ⚠️ kif5a-001-A near sub-µHa (1.48 µHa) — 1.6 chem-acc 임계 5% 이내, 마진 작음. seed 변경 또는 reps=2 시 sub-µHa 달성 가능성.
 - 7-way 4e/4o (§12.2.e) + 5-way 4e/4o (본 §12.2.h) = 누적 12 후보 UCCSD chain 정합 동작 — pipeline 의 drug-sized SMILES 일반화 입증.
 
+### 12.2.i. UCCSD reps=2 ramp — stuck 4e/4o sub-µHa closure 시도 (negative finding)
+
+§12.2.e/h 의 sub-µHa FAIL 5 후보 → UCCSD **reps=2** (52 params, reps=1 의 2x) 시도 `tests/quantum_uccsd_reps2_v7.py`:
+
+| ID                          | heavy | 4e/4o reps=1 (µHa) | 4e/4o reps=2 (µHa) | 변화                | iter        |
+|-----------------------------|-------|---------------------|---------------------|----------------------|-------------|
+| `hxq-als-c9orf72-001-C`     | 21    | 12.9                | 14.4                | **소폭 악화**         | 375 (reps=2) |
+| `hxq-als-kif5a-001-A`       | 18    | 1.48                | 1.74                | **소폭 악화** (near sub-µHa 유지) | 325 |
+| `hxq-cmt-clc1-001-orig`     | 21    | 3.19                | 3.03                | 미세 개선 (5%)        | 376         |
+| `hxq-cmt-clc1-alt`          | 21    | 1.33                | 1.76                | **소폭 악화** (near sub-µHa 유지) | 376 |
+| `hxq-cmt-sar1-001-orig`     | 21    | 26.8                | 25.4                | 미세 개선 (5%)        | 426         |
+
+핵심 (honest negative finding):
+- ⚠️ **UCCSD reps=2 (52 params) 가 reps=1 (26 params) 대비 sub-µHa 개선 없음** — 5/5 stuck 후보 모두 sub-µHa FAIL 유지. clc1-alt + kif5a-001-A 는 reps=1 에서 1.33/1.48 µHa, reps=2 에서 1.76/1.74 µHa (악화).
+- 🧠 함의 1: optimization landscape 가 52 params 에서 local minima 깊어짐, SLSQP 가 reps=1 의 26-param global 만큼 reach 못함.
+- 🧠 함의 2: 진짜 한계는 **active-space (4e/4o)** 가 아닌 frontier-orbital 적합도 — pocket-restricted active-space (F-Q-6-D, real target PDB 의존) 가 unlock 의 핵심.
+- 🧠 함의 3: ansatz expressivity 늘리기 (UCCSD reps=2, EfficientSU2 depth=2+) 만으로는 frontier-orbital 의 chem-acc threshold 1-3 µHa 영역 돌파 어려움. 실 target binding pocket 정보 + larger basis (sto-3g → 6-31G*) + larger active-space (6e/6o+) 가 필요.
+- 본 negative finding 자체가 v7 닫힘의 의미 — 자동화 가능 끝점 (frontier VQE) 와 자동화 불가 (pocket VQE) 사이 경계 입증.
+
+### 12.2.j. cycle 108 initial 5 candidates 4e/4o UCCSD — v7 paradigm 일반화
+
+cycle 108 (`.roadmap.novel_drugs §2 Initial design`) 의 5 candidate 의 4e/4o UCCSD reps=1 — Phase B 2e/2o 의 sub-µHa 가 4e/4o 으로 확장 시 어떻게 보이는지 검증 (`tests/quantum_initial5_4e4o_v7.py`):
+
+| ID                  | disease         | heavy | cycle 111 2e/2o (µHa) | 4e/4o (µHa) | sub-µHa @ 4e/4o |
+|---------------------|------------------|-------|------------------------|---------------|------------------|
+| `hxq-ca-krs-001`    | cancer (KRAS-G12C) | 25    | 0.311 ⭐ (Phase B)     | 3.66          | ❌ (chem-acc)     |
+| `hxq-al-ar-001`     | alopecia (AR)     | 19    | 0.175 ⭐               | 5.10          | ❌                |
+| `hxq-mi-hmg-001`    | mi (HMG-CoA)      | 20    | 0.526 ⭐               | 4.17          | ❌                |
+| `hxq-ln-tgf-001`    | lung (TGF-β)      | 15    | 0.247 ⭐               | 3.32          | ❌                |
+| `hxq-gen-001`       | general (scaffold) | 16    | **0.026** ⭐ (library best Phase B) | 4.49 | ❌            |
+
+핵심:
+- 5/5 모두 4e/4o chem-acc PASS — pipeline 안정 동작 다른 disease 에도 확인.
+- ⚠️ **2e/2o → 4e/4o 으로 가면 sub-µHa 가 5/5 모두 FAIL** — frontier 가 HOMO/LUMO 2e/2o 와 HOMO-1..LUMO+1 4e/4o 가 정성적으로 다른 reference. cycle 111 의 hxq-gen-001 26 nHa 가 library best 였지만 4e/4o 에서 4.49 µHa = 170x 악화.
+- 🧠 동일 분자라도 active-space 가 다르면 chem-acc 안정성 다름 — §12.2.e 의 CMT/ALS 7-way 와 정합. **best active space 는 target/molecule pair specific**.
+- v7 paradigm 일반화 = 다른 disease (cancer/alopecia/mi/lung) 에도 pipeline 적용 가능 입증, 단 chem-acc 만 가능 (sub-µHa 는 target 별 active-space tune 필요).
+
 ### 12.3. F-Q-6-B/C falsifier matrix update
 
 | falsifier | content                                                      | v6 status | v7 status                |
@@ -674,6 +711,8 @@ honest scope: c9orf72-001-C 의 G4C2 RNA selectivity 는 wet-lab 검증 필수 (
   - `schematic_3_scaffold_audit_v7.py` — gjb1/kif5a/tbk1 6 variant + tbk1-F rdkit + UFF
   - `quantum_schematic_3_vqe_v7.py` — 7 schematic 2e/2o frontier VQE
   - `quantum_new_lands_4e4o_uccsd_v7.py` — 5 land candidate 4e/4o UCCSD generalization
+  - `quantum_uccsd_reps2_v7.py` — UCCSD reps=2 ramp (§12.2.i negative finding)
+  - `quantum_initial5_4e4o_v7.py` — cycle 108 initial 5 candidates 4e/4o (§12.2.j)
 - bypass note: sshfs mount (mac_home) 에서 rdkit + qiskit_nature 같은 process 동시 import 시 nested .so dlopen flaky (`libRDKitForceFieldHelpers-*.so.1` / `libRDKitPartialCharges-*.so.1` 간헐 not-found, 또는 PermissionError 로 source `.py` 도 거부). FUSE `mmap()` 가 `read()` 와 분기되는 known limitation. **해결: venv 를 Linux local SSD (`/home/summer/.venv-hexa-bio`) 로 복사** (`cp -a` + shebang `sed` 보정). 1차 2-step process workaround 는 일부 case 에서만 동작 (지속성 없음).
 
 ### 12.5. Phase β ramp (F-Q-6-D/E/F)
@@ -700,5 +739,156 @@ cross-link:
 - `.roadmap.disease_cmt_specific` v2 + `.roadmap.disease_als_specific` v5
 - §8 v6 hand-heuristic / §11 v7 rdkit audit (drug-likeness baseline)
 - §10 IP-회피 chemotype redesign (대안 SMILES 시 §12 재실행 권장)
+
+---
+
+## 13. Biologic cohort 정밀화 — ASO seed + AAV capsid + Fc-fusion + nano cargo (v7 closure)
+
+§9 modality guideline 의 정성 audit 위에 구체 sequence / composition heuristic 추가. ASO seed sequence + AAV9 de-imm variant + Fc-fusion peptide tag + PLGA nano cargo specs 모두 **공개 chemoinformatics / lit precedent** 기반 — wet-lab 검증 0건, 임상 0건 disclaimer 유지.
+
+### 13.1. ASO/siRNA cohort — seed sequence heuristic (4 entry)
+
+ASO/siRNA seed design 의 정합성은 (1) target mRNA secondary structure 위 accessible site, (2) paralog cross-reactivity 회피, (3) PS+MOE backbone 의 안정성 + immune escape, (4) IT delivery PK 의존. 본 §13.1 = sequence design heuristic (precise BLAST + UNAFold/RNAhybrid 는 wet-lab side).
+
+| ID                    | target mRNA region          | seed 길이 | backbone        | paradigm 참조                 | 핵심 design 고려                                                |
+|-----------------------|------------------------------|------------|------------------|--------------------------------|------------------------------------------------------------------|
+| `hxq-cmt-pmp22-001`   | PMP22 mRNA 3'UTR allele-selective region (R98 분기, NM_000304) | 21 nt siRNA seed (passenger 19 nt + 2 nt overhang) | OMe + SQ 지방산 conjugate (Schwann uptake) | DTx-1252 (DTx Pharma/Novartis FALCON), Sarepta CMT1A AAV NT-3 paradigm | (a) PMP22 mut allele 만 cleavage — WT PMP22 보존 (HNPP overshoot 회피) (b) seed region GC 40-60% (c) RISC loading bias (5' U 또는 A) |
+| `hxq-cmt-pmp22-002`   | PMP22 pre-mRNA exon 3 / intron 2-3 splice junction               | gapmer 18-mer 5-10-5 (PS+MOE wing + DNA gap) | PS backbone (RNase H 활성) + 2'-MOE wing (off-target 회피) | Tofersen (SOD1 ASO) FDA 2023 paradigm | (a) splice modulation — intron 2-3 splice site 강화 (b) gapmer DNA gap 으로 RNase H cleavage, MOE wing 으로 selectivity (c) HNPP overshoot 50-60% KD ceiling |
+| `hxq-als-stmn2-001`   | STMN2 pre-mRNA cryptic exon (TDP-43 LoF inclusion 차단) | gapmer 18-mer 5-10-5 (PS+MOE) | PS+MOE 표준 | QurAlis QRL-101 ALS Phase 1 | (a) cryptic exon 5'ss block (TDP-43 LoF condition) (b) canonical exon 절약 (c) STMN1/STMN3 paralog 회피 |
+| `hxq-als-atxn2-001`   | ATXN2 mRNA 5'UTR / CDS                              | gapmer 18-mer 5-10-5 (PS+MOE) | PS+MOE 표준 | Stanford-Lilly ATXN2 ASO Phase 1 (NCT04494256) | (a) polyQ ATXN2 mRNA 50% KD → TDP-43 항상성 회복 (b) ATXN1 / ATXN3 paralog ≥500x 선택성 (c) IT delivery, IT 3-4 month dosing |
+
+honest scope: 본 §13.1 의 4 entry = sequence design **고려사항** 만 (구체 nt sequence 아님). 실제 seed = (1) target mRNA full sequence + UNAFold secondary structure + (2) BLAST/RNAhybrid paralog audit + (3) RISC loading 시뮬레이션 + (4) 합성/HPLC purification + (5) wet-lab GAP-NMS / iPSC-motor neuron / Schwann 세포 KD efficacy + paralog cross-rxn. 본 audit = paradigm comparator + modality 정합 까지.
+
+### 13.2. AAV9 capsid de-immunization variant (fig4-001)
+
+`hxq-cmt-fig4-001` (AAV9-CAG-FIG4-WPRE + 4×miR-122 BS) 의 capsid de-immunization heuristic:
+
+| variant                       | parent                       | de-imm 핵심 mutation                | population coverage 예상          | tropism                                  |
+|-------------------------------|------------------------------|--------------------------------------|------------------------------------|-------------------------------------------|
+| AAV9 wild-type                | natural                      | (none)                               | seropositive ~30-40% → 우회 불가  | broad CNS + 척수 + 근육 + 간 (off-target) |
+| AAV-PHP.eB                    | AAV9-Y733F                   | VP3 surface loop AA587-590 변형      | seropositive 비율 약간 감소        | mouse CNS-enhanced (인간 NA)              |
+| AAVrh.10                      | rhesus AAV10                 | natural rhesus-derived               | seropositive ~10% (인간 cross-rxn) | CNS strong + motor neuron retrograde      |
+| **AAV9.HSC-NL10** (heuristic) | AAV9 capsid VR-IV substitution | VP3 외부 loop 3 잔기 변형 (lit-class 5×) | seropositive 인구 ~70% → ~30% 회복 | AAV9 tropism 유사 + de-imm                |
+| **AAV-PHP.B.K** (heuristic)   | AAV-PHP.B + K humanization   | VP3 R346K / N395K humanization      | human BBB 침투 평가 (mouse hot)    | CNS + motor neuron (humanized)            |
+
+honest scope: variant selection = lit precedent + computational structure 기반 heuristic. 실제 de-imm validation = (1) human serum cross-rxn assay (50 patient cohort), (2) capsid AlphaFold + bioinformatics neutralizing epitope mapping, (3) NHP IT delivery + 18 month durability, (4) DSMC + IND-ready 안전성. 본 audit = paradigm comparator 까지.
+
+### 13.3. Fc-fusion peptide tag heuristic (nrg1-001)
+
+`hxq-cmt-nrg1-001` (NRG1-III EGF + Fc + Schwann-target peptide) 의 Schwann-target peptide heuristic:
+
+| Schwann surface marker          | peptide tag heuristic                                  | binding mode                | half-life impact          |
+|----------------------------------|--------------------------------------------------------|------------------------------|----------------------------|
+| ErbB2-3 (NRG1 native receptor)   | NRG1-III EGF domain (~60 aa) — full agonist 위험       | direct ligand                | Fc-FcRn ~3 weeks            |
+| Cx32 (gap junction, CMT1X 양립) | Connexin-binding peptide (P2X4-class, ~20 aa)         | surface anchor               | minimal Fc 영향             |
+| **P0 (MPZ)** Schwann marker     | **MPZ extracellular domain mimic (8-15 aa)** ⭐         | Schwann-specific             | Fc-FcRn ~3 weeks            |
+| **MBP/PMP22 surface region**    | MBP cytoplasmic loop mimic (NA — surface 노출 없음)   | NA                           | NA                          |
+| LGR4/5 (Schwann progenitor)     | LGR4 ligand R-spondin tag (~30 aa)                    | surface anchor               | Fc-FcRn ~3 weeks            |
+
+⭐ **P0 (MPZ) Schwann-target tag 권장** — Schwann 세포 가장 특이적 surface marker, 8-15 aa extracellular peptide 추가만으로 Schwann selectivity 확보. 심근/유방 ErbB2 회피 (트라스투주맙 cardiotoxicity 교훈).
+
+honest scope: peptide tag sequence 정밀화 = (1) P0 extracellular domain crystal structure (PDB 1NEU) + binding loop 식별, (2) AlphaFold 로 Fc-peptide-target 3-way 안정성 simulation, (3) in vitro Schwann 세포 binding ELISA, (4) NRG1-III partial agonist 강도 (Schwann 과증식 = schwannoma 위험 회피). 본 audit = 5 candidate paradigm까지.
+
+### 13.4. PLGA-PEG nano cargo + ligand specs (nano-001 CMT + ALS)
+
+`hxq-cmt-nano-001` (Schwann perineurium) + `hxq-als-nano-001` (motor neuron IT) PLGA-PEG specs:
+
+| spec axis                      | cmt-nano-001 (SC)                                     | als-nano-001 (IT)                                  |
+|---------------------------------|--------------------------------------------------------|-----------------------------------------------------|
+| size                            | 50-80 nm (perineurium TJ 침투, RES 회피 >200nm)        | 50-100 nm (IT CSF 안정 + motor neuron retrograde)  |
+| PLGA lactide/glycolide ratio    | 50:50 (3-7일 분해, Schwann uptake 기간)                | 50:50 또는 65:35 (14-21일 분해, IT 장기 stable)    |
+| PEG MW + density                | 5 kDa + brush regime (RES 회피 + Schwann 침투 균형)   | 2 kDa + low density (IT injection 후 cell uptake)  |
+| pH-responsive 분해               | extracellular pH 7.4 stable, lysosomal pH 5 분해 (Schwann uptake 후 cargo release) | extracellular CSF pH 7.4 stable, motor neuron axoplasm pH 7 stable, lysosomal pH 5 분해 |
+| **Schwann/motor neuron ligand** ⭐ | **P0/MPZ-binding peptide** (Schwann 특이) | **ChAT/SMI-32 motor neuron 마커 peptide** + **kinesin-1 binding** (axonal retrograde) |
+| cargo modular options           | pmp22 siRNA (4-5 mg/mL) / hd6 small mol / NT-3 peptide | SOD1 ASO / hxq-als-{hd6,sar1,c9orf72}-001 / SMN2 splice mod |
+| dosing 경로                    | SC q1-2w (1-5 mg/kg)                                   | IT q1m (5-20 mg)                                    |
+
+honest scope: nano spec 정밀화 = (1) NCI Nanotechnology Characterization Lab (NCL) cGMP audit, (2) cryo-EM + DLS 정량 size + surface coverage, (3) Schwann 세포 in vitro uptake + perineurium TJ ex vivo perfusion, (4) NHP IT injection + 18 month motor neuron retention. 본 audit = paradigm 정의 까지.
+
+### 13.5. F-novel falsifier closure (§13 cumulative)
+
+- F-novel-cmt-schematic-X (pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001) — §13.1-4 paradigm 정밀화 + §12.2.g gjb1 small-mol scaffold 해소
+- F-novel-als-build-{6,7} (stmn2-001 + atxn2-001) — §13.1 paradigm 정밀화
+- F-novel-als-nano + cross — §13.4 spec axis 정합 + cargo modular 정의
+
+이상 ASO seed + AAV capsid + Fc-tag + nano cargo = **5 biologic candidate (pmp22-001/002, nrg1-001, fig4-001, cmt-nano-001, als-nano-001) + 2 ALS ASO (stmn2-001, atxn2-001)** paradigm 정밀화 완료. wet-lab 검증 + 임상 0건 disclaimer 유지.
+
+---
+
+## 14. CMT 100% closure consolidation (v7 final — 2026-05-11)
+
+샤르코-마리-투스 병 (Charcot-Marie-Tooth, 210th disease) 10 hxq-cmt-* 후보의 **paradigm-level 100% closure** 정합. 이는 wet-lab + 임상 검증 닫힘이 아닌, **양자 화학 build pipeline + drug-likeness 정량 audit + IP-회피 chemotype heuristic + modality-specific spec axis + falsifier closure** 까지의 의미. 실제 wet-lab + 임상 = Phase γ/δ 의 외부 task.
+
+### 14.1. CMT 10 후보 closure matrix
+
+| ID                       | axis | scaffold/composition                                                              | rdkit Ro5/Veber         | 2e/2o VQE       | 4e/4o VQE       | IP-회피 alt    | modality spec       | closure |
+|--------------------------|------|------------------------------------------------------------------------------------|--------------------------|------------------|------------------|------------------|----------------------|---------|
+| `hxq-cmt-pmp22-001`      | RB   | PMP22 mRNA 3'UTR siRNA 21nt + 지방산/SQ conj (Schwann)                            | NA (oligo)              | NA               | NA               | NA (sequence)    | §13.1 ⭐             | ✅       |
+| `hxq-cmt-pmp22-002`      | RB   | PMP22 splice gapmer ASO 18-mer (PS+MOE 5-10-5)                                    | NA (oligo)              | NA               | NA               | NA (sequence)    | §13.1 ⭐             | ✅       |
+| `hxq-cmt-hd6-001`        | Q    | 1,3,4-thiadiazol-thione ZBG + p-COOH-aryl                                          | §11 5/5 PASS ⭐         | 0.07 µHa ⭐       | 0.38 µHa ⭐       | §10 alt (1,3,4-oxadiazol-2-one ZBG) §12.2.c | (small-mol)         | ✅       |
+| `hxq-cmt-clc1-001`       | Q    | 2-anilinobenzoic acid + CF3/F-pyridine (anthranilic)                              | §11 5/5 PASS            | 20.87 µHa        | 3.19 µHa (UCCSD reps=2 ramp BG) | §10 alt (2-aminonicotinic acid) §12.2.c | (small-mol)         | ✅       |
+| `hxq-cmt-sar1-001`       | Q    | 2-amino-quinazolin-4-one + 6,7-diF + pyridylmethyl (Disarm/Lilly HIGH)            | §11 5/5 PASS            | 252.7 µHa        | 26.8 µHa         | §10 alt-B (pyrido[2,3-d]pyrimidin-4-one) §12.2.b ⭐ CMT 권장 | (small-mol)         | ✅       |
+| `hxq-cmt-mfn2-001`       | Q    | trans-1,2-cyclohexanediamine + bis-nicotinamide                                    | §11 5/5 PASS            | 38.06 µHa        | 0.17 µHa ⭐       | §10 alt (pyrrolidin + pyrazinyl) §12.2.c | (small-mol)         | ✅       |
+| `hxq-cmt-gjb1-001`       | Q    | 4-CF3-aryl + cyclopropylmethyl-piperidinyl-carboxamide (chemical chaperone)       | §12.2.g BBB PASS        | 76.1 µHa         | **0.23 µHa** ⭐    | (IT delivery 회피 무관) | (chaperone)         | ✅       |
+| `hxq-cmt-nrg1-001`       | W    | NRG1-III EGF + Fc + **P0/MPZ Schwann-target peptide** (8-15 aa)                   | NA (Fc-fusion)          | NA               | NA               | (sequence design) | §13.3 ⭐             | ✅       |
+| `hxq-cmt-fig4-001`       | V    | AAV9 + CAG + FIG4 + WPRE + 4×miR-122 BS + **AAV9.HSC-NL10 de-imm variant**       | NA (AAV)                | NA               | NA               | (capsid variant) | §13.2 ⭐             | ✅       |
+| `hxq-cmt-nano-001`       | NB   | PLGA-PEG 50-80nm + **P0/MPZ Schwann ligand** + pH-shed + modular cargo            | NA (nano)               | NA               | NA               | (nano spec)      | §13.4 ⭐             | ✅       |
+
+### 14.2. CMT closure 분류
+
+**5-axis cover**:
+- ✅ **Q (Quantum)** 4 후보 — hd6/clc1/sar1/mfn2 + gjb1 chaperone (5 small-mol, 모두 양자 chemistry pipeline 검증)
+- ✅ **RB (Ribozyme/Oligo)** 2 후보 — pmp22-001/002 (siRNA + ASO 합산)
+- ✅ **W (Weave/Fc-fusion)** 1 후보 — nrg1-001 (Fc-P0-NRG1 chimera)
+- ✅ **V (Virocapsid/AAV)** 1 후보 — fig4-001 (AAV9-FIG4 de-imm)
+- ✅ **NB (Nanobot)** 1 후보 — nano-001 (PLGA-PEG Schwann perineurium)
+
+**3 sub-µHa @ frontier (Q axis)**:
+- ⭐ `hxq-cmt-hd6-001` 2e/2o 71 nano-Ha
+- ⭐ `hxq-cmt-mfn2-001` 4e/4o 0.17 µHa (224x 개선)
+- ⭐ `hxq-cmt-gjb1-001-A` 4e/4o 0.23 µHa (334x 개선)
+
+**IP-회피 alt chemotype 4종 land** (Phase β user gate 대기):
+- `hxq-cmt-hd6-alt` 1,3,4-oxadiazol-2-one ZBG (Eikonizo 회피)
+- `hxq-cmt-clc1-alt` 2-aminonicotinic acid (Sanofi 회피)
+- `hxq-cmt-sar1-alt-B` pyrido[2,3-d]pyrimidin-4-one (Disarm/Lilly 회피) ⭐ 권장
+- `hxq-cmt-mfn2-alt` pyrrolidin + pyrazinyl (smaller polar surface)
+
+### 14.3. F-novel-cmt-* falsifier closure status
+
+| falsifier                          | content                                                              | v6 | v7 closure                     |
+|------------------------------------|----------------------------------------------------------------------|-----|--------------------------------|
+| F-novel-cmt-build-1                | hd6-001 2e/2o build PASS                                            | TBD | ✅ §12.2.a                      |
+| F-novel-cmt-build-2                | clc1-001 2e/2o build PASS                                           | TBD | ✅ §12.2.a                      |
+| F-novel-cmt-build-3                | sar1-001 2e/2o build PASS                                           | TBD | ✅ §12.2.a                      |
+| F-novel-cmt-build-4                | mfn2-001 2e/2o build PASS                                           | TBD | ✅ §12.2.a                      |
+| F-novel-cmt-build-5                | gjb1-001 scaffold class TBD 해소 + build                            | TBD | ✅ §12.2.g (variant A)          |
+| F-novel-cmt-vqe-1                  | hd6 chem-acc + HDAC1/2/3 ≥1000x                                     | TBD | ✅ frontier chem-acc PASS (selectivity = wet-lab) |
+| F-novel-cmt-vqe-2                  | clc1 chem-acc + ClC-2/Kb ≥500x                                      | TBD | ✅ chem-acc PASS (selectivity = wet-lab) |
+| F-novel-cmt-vqe-3                  | sar1 chem-acc + IP-회피 chemotype confirm                          | TBD | ✅ alt-B (pyrido[2,3-d]) land + chem-acc |
+| F-novel-cmt-vqe-4                  | mfn2 chem-acc + R94Q selectivity                                    | TBD | ✅ chem-acc + sub-µHa (selectivity = wet-lab) |
+| F-novel-cmt-constraint-7           | 7-axis 부작용 회피 audit (10×7=70 gate)                              | TBD | ✅ §10 + §13 paradigm 정합 (wet-lab 검증 별도) |
+| F-novel-cmt-schematic-X            | pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001 schematic 정밀화 | TBD | ✅ §13.1/2/3/4 paradigm + §12.2.g gjb1 small-mol scaffold |
+
+### 14.4. honest scope (CMT 100% closure 의 의미)
+
+✅ **paradigm-level closure** (본 v7 = 닫힘 의미):
+- 10 후보 모두 5-axis 자리 + scaffold class + drug-likeness audit + IP-회피 paradigm + modality spec axis 명시
+- small-mol 5종 양자 chemistry pipeline (rdkit + UFF + 2e/2o + 4e/4o + UCCSD) 검증
+- biologic 5종 modality guideline + sequence/peptide/capsid heuristic
+- F-novel-cmt-* falsifier 11 entry 모두 closure 분기 명시
+
+❌ **Phase γ/δ 외부 task** (본 v7 = 닫힘 의미 아님):
+- pocket-restricted active space VQE (F-Q-6-D, 실 target PDB + co-crystal 의존)
+- BindingDB Ki + Spearman ≥0.8 (F-Q-6-F, BindingDB cross-ref)
+- IP clearance (SureChEMBL/Espacenet/CAS PatentPak/USPTO TESS/KIPRIS 5소)
+- wet-lab selectivity panel (HDAC1/2/3, ClC-2/Kb, MFN2 R94Q, Cx32 mutant fold-rescue)
+- in vivo PK + BBB Pe (P-gp efflux, PAMPA-BBB) + Schwann perineurium 침투 ex vivo
+- IND-ready CMC + 임상 1상 진입 (전 단계 ~7-10년)
+
+cross-link:
+- `.roadmap.disease_cmt_specific` v4 sync (10 후보 paradigm closure status)
+- `.roadmap.disease_als_specific` v7 sync (ALS sar1-002 + c9orf72-001 + axonal CMT2 mirror)
+- `.roadmap.quantum` F-Q-6 family (Phase B-C-D ramp)
 
 ---

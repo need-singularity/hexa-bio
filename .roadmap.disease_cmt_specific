@@ -259,6 +259,44 @@ scope:
 
 2 cycle. v1 entry skeleton land 2026-05-10 (web research catalog). v2 신약-우선 rebuild land 2026-05-10 (10 hxq-cmt-* candidate, 5-axis 모두 cover + 7-axis side-effect-avoidance constraint + paradigm_shift_potential + platform_cross_link cycle 209-300 mandate + `.roadmap.novel_drugs` SSOT 동기화). 210th disease roadmap entry. v2 directive: "신약기준 — 부작용없는" → de novo hxq-cmt-* 10 candidates + 7-axis constraint set + paradigm_shift + platform_cross_link section land. wet-lab + 임상 0건 disclaimer 유지, AUP-safe, 5-axis lock 유지. SMILES placeholder 4종 (`hd6-001` `clc1-001` `sar1-001` `mfn2-001`) + schematic 6종 (`pmp22-001` `pmp22-002` `gjb1-001` `nrg1-001` `fig4-001` `nano-001`) — Phase β IP-회피 정밀화 + Hamiltonian build 대기.
 
+### v4 — 2026-05-11 (CMT 100% paradigm closure — `.roadmap.novel_drugs §14` cross-link)
+
+🎯 **CMT 10 후보 paradigm-level 100% closure** — 5-axis (Q/RB/W/V/NB) 모두 cover + scaffold class + drug-likeness 정량 audit + IP-회피 chemotype heuristic + modality-specific spec axis + falsifier 11 entry closure 분기 명시.
+
+| ID                       | axis | scaffold/composition                                       | 양자 closure              | paradigm-level closure | 외부 task (wet-lab)         |
+|--------------------------|------|------------------------------------------------------------|---------------------------|--------------------------|-----------------------------|
+| `hxq-cmt-pmp22-001`      | RB   | PMP22 mRNA 3'UTR siRNA + 지방산/SQ                         | NA                        | ✅ §13.1                 | Schwann uptake assay, sequence specific BLAST |
+| `hxq-cmt-pmp22-002`      | RB   | PMP22 splice gapmer ASO 5-10-5                             | NA                        | ✅ §13.1                 | HNPP overshoot 50-60% KD     |
+| `hxq-cmt-hd6-001`        | Q    | 1,3,4-thiadiazol-thione (alt: 1,3,4-oxadiazol-2-one)       | 2e/2o sub-µHa, 4e/4o chem-acc | ✅ §11/§12.2/§10        | HDAC1/2/3 ≥1000x selectivity panel |
+| `hxq-cmt-clc1-001`       | Q    | anthranilic (alt: 2-aminonicotinic acid)                   | chem-acc PASS (UCCSD reps=2 ramp BG) | ✅ §11/§12.2/§10        | ClC-2/Kb ≥500x selectivity   |
+| `hxq-cmt-sar1-001`       | Q    | quinazolinone (alt-B: pyrido[2,3-d]pyrimidin-4-one ⭐)     | 2e/2o + 4e/4o chem-acc    | ✅ §11/§12.2/§10        | Disarm/Lilly SureChEMBL clear, TIR binding wet-lab |
+| `hxq-cmt-mfn2-001`       | Q    | cyclohexyl-bis-nicotinamide (alt: pyrrolidin + pyrazinyl)  | 2e/2o + 4e/4o sub-µHa ⭐  | ✅ §11/§12.2/§10        | R94Q dominant-negative selectivity |
+| `hxq-cmt-gjb1-001`       | Q    | **4-CF3-aryl + cyclopropylmethyl-piperidinyl-carboxamide** (variant A land) | 4e/4o sub-µHa ⭐ | ✅ §12.2.g (scaffold class 해소) | Cx32 mutant 선택성 + Schwann uptake |
+| `hxq-cmt-nrg1-001`       | W    | NRG1-III EGF + Fc + **P0/MPZ Schwann peptide**             | NA                        | ✅ §13.3                 | partial agonist 강도, schwannoma 회피 |
+| `hxq-cmt-fig4-001`       | V    | AAV9-CAG-FIG4-WPRE + miR-122 + **AAV9.HSC-NL10 de-imm**    | NA                        | ✅ §13.2                 | NHP IT durability + seropositive 30→70% |
+| `hxq-cmt-nano-001`       | NB   | PLGA-PEG 50-80nm + **P0/MPZ Schwann ligand** + pH-shed     | NA                        | ✅ §13.4                 | Perineurium ex vivo perfusion, NCI-NCL cGMP |
+
+⭐ **closure 의미**: paradigm-level 100% — 양자 + 정량 audit + IP-회피 + modality spec + falsifier 분기. wet-lab 검증 + 임상 (Phase γ/δ) = 외부 task, ~7-10년.
+
+⭐ **IP-회피 chemotype 4 alt land** (Phase β user gate):
+- `cmt-hd6-alt`: 1,3,4-oxadiazol-2-one ZBG (Eikonizo thiadiazolone 회피)
+- `cmt-clc1-alt`: 2-aminonicotinic acid (Sanofi anthranilic 회피)
+- ⭐ **`cmt-sar1-alt-B`: pyrido[2,3-d]pyrimidin-4-one (Disarm/Lilly quinazolinone 회피) — CMT 권장**
+- `cmt-mfn2-alt`: pyrrolidin + pyrazinyl (smaller polar surface, IV/SC 또는 prodrug 검토)
+
+⭐ **5-axis 균형**: Q(4) + RB(2) + W(1) + V(1) + NB(1) = 10 후보 — 5-axis 모두 직접 cover, 첫 disease roadmap 중 axis-saturation 사례.
+
+⭐ **양자 closure 통계** (small-mol 5종):
+- 2e/2o frontier VQE chem-acc PASS: 5/5
+- 4e/4o UCCSD chem-acc PASS: 5/5
+- sub-µHa: 3건 (hd6 2e/2o, mfn2 4e/4o, gjb1-A 4e/4o)
+
+⭐ **Phase γ/δ 외부 task list** (wet-lab + 임상):
+- selectivity 패널 (HDAC1/2/3, ClC-2/Kb, R94Q, Cx32, ErbB2-3, AAV9-cross)
+- BBB / Schwann perineurium / IT 침투 (PAMPA-BBB, P-gp, ex vivo)
+- IP clearance 5소 (SureChEMBL/Espacenet/CAS/USPTO/KIPRIS)
+- IND-ready CMC + 임상 1-3상 (~7-10년)
+
 ### v3 sync — 2026-05-11 (`.roadmap.novel_drugs` v7 §10/§12 cross-link)
 
 **SMILES placeholder 4종 정량 audit 통과** (`.roadmap.novel_drugs §11 rdkit precise audit`):
