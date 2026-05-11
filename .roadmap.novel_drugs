@@ -1291,6 +1291,24 @@ cluster: `[CH3-S-CH2-CH2-C(=O)-NH2]` (Cys-acrylamide covalent Michael adduct, po
 
 🎯 **F-Q-6-D status (iter 14 후)**: 11 target × 11 chem-acc · 7 sub-µHa (ClC-1 + Cx32 + TBK1 + KIF5A + stmn2 + atxn2 + **KRAS-G12C ⭐**). CMT/ALS paradigm 의 cancer 첫 확장 입증.
 
+#### §15.2.q — alopecia AR / mi HMG-CoA / lung TGF-β cohort 확장 시도 (loop iter 15, 2026-05-12, partial + cadence boundary 재확인)
+
+§15.2.p pivot 의 두 번째 라운드 — initial-5 disease cohort 의 나머지 3종 (`hxq-al-ar-001` / `hxq-mi-hmg-001` / `hxq-ln-tgf-001`) pocket VQE 확장. `/home/aiden/cohort3_pocket_vqe.py` + `/home/aiden/cohort_hmg_tgf.py` (local SSD inline, aiden host):
+
+| cohort           | target            | cluster mimic                          | natom | n_pauli | CASCI (Ha)    | VQE 결과                              |
+|------------------|-------------------|----------------------------------------|-------|---------|---------------|----------------------------------------|
+| `hxq-al-ar-001`  | AR LBD (alopecia) | 3-keto-steroid A-ring + Tyr-OH + Asn-NH2 | 16    | 325     | -426.566246   | SLSQP **268.29 µHa** ✅ chem-acc (L_BFGS_B timeout) |
+| `hxq-mi-hmg-001` | HMG-CoA reductase | 3-OH-3-Me-glutaryl + carboxylate + Lys-NH3⁺ | 18 | 325     | -429.586170   | ⏳ VQE timeout (SLSQP maxiter=250, 440s 미수렴) |
+| `hxq-ln-tgf-001` | ALK5 ATP hinge    | (예약 — iter 15 에서 미실행)            | —     | —       | —             | ⏳ pending                              |
+
+🔬 **partial finding + cadence boundary 재확인**:
+- AR 는 16-atom 인데도 n_pauli **325** (3-keto-steroid A-ring 의 sp2 + ketone conjugation) — §15.2 paradigm 대로 conjugated/aromatic = 325. chem-acc PASS 했으나 SLSQP 단독으로 ~360s, 2 optimizer 다 못 돌고 timeout.
+- HMG 도 carbonyl + carboxylate 때문에 n_pauli 325, SLSQP(maxiter=250) 가 ~440s 동안 수렴 못함 (StatevectorEstimator × 26-param finite-diff gradient × 250 iter ≈ 7500 eval).
+- **확정**: conjugated/aromatic 클러스터 (n_pauli 325) pocket VQE = ~5-7 min/run. loop-cadence (≤8 min timeout) 안에 **1개**만 들어감 (그것도 빨리 수렴할 때). saturated/ionic (n_pauli 175, ClC-1·KRAS-tiny) = ~2 min → 2-3개 가능.
+- 함의: 다음 cohort 추가 시 클러스터를 **sp3-heavy (no aromatic ring, no conjugated carbonyl chain) + ≤16 atom** 으로 설계해야 loop-feasible. AR/HMG 의 정밀 sub-µHa 는 (a) 1 iter = 1 cluster 전용 또는 (b) 외부 compute ramp.
+
+🎯 **F-Q-6-D status (iter 15 후)**: 12 target chem-acc-attempted (11 PASS + 1 AR PASS = **12 chem-acc**, HMG VQE 미완 → chem-acc 미확정) · 7 sub-µHa (변동 없음). disease coverage: CMT 5 + ALS 5 + cancer 1 + alopecia 1(AR chem-acc) = 12. paradigm-level CMT 100% + ALS Q+RB-axis 100% closure 유지.
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).
