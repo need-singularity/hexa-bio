@@ -210,7 +210,10 @@ to `~/core/nexus/sim_bridge/` — and they are not currently present there, so t
 await the sim code being restored). `quantum` F-Q-6 / L3 is now ✅ CLOSED
 (2026-05-12, `tests/mpro_pocket_vqe_v7.py` — Mpro pocket-cluster VQE, sub-µHa vs
 CASCI; uses `~/.hexabio_venv` qiskit/aer/nature/pyscf). `nanobot` N-R2 + `GATE-26-2`
-(all-axis lean4 Π¹₁-CA₀ cert) live in the `canon` repo / v2.0.0. Per-axis gates /
+(all-axis lean4 cert — per the 2026-05-12 deep-research pass [`docs/closure_100_research_2026_05_12.md`](docs/closure_100_research_2026_05_12.md),
+the appropriate formal-strength target is a Lean `decide`/RCA₀-level certificate, *not* Π¹₁-CA₀ — these
+claims are finitary/decidable; the `mathlib` pieces `Fintype.card_perm` ⇒ |S₄|=24 etc. are already there)
+live in the `canon` repo / v2.0.0. Per-axis gates /
 deadlines / owners: [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md).
 
 ### In-repo / deductive closure status (2026-05-12)
@@ -265,7 +268,7 @@ confirmed, ladder execution in a dedicated loop), `virocapsid` **C3b** (n≥100
 RCSB PDB corpus + Bayesian re-audit ≥ 0.95), `nanobot` **C0d** (cuboctahedron
 dual-skeleton sim re-run) + **N-R2** (canon-side L6 acceptance lock),
 `ribozyme` **G26-RB-1′** (rubric sim re-run — values already in the MVP),
-and **GATE-26-2** (full lean4-backed Π¹₁-CA₀ cert, all 5 axes → v2.0.0).
+and **GATE-26-2** (all-axis lean4 cert → v2.0.0 — see [`docs/closure_100_research_2026_05_12.md`](docs/closure_100_research_2026_05_12.md) §C: the appropriate target is a `decide`/RCA₀-level Lean certificate, not Π¹₁-CA₀).
 Per-axis grades, gates, deadlines and owners: [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md).
 
 For the full roadmap, see [`.roadmap.hexa_bio`](.roadmap.hexa_bio)
@@ -470,5 +473,6 @@ core stays Apache-2.0 under FSF MereAggregation.
 - Upstream paper SSOT: `canon/papers/hexa-weave-formal-mechanical-w2-2026-04-28.md`
 - 5-axis lock record: [`.roadmap.axis_expansion_decision_2026_05_08`](.roadmap.axis_expansion_decision_2026_05_08)
 - 5-axis 100% closure plan (gates / deadlines / owners): [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md)
+- 5-axis 100% closure — deep web + arXiv research (how to close the residual out-of-repo gaps): [`docs/closure_100_research_2026_05_12.md`](docs/closure_100_research_2026_05_12.md)
 - Integrated platform manifest: [`.roadmap.platform_index`](.roadmap.platform_index)
 - HEXA package registry: [`hexa-lang/tool/pkg/registry.tsv`](https://github.com/dancinlab/hexa-lang/blob/main/tool/pkg/registry.tsv) L24

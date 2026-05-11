@@ -6,6 +6,38 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **`docs/closure_100_research_2026_05_12.md` — deep web + arXiv research on closing the residual gaps (2026-05-12)** —
+  a literature-survey pass on *how to actually close* the out-of-repo residual that
+  blocks "100% closure" of the 5 axes, with concrete resources / tools / references.
+  Per-gap verdicts: **(1) VIROCAPSID C3b — closeable in-repo**: the n≥100 capsid corpus
+  exists in **VIPERdb v3.0** (~900 entries, T-number a first-class field, Web API CSV/JSON;
+  Montiel-Garcia et al. *NAR* 49:D809 2021) — RCSB has icosahedral symmetry + stoichiometry
+  but not T-number; "12 pentamers ∀T" is a Caspar-Klug theorem so the audit just needs the
+  (PDB-ID, T) list. **(2) RIBOZYME G26-RB-3 — closeable only with a real dependency**: a
+  credible full-transcriptome screen = GENCODE v47/RefSeq FASTA + RIsearch2 (Alkan et al.
+  *NAR* 45:e60 2017) / Cas-OFFinder / bowtie + ΔG/accessibility-weighted scoring + NHH-triplet
+  filter — a pure-stdlib Hamming scan over ~250k transcripts is too slow and methodologically
+  too weak to honestly call "full transcriptome screen." **(3) NANOBOT N-R2 — a `canon`-repo +
+  small-engineering task, not research**: versioned JSON-Schema artifact + consumer-driven
+  (Pact-style) contract tests + RO-Crate/Bioschemas for provenance. **(4) QUANTUM GATE-26-2 —
+  v2.0.0, small, and the spec label is mis-calibrated**: the n=6-lattice claims (|S₄|=24, σ(6)=12,
+  S₄≅O, V−E+F=2, Eyring formula, master identity) are all *finitary/decidable* → the appropriate
+  target is a **Lean 4 `decide`/`Decidable`-backed certificate (strength ≤ RCA₀ ≈ PRA)**, not
+  Π¹₁-CA₀ (the strongest "Big Five", fully impredicative — Simpson, *Subsystems of 2nd-Order
+  Arithmetic*, 2009); mathlib already has `Fintype.card_perm` (⇒ |S₄|=24), `Nat.ArithmeticFunction.sigma`
+  (⇒ σ 1 6=12), `Nat.totient` — missing only "cube-rotation-group ≅ S₄" (~few-hundred-line exercise)
+  and "V−E+F=2 for convex polyhedra" (port from Mizar/HOL); Caspar-Klug "12 pentamers" has no
+  formalization in any prover. **(5) QUANTUM Phase D (F-Q-6-F) — closeable in-repo** as an extension
+  of the existing Mpro/nirmatrelvir (2,2)→2-qubit VQE demo, *iff* scoped as relative reaction
+  energies in minimal active spaces with CASCI validation (literature-aligned: Li et al. arXiv:2401.03759
+  VQE+QM/MM on a covalent KRAS-G12C inhibitor; active-space-VQE drug-molecule benchmark arXiv:2512.18203;
+  survey arXiv:2408.13479) — Mpro mechanism confirmed against Owen et al. *Science* 374:1586 (2021),
+  Zhang et al. *Science* 368:409 (2020), Jin et al. *Nature* 582:289 (2020), Ramos-Guzmán et al. *JACS*
+  145 (2023). `AXIS_CLOSURE_PLAN.md` gains **§12** (pointer + the per-gap bottom-line table + the
+  GATE-26-2 re-scope note); README's GATE-26-2 mentions get a parenthetical pointing at the re-scope
+  finding + the research doc. raw#10: §12 / the research doc document *how* the gaps would be closed —
+  they do not close them.
+
 - **Virocapsid C3a Bayesian audit re-implemented + corpus extended to n=35 — `virocapsid_pdb_corpus.py` re-landed (2026-05-12)** —
   the R5-sunset original icosahedral-capsid PDB corpus + Bayesian audit scripts
   (relocated out of the tree, not present on this machine) are re-implemented from
