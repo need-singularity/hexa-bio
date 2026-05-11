@@ -69,7 +69,7 @@
 | Axis | Role | σ(6)=12 | Bayesian audit | output schema | C2 | 종합 |
 |------|------|---------|----------------|---------------|----|----|
 | **weave** | composition | ✅ STRUCTURAL-EXACT (T=1, post 0.9668) | F-VIROCAPSID-2 n=34 RESOLVED (cycle 22) | ✅ `composition_output_v1` lock | 4/4 | **✅ 100% closure (v1.x)** |
-| **virocapsid** | assembly | ✅ STRUCTURAL-EXACT (T=1 corpus n=10 post 1.0 / log10_BF 16.63 · multi-T T=3/T=4 yield ≥0.85) | ✅ decisive (PDB corpus + calibration) | ✅ `cage_output_v1` LOCKED 2026-05-12 (GATE-26-V-R1 / C5 in-repo CLOSED, 4-fixture conformance PASS) | 4/4 | **🟢 ~95% (v1.x closure-grade) — 잔여 = C3b n≥100 corpus live emit (long pole, cycle 28+)** |
+| **virocapsid** | assembly | ✅ STRUCTURAL-EXACT (T=1 corpus n=10 post 1.0 / log10_BF 16.63 · multi-T T=3/T=4 yield ≥0.85) | ✅ decisive (PDB corpus + calibration) | ✅ `cage_output_v1` LOCKED 2026-05-12 (GATE-26-V-R1 / C5 in-repo CLOSED, 4-fixture conformance PASS) | 4/4 | **🟢 ~98% (v1.x closure-grade, in-repo 완결) — C5 schema lock ✅ · C3a Bayesian audit re-impl + extended to n=35 ✅ 2026-05-12 (`virocapsid_pdb_corpus.py` re-landed, log10_BF 58.20, 7/7 PASS, run_all.sh-wired); 잔여 = C3b *full* n≥100 corpus (cycle-28+ robustness stretch, NOT a closure blocker)** |
 | **nanobot** | actuation | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-vertex) — deductive PASS via §11 verifier | 🟡 n=60 curated log10_BF 13.65 decisive, deterministic-rubric 하 PASS | ✅ `actuator_output_v1` v2 reference emitter LANDED 2026-05-12 (in-repo N-R1 closed) + L6 handoff schema sealed producer-side (N-R2 = canon canonical session 대기, out-of-repo) | 4/4 | **🟢 ~95% — N-R1 v2 emit ✅ · C0d cuboctahedron dual-skeleton sim 재실행 ✅ 2026-05-12 (`nanobot_actuation_simulation.py` re-implemented in-repo, both skeletons F-NB-4 6/6 PASS, run_all.sh-wired); 잔여 = N-R2 canon-side L6 acceptance lock (out-of-repo, canon repo)** |
 | **ribozyme** | catalysis | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-nt) — deductive PASS via §11 verifier | 🟡 F-RB-2 n=30 log_bf 79.74 PASS, deterministic-rubric 하 PASS | ✅ `ribozyme_output_v1` MFE inline port LANDED 2026-05-12 (Nussinov, R-R1 closed) + off-target screen real impl LANDED 2026-05-12 (G26-RB-3 comp 3) — stub allowance DEPRECATED | 4/4 | **🟢 ~98% — in-repo closure 완결 (R-R1 ✅ · G26-RB-2 ✅ · G26-RB-3 in-repo ✅ · G26-RB-1′ sim 재실행 ✅ 2026-05-12); 잔여 = G26-RB-3 *full* host-transcriptome corpus (GenCode/RefSeq, out-of-repo robustness expansion — closure blocker 아님)** |
 | **quantum** | computation | 🟢 VERIFIED (H₂ 6-Pauli / LiH path) + **pocket-scale ✅** (F-Q-6-D) | F-Q-1…5 PASS · F-Q-EXT-1…6+ PASS · **F-Q-6-D PASS** (Mpro pocket cluster, 2e/2o → 2q → sub-µHa 0.0001 µHa) | (n/a — `raw_77_quantum_*_v1` witness 스키마들) | (n/a — 4 bio axis 만 C2) | **🟢 ~75% — F-Q-6 / L3 CLOSED 2026-05-12 (`tests/mpro_pocket_vqe_v7.py`); 잔여: L4 single-residue (pocket 에 subsumed) + Phase D library ranking (11-drug library 이미 존재) + GATE-26-2 lean4 → v2.0.0** |
@@ -80,7 +80,7 @@
 
 1. **RIBOZYME** — inter-rater 1건 (κ ≥ 0.6, ≥2 human raters) 만 닫으면 CANDIDATE → EXACT. + MFE solver inline port.
 2. **NANOBOT** — ribozyme 와 sister 인 extended-corpus inter-rater 를 preregister + 실행, + cuboctahedron dual-skeleton (07-28) + schema v2 / L6 handoff lock.
-3. **VIROCAPSID** — σ(6) 는 이미 STRUCTURAL-EXACT (closure-grade). 잔여 = C5 schema lock (07-28, 단기) + C3b 전체 corpus n≥100 + posterior ≥0.95 (long pole, cycle 28+) + F-VIROCAPSID-1-c/-d 독립축.
+3. ~~**VIROCAPSID**~~ — σ(6) 이미 STRUCTURAL-EXACT; **C5 schema lock ✅ + C3a Bayesian audit re-impl + n=35 확장 ✅ 2026-05-12** (`virocapsid_pdb_corpus.py` re-landed). 잔여 = C3b *full* corpus n≥100 + posterior ≥0.95 (cycle-28+ robustness stretch, NOT a v1.x closure blocker) + F-VIROCAPSID-1-c/-d 독립축. **in-repo 완결.**
 4. ~~**QUANTUM** — long pole~~ — **F-Q-6 / L3 ✅ CLOSED 2026-05-12** via `tests/mpro_pocket_vqe_v7.py` (Mpro [Cys145 thiolate + His41 imidazolium + nirmatrelvir nitrile warhead] pocket cluster, 2e/2o → 2 qubit / 9 terms → RealAmplitudes(reps=1) VQE → sub-µHa 0.0001 µHa vs CASCI(2,2); `~/.hexabio_venv` qiskit/aer/nature/pyscf). Isolated nirmatrelvir ligand VQE was already PASS (sub-µHa 0.557 µHa, cycle 97). 잔여: L4 single-residue active site (pocket cluster 에 subsumed), Phase D library ranking (`.roadmap.novel_drugs` — 11-drug library 이미 존재), GATE-26-2 lean4 cert → v2.0.0.
 
 > 병렬화 가능: 1·2 의 inter-rater 는 같은 인적 자원으로 한 번에; 3 의 C5
@@ -146,7 +146,7 @@
 | Gate | 내용 | Deadline | Owner | Status |
 |------|------|----------|-------|--------|
 | **GATE-26-V-R1 (C5)** | cage output schema lock — `virocapsid/spec/cage_output_v1.schema.json` (LANDED) + 4 cells 가 conformance witness emit | **2026-07-28** | hexa-bio session | ✅ **LANDED 2026-05-12** — schema `lock_metadata` 블록 추가 (field_set_frozen=true; gate_id GATE-26-V-R1; ahead of deadline by 77d). 4 fixture (`virocapsid/spec/examples/cage_output_v0__{aml,scd,pancov,senolytic}.json`, T=1/3/4/1, y_closed[-1] ≥ 0.85) 가 schema 에 conformance (selftest/json_schema_validator.py). `selftest/virocapsid_c5_conformance.py` 가 run_all.sh gate 에 wired-in, 5/5 PASS, sentinel `__VIROCAPSID_C5_CONFORMANCE__ PASS`. **In-repo C5 portion CLOSED**; live witness emission (running simulator → registry.jsonl rows) 은 out-of-repo (R5 sunset → `~/core/nexus/sim_bridge/`). |
-| GATE-26-V-1b (C3b) | F-VIROCAPSID-1 full corpus — n≥100 PDB entries + posterior ≥ 0.95 (현재 n=10 post 1.0) | 2027-04-28 (deferred cycle 28+) | hexa-bio session | ⬜ infra ready (C3a), 확장 대기 |
+| GATE-26-V-1b (C3b) | F-VIROCAPSID-1 *full* corpus — n≥100 PDB entries + posterior ≥ 0.95 (현재 n=35 in-repo, post 1.0, log10_BF 58.20) | 2027-04-28 (deferred cycle 28+) | hexa-bio session | 🟡 infra re-landed in-repo 2026-05-12 (`virocapsid_pdb_corpus.py`, n=35; `--refresh` RCSB), n≥100 확장 = exhaustive curation 대기 (robustness, NOT a closure blocker) |
 | F-VIROCAPSID-1-c | source bias 독립축 — textbook vs experimental vs designed stratum (현재 5:4:1) | cycle 28+ | hexa-bio session | 🟡 partial |
 | F-VIROCAPSID-1-d | annotation completeness 독립축 (현재 1.0 on n=10) | cycle 28+ | hexa-bio session | 🟡 |
 | V-R2 stretch | multi-T 일반화 T=7 / T=13 / T=21 (현재 T=1/T=3/T=4 PASS) — per-system rate-constant re-derivation | cycle 30+ | hexa-bio session | ⬜ deferred |
@@ -154,11 +154,12 @@
 
 **잔여 작업 요약**:
 - [x] **C5 schema lock + 4-cell conformance witness LANDED 2026-05-12** — `cage_output_v1.schema.json` `lock_metadata` 블록 + 4 fixture (`examples/cage_output_v0__{aml,scd,pancov,senolytic}.json`) + `selftest/virocapsid_c5_conformance.py` (run_all.sh wired, sentinel `__VIROCAPSID_C5_CONFORMANCE__ PASS`). In-repo portion CLOSED; live witness emission 은 out-of-repo (R5 sunset → `~/core/nexus/sim_bridge/`).
-- [ ] C3b full corpus 확장: RCSB PDB API 로 n≥100 (T strata ≥3, source class ≥2 유지) + Bayesian re-audit posterior ≥ 0.95 (long pole).
+- [x] **C3a Bayesian audit re-impl + n=35 확장 ✅ 2026-05-12** — `virocapsid_pdb_corpus.py` re-landed (stdlib ~270 LOC; R5-sunset original removed): curated representative corpus n=35 (T-strata 7 distinct, source_class 2, vertex_count=12 constant); Bayesian H1 σ(6)=12 vs H0 uniform{{5..50}} → log10_BF 58.20, posterior 1.0, 7/7 sub-criteria PASS; `--refresh` RCSB REST enrichment; run_all.sh-wired; fresh schema-conformant witness.
+- [ ] C3b *full* corpus 확장: RCSB PDB API 로 n≥100 (T strata ≥3, source class ≥2 유지) + Bayesian re-audit posterior ≥ 0.95 — exhaustive T-number curation across the structural record (cycle-28+ robustness stretch, NOT a v1.x closure blocker).
 - [ ] F-VIROCAPSID-1-c / -1-d 독립축 정량화.
 - 비차단: T=7/T=13/T=21 (cycle 30+); 독립 ODE wiring.
 
-**닫힘 조건**: σ(6)=12 STRUCTURAL-EXACT 는 이미 만족 (T=1 post 1.0, multi-T PASS). C5 schema lock 완료 시 **v1.x closure-grade 도달**; C3b n≥100 + posterior ≥0.95 는 robustness upgrade (v1.x 비차단, cycle 28+ stretch). 즉 virocapsid 는 사실상 단기(07-28)에 closure-grade 가능.
+**닫힘 조건**: σ(6)=12 STRUCTURAL-EXACT 이미 만족 + C5 schema lock ✅ 2026-05-12 + C3a Bayesian audit re-impl/n=35 확장 ✅ 2026-05-12 → **virocapsid v1.x closure-grade REACHED, in-repo 완결.** 잔여 = C3b *full* n≥100 + posterior ≥0.95 (robustness upgrade, v1.x 비차단, cycle-28+ stretch) + F-VIROCAPSID-1-c/-d 독립축.
 
 ---
 
@@ -212,7 +213,7 @@
 | 시점 | 마일스톤 |
 |------|----------|
 | ~now (human-rater 불요, user directive 2026-05-12) | **G26-RB-1′ + G26-NB-1′ deterministic computational verification rubric** 실행 (ribozyme 7-point math/physics; nanobot geometric/group + sim) → ribozyme & nanobot σ(6) CANDIDATE→EXACT *deductive* 도달. 기하/군 항목 즉시; **ribozyme sim ✅ DONE 2026-05-12** (in-repo re-impl `ribozyme_kinetics_simulation.py`); **nanobot sim ✅ DONE 2026-05-12** (in-repo re-impl `nanobot_actuation_simulation.py`, dual-skeleton F-NB-4 6/6 PASS). **ribozyme G26-RB-2 branch-lock ✅ DONE 2026-05-12.** |
-| → 2026-07-28 (MVP gate) | virocapsid **C5 schema lock + 4-cell conformance** · nanobot **C0d cuboctahedron** · nanobot **N-R1 v2 emit** · ribozyme **R-R1 MFE port** (stub 제거) → ribozyme + nanobot + virocapsid v1.x closure-grade 도달 목표 |
+| → 2026-07-28 (MVP gate) | virocapsid **C5 schema lock + 4-cell conformance ✅** · nanobot **C0d cuboctahedron ✅** · nanobot **N-R1 v2 emit ✅** · ribozyme **R-R1 MFE port ✅** + virocapsid **C3a Bayesian audit re-impl/n=35 ✅** → **ribozyme + nanobot + virocapsid v1.x closure-grade 도달 ✅ (전부 2026-05-12, 75일 ahead)** |
 | → 2026-09-28 | ribozyme G26-RB-2 exec + G26-RB-3 C2 uplift · nanobot F-NB-2-c stratum bias · nanobot N-R2 L6 handoff lock |
 | 진행 중 (target ✅확정 2026-05-12) | **quantum Phase C — F-Q-6 pocket VQE** (Mpro Cys145+His41 / nirmatrelvir) → L3 → L4 → Phase D library ranking — 실행 out-of-repo (`_qiskit_bridge/` + qiskit-aer + qmirror) |
 | cycle 28+ | virocapsid C3b full corpus n≥100 + posterior ≥0.95 · F-VIROCAPSID-1-c/-d 독립축 |
@@ -273,6 +274,7 @@ gate step 으로 wired-in** 되었다 (전부 pure-stdlib, deterministic, sentin
 | `nanobot_actuator_v2_reference_emit` | `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` | nanobot **N-R1** (`raw_77_nanobot_actuation_v2` reference emitter) | `__NANOBOT_ACTUATOR_V2_REFERENCE_EMIT__ PASS` |
 | `ribozyme_kinetics_simulation` | `_python_bridge/module/ribozyme_kinetics_simulation.py` | ribozyme **G26-RB-1′ sim re-run** (Eyring TST + 4-state RK4/Euler/analytic ODE; F-RB-4 6/6 PASS; re-impl of R5-sunset original) | `__RIBOZYME_MVP_RESULT__ PASS` |
 | `nanobot_actuation_simulation` | `_python_bridge/module/nanobot_actuation_simulation.py` | nanobot **C0d dual-skeleton sim re-run** (4-state actuation + J₂=24 pose-canon; both `{truncated_icosahedron, cuboctahedron}` F-NB-4 6/6 PASS; re-impl of R5-sunset original) | `__NANOBOT_MVP_RESULT__ PASS` |
+| `virocapsid_pdb_corpus` | `_python_bridge/module/virocapsid_pdb_corpus.py` | virocapsid **C3a Bayesian audit re-run + n=35 extension** (icosahedral-capsid corpus + Bayes σ(6)=12 vs uniform{5..50}; log10_BF 58.20, 7/7 sub-criteria PASS; re-impl of R5-sunset original; `--refresh` RCSB) | `__VIROCAPSID_PDB_AUDIT__ PASS` |
 
 > **In-repo closure 완결 (2026-05-12)**: σ/τ/φ/J₂ deductive verification (42/42)
 > + 위 5개 per-axis closure 컴포넌트 = 이 repo 안에서 코드/문서로 닫을 수 있는

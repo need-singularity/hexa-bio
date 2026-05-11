@@ -41,6 +41,7 @@ run "ribozyme_off_target_screen" python3 "$REPO_ROOT/_python_bridge/module/riboz
 run "ribozyme_reaction_coordinate_quotient" python3 "$REPO_ROOT/_python_bridge/module/ribozyme_reaction_coordinate_quotient.py"
 run "ribozyme_kinetics_simulation" python3 "$REPO_ROOT/_python_bridge/module/ribozyme_kinetics_simulation.py"
 run "nanobot_actuation_simulation" python3 "$REPO_ROOT/_python_bridge/module/nanobot_actuation_simulation.py"
+run "virocapsid_pdb_corpus" python3 "$REPO_ROOT/_python_bridge/module/virocapsid_pdb_corpus.py"
 
 echo "─────────────────────────────────────────────"
 echo "selftest summary: $passes PASS / $fails FAIL"
