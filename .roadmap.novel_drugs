@@ -1024,6 +1024,30 @@ cluster: `[2× toluene (Phe TM helix mimic) + acetate (Asp helix H-bond) + methy
 
 🎯 **F-Q-6-D CMT-level closure 달성** (paradigm-level pocket VQE 5/5 cover, 외부 실 PDB + def2-svp ramp 별도).
 
+#### §15.2.f — c9orf72 G4 RNA quadruplex pocket cluster QM (loop iter 5, 2026-05-11)
+
+`tests/c9orf72_pocket_vqe_v7.py` — 6th pocket VQE entry (ALS Q-axis 1st):
+
+cluster: `[K⁺ + 2× guanine (mini G-quartet stack) + indole (DC-34 binder fragment)]` (c9orf72 G4C2 RNA secondary structure mimic)
+- 43 atoms, net charge +1 (K+), spin 0
+- n_qubits=6, n_pauli=325, basis sto-3g
+- CASCI = -1935.941 Ha
+- VQE UCCSD reps=1 SLSQP = -1935.941 Ha
+- delta = **1.376 µHa** ✅ chem-acc PASS (near sub-µHa, 미달 1.6 threshold 내 87%)
+- build wall 69s + VQE wall 86s
+
+⭐ **6 distinct chemistry environments 모두 chem-acc PASS**:
+| iter | target | cation/env | sub-µHa | comment |
+|------|--------|-------------|---------|---------|
+| 0 | HDAC6 | Zn²⁺ transition metal | ❌ | 15 µHa |
+| 1 | SARM1 | conjugated heterocycle | ❌ | 193 µHa |
+| 2 | ClC-1 | Cl⁻ halide | ✅ | 0.24 µHa ⭐ |
+| 3 | MFN2 | Mg²⁺ alkaline earth | ❌ | 11 µHa |
+| 4 | Cx32 | protein interface | ✅ | 0.59 µHa ⭐ |
+| 5 | c9orf72 | K⁺ alkali + π-stack | ❌ near | 1.38 µHa |
+
+📊 paradigm 누적: **transition metal / alkaline earth / alkali / halide / 비금속 protein / RNA π-stack — 5 axis chemistry 모두 pocket VQE pipeline 안정 동작**. F-Q-6-D 의 generality 입증.
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).
