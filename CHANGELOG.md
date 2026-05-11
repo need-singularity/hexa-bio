@@ -6,6 +6,26 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Ribozyme G26-RB-3 in-repo portion closed — Hamming off-target screen (2026-05-12)** —
+  `_python_bridge/module/ribozyme_off_target_screen.py` is a pure-stdlib
+  deterministic off-target screen for ribozyme substrate-recognition arms:
+  a sliding-window Hamming scan (window = arm length, `seed_tolerance=1`)
+  of each arm **and its reverse complement** against a 6-mRNA representative
+  reference pool — ACTB/GAPDH housekeeping seeds + MYC/KRAS/TP53 oncogene
+  seeds + one synthetic low-complexity `(CUG)ₙ` triplet-repeat decoy
+  (DMPK-style ASO/ribozyme off-target trap). Per-arm off-target counts are
+  normalized to hits/kb; PASS gate = ≤ 4.0/kb per arm. Self-check 4/4 PASS:
+  `reverse_complement` involution, Hamming triangle inequality, two legit
+  AML/pan-cov arms PASS, a deliberately-designed `(CUG)ₙ` off-targeter that
+  correctly FAILs at 58/kb ≫ gate, plus a byte-identical determinism re-run.
+  Sentinel `__RIBOZYME_OFF_TARGET_SCREEN__ PASS`. Wired into
+  `selftest/run_all.sh` as the 9th gate step. Together with
+  `ribozyme_mfe_nussinov.py` (R-R1, comp 2), this closes the **in-repo**
+  portion of G26-RB-3 (C2 DoD uplift); the full host-transcriptome corpus
+  (GenCode/RefSeq backing) remains out-of-repo per R5 sunset
+  (`~/core/nexus/sim_bridge/`). Lifts ribozyme closure-grade ~85% → ~90%.
+  Honest C3 (raw#10): the in-repo reference pool is a small representative
+  seed exercising the algorithm + protocol, not a full transcriptome.
 - **Nanobot N-R1 in-repo portion closed — `raw_77_nanobot_actuation_v2` reference emitter (2026-05-12)** —
   `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` is a pure-stdlib
   deterministic reference emitter for the v2 actuator-output contract

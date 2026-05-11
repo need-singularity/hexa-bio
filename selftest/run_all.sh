@@ -37,6 +37,7 @@ run "n6_axis_computational_verification" python3 "$HERE/n6_axis_computational_ve
 run "ribozyme_mfe_nussinov"     python3 "$REPO_ROOT/_python_bridge/module/ribozyme_mfe_nussinov.py"
 run "virocapsid_c5_conformance" python3 "$HERE/virocapsid_c5_conformance.py"
 run "nanobot_actuator_v2_reference_emit" python3 "$REPO_ROOT/_python_bridge/module/nanobot_actuator_v2_reference_emit.py"
+run "ribozyme_off_target_screen" python3 "$REPO_ROOT/_python_bridge/module/ribozyme_off_target_screen.py"
 
 echo "─────────────────────────────────────────────"
 echo "selftest summary: $passes PASS / $fails FAIL"
