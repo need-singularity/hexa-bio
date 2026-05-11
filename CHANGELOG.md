@@ -6,6 +6,22 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Ribozyme R-R1 closed — Nussinov MFE solver inline port (2026-05-12)** —
+  `_python_bridge/module/ribozyme_mfe_nussinov.py` is a pure-stdlib O(n³)
+  dynamic-programming Nussinov base-pair-maximization secondary-structure
+  solver (pair set AU/UA/GC/CG/GU/UG, min hairpin loop 3 nt). 7 / 7 self-check
+  cases PASS (incl. byte-identical determinism re-run on n=26); sentinel
+  `__RIBOZYME_MFE_NUSSINOV__ PASS`. `ribozyme/spec/ribozyme_output_v1.schema.json`
+  → `structure_2d` description rewritten: `method='stub'` allowance DEPRECATED
+  for new rows (kept in enum for backward-compat with pre-2026-05-12 rows);
+  `dot_bracket='stub'` likewise deprecated. A `nussinov_inline` instance
+  validates against the live schema via `selftest/json_schema_validator.py`.
+  Wired into `selftest/run_all.sh` as the 6th gate step. Removes the
+  R-R1 stub-allowance entry from `AXIS_CLOSURE_PLAN.md` §3 / §11; ribozyme
+  closure-grade now ~85% (잔여 = G26-RB-3 off-target screen, G26-RB-2 J₂
+  branch-lock). Honest C3 (raw#10): Nussinov is pair-maximization, not
+  thermodynamic — ΔG (kcal/mol) remains on the `turner_nn_subset` partition
+  surrogate path (cycle-24 MVP).
 - **`selftest/n6_axis_computational_verification.py` wired into pre-merge gate
   (2026-05-12)** — deterministic σ/τ/φ/J₂ + master-identity verification across
   all 5 axes (Q/W/N/R/V). **42 / 42 checks PASS** (`__N6_AXIS_VERIFY__ PASS`).

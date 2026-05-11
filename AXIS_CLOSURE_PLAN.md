@@ -71,7 +71,7 @@
 | **weave** | composition | ✅ STRUCTURAL-EXACT (T=1, post 0.9668) | F-VIROCAPSID-2 n=34 RESOLVED (cycle 22) | ✅ `composition_output_v1` lock | 4/4 | **✅ 100% closure (v1.x)** |
 | **virocapsid** | assembly | ✅ STRUCTURAL-EXACT (T=1 corpus n=10 post 1.0 / log10_BF 16.63 · multi-T T=3/T=4 yield ≥0.85) | ✅ decisive (PDB corpus + calibration) | ⚠️ `cage_output_v1` LANDED, **lock 미완** (GATE-26-V-R1 / C5) | 4/4 | **🟡 ~90% — schema lock + full-corpus 잔여** |
 | **nanobot** | actuation | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-vertex) | 🟡 n=60 curated log10_BF 13.65 decisive, 단 canonical n=30 은 51% match (STRUCTURAL-APPROXIMATE); **inter-rater 미완** | ⚠️ `actuator_output_v1` v2 emission 미완 + L6 handoff schema v0 (lock 미완) | 4/4 | **🟡 ~70% — inter-rater + schema 잔여** |
-| **ribozyme** | catalysis | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-nt) | 🟡 F-RB-2 n=30 log_bf 79.74 PASS, 단 **PENDING INTER-RATER** | ⚠️ `ribozyme_output_v1` structure_2d **stub allowance** (MFE solver inline port 미완) | 4/4 | **🟡 ~75% — inter-rater + MFE port 잔여 (가장 가까움)** |
+| **ribozyme** | catalysis | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-nt) — deductive PASS via §11 verifier | 🟡 F-RB-2 n=30 log_bf 79.74 PASS, deterministic-rubric 하 PASS | ✅ `ribozyme_output_v1` MFE inline port LANDED 2026-05-12 (Nussinov, R-R1 closed) — `nussinov_inline` 인스턴스 schema-valid; stub allowance DEPRECATED | 4/4 | **🟡 ~85% — 잔여: G26-RB-3 off-target screen real impl + G26-RB-2 J₂ branch-lock** |
 | **quantum** | computation | 🟡 VERIFIED (H₂ 6-Pauli / LiH path) — pocket-scale 미확장 | F-Q-1…5 PASS · F-Q-EXT-1…6 PASS | (n/a — `raw_77_quantum_*_v1` witness 스키마들) | (n/a — 4 bio axis 만 C2) | **🔴 ~55% — F-Q-6 pocket VQE: target ✅CONFIRMED (Mpro/nirmatrelvir, 2026-05-12), Phase C 실행 out-of-repo + L3/L4 ladder** |
 
 ---
@@ -99,12 +99,12 @@
 | C0c | F-RB-2 n=30 Bayesian corpus 공식 closure — log_bf 79.74 이미 PASS; axis-match **채점 = deterministic predicate** (σ ⟺ core-cardinality==12; τ ⟺ #states==4; φ ⟺ binary; J₂ ⟺ group order==24) 로 재정의, 사람 inter-rater 불요 | 2026-09-28 | computational | 🟢 PASS (deterministic-rubric 적용 시 inter-rater 게이트 소멸) |
 | G26-RB-2 | J₂=24 reaction-coordinate quotient decision — branch-lock 후 exec | branch-lock 06-15 / exec 09-28 | hexa-bio session | ⬜ |
 | G26-RB-3 | C2 DoD uplift — component (2) structure prediction 을 stub→inline MFE (Nussinov/Zuker) + component (3) off-target screen 를 stub→실 host-transcriptome Hamming pool | 2026-09-28 | hexa-bio session | ⬜ partial-stub |
-| R-R1 | `ribozyme/spec/ribozyme_output_v1.schema.json` — `structure_2d.dot_bracket` stub allowance 를 MFE solver inline port 로 제거 | cycle-26 stretch | hexa-bio session | 🟡 stub-allowed |
+| R-R1 | `ribozyme/spec/ribozyme_output_v1.schema.json` — `structure_2d.dot_bracket` stub allowance 를 MFE solver inline port 로 제거 | cycle-26 stretch | hexa-bio session | ✅ **LANDED 2026-05-12** — `_python_bridge/module/ribozyme_mfe_nussinov.py` (pure-stdlib Nussinov O(n³) DP, 7/7 self-check PASS incl. determinism re-run; pair set AU/UA/GC/CG/GU/UG, min hairpin loop 3 nt; sentinel `__RIBOZYME_MFE_NUSSINOV__ PASS`). Schema description marks `method='stub'` DEPRECATED (backward-compat preserved); `nussinov_inline` instance validates. Wired into `selftest/run_all.sh`. ΔG (kcal/mol) 는 여전히 `turner_nn_subset` path 소관 (Nussinov 는 pair-maximization). |
 
 **잔여 작업 요약**:
 - [x] **검증 방식 확정 2026-05-12** — G26-RB-1 (human inter-rater) → **deterministic computational verification rubric** (위 7-point, math/physics). σ(6)=12 STRUCTURAL-EXACT 는 ① 12-nt core *by construction* + ⑤ 4-state count predicate 로 *deductive* 도달; Bayesian corpus 채점도 deterministic predicate.
 - [ ] rubric 실행 (외부 sim 재실행 — `ribozyme_kinetics_simulation.py` @ `~/core/nexus/sim_bridge/`; 모든 값 이미 MVP 에 있어 PASS 예상). 그 다음 σ(6) CANDIDATE → EXACT.
-- [ ] `ribozyme_kinetics_simulation.py` 또는 신규 `ribozyme_mfe.py` 에 Nussinov-Zuker MFE 인라인 포트 → `structure_2d` stub 제거 (R-R1 / G26-RB-3) — *수학적 검증 가능* (MFE = dynamic-programming, 결과 재현가능).
+- [x] **`_python_bridge/module/ribozyme_mfe_nussinov.py` 랜딩 (2026-05-12)** — 순수-stdlib Nussinov O(n³) 동적 프로그래밍 인라인 포트, `structure_2d.dot_bracket` stub 제거 (R-R1 closed). 7/7 self-check PASS (determinism re-run 포함). Zuker (thermodynamic ΔG) 는 `turner_nn_subset` path 가 이미 cycle-24 MVP partition surrogate 로 커버 → 별도 포트 불요. G26-RB-3 off-target screen real impl 만 잔여.
 - [ ] off-target screen 실 구현 (Hamming/seed-region pool, WEAVE Π^p_2 verifier v2 패턴 — deterministic).
 - [ ] J₂=24 quotient 결정 (G26-RB-2) — branch-lock; in-scope 시 reaction-coordinate orbit enumeration (orbit size == 24) 으로 검증.
 - 비차단: falsifier count 5 → 12 (stretch); CHI2 n 30 (이미 PASS-MARGINAL 초과).
@@ -287,9 +287,10 @@ group-theory/closed-form 만; subjective rater / live-sim 없음) 으로 검증:
   07-28 deadline.
 - **nanobot N-R2** — L6 handoff schema lock + actuator_output_v1 v2 emission:
   schema in-repo, emission 은 sim 재실행 필요.
-- **ribozyme R-R1 / G26-RB-3** — `structure_2d.dot_bracket` stub 을 inline
-  MFE solver (Nussinov/Zuker) 로 port; off-target screen 도 실 host-transcriptome
-  Hamming pool 로 uplift. cycle-26 stretch / 09-28.
+- **ribozyme G26-RB-3** — off-target screen 을 실 host-transcriptome Hamming
+  pool 로 uplift (현재 stub). 09-28. *(R-R1 MFE port 는 2026-05-12 closure
+  — `_python_bridge/module/ribozyme_mfe_nussinov.py` 참조; §3 표·§11 LANDED
+  bullet 참조.)*
 - **quantum F-Q-6** — Mpro/nirmatrelvir pocket VQE Phase C → L3 → L4 → Phase D.
   Target ✅CONFIRMED, 실행은 `_qiskit_bridge/module/pocket_vqe_orchestrator.py`
   + `qiskit-aer` + `hx install qmirror` (concurrent /loop 세션이 진행 중 —

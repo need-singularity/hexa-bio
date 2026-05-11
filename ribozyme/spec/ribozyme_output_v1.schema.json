@@ -59,21 +59,21 @@
     },
     "structure_2d": {
       "type": "object",
-      "description": "Secondary-structure prediction. dot_bracket field MAY be 'stub' for v1 rows pending inline MFE solver port (Nussinov/Zuker, stdlib-only).",
+      "description": "Secondary-structure prediction. Inline Nussinov MFE solver landed 2026-05-12 (`_python_bridge/module/ribozyme_mfe_nussinov.py`, stdlib-only) → `dot_bracket = 'stub'` allowance is DEPRECATED for new rows (kept in enum for backward-compat with pre-2026-05-12 rows). New rows MUST use `nussinov_inline` (pair-maximization, no ΔG) or `turner_nn_subset` (cycle-24 partition surrogate, ΔG kcal/mol).",
       "required": ["dot_bracket", "method"],
       "properties": {
         "dot_bracket": {
           "type": "string",
-          "description": "Vienna dot-bracket notation matching sequence.full length, OR literal 'stub' if MFE solver not yet inlined."
+          "description": "Vienna dot-bracket notation matching sequence.full length. Literal 'stub' is DEPRECATED post-2026-05-12 (Nussinov port landed); preserved in pre-existing rows only."
         },
         "method": {
           "type": "string",
           "enum": ["nussinov_inline", "zuker_inline", "viennaRNA_external", "turner_nn_subset", "stub"],
-          "description": "Solver. turner_nn_subset = cycle-24 MVP partition surrogate. stub = field reserved, no live solver."
+          "description": "Solver. nussinov_inline = stdlib pair-maximization (ribozyme_mfe_nussinov.py, 2026-05-12). turner_nn_subset = cycle-24 MVP partition surrogate (ΔG path). zuker_inline / viennaRNA_external reserved for future ports. stub = DEPRECATED, kept for pre-2026-05-12 rows only."
         },
         "delta_g_kcal_per_mol": {
           "type": ["number", "null"],
-          "description": "MFE / partition-surrogate ΔG in kcal/mol; null if method=stub."
+          "description": "MFE / partition-surrogate ΔG in kcal/mol; null if method ∈ {nussinov_inline, stub} (Nussinov is pair-counting, not thermodynamic)."
         }
       },
       "additionalProperties": false
