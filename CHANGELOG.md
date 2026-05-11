@@ -34,6 +34,16 @@ All notable changes to **hexa-bio** are documented here. Format follows
   axes; this is a doc/manifest sync only.
 
 ### Added
+- **`AXIS_CLOSURE_PLAN.md` updated — quantum target CONFIRMED + repo-boundary
+  note (2026-05-12)** — per user decision, the `quantum` F-Q-6 (drug-target
+  pocket VQE) target is **SARS-CoV-2 Mpro (main protease)**, active-site
+  dyad **Cys145 + His41**, nirmatrelvir comparator (Phase C already running,
+  attempt 9). Recorded a repo-boundary note: the bio-axis C0b skeleton
+  simulators were relocated out of this repo by the R5 sunset (only `runs/`
+  ledger + `__pycache__` remain under `_python_bridge/module/`), so gates
+  needing simulator re-runs + registry-witness emission execute in the
+  external cycle workflow; in-repo work is limited to `*/spec/*.schema.json`,
+  this plan doc, and `_qiskit_bridge/module/*.py` + `tests/*_v7.py`.
 - **`AXIS_CLOSURE_PLAN.md` (root, 2026-05-12)** — gate / deadline / owner /
   sequencing plan to take the 4 non-`weave` axes to v1.x 100% closure-grade
   (`ribozyme` G26-RB-1 inter-rater → `nanobot` G26-NB-EXT inter-rater +

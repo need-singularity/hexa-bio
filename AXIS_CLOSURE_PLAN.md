@@ -17,6 +17,20 @@
 > lean4-backed Π¹₁-CA₀ cert 는 v1.x 전체에서 MVP-caveat disclosure
 > surrogate 로 처리되고 GATE-26-2 → v2.0.0 으로 track된다.
 
+> **repo boundary note (2026-05-12)**: nanobot / ribozyme / virocapsid 의
+> C0b skeleton 시뮬레이터(`*_actuation_simulation.py` / `*_kinetics_simulation.py`
+> / `*_calibration.py` / `*_bayesian_audit_n30.py` 등)와 weave 의
+> `weave_composition.py` / `cage_assembly_simulation.py` 는 **R5 sunset
+> 으로 이 repo 트리에서 제거**되었다 (`_python_bridge/module/` 에는 `runs/`
+> ledger + `__pycache__` 만 잔존; 실 SSOT 는 `~/core/nexus/sim_bridge/` 등
+> 외부). 따라서 "simulator 재실행 + registry witness emit" 이 필요한 gate
+> (virocapsid C5 conformance, nanobot C0d cuboctahedron, ribozyme G26-RB-3,
+> Bayesian audit 재실행 등)의 *실행*은 외부 cycle 워크플로 소관이고, 이
+> repo 에서 가능한 in-repo 작업은 ① schema 파일 (`*/spec/*.schema.json`) ②
+> 본 closure plan ③ `_qiskit_bridge/module/*.py` + `tests/*_v7.py` (quantum
+> pocket VQE adapters/scripts — 이건 in-repo) 로 한정. quantum 의 full VQE
+> 실행은 추가로 `qiskit-aer` + `hx install qmirror` 필요.
+
 ---
 
 ## §0 "axis 100% closure" 정의 (weave 가 만족한 기준 = 다른 4축의 목표)
@@ -45,7 +59,7 @@
 | **virocapsid** | assembly | ✅ STRUCTURAL-EXACT (T=1 corpus n=10 post 1.0 / log10_BF 16.63 · multi-T T=3/T=4 yield ≥0.85) | ✅ decisive (PDB corpus + calibration) | ⚠️ `cage_output_v1` LANDED, **lock 미완** (GATE-26-V-R1 / C5) | 4/4 | **🟡 ~90% — schema lock + full-corpus 잔여** |
 | **nanobot** | actuation | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-vertex) | 🟡 n=60 curated log10_BF 13.65 decisive, 단 canonical n=30 은 51% match (STRUCTURAL-APPROXIMATE); **inter-rater 미완** | ⚠️ `actuator_output_v1` v2 emission 미완 + L6 handoff schema v0 (lock 미완) | 4/4 | **🟡 ~70% — inter-rater + schema 잔여** |
 | **ribozyme** | catalysis | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-nt) | 🟡 F-RB-2 n=30 log_bf 79.74 PASS, 단 **PENDING INTER-RATER** | ⚠️ `ribozyme_output_v1` structure_2d **stub allowance** (MFE solver inline port 미완) | 4/4 | **🟡 ~75% — inter-rater + MFE port 잔여 (가장 가까움)** |
-| **quantum** | computation | 🟡 VERIFIED (H₂ 6-Pauli / LiH path) — pocket-scale 미확장 | F-Q-1…5 PASS · F-Q-EXT-1…6 PASS | (n/a — `raw_77_quantum_*_v1` witness 스키마들) | (n/a — 4 bio axis 만 C2) | **🔴 ~55% — F-Q-6 pocket VQE OPEN (USER-GATED) + L3/L4 ladder** |
+| **quantum** | computation | 🟡 VERIFIED (H₂ 6-Pauli / LiH path) — pocket-scale 미확장 | F-Q-1…5 PASS · F-Q-EXT-1…6 PASS | (n/a — `raw_77_quantum_*_v1` witness 스키마들) | (n/a — 4 bio axis 만 C2) | **🔴 ~55% — F-Q-6 pocket VQE: target ✅CONFIRMED (Mpro/nirmatrelvir, 2026-05-12), Phase C 실행 out-of-repo + L3/L4 ladder** |
 
 ---
 
@@ -54,7 +68,7 @@
 1. **RIBOZYME** — inter-rater 1건 (κ ≥ 0.6, ≥2 human raters) 만 닫으면 CANDIDATE → EXACT. + MFE solver inline port.
 2. **NANOBOT** — ribozyme 와 sister 인 extended-corpus inter-rater 를 preregister + 실행, + cuboctahedron dual-skeleton (07-28) + schema v2 / L6 handoff lock.
 3. **VIROCAPSID** — σ(6) 는 이미 STRUCTURAL-EXACT (closure-grade). 잔여 = C5 schema lock (07-28, 단기) + C3b 전체 corpus n≥100 + posterior ≥0.95 (long pole, cycle 28+) + F-VIROCAPSID-1-c/-d 독립축.
-4. **QUANTUM** — long pole. **F-Q-6 (drug-target pocket VQE) 가 USER-GATED** — target system + pocket residue + ligand library 선정이 선행 필요. 그 다음 Phase C → Phase D (`.roadmap.novel_drugs`) → L3/L4 ladder.
+4. **QUANTUM** — long pole. **F-Q-6 (drug-target pocket VQE) target ✅CONFIRMED 2026-05-12: SARS-CoV-2 Mpro (Cys145+His41 dyad + ligand reactive moiety), nirmatrelvir comparator** (user decision). Phase C → L3 → L4 → Phase D (`.roadmap.novel_drugs`) 진행 — *실행은 out-of-repo* (`_qiskit_bridge/module/pocket_vqe_orchestrator.py` 등 + `qiskit-aer` + `hx install qmirror`).
 
 > 병렬화 가능: 1·2 의 inter-rater 는 같은 인적 자원으로 한 번에; 3 의 C5
 > schema lock 은 코드 작업이라 1·2 와 독립; 4 의 target 선정은 user
@@ -133,7 +147,7 @@
 
 ---
 
-## §6 QUANTUM — computation (🔴 ~55%, long pole, USER-GATED)
+## §6 QUANTUM — computation (🔴 ~55%, long pole — F-Q-6 target ✅CONFIRMED 2026-05-12)
 
 **Gate to close**:
 
@@ -144,23 +158,24 @@
 | F-Q-3 | H₂ bond-length scan | — | — | ✅ PASS (11/11 sub-µHa) — L2 |
 | F-Q-4 / -5 | ANU live end-to-end / long-lived bridge ≥5× | — | — | ✅ PASS (anu_legacy / 31.4×) |
 | F-Q-EXT-1…6 | external systems review (22 systems / 5 axes) + 3 axes pilot smoke + chain pilot | — | — | ✅ PASS |
-| **F-Q-6** | **drug-target pocket VQE — Phase C** | OPEN | **USER** (target system + pocket residue + ligand library 선정 필요) | 🔴 **OPEN — USER-GATED** |
+| **F-Q-6** | **drug-target pocket VQE — Phase C** — target ✅CONFIRMED 2026-05-12: **SARS-CoV-2 Mpro (Cys145+His41 dyad + nirmatrelvir reactive 부분), nirmatrelvir comparator** (user decision) | OPEN (실행 진행) | hexa-bio session (out-of-repo exec: `_qiskit_bridge/` + qiskit-aer + qmirror) | 🟡 **target locked, Phase C running** (attempt 9) |
 | F-Q-EXT-7b | caDNAno smoke — numpy ABI + PyQt5 forced load 로 BLOCKED | OPEN | hexa-bio session | 🔴 BLOCKED → alt-path (scadnano / oxDNA direct) 필요 |
 | L1 (확장) | small-molecule generalize — BeH₂ 6-qubit (LiH 는 F-Q-2 로 완료) | — | hexa-bio session | 🟡 LiH done, BeH₂ pending |
-| L3 | drug-target pocket fragment — single active-site QM/MM split, single-restart VQE (= F-Q-6) | gated on user | hexa-bio session | 🔴 = F-Q-6 |
+| L3 | drug-target pocket fragment — single active-site QM/MM split, single-restart VQE (= F-Q-6, Mpro Cys145+His41) | Phase C in-progress | hexa-bio session (out-of-repo exec) | 🟡 = F-Q-6, target locked |
 | L4 | protein-relevant subsystem — single-residue active site | gated on L3 | hexa-bio session | ⬜ |
-| Phase C / D (`.roadmap.novel_drugs`) | Phase C pocket supersystem VQE (F-Q-6-D, e.g. Cys145+His41+ligand reactive 부분, nirmatrelvir target) → Phase D library ranking (F-Q-6-F, target 마다 5-10 candidate library) | gated on user | hexa-bio session | 🔴 Phase C IN-PROGRESS, attempt 9 (D3 dispersion bottleneck) |
+| Phase C / D (`.roadmap.novel_drugs`) | Phase C pocket supersystem VQE (F-Q-6-D — Mpro Cys145+His41 + nirmatrelvir reactive 부분) → Phase D library ranking (F-Q-6-F, 5-10 candidate library) | — (target locked) | hexa-bio session (out-of-repo exec) | 🟡 Phase C IN-PROGRESS, attempt 9 (D3 dispersion bottleneck) — `tests/*_pocket_vqe_v7.py` |
 | Phase 2 port | `_python_bridge/module/quantum_*.py` adapters → hexa-native (별도 hexa-lang session, user directive 2026-05-07) | — | hexa-lang session | ⬜ out-of-scope here |
 | σ(6) 확장 | n=6 binding 을 H₂/LiH 6-Pauli 너머 pocket-scale Hamiltonian 으로 일반화 | gated on Phase C | hexa-bio session | 🟡 H₂/LiH only |
 
 **잔여 작업 요약**:
-- [ ] **USER DECISION 필요** — F-Q-6 / Phase C 의 입력: (a) target protein + 활성부위 residue 집합, (b) ligand reactive 부분, (c) 5-10 candidate ligand library. 이게 정해지기 전까지 quantum closure 는 진행 불가. (`.roadmap.novel_drugs` 의 Phase C 가 nirmatrelvir / Cys145+His41 를 후보로 잡고 attempt 9 까지 진행 중 — user 가 이걸 confirm 하거나 다른 target 지정.)
+- [x] **USER DECISION 확정 2026-05-12** — F-Q-6 / Phase C target = **SARS-CoV-2 Mpro (main protease)**, active-site dyad **Cys145 + His41**, ligand reactive 부분 = **nirmatrelvir** (covalent Mpro inhibitor) reactive nitrile, comparator = nirmatrelvir. → quantum closure 진행 가능. Phase C 는 이미 attempt 9 까지 진행 중 (`.roadmap.novel_drugs` Phase C / `tests/*_pocket_vqe_v7.py`); *실행은 out-of-repo* (`_qiskit_bridge/module/pocket_vqe_orchestrator.py` + `pocket_active_space.py` + `ligand_smiles_to_h.py` + `qiskit-aer` + `hx install qmirror`).
+- [ ] Phase C 완료 (F-Q-6-D explicit pocket supersystem VQE, published reference error band 내 PASS) → L3 closure → L4 (single-residue active site) → Phase D library ranking (F-Q-6-F).
 - [ ] F-Q-EXT-7b caDNAno alt-path: caDNAno 가 numpy ABI + PyQt5 강제로드로 BLOCKED → scadnano (브라우저/CLI) 또는 oxDNA 직접 호출로 대체.
 - [ ] L1 BeH₂ 6-qubit (LiH 패턴 재사용).
 - [ ] Phase C 완료 후 L4 (single-residue active site) → Phase D library ranking.
 - 비차단: Phase 2 hexa-native port (별도 session); fault-tolerant HW (Aer + ANU QRNG only — `.roadmap.quantum_hw_adoption_ladder`).
 
-**닫힘 조건**: F-Q-6 (pocket VQE, target 1개 published reference error band 내) PASS + F-Q-EXT-7b 해소(또는 alt-path PASS) + L1 BeH₂ + L4 single-residue → quantum v1.x closure-grade. **선행조건 = user 의 target-system 결정.**
+**닫힘 조건**: F-Q-6 (Mpro Cys145+His41 pocket VQE, published reference error band 내) PASS + F-Q-EXT-7b 해소(또는 alt-path PASS) + L1 BeH₂ + L4 single-residue → quantum v1.x closure-grade. 선행조건(user target 결정)은 ✅ 해소(2026-05-12); 남은 건 Phase C 실행 완료 (out-of-repo).
 
 ---
 
@@ -171,7 +186,7 @@
 | ~now → 2026-06-15 | **G26-RB-1 + G26-NB-EXT inter-rater 일괄 실행** (≥2 human raters, ribozyme κ≥0.6 + nanobot extended-corpus) → ribozyme & nanobot σ(6) CANDIDATE→EXACT 의 마지막 조건 충족. ribozyme G26-RB-2 branch-lock. |
 | → 2026-07-28 (MVP gate) | virocapsid **C5 schema lock + 4-cell conformance** · nanobot **C0d cuboctahedron** · nanobot **N-R1 v2 emit** · ribozyme **R-R1 MFE port** (stub 제거) → ribozyme + nanobot + virocapsid v1.x closure-grade 도달 목표 |
 | → 2026-09-28 | ribozyme G26-RB-2 exec + G26-RB-3 C2 uplift · nanobot F-NB-2-c stratum bias · nanobot N-R2 L6 handoff lock |
-| 2026-08~ (user 결정 후) | **quantum Phase C — F-Q-6 pocket VQE** (target 확정 시 시작) → L3 → L4 → Phase D library ranking |
+| 진행 중 (target ✅확정 2026-05-12) | **quantum Phase C — F-Q-6 pocket VQE** (Mpro Cys145+His41 / nirmatrelvir) → L3 → L4 → Phase D library ranking — 실행 out-of-repo (`_qiskit_bridge/` + qiskit-aer + qmirror) |
 | cycle 28+ | virocapsid C3b full corpus n≥100 + posterior ≥0.95 · F-VIROCAPSID-1-c/-d 독립축 |
 | cycle 30+ | virocapsid V-R2 T=7/13/21 · nanobot/ribozyme wet-lab handoff · quantum HW adoption ladder |
 | v2.0.0 | GATE-26-2 full lean4-backed Π¹₁-CA₀ cert (전 5축) · Bayesian audits 5/5 empirical · weave CHI2 n≥5 |
@@ -180,7 +195,7 @@
 
 ## §8 user 입력이 필요한 항목 (지금 결정하면 빨라지는 것)
 
-1. **quantum F-Q-6 target system** — Phase C 가 막혀 있는 유일한 이유. `.roadmap.novel_drugs` Phase C 후보(nirmatrelvir / SARS-CoV-2 Mpro Cys145+His41)를 confirm 할지, 다른 target 을 지정할지. → **이것 없이는 quantum 5/5 closure 불가.**
+1. ~~**quantum F-Q-6 target system**~~ → ✅ **CONFIRMED 2026-05-12**: SARS-CoV-2 Mpro (main protease), Cys145+His41 dyad, nirmatrelvir comparator (user decision). Phase C 실행은 out-of-repo 워크플로 소관.
 2. **inter-rater 인력** — G26-RB-1 (ribozyme, κ≥0.6) + G26-NB-EXT (nanobot extended corpus). user 가 직접 채점 vs ≥2명 위임. → ribozyme + nanobot σ(6) STRUCTURAL-EXACT 의 게이트.
 3. **G26-RB-2 J₂=24 quotient** — ribozyme 의 reaction-coordinate J₂ quotient 을 v1.x in-scope 로 할지 stretch 로 둘지 (branch-lock 2026-06-15).
 4. **virocapsid C3b deadline** — n≥100 corpus 를 v1.x 안으로 당길지(코드 작업, 1-2 cycle), cycle 28+ 로 둘지. (σ(6) EXACT 는 이미라 closure 비차단이지만 robustness 차원.)
