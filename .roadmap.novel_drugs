@@ -1309,6 +1309,19 @@ cluster: `[CH3-S-CH2-CH2-C(=O)-NH2]` (Cys-acrylamide covalent Michael adduct, po
 
 🎯 **F-Q-6-D status (iter 15 후)**: 12 target chem-acc-attempted (11 PASS + 1 AR PASS = **12 chem-acc**, HMG VQE 미완 → chem-acc 미확정) · 7 sub-µHa (변동 없음). disease coverage: CMT 5 + ALS 5 + cancer 1 + alopecia 1(AR chem-acc) = 12. paradigm-level CMT 100% + ALS Q+RB-axis 100% closure 유지.
 
+#### §15.2.r — HMG-CoA reductase pocket VQE 완료 (loop iter 16, 2026-05-12) — iter 15 timeout 의 dedicated-run 재시도, chem-acc PASS
+
+§15.2.q 에서 timeout 났던 `hxq-mi-hmg-001` 을 "1 iter = 1 cluster 전용" 으로 재시도. 클러스터 재설계: `tests/hmg_mevalonate_v7.py` — **3-hydroxy-3-methylbutanoate(-1) (mevalonate truncation: catalytic carboxyl + 3-OH + quaternary C + 2× CH3) + NH3 (HMGCR catalytic Lys ε-amine proxy)**, total charge -1 / spin 0 / 21 atom / 57 basis / 74 e. 의도는 sp3-heavy backbone 으로 n_pauli 175 를 노린 것이었으나 — **carboxylate 의 delocalized O–C–O π/π* 가 4e/4o frontier active space 에 들어가 n_pauli = 325 유지**. (KRAS-tiny 가 175 였던 건 thioether S lone-pair 가 frontier 였던 덕 — carboxylate/carbonyl 이 분자 안에 있으면 sp3 backbone 이라도 active space 가 거기 걸린다는 추가 교훈.)
+
+| run | optimizer / maxiter | timeout | natom | n_pauli | CASCI (Ha)     | VQE delta      | 결과            |
+|-----|---------------------|---------|-------|---------|----------------|----------------|-----------------|
+| iter15 (cohort_hmg_tgf) | SLSQP / 250 | 480s | 18 | 325 | -429.586170 | — | ⏳ 미수렴 (440s) |
+| iter16 (hmg_mevalonate) | SLSQP / 150 | **600s** | 21 | 325 | **-468.935488** | **27.4433 µHa** | ✅ **chem-acc PASS** (wall 516.5s) |
+
+🔬 **finding**: VQE 자체는 t=17s 에 시작해 t=517s 에 수렴 (SLSQP maxiter=150 으로 충분; n_pauli-325 클러스터의 VQE 수렴 wall ≈ 500s 가 전형). iter 15 의 timeout 은 알고리즘 문제가 아니라 **480s timeout 창이 n_pauli-325 VQE 에 ~30-60s 부족했던 것** — `timeout 600` (cron-shell max) + maxiter ↓ 150 으로 닫힘. delta 27.4 µHa = chem-acc(1600) 통과, sub-µHa(1.0) 미달 — §15.2 paradigm (conjugated/aromatic = chem-acc only at sto-3g 4e/4o) 와 정확히 일치. HMG 의 정밀 sub-µHa 는 transition-metal 케이스와 마찬가지로 외부 HPC ramp (larger active space / 더 좋은 basis) 필요 = software-closable 경계 밖.
+
+🎯 **F-Q-6-D status (iter 16 후)**: **13 target chem-acc PASS** (CMT 5 + ALS 5 + cancer KRAS-G12C 1 + alopecia AR 1 + mi HMG-CoA 1) · **7 sub-µHa** (ClC-1·Cx32·TBK1·KIF5A·stmn2·atxn2·KRAS-G12C — 변동 없음). lung TGF-β `hxq-ln-tgf-001` 만 pending (iter 17 예정 — ALK5 ATP hinge, n_pauli 325 예상, 600s dedicated run). disease coverage 13 target / 6 cohort. paradigm-level **CMT 100% + ALS Q+RB-axis 100% closure 유지**, mi cohort 의 핵심 target 1종 chem-acc 진입으로 "initial-5 disease cohort" 의 5/5 중 4종(CMT·ALS·cancer·alopecia·mi 중 TGF만 남음 → 정확히는 6 cohort 중 5 cohort 가 ≥1 chem-acc) 가 quantum-axis 부분 닫힘.
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).

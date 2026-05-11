@@ -1,8 +1,8 @@
 # v7.1 Phase γ pocket VQE loop — 교훈 정리 (lessons learned)
-**날짜**: 2026-05-11 ~ 2026-05-12 (iter 0-14)
-**범위**: CMT/ALS 신약 후보의 pocket-restricted active-space VQE chain (F-Q-6-D)
-**최종 commit**: `b24613a` (iter 13) + iter 14 진행 중
-**Library**: 34 → 39 candidates, 9/10 disease pocket VQE chem-acc PASS, 6 sub-µHa
+**날짜**: 2026-05-11 ~ 2026-05-12 (iter 0-16)
+**범위**: CMT/ALS + cohort 확장 (cancer·alopecia·mi) 신약 후보의 pocket-restricted active-space VQE chain (F-Q-6-D)
+**최종 iter**: 16 (HMG-CoA reductase chem-acc, dedicated 600s run)
+**status**: 13 target chem-acc PASS (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA), 7 sub-µHa, 6 disease cohort 중 5 cohort ≥1 chem-acc · TGF-β `hxq-ln-tgf-001` 만 pending (iter 17)
 
 본 문서 = **재현 가능한 교훈** 정리. 다음 세션 / 다른 disease 적용 시 reference.
 
@@ -28,10 +28,15 @@
 
 ### 1.2. sub-µHa 가능성 predictor
 
-본 9-target loop 의 finding: **n_pauli 만으로는 부족한 predictor** (TBK1 n_pauli 325 임에도 sub-µHa). 더 좋은 predictor 는 chemistry 다양성 + frontier-orbital localization:
+본 loop 의 finding: **n_pauli 만으로는 부족한 predictor** (TBK1 n_pauli 325 임에도 sub-µHa). 더 좋은 predictor 는 chemistry 다양성 + frontier-orbital localization:
 
 - ✅ sub-µHa 가능: light-atom dominant (H/C/N/O/S), 다중 chemical species, frontier 가 well-separated bonding/antibonding
 - ❌ sub-µHa 불가: transition metal d-orbital localized, near-degenerate frontier (π-stack), 큰 conjugated system
+
+**n_pauli 175 vs 325 = frontier active space 의 character 가 결정 (atom 수 아님)**:
+- iter 16 교훈 (`hxq-mi-hmg-001`): sp3-heavy backbone (3-OH-3-Me-butanoate + NH3, 21 atom) 으로 짰는데도 n_pauli **325** — carboxylate 의 delocalized O–C–O π/π* 가 4e/4o frontier 에 들어가서. 분자 안에 carbonyl/carboxylate/aromatic ring 이 하나라도 있으면 active space 가 거기 걸린다.
+- 반대로 KRAS-tiny (`hxq-ca-kras-001` adduct) 는 thioether **S lone-pair** 가 frontier → n_pauli ~175 → sub-µHa + 빠른 VQE.
+- → loop-cheap (175) cluster 설계: aromatic ring·conjugated carbonyl chain·carboxylate **전부 배제**, frontier 를 S/N lone-pair 나 σ-bond 영역으로. carboxylate 가 chemistry 상 필수면 (mevalonate 등) n_pauli 325 를 받아들이고 dedicated 600s run 으로 chem-acc 만 노린다 (§3, §4.1).
 
 ### 1.3. UCCSD reps=1 충분 — reps=2 는 악화 위험
 
@@ -71,7 +76,8 @@ python3 -m venv /home/<user>/.venv-hexa-bio
 
 | approach                           | basis    | active space | nbas / n_qubits | loop-feasible? | note |
 |------------------------------------|----------|---------------|------------------|----------------|------|
-| sto-3g 4e/4o (baseline)            | sto-3g   | 4e/4o         | ~140 / 6         | ✅ ~1-3 min    | 10 target 모두 chem-acc |
+| sto-3g 4e/4o, n_pauli ~175 (sat/ionic)  | sto-3g | 4e/4o     | ~140 / 6         | ✅ ~1-3 min    | ClC-1·KRAS-tiny; 5분 loop 안에 2-3개 가능 |
+| sto-3g 4e/4o, n_pauli ~325 (conj/aromat) | sto-3g | 4e/4o     | ~140-320 / 6     | ⚠️ ~5-9 min VQE | AR·HMG·TBK1; **480s timeout 부족** → `timeout 600` (cron-shell max) + maxiter ↓ 150 = chem-acc PASS (iter 16: HMG 27.4 µHa @ wall 516s). 1 iter = 1 cluster 전용. |
 | sto-3g 6e/6o (larger AS)           | sto-3g   | 6e/6o         | ~140 / 10        | ❌ 8+ min      | n_params 117, n_pauli 1819, VQE timeout |
 | lanl2dz ECP 4e/4o                  | lanl2dz  | 4e/4o         | 168 / 6          | ❌ OOM         | integral tensor 5+ GB |
 | 6-31g 4e/4o                        | 6-31g    | 4e/4o         | ~200 / 6         | ❌ 8+ min RHF  | SCF DIIS 미수렴 |
@@ -98,6 +104,7 @@ until [ ! -d /proc/$PID ]; do sleep 15; done
 - ❌ `until ! pgrep -f "lanl2dz"; do sleep...` — pgrep 가 자기 자신 매치 (bash command string 안에 "lanl2dz") 로 무한 loop
 - ❌ `python foo.py | tail -N` — stdout block-buffered, progress 못 봄. full log 직접 redirect 필수
 - ❌ `print(...)` without `flush=True` — long-running script 의 progress 안 보임
+- ❌ `timeout 480` 으로 n_pauli-325 VQE 돌리기 — ~30-60s 부족해서 미수렴으로 보임 (실제론 알고리즘 OK). iter 15→16 의 교훈: timeout 부족 ≠ 알고리즘 실패. 무거운 conjugated cluster 는 `timeout 600` (cron-shell 최대) + maxiter=150 (300 불필요) + optimizer 1개만 (L_BFGS_B 추가 X) = chem-acc 안에 닫힘.
 
 ### 4.2. PySCFDriver "Failed to build" 디버깅
 
@@ -128,7 +135,7 @@ for ch, sp in [(0, 0), (-1, 0), (1, 0), (-2, 0), (2, 0)]:
 | 층위                       | 본 v7.1 status | 의미                                         |
 |----------------------------|----------------|----------------------------------------------|
 | 🧪 paradigm-level closure  | ✅ CMT 100%, ALS Q+RB-axis 100% | 양자 pipeline + drug-likeness + IP heuristic + modality spec + falsifier 분기 |
-| ⚛️ F-Q-6-D pocket VQE entry | ✅ 9 target chem-acc, 5 sub-µHa | pocket-restricted active-space pipeline 입증 |
+| ⚛️ F-Q-6-D pocket VQE entry | ✅ 13 target chem-acc, 7 sub-µHa | pocket-restricted active-space pipeline 입증 (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA; 6 cohort 중 5 cohort ≥1 chem-acc) |
 | 🪨 transition-metal sub-µHa | ❌ 외부 ramp 확정 | HPC/GPU multi-hour 필요 |
 | 🧫 wet-lab selectivity     | ❌ 0건         | $50-200K × 화합물 × 3-6 month |
 | 🏥 임상 1-3상              | ❌ ~7-12년 전  | $100-300M, 성공률 9% |
@@ -136,7 +143,7 @@ for ch, sp in [(0, 0), (-1, 0), (1, 0), (-2, 0), (2, 0)]:
 
 ### 5.2. negative finding 의 closure 의미
 
-§12.2.i (UCCSD reps=2 negative) + §15.2.n (def2-svp infeasibility) + §15.2.o (lanl2dz/6e6o infeasibility) — 이들은 **실패** 가 아닌 **paradigm boundary 확정**:
+§12.2.i (UCCSD reps=2 negative) + §15.2.n (def2-svp infeasibility) + §15.2.o (lanl2dz/6e6o infeasibility) + §15.2.q→r (480s→600s timeout 경계, sp3 backbone 도 carboxylate 있으면 n_pauli 325) — 이들은 **실패** 가 아닌 **paradigm boundary 확정**:
 
 - ✅ "software-closable 끝점" 명시 → 무한 폴링 회피
 - ✅ "외부 ramp 경로" 명시 → 다음 세션 진입점 명확
@@ -157,7 +164,7 @@ for ch, sp in [(0, 0), (-1, 0), (1, 0), (-2, 0), (2, 0)]:
 ## 7. 다음 세션 진입점 (handoff)
 
 ### 7.1. 즉시 가능 (software-closable)
-1. cancer / alopecia / mi / lung initial-5 cohort pocket VQE 확장 (KRAS-G12C / AR / HMG-CoA / TGF-β / scaffold)
+1. **iter 17 next**: lung TGF-β `hxq-ln-tgf-001` (ALK5 ATP hinge) pocket VQE — n_pauli 325 예상 → `timeout 600` + SLSQP maxiter=150 dedicated run (iter 16 패턴 그대로). 이거 닫으면 initial-5 cohort 6/6 quantum-axis ≥1 chem-acc 완성.
 2. pmp22 ASO seed sequence precision (UNAFold + RNAhybrid integration)
 3. SwissADME 자동화 (rdkit-only ADMET → online web tool 추가 정밀도)
 4. SureChEMBL bulk download + chemotype 자동 검색 (IP query map 자동화)
@@ -169,11 +176,11 @@ for ch, sp in [(0, 0), (-1, 0), (1, 0), (-2, 0), (2, 0)]:
 4. IP clearance 5소 cross-check = 변리사 retainer $25-50K
 
 ### 7.3. paradigm-level 종합
-- v7 commit graph: 6a876b9 → e12f469 → b605414 → d5a0cb2 → 0b5bf22 → d6f258f (CMT closure) → afb5561 → ... → b24613a (iter 13)
+- v7 commit graph: 6a876b9 → e12f469 → b605414 → d5a0cb2 → 0b5bf22 → d6f258f (CMT closure) → afb5561 → ... → b24613a (iter 13) → 91a8550 (iter 14 KRAS) → 3eb20d4 (iter 15 AR/HMG cadence) → iter 16 (HMG chem-acc)
 - tags: `v7.0-cmt-closure` · `v7.1-cmt-phase-gamma-push` · `v7.2-cmt-pocket-vqe-complete` · `v7.3-cmt-als-pocket-vqe-complete`
 
 ---
 
 ## 8. 한 줄 요약
 
-> 5분 cron loop + sto-3g 4e/4o + 3-optimizer screen + sshfs-아닌-local-SSD venv = 9-target pocket VQE chem-acc PASS · 6 sub-µHa · CMT 100% paradigm closure. transition-metal sub-µHa 와 wet-lab 은 외부 ramp.
+> 5분 cron loop + sto-3g 4e/4o + 3-optimizer screen + sshfs-아닌-local-SSD venv = **13-target pocket VQE chem-acc PASS · 7 sub-µHa** · CMT 100% + ALS Q+RB-axis 100% paradigm closure. n_pauli-325 conjugated cluster 는 `timeout 600` dedicated run 으로 chem-acc; transition-metal sub-µHa·larger-AS·wet-lab·임상 은 외부 ramp.
