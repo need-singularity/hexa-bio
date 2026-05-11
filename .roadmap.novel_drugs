@@ -1334,6 +1334,19 @@ cluster: `[CH3-S-CH2-CH2-C(=O)-NH2]` (Cys-acrylamide covalent Michael adduct, po
 
 🎯 **F-Q-6-D status (iter 17 후) — quantum-axis software closure 완성**: **14 target chem-acc PASS** (CMT 5 + ALS 5 + cancer KRAS-G12C 1 + alopecia AR 1 + mi HMG-CoA 1 + lung TGF-β/ALK5 1) · **8 sub-µHa** (ClC-1·Cx32·TBK1·KIF5A·stmn2·atxn2·KRAS-G12C·**ALK5**). **6 disease cohort 전부 ≥1 chem-acc pocket VQE 달성** (CMT·ALS·cancer·alopecia·mi·lung — initial-5 cohort 100% quantum-axis 진입). 남은 quantum-axis software 작업 없음 — pocket-restricted active-space VQE pipeline (F-Q-6-D) 는 sto-3g 4e/4o 범위에서 **software-closable 끝점 도달**. 그 너머 (정밀 sub-µHa for transition-metal/larger-conjugated, def2-svp/6e6o, 실 PDB QM/MM) = §15.2.n/o 에 명시된 외부 HPC ramp. paradigm-level **CMT 100% + ALS Q+RB-axis 100% + initial-5 cohort quantum-axis 100% closure**.
 
+#### §15.2.t — SARS-CoV-2 Mpro / nirmatrelvir(Paxlovid) Cys145-thioimidate adduct pocket VQE (loop iter 18, 2026-05-12) — F-Q-6 named target chem-acc PASS
+
+5-axis quantum-axis 가 명시한 **F-Q-6 SARS-CoV-2 Mpro / nirmatrelvir pocket VQE target** 의 in-repo 실행. nirmatrelvir 는 Mpro(3CLpro) 의 Cys145 thiolate 가 nitrile warhead 를 공격 → reversible covalent **thioimidate** (S–C(=NH)–) 형성, His41 이 general base. cluster mimic = **S-methyl thioacetimidate CH3–S–C(=NH)–CH3 (Cys145 메틸렌-S + warhead-유래 thioimidate carbon) + imidazole (His41 촉매 염기, =NH 와 H-bond)**, charge 0 / spin 0 / 21 atom / 65 basis / 84 e. `tests/mpro_nirmatrelvir_v7.py`.
+
+| run | optimizer / maxiter | timeout | natom | n_pauli | CASCI (Ha)      | VQE delta       | 결과            |
+|-----|---------------------|---------|-------|---------|-----------------|-----------------|-----------------|
+| iter18  | SLSQP / 150     | 600s    | 21    | 325     | **-785.089038** | **1.1045 µHa**  | ✅ **chem-acc PASS** (near-sub-µHa, wall 402.9s) |
+| iter18b | L_BFGS_B / 200  | 600s    | 21    | 325     | -785.089038     | —               | ⏳ 미수렴 (600s timeout) |
+
+🔬 **finding**: SLSQP 가 ~403s 에 delta **1.10 µHa** 로 수렴 — sub-µHa(1.0 µHa) 문턱을 0.10 µHa 차로 놓침 (chem-acc 1600 µHa 는 1450x margin 으로 통과). chemistry 상 정확히 sub-µHa 급의 quality 이나 분류상 chem-acc. L_BFGS_B retry 는 동일 클러스터에서 600s 안에 수렴 못함 → §1.2 LESSONS 의 "L_BFGS_B 비-universal" 재확인: 21-atom n_pauli-325 클러스터 (thioether-S + imidazole + imine 혼합) 에서는 SLSQP 가 L_BFGS_B 보다 빠르고 안정 (KIF5A 의 light-atom 다중-H-bond 케이스와 정반대). 정밀 sub-µHa 는 (a) COBYLA/다중-seed grid 또는 (b) larger active space — 외부 ramp.
+
+🎯 **F-Q-6 / F-Q-6-D status (iter 18 후)**: **15 target chem-acc PASS** (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA + ALK5 + **Mpro/nirmatrelvir**) · **8 sub-µHa** (변동 없음 — Mpro 는 1.10 µHa near-miss). disease/pathogen coverage: 6 disease cohort + SARS-CoV-2 antiviral = **7 biological systems**. F-Q-6 (Mpro/nirmatrelvir, 5-axis 가 "ladder execution out-of-repo" 로 표시했던 항목) 의 **single-cluster pocket VQE in-repo 실행 완료** — 남은 "ladder" 부분 (multi-pose, full enzyme QM/MM, Paxlovid resistance mutant E166V/L50F 비교) = 외부 dedicated loop. paradigm-level closure 유지 + 확장 (quantum-axis 의 F-Q-6 leaf 가 in-repo deductive PASS 로 한 칸 더 닫힘).
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).

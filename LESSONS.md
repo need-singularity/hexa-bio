@@ -1,8 +1,8 @@
 # v7.1 Phase γ pocket VQE loop — 교훈 정리 (lessons learned)
-**날짜**: 2026-05-11 ~ 2026-05-12 (iter 0-17)
+**날짜**: 2026-05-11 ~ 2026-05-12 (iter 0-18)
 **범위**: CMT/ALS + cohort 확장 (cancer·alopecia·mi·lung) 신약 후보의 pocket-restricted active-space VQE chain (F-Q-6-D)
-**최종 iter**: 17 (lung TGF-β/ALK5 sub-µHa, dedicated 600s run) — quantum-axis software closure 완성
-**status**: **14 target chem-acc PASS** (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA + ALK5), **8 sub-µHa**, **6 disease cohort 전부 ≥1 chem-acc** → initial-5 cohort quantum-axis 100% 진입
+**최종 iter**: 18 (SARS-CoV-2 Mpro/nirmatrelvir chem-acc — F-Q-6 named target in-repo) — quantum-axis software closure 완성+확장
+**status**: **15 target chem-acc PASS** (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA + ALK5 + Mpro/nirmatrelvir), **8 sub-µHa**, **7 biological systems** (6 disease cohort + SARS-CoV-2 antiviral) → initial-5 cohort quantum-axis 100% + F-Q-6 leaf in-repo PASS
 
 본 문서 = **재현 가능한 교훈** 정리. 다음 세션 / 다른 disease 적용 시 reference.
 
@@ -23,6 +23,7 @@
 | 🪨 transition metal d-orbital | L_BFGS_B≈SLSQP | (basis 한계)     | optimizer 무관 |
 | 🌐 K⁺ + π-stack              | SLSQP          | **L_BFGS_B (악화 700x)** | c9orf72 1.4→964 µHa |
 | 🌀 conjugated heterocycle    | L_BFGS_B (절반 개선) | SLSQP          | SARM1 |
+| 🦠 thioether-S + imidazole + imine (21-atom, n_pauli 325) | SLSQP (~403s 수렴) | **L_BFGS_B (600s 미수렴)** | Mpro/nirmatrelvir adduct iter 18 |
 
 → **production 권장**: 3 optimizer (SLSQP / L_BFGS_B / COBYLA) × 3 seed (7/42/123) = 9-cell grid screen + best 선택. 단일 optimizer 신뢰 금지.
 
@@ -177,7 +178,7 @@ for ch, sp in [(0, 0), (-1, 0), (1, 0), (-2, 0), (2, 0)]:
 4. IP clearance 5소 cross-check = 변리사 retainer $25-50K
 
 ### 7.3. paradigm-level 종합
-- v7 commit graph: 6a876b9 → e12f469 → b605414 → d5a0cb2 → 0b5bf22 → d6f258f (CMT closure) → afb5561 → ... → b24613a (iter 13) → 91a8550 (iter 14 KRAS) → 3eb20d4 (iter 15 AR/HMG cadence) → 592b2e3 (iter 16 HMG chem-acc) → iter 17 (ALK5 sub-µHa)
+- v7 commit graph: 6a876b9 → e12f469 → b605414 → d5a0cb2 → 0b5bf22 → d6f258f (CMT closure) → afb5561 → ... → b24613a (iter 13) → 91a8550 (iter 14 KRAS) → 3eb20d4 (iter 15 AR/HMG cadence) → 592b2e3 (iter 16 HMG chem-acc) → 97030ad (iter 17 ALK5 sub-µHa) → iter 18 (Mpro chem-acc)
 - tags: `v7.0-cmt-closure` · `v7.1-cmt-phase-gamma-push` · `v7.2-cmt-pocket-vqe-complete` · `v7.3-cmt-als-pocket-vqe-complete`
 
 ---
