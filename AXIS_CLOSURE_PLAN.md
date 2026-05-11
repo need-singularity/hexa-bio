@@ -70,7 +70,7 @@
 |------|------|---------|----------------|---------------|----|----|
 | **weave** | composition | ✅ STRUCTURAL-EXACT (T=1, post 0.9668) | F-VIROCAPSID-2 n=34 RESOLVED (cycle 22) | ✅ `composition_output_v1` lock | 4/4 | **✅ 100% closure (v1.x)** |
 | **virocapsid** | assembly | ✅ STRUCTURAL-EXACT (T=1 corpus n=10 post 1.0 / log10_BF 16.63 · multi-T T=3/T=4 yield ≥0.85) | ✅ decisive (PDB corpus + calibration) | ✅ `cage_output_v1` LOCKED 2026-05-12 (GATE-26-V-R1 / C5 in-repo CLOSED, 4-fixture conformance PASS) | 4/4 | **🟢 ~95% (v1.x closure-grade) — 잔여 = C3b n≥100 corpus live emit (long pole, cycle 28+)** |
-| **nanobot** | actuation | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-vertex) | 🟡 n=60 curated log10_BF 13.65 decisive, 단 canonical n=30 은 51% match (STRUCTURAL-APPROXIMATE); **inter-rater 미완** | ⚠️ `actuator_output_v1` v2 emission 미완 + L6 handoff schema v0 (lock 미완) | 4/4 | **🟡 ~70% — inter-rater + schema 잔여** |
+| **nanobot** | actuation | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-vertex) — deductive PASS via §11 verifier | 🟡 n=60 curated log10_BF 13.65 decisive, deterministic-rubric 하 PASS | ✅ `actuator_output_v1` v2 reference emitter LANDED 2026-05-12 (in-repo N-R1 closed) + L6 handoff schema sealed producer-side (N-R2 = canon canonical session 대기, out-of-repo) | 4/4 | **🟡 ~85% — 잔여: N-R2 canon-side acceptance lock + C0d cuboctahedron sim 재실행 (out-of-repo)** |
 | **ribozyme** | catalysis | 🟡 STRUCTURAL-EXACT-**CANDIDATE** (12-nt) — deductive PASS via §11 verifier | 🟡 F-RB-2 n=30 log_bf 79.74 PASS, deterministic-rubric 하 PASS | ✅ `ribozyme_output_v1` MFE inline port LANDED 2026-05-12 (Nussinov, R-R1 closed) — `nussinov_inline` 인스턴스 schema-valid; stub allowance DEPRECATED | 4/4 | **🟡 ~85% — 잔여: G26-RB-3 off-target screen real impl + G26-RB-2 J₂ branch-lock** |
 | **quantum** | computation | 🟡 VERIFIED (H₂ 6-Pauli / LiH path) — pocket-scale 미확장 | F-Q-1…5 PASS · F-Q-EXT-1…6 PASS | (n/a — `raw_77_quantum_*_v1` witness 스키마들) | (n/a — 4 bio axis 만 C2) | **🔴 ~55% — F-Q-6 pocket VQE: target ✅CONFIRMED (Mpro/nirmatrelvir, 2026-05-12), Phase C 실행 out-of-repo + L3/L4 ladder** |
 
@@ -124,14 +124,15 @@
 | F-NB-2-c | textbook-vs-experimental stratum bias ≤ 1 Jeffreys band | 2026-09-28 | hexa-bio session | ⬜ pending |
 | F-NB-2-n6-decorative | n6-strip ablation \|Δlog_bf\| ≥ 0.5 | — | ✅ **PASS decisive** (Δ ≫ 0.5) |
 | **C0d** | F-NB-4-cuboctahedron dual-skeleton PASS — `nanobot_actuation_simulation.py --skeleton cuboctahedron` (12-vertex, σ=12/τ=4/J₂=24 보존, work ≥10 kT, n_cycles ≥2500 no-collapse) | **2026-07-28** | hexa-bio session | ⬜ |
-| N-R1 | `actuator_output_v1.schema.json` v2 emission — `nanobot_actuation_simulation.py` 를 확장해 `vertex_decorations`(12) + `pose_canonical_form`(rep pose 0..23, orbit 24) + `state_cycle`(4×4 rate matrix) + `binding_affinity` emit (v1 은 speedup factor 만) | cycle 26 | hexa-bio session | ⬜ v1 only |
+| N-R1 | `actuator_output_v1.schema.json` v2 emission — `nanobot_actuation_simulation.py` 를 확장해 `vertex_decorations`(12) + `pose_canonical_form`(rep pose 0..23, orbit 24) + `state_cycle`(4×4 rate matrix) + `binding_affinity` emit (v1 은 speedup factor 만) | cycle 26 | hexa-bio session | ✅ **in-repo portion LANDED 2026-05-12** — `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` (stdlib-only deterministic reference emitter). 3 canonical samples (aml.cd33 / pancov.ace2_decoy / senolytic.p16) emit byte-identical valid `raw_77_nanobot_actuation_v2` rows that pass live schema validation; deterministic re-emit check PASS. Sentinel `__NANOBOT_ACTUATOR_V2_REFERENCE_EMIT__ PASS`. Wired into `selftest/run_all.sh`. Production sim (`nanobot_actuation_simulation.py` @ R5-sunset `~/core/nexus/sim_bridge/`) adopts the field-population pattern in the external cycle. |
 | N-R2 | `handoff_l6_emission_v0.schema.json` lock — `emission_blocked_until_schema_lock=true` 해제 (v0 → v1) | cycle 26+ | hexa-bio session | 🟡 v0, blocked |
 
 **잔여 작업 요약**:
 - [x] **검증 방식 확정 2026-05-12** — G26-NB-EXT (human inter-rater) → **deterministic geometric/group-theoretic verification + predicate corpus audit** (위 7-point). σ(6)=12 = truncated-icosahedron/cuboctahedron vertex count (기하 사실), J₂=24 = \|O_h\| (군 사실) — *deductive*, rater 불요.
 - [ ] rubric 실행: ①②③④⑤ 즉시 (순수 계산); ⑥⑦ 은 `nanobot_actuation_simulation.py` 재실행 (외부 sim, MVP 값 있음). C0d cuboctahedron 도 같은 sim 의 `--skeleton cuboctahedron` 변형 — 12-vertex 보존 자동.
 - [ ] F-NB-2-c stratum-bias sub-clause 실행 (textbook vs experimental ≤ 1 Jeffreys band — deterministic Bayes factor).
-- [ ] `actuator_output_v1` v2 emit-path + L6 handoff schema v0 → v1 lock (N-R1 / N-R2 — schema 작업, in-repo 가능).
+- [x] **N-R1 in-repo portion LANDED 2026-05-12** — `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` (stdlib-only reference emitter, 3 canonical samples PASS, deterministic re-emit, sentinel `__NANOBOT_ACTUATOR_V2_REFERENCE_EMIT__ PASS`, run_all.sh wired). Production sim 의 emit-path adoption 만 잔여 (external cycle).
+- [ ] N-R2 — `handoff_l6_emission_v0` `emission_blocked_until_schema_lock` 해제: 외부 canon canonical session 에서 therapeutic-nanobot acceptance schema lock 후 가능 (hexa-bio-side 는 이미 producer schema sealed).
 - 비차단: falsifier count 5 → 12 (stretch); wet-lab integration + IP/contract → cycle 30+.
 
 **닫힘 조건**: G26-NB-1′ computational verification (geometric/group 항목 PASS + sim 항목 PASS) + C0d cuboctahedron PASS + N-R1 v2 emit + N-R2 schema lock + C2 4/4 (이미) → nanobot v1.x closure-grade. **human-rater 의존성 없음.** (단, parent F-NB-2 의 canonical n=30 corpus 는 51% predicate-match 라 "curated-corpus 조건부 STRUCTURAL-EXACT" honest disclosure 영구; predicate 자체는 deterministic.)
@@ -286,8 +287,11 @@ group-theory/closed-form 만; subjective rater / live-sim 없음) 으로 검증:
   metadata 추가 + 4-fixture conformance validator (`selftest/virocapsid_c5_conformance.py`,
   5/5 PASS). 잔여 = live witness emission (running simulator → registry.jsonl rows)
   은 out-of-repo per R5 sunset (`~/core/nexus/sim_bridge/`).
-- **nanobot N-R2** — L6 handoff schema lock + actuator_output_v1 v2 emission:
-  schema in-repo, emission 은 sim 재실행 필요.
+- **nanobot N-R2** — L6 handoff schema 의 `emission_blocked_until_schema_lock`
+  unblock 은 canon canonical session 의 therapeutic-nanobot acceptance schema
+  lock 후 가능 (out-of-repo). hexa-bio-side producer schema 는 sealed. *(N-R1
+  v2 emit-path 는 2026-05-12 closure — `_python_bridge/module/nanobot_actuator_v2_reference_emit.py`
+  참조; §4 표 참조.)*
 - **ribozyme G26-RB-3** — off-target screen 을 실 host-transcriptome Hamming
   pool 로 uplift (현재 stub). 09-28. *(R-R1 MFE port 는 2026-05-12 closure
   — `_python_bridge/module/ribozyme_mfe_nussinov.py` 참조; §3 표·§11 LANDED

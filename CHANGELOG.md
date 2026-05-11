@@ -6,6 +6,24 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Nanobot N-R1 in-repo portion closed — `raw_77_nanobot_actuation_v2` reference emitter (2026-05-12)** —
+  `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` is a pure-stdlib
+  deterministic reference emitter for the v2 actuator-output contract
+  (`nanobot/spec/actuator_output_v1.schema.json`, title
+  `raw_77_nanobot_actuation_v2`). 3 canonical sample inputs — `nanobot.aml.cd33.v1`
+  (truncated-icosahedron, 6 CD33-scFv ligand vertices), `nanobot.pancov.ace2_decoy.v1`
+  (cuboctahedron, all 12 ACE2-D30 vertices), `nanobot.senolytic.p16.v1`
+  (truncated-icosahedron, 4 p16-aptamer vertices) — all emit byte-identical
+  valid rows that pass live schema validation (`selftest/json_schema_validator.py`).
+  Determinism is verified by a re-emit byte-identical check. Sentinel
+  `__NANOBOT_ACTUATOR_V2_REFERENCE_EMIT__ PASS`. Wired into `selftest/run_all.sh`
+  as the 8th gate step. Lifts nanobot closure-grade ~70% → ~85% (in-repo
+  portion of N-R1 closed). Honest C3 (raw#10): this is the schema-conformance
+  reference emitter only — production simulator (`nanobot_actuation_simulation.py`
+  @ R5-sunset `~/core/nexus/sim_bridge/`) adopts the field-population pattern
+  externally; in-repo N-R1 (v2 emit-path demonstration) is CLOSED. N-R2 unblock
+  (canon canonical session locking therapeutic-nanobot acceptance schema)
+  remains out-of-repo.
 - **Virocapsid GATE-26-V-R1 (C5) in-repo portion closed — cage_output schema lock + 4-fixture conformance (2026-05-12, 77 days ahead of 2026-07-28 deadline)** —
   `virocapsid/spec/cage_output_v1.schema.json` gains a `lock_metadata` block
   (`field_set_frozen=true`, `gate_id="GATE-26-V-R1"`, `successor_schema="cage_output_v2.schema.json"`
