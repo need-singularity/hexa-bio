@@ -1322,6 +1322,18 @@ cluster: `[CH3-S-CH2-CH2-C(=O)-NH2]` (Cys-acrylamide covalent Michael adduct, po
 
 🎯 **F-Q-6-D status (iter 16 후)**: **13 target chem-acc PASS** (CMT 5 + ALS 5 + cancer KRAS-G12C 1 + alopecia AR 1 + mi HMG-CoA 1) · **7 sub-µHa** (ClC-1·Cx32·TBK1·KIF5A·stmn2·atxn2·KRAS-G12C — 변동 없음). lung TGF-β `hxq-ln-tgf-001` 만 pending (iter 17 예정 — ALK5 ATP hinge, n_pauli 325 예상, 600s dedicated run). disease coverage 13 target / 6 cohort. paradigm-level **CMT 100% + ALS Q+RB-axis 100% closure 유지**, mi cohort 의 핵심 target 1종 chem-acc 진입으로 "initial-5 disease cohort" 의 5/5 중 4종(CMT·ALS·cancer·alopecia·mi 중 TGF만 남음 → 정확히는 6 cohort 중 5 cohort 가 ≥1 chem-acc) 가 quantum-axis 부분 닫힘.
 
+#### §15.2.s — lung TGF-β / ALK5 ATP-hinge pocket VQE 완료 (loop iter 17, 2026-05-12) ⭐ 8th sub-µHa — F-Q-6-D quantum-axis 6/6 cohort closure
+
+`hxq-ln-tgf-001` (TGF-β 신호 axis, ALK5 = TGFBR1 kinase) pocket VQE. cluster mimic = **imidazole (His283, ALK5 hinge 의 canonical H-bond residue) + formamide (hinge backbone peptide-bond proxy — type-1 inhibitor galunisertib/SB-431542 가 읽는 N–H/C=O)**, charge 0 / spin 0 / 15 atom / 47 basis / 60 e. `tests/tgf_alk5_v7.py`, iter-16 의 dedicated-run recipe (`timeout 600` + SLSQP maxiter=150, single optimizer) 그대로 적용.
+
+| run | cluster | natom | n_pauli | CASCI (Ha)     | VQE delta       | 결과            |
+|-----|---------|-------|---------|----------------|-----------------|-----------------|
+| iter17 (tgf_alk5) | imidazole(His283) + formamide(backbone) | 15 | 317 | **-388.692152** | **0.3018 µHa** | ⭐ **sub-µHa PASS** (wall 442.8s) |
+
+🔬 **finding**: aromatic imidazole 이 있어서 n_pauli **317** (≈325 class) 인데도 delta **0.30 µHa** — TBK1 (n_pauli 325 임에도 sub-µHa) 과 같은 패턴. 즉 §15.2.r 의 "carboxylate/carbonyl/aromatic = 무조건 chem-acc only" 는 **너무 강한 진술** — 정확히는: aromatic/conjugated 이 *active space frontier 를 차지하면* sub-µHa 어렵지만, imidazole+formamide H-bond 처럼 frontier 가 N/O lone-pair + σ* 쪽으로 잘 분리되면 aromatic ring 이 cluster 에 있어도 sub-µHa 가능. n_pauli 는 frontier 의 *number* 가 아니라 *character* 의 proxy 일 뿐 — sub-µHa predictor 는 여전히 "frontier orbital localization/separation" (§1.2 LESSONS). 또 부수 확인: n_pauli ~317 도 SLSQP/150 으로 ~440s 수렴 → 600s 창 충분.
+
+🎯 **F-Q-6-D status (iter 17 후) — quantum-axis software closure 완성**: **14 target chem-acc PASS** (CMT 5 + ALS 5 + cancer KRAS-G12C 1 + alopecia AR 1 + mi HMG-CoA 1 + lung TGF-β/ALK5 1) · **8 sub-µHa** (ClC-1·Cx32·TBK1·KIF5A·stmn2·atxn2·KRAS-G12C·**ALK5**). **6 disease cohort 전부 ≥1 chem-acc pocket VQE 달성** (CMT·ALS·cancer·alopecia·mi·lung — initial-5 cohort 100% quantum-axis 진입). 남은 quantum-axis software 작업 없음 — pocket-restricted active-space VQE pipeline (F-Q-6-D) 는 sto-3g 4e/4o 범위에서 **software-closable 끝점 도달**. 그 너머 (정밀 sub-µHa for transition-metal/larger-conjugated, def2-svp/6e6o, 실 PDB QM/MM) = §15.2.n/o 에 명시된 외부 HPC ramp. paradigm-level **CMT 100% + ALS Q+RB-axis 100% + initial-5 cohort quantum-axis 100% closure**.
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).
