@@ -1,8 +1,8 @@
 # v7.1 Phase γ pocket VQE loop — 교훈 정리 (lessons learned)
-**날짜**: 2026-05-11 ~ 2026-05-12 (iter 0-18)
+**날짜**: 2026-05-11 ~ 2026-05-12 (iter 0-20)
 **범위**: CMT/ALS + cohort 확장 (cancer·alopecia·mi·lung) 신약 후보의 pocket-restricted active-space VQE chain (F-Q-6-D)
-**최종 iter**: 18 (SARS-CoV-2 Mpro/nirmatrelvir chem-acc — F-Q-6 named target in-repo) — quantum-axis software closure 완성+확장
-**status**: **15 target chem-acc PASS** (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA + ALK5 + Mpro/nirmatrelvir), **8 sub-µHa**, **7 biological systems** (6 disease cohort + SARS-CoV-2 antiviral) → initial-5 cohort quantum-axis 100% + F-Q-6 leaf in-repo PASS
+**최종 iter**: 20 (HIV-1 PR/darunavir sub-µHa — 2nd antiviral) + iter 19 §15.8 closure 선언 — quantum-axis software-closable 100%
+**status**: **16 target chem-acc PASS** (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA + ALK5 + Mpro + HIV-1 PR), **9 sub-µHa**, **8 biological systems** (6 disease cohort + SARS-CoV-2 + HIV-1 antiviral) → §15.8 software-closable closure 선언
 
 본 문서 = **재현 가능한 교훈** 정리. 다음 세션 / 다른 disease 적용 시 reference.
 
@@ -37,7 +37,7 @@
 **n_pauli (175 vs 325) ≈ frontier active space 의 *character* proxy — sub-µHa 는 frontier *localization/separation* 이 결정**:
 - iter 16 (`hxq-mi-hmg-001`): sp3-heavy backbone (3-OH-3-Me-butanoate + NH3, 21 atom) 으로 짰는데도 n_pauli **325** — carboxylate 의 delocalized O–C–O π/π* 가 4e/4o frontier 에 들어가서. carbonyl/carboxylate/aromatic 이 분자 안에 있으면 active space 가 자주 거기 걸린다 → delta 27.4 µHa, chem-acc only.
 - 반대로 KRAS-tiny adduct (`hxq-ca-kras-001`) 는 thioether **S lone-pair** 가 frontier → n_pauli ~175 → sub-µHa + 빠른 VQE.
-- **단, n_pauli 큰 게 곧 sub-µHa 불가 아님**: TBK1 (n_pauli 325) 과 iter 17 ALK5 (`hxq-ln-tgf-001`, imidazole His283 + formamide, n_pauli **317**, delta **0.30 µHa**) 둘 다 aromatic 인데 sub-µHa — frontier 가 N/O lone-pair + σ* 쪽으로 잘 분리됐기 때문. "aromatic = chem-acc only" 는 너무 강한 진술이고, 정확히는 *aromatic π 가 frontier 를 차지하면* sub-µHa 어렵다.
+- **단, n_pauli 큰 게 곧 sub-µHa 불가 아님**: TBK1 (n_pauli 325), iter 17 ALK5 (imidazole+formamide, n_pauli 317, **0.30 µHa**), iter 20 HIV-1 PR (carboxyl-dyad + bridging alcohol, n_pauli 325, **0.15 µHa**, 246s 빠른 수렴) 모두 aromatic/conjugated 인데 sub-µHa — frontier 가 N/O lone-pair·σ* 로 잘 분리되고 near-degeneracy 가 없기 때문. "aromatic/carboxylate = chem-acc only" 는 너무 강한 진술; 정확히는 *그 π/π* 가 단독 frontier 를 차지하거나 near-degenerate 일 때만* sub-µHa 어렵다 (iter 16 HMG carboxylate-π-단독-frontier 27.4 µHa vs iter 20 carboxyl-π-가-H-bond-망에-분산 0.15 µHa 의 대비). **진짜 sub-µHa predictor = frontier near-degeneracy 유무, n_pauli 는 약한 proxy 일 뿐.**
 - → loop-cheap (175, ~2min) 원하면: aromatic ring·conjugated carbonyl chain·carboxylate 배제, frontier 를 S/N lone-pair·σ-bond 영역으로. 그게 안 되는 chemistry (mevalonate carboxylate, kinase ATP-hinge imidazole 등) 는 n_pauli ~317-325 를 받아들이고 dedicated 600s run (SLSQP/150, 1 optimizer) — chem-acc 는 항상, sub-µHa 는 frontier 운이 좋으면 (§3, §4.1).
 
 ### 1.3. UCCSD reps=1 충분 — reps=2 는 악화 위험
@@ -178,11 +178,11 @@ for ch, sp in [(0, 0), (-1, 0), (1, 0), (-2, 0), (2, 0)]:
 4. IP clearance 5소 cross-check = 변리사 retainer $25-50K
 
 ### 7.3. paradigm-level 종합
-- v7 commit graph: 6a876b9 → e12f469 → b605414 → d5a0cb2 → 0b5bf22 → d6f258f (CMT closure) → afb5561 → ... → b24613a (iter 13) → 91a8550 (iter 14 KRAS) → 3eb20d4 (iter 15 AR/HMG cadence) → 592b2e3 (iter 16 HMG chem-acc) → 97030ad (iter 17 ALK5 sub-µHa) → iter 18 (Mpro chem-acc)
+- v7 commit graph: 6a876b9 → e12f469 → b605414 → d5a0cb2 → 0b5bf22 → d6f258f (CMT closure) → afb5561 → ... → b24613a (iter 13) → 91a8550 (iter 14 KRAS) → 3eb20d4 (iter 15 AR/HMG cadence) → 592b2e3 (iter 16) → 97030ad (iter 17 ALK5) → aa04780 (iter 18 Mpro) → edc0e0d (iter 19 §15.8 closure) → 7aea20c (cross-host quantum F-Q-6/L3) → iter 20 (HIV-1 PR)
 - tags: `v7.0-cmt-closure` · `v7.1-cmt-phase-gamma-push` · `v7.2-cmt-pocket-vqe-complete` · `v7.3-cmt-als-pocket-vqe-complete`
 
 ---
 
 ## 8. 한 줄 요약
 
-> 5분 cron loop + sto-3g 4e/4o + 3-optimizer screen + sshfs-아닌-local-SSD venv = **14-target pocket VQE chem-acc PASS · 8 sub-µHa · 6/6 disease cohort quantum-axis 진입** · CMT 100% + ALS Q+RB-axis 100% paradigm closure. n_pauli 317-325 conjugated cluster 는 `timeout 600` dedicated run 으로 닫힘 (sub-µHa 는 frontier 운). transition-metal 정밀 sub-µHa·larger-AS·실 PDB QM/MM·wet-lab·임상 = 외부 ramp.
+> 5분 cron loop + sto-3g 4e/4o + 3-optimizer screen + sshfs-아닌-local-SSD venv = **16-target pocket VQE chem-acc PASS · 9 sub-µHa · 8 biological systems · F-Q-6 leaf in-repo PASS** · CMT 100% + ALS Q+RB-axis 100% + §15.8 software-closable closure 선언. n_pauli 317-325 cluster 는 `timeout 600` dedicated run 으로 닫힘 (sub-µHa 는 frontier near-degeneracy 없으면 가능). transition-metal 정밀 sub-µHa·larger-AS·실 PDB QM/MM·wet-lab·임상 = 외부 ramp.

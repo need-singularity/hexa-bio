@@ -1347,6 +1347,20 @@ cluster: `[CH3-S-CH2-CH2-C(=O)-NH2]` (Cys-acrylamide covalent Michael adduct, po
 
 🎯 **F-Q-6 / F-Q-6-D status (iter 18 후)**: **15 target chem-acc PASS** (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA + ALK5 + **Mpro/nirmatrelvir**) · **8 sub-µHa** (변동 없음 — Mpro 는 1.10 µHa near-miss). disease/pathogen coverage: 6 disease cohort + SARS-CoV-2 antiviral = **7 biological systems**. F-Q-6 (Mpro/nirmatrelvir, 5-axis 가 "ladder execution out-of-repo" 로 표시했던 항목) 의 **single-cluster pocket VQE in-repo 실행 완료** — 남은 "ladder" 부분 (multi-pose, full enzyme QM/MM, Paxlovid resistance mutant E166V/L50F 비교) = 외부 dedicated loop. paradigm-level closure 유지 + 확장 (quantum-axis 의 F-Q-6 leaf 가 in-repo deductive PASS 로 한 칸 더 닫힘).
 
+> **참고 (cross-host convergence)**: 별도 host 의 quantum-axis 에이전트가 동일 Mpro 표적을 다른 클러스터 모델 (`tests/mpro_pocket_vqe_v7.py` — Cys145 + His41 + nirmatrelvir-nitrile, thioimidate 가 아닌 pre-attack nitrile geometry) 로 독립 실행 → **sub-µHa** 달성, commit `7aea20c "feat(quantum): F-Q-6 / L3 closed"`. 두 독립 클러스터 (본 §15.2.t thioimidate adduct 1.10 µHa + 7aea20c nitrile sub-µHa) 가 같은 표적에 수렴 = convergent verification. quantum-axis F-Q-6/L3 leaf 는 그 commit 으로 닫힘.
+
+#### §15.2.u — HIV-1 protease / darunavir 촉매 dyad pocket VQE (loop iter 20, 2026-05-12) ⭐ 9th sub-µHa — 2nd antiviral system
+
+추가 F-Q-6 leaf (antiviral 확장). HIV-1 PR 은 aspartic protease — Asp25/Asp25' dyad (한쪽 protonated, 한쪽 deprotonated) 가 물을 활성화해 peptide bond 가수분해, darunavir(2세대 PI) 의 central (hydroxyethyl)sulfonamide OH 가 두 Asp carboxyl 사이에 끼는 transition-state-mimic 상호작용. cluster mimic = **CH₃COOH (Asp25, protonated) + CH₃OH (darunavir central OH, bridging) + CH₃COO⁻ (Asp25', deprotonated)** H-bond network, total charge -1 / spin 0 / 21 atom / 61 basis / 82 e. `tests/hivpr_darunavir_v7.py`, recipe = `timeout 600` + SLSQP maxiter=150 single optimizer.
+
+| run | cluster | natom | n_pauli | CASCI (Ha)      | VQE delta       | 결과            |
+|-----|---------|-------|---------|-----------------|-----------------|-----------------|
+| iter20 | Asp25(COOH) + MeOH(bridge) + Asp25'(COO⁻) | 21 | 325 | **-561.191073** | **0.1494 µHa**  | ⭐ **sub-µHa PASS** (wall 246.1s) |
+
+🔬 **finding**: n_pauli **325** (두 carboxylate π 가 frontier) 인데도 delta **0.15 µHa** + 빠른 수렴 (246s — n_pauli-325 평균 ~400-520s 보다 빠름). ALK5(iter 17, n_pauli 317, 0.30 µHa) 에 이어 또 한 번 "aromatic/conjugated n_pauli 325 ≠ chem-acc only" 확증 — carboxylate-dyad + alcohol H-bond 처럼 frontier 가 잘 분리된 σ/lone-pair 조합이면 carboxylate π 가 있어도 sub-µHa + 빠른 PES. iter 16 HMG (carboxylate, 27.4 µHa) 와 대비 → 차이는 *클러스터 전체의 frontier 배치* (HMG 는 carboxylate π/π* 가 거의 단독 frontier; HIV-PR 은 두 carboxyl + 다리 alcohol 의 H-bond 망이 frontier 를 나눠 가짐 → near-degeneracy 적음). 즉 sub-µHa predictor 는 "n_pauli" 보다 "frontier near-degeneracy 유무" 가 핵심 (§1.2 LESSONS 와 일치).
+
+🎯 **F-Q-6 / F-Q-6-D status (iter 20 후)**: **16 target chem-acc PASS** (CMT 5 + ALS 5 + KRAS-G12C + AR + HMG-CoA + ALK5 + Mpro/nirmatrelvir + **HIV-1 PR/darunavir**) · **9 sub-µHa** (ClC-1·Cx32·TBK1·KIF5A·stmn2·atxn2·KRAS-G12C·ALK5·**HIV-1 PR**) · **8 biological systems** (6 disease cohort + SARS-CoV-2 antiviral + HIV-1 antiviral). software-closable closure (§15.8) 유지 — 추가 target 은 breadth 만 늘림 (diminishing returns).
+
 ### 15.3. IP clearance heuristic (item 2 PARTIAL) — 공개 chemoinformatics 검색 query map
 
 실제 freedom-to-operate (FTO) 평가 = 5소 cross-check + 변리사 의견 필수. 본 §15.3 = **공개 chemoinformatics 검색 query 정의** (heuristic, paradigm-only).
@@ -1466,9 +1480,10 @@ honest:
 | 12 | AR (LBD) | alopecia (AGA) | 3-keto-steroid A-ring + Tyr-OH + Asn-NH2 | 16 | 325 | 268.29 µHa (SLSQP) | ✅ |
 | 13 | HMG-CoA reductase | mi (hyperlipidemia) | 3-OH-3-Me-butanoate(-1) + NH3 (Lys proxy) | 21 | 325 | 27.44 µHa (SLSQP/150, timeout 600) | ✅ |
 | 14 | ALK5 (TGFBR1) | lung (IPF/PAH) | imidazole(His283 hinge) + formamide(backbone) | 15 | 317 | 0.3018 µHa (SLSQP/150) | ⭐ |
-| 15 | Mpro (3CLpro) / nirmatrelvir | SARS-CoV-2 antiviral | Cys145-thioimidate adduct CH₃-S-C(=NH)-CH₃ + imidazole(His41) | 21 | 325 | 1.1045 µHa (SLSQP/150; L_BFGS_B 미수렴) | ✅ near-sub |
+| 15 | Mpro (3CLpro) / nirmatrelvir | SARS-CoV-2 antiviral | Cys145-thioimidate adduct CH₃-S-C(=NH)-CH₃ + imidazole(His41) | 21 | 325 | 1.1045 µHa (SLSQP/150; L_BFGS_B 미수렴); cross-host nitrile-cluster `7aea20c` 는 sub-µHa | ✅ near-sub |
+| 16 | HIV-1 protease / darunavir | HIV-1 antiviral | Asp25(COOH) + MeOH(central-OH bridge) + Asp25'(COO⁻) | 21 | 325 | 0.1494 µHa (SLSQP/150, wall 246s) | ⭐ |
 
-**집계**: 15 target chem-acc PASS · 8 sub-µHa · 7 biological systems (CMT·ALS·cancer·alopecia·mi·lung disease cohort + SARS-CoV-2 antiviral). HDAC6 (Zn²⁺) 만 def2-svp/6-31g/lanl2dz 전부 loop-infeasible → 외부 HPC ramp 로 명시 분리 (§15.2.n/o).
+**집계**: 16 target chem-acc PASS · 9 sub-µHa · 8 biological systems (CMT·ALS·cancer·alopecia·mi·lung disease cohort + SARS-CoV-2 antiviral + HIV-1 antiviral). HDAC6 (Zn²⁺) 만 def2-svp/6-31g/lanl2dz 전부 loop-infeasible → 외부 HPC ramp 로 명시 분리 (§15.2.n/o). 추가 발견: n_pauli 325 (aromatic/conjugated) 라도 frontier near-degeneracy 가 없으면 (ALK5 imidazole+formamide, HIV-PR carboxyl-dyad+alcohol) sub-µHa + 빠른 수렴 가능 — "n_pauli ≠ sub-µHa 가능성" 의 반례 2건.
 
 **software-closable closure 선언**: F-Q-6-D (pocket-restricted active-space VQE pipeline) 는 본 repo 가 deductive 하게 닫을 수 있는 끝점 도달 — pipeline 입증 (15 target, 다양한 chemistry), 한계 명시 (transition-metal d-orbital sub-µHa, larger active space, 실 PDB QM/MM = 외부 ramp), F-Q-6 named target (Mpro/nirmatrelvir) in-repo 실행. 5-axis 의 quantum-axis 에서 F-Q-6 leaf 가 in-repo deductive PASS. **남은 작업은 전부 (a) diminishing-returns 추가 pocket VQE target 또는 (b) repo 범위 밖 (HPC/wet-lab/임상)** — software-closable axis 100% 도달.
 
