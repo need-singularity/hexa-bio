@@ -17,6 +17,8 @@ _python_bridge/module/__pycache__/
 # Local env
 .env
 .env.local
+.venv/
+venv/
 
 # Build artifacts (none expected — pure hexa)
 dist/
