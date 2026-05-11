@@ -6,8 +6,16 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Changed
-- **README + `AXIS_CLOSURE_PLAN.md` §11 — in-repo closure status (2026-05-12)** —
-  README gains an "In-repo / deductive closure status" section enumerating the
+- **README + roadmaps + `hexa.toml` + `AXIS_CLOSURE_PLAN.md` §11 — in-repo closure status sync (2026-05-12)** —
+  the 5-axis status table in `README.md` gains a *v1.x closure-grade* column
+  (weave ✅~100% · virocapsid 🟢~95% · ribozyme 🟢~95% · nanobot 🟡~85% · quantum
+  🔴~55%) with the in-repo-✅ / out-of-repo split spelled out per axis; the
+  per-axis trackers `.roadmap.ribozyme` (R-R1 / G26-RB-2 / G26-RB-3 LANDED),
+  `.roadmap.virocapsid` (GATE-26-V-R1 / C5 in-repo LANDED), `.roadmap.nanobot`
+  (N-R1 in-repo LANDED) and the repo-overall `.roadmap.hexa_bio` header get
+  the same update; `hexa.toml` `[closure]` adds `in_repo_closure_complete = true`,
+  `in_repo_closure_components` (the 6 artifacts) and `out_of_repo_residual`.
+  README also gains an "In-repo / deductive closure status" section enumerating the
   six in-repo closure artifacts (`n6_axis_computational_verification` 42/42 +
   the five per-axis closure modules: ribozyme MFE Nussinov port, ribozyme
   off-target screen, ribozyme reaction-coordinate quotient, virocapsid C5

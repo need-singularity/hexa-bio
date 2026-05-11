@@ -103,12 +103,22 @@ python_aux_quantum = "qiskit-aer >= 0.13 + qmirror (install via `hx install qmir
 [closure]
 axes_total = 5
 axes_wired = 1                    # weave
-axes_c0b_skeleton = 3             # nanobot, ribozyme, virocapsid
+axes_c0b_skeleton = 3             # nanobot, ribozyme, virocapsid (all with deductive σ/τ/φ/J₂ PASS via n6_axis_computational_verification)
 axes_phase1_plus = 1              # quantum (qpu_bridge L1)
 verdict = "PARTIAL_PASS"
 axis_count_lock = ".roadmap.axis_expansion_decision_2026_05_08 (5-axis; 6th/7th candidates reject/defer)"
 extracted_from = "nexus/sim_bridge/weave/ @ 2026-05-04"
 upstream_marker = "anima/state/markers/hexa_bio_standalone_extraction_landed.marker"
+in_repo_closure_complete = true   # 2026-05-12 — σ/τ/φ/J₂ deductive (42/42) + 5 per-axis in-repo closure components landed & run_all.sh-wired; everything code/doc-closable in this repo is closed.
+in_repo_closure_components = [
+    "selftest/n6_axis_computational_verification.py (σ/τ/φ/J₂ + master identity, 42/42)",
+    "_python_bridge/module/ribozyme_mfe_nussinov.py (ribozyme R-R1 — Nussinov O(n^3) MFE port)",
+    "_python_bridge/module/ribozyme_off_target_screen.py (ribozyme G26-RB-3 comp 3 — Hamming off-target screen + representative pool)",
+    "_python_bridge/module/ribozyme_reaction_coordinate_quotient.py (ribozyme G26-RB-2 — J2=|S4|=24, S4 iso O)",
+    "selftest/virocapsid_c5_conformance.py + virocapsid/spec/cage_output_v1.schema.json lock_metadata + 4 fixtures (virocapsid GATE-26-V-R1 / C5)",
+    "_python_bridge/module/nanobot_actuator_v2_reference_emit.py (nanobot N-R1 — raw_77_nanobot_actuation_v2 reference emitter)",
+]
+out_of_repo_residual = "quantum F-Q-6 (SARS-CoV-2 Mpro / nirmatrelvir pocket VQE — target confirmed, dedicated loop) | virocapsid C3b (n>=100 RCSB PDB corpus + Bayesian re-audit >= 0.95) | nanobot C0d (cuboctahedron dual-skeleton sim re-run) + N-R2 (canon-side L6 acceptance lock) | ribozyme G26-RB-1prime (rubric sim re-run; values already in MVP) | GATE-26-2 (lean4-backed Pi-1-1-CA0 cert, all 5 axes -> v2.0.0)"
 
 # ── Scope honesty (raw#10 C3) ─────────────────────────────
 [scope]

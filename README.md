@@ -192,19 +192,22 @@ hexa-bio quantum n6                   # n=6 invariant binding for the H₂/LiH p
 
 ## 5-axis status table
 
-| Axis         | Role            | Status                          | n=6 lattice verification              | Empirical sandbox                          |
-|--------------|-----------------|---------------------------------|---------------------------------------|--------------------------------------------|
-| `weave`      | composition     | **WIRED v1.0.0**                | STRUCTURAL-EXACT (T=1, post 0.97)     | cage-assembly ODE + Bayesian audit         |
-| `virocapsid` | assembly        | C0b + multi-T (cycle 26)        | STRUCTURAL-EXACT (T=1 corpus + multi-T) | PDB-corpus T-number discrimination       |
-| `nanobot`    | actuation       | C0b skeleton (F-NB-4 MVP)       | STRUCTURAL-EXACT-CANDIDATE (12-vertex)| 4-state DNA-origami actuation sim          |
-| `ribozyme`   | catalysis       | C0b skeleton (F-RB-4 MVP)       | STRUCTURAL-EXACT-CANDIDATE (12-nt)    | hammerhead-minimal kinetics sim            |
-| `quantum`    | computation     | **Phase 1+ LANDED** (qpu_bridge L1) | VERIFIED for H₂ 6-Pauli / LiH path  | VQE (H₂ 0.4 µHa, LiH 1.41 mHa) + ML pilots |
+| Axis | Role | n=6 lattice verification | v1.x closure-grade (2026-05-12) | Empirical sandbox |
+|------|------|--------------------------|---------------------------------|-------------------|
+| `weave` | composition | STRUCTURAL-EXACT (T=1, post 0.97) | ✅ **~100%** | cage-assembly ODE + Bayesian audit |
+| `virocapsid` | assembly | STRUCTURAL-EXACT (T=1 corpus + multi-T) | 🟢 **~95%** — C5 schema lock + 4-fixture conformance in-repo ✅; C3b n≥100 PDB corpus out-of-repo | PDB-corpus T-number discrimination |
+| `ribozyme` | catalysis | STRUCTURAL-EXACT-CANDIDATE (12-nt; deductive PASS) | 🟢 **~95%** — R-R1 (Nussinov MFE) / G26-RB-3 comp 3 (off-target screen) / G26-RB-2 (J₂=\|S₄\|=24 quotient) in-repo ✅; G26-RB-1′ sim re-run + full host-transcriptome corpus out-of-repo | hammerhead-minimal kinetics + Nussinov MFE + Hamming off-target screen |
+| `nanobot` | actuation | STRUCTURAL-EXACT-CANDIDATE (12-vertex; deductive PASS) | 🟡 **~85%** — N-R1 v2 reference emitter in-repo ✅; C0d cuboctahedron sim re-run + N-R2 canon-side L6 lock out-of-repo | 4-state DNA-origami actuation sim |
+| `quantum` | computation | VERIFIED (H₂ 6-Pauli / LiH path) | 🔴 **~55%** — F-Q-1…5 + F-Q-EXT-1…6 PASS; F-Q-6 SARS-CoV-2 Mpro / nirmatrelvir pocket VQE target ✅confirmed, ladder execution out-of-repo (dedicated loop) | VQE (H₂ 0.4 µHa, LiH 1.41 mHa) + ML pilots |
 
-Verdict: **PARTIAL_PASS** — `weave` fully wired; `virocapsid`/`nanobot`/`ribozyme`
-at C0b-skeleton grade with σ(6)=12 verification; `quantum` at Phase 1+ with
-F-Q-1…5 PASS (pocket-VQE F-Q-6 open). Only `weave` has reached v1.x **100%
-closure-grade** so far; the gate/deadline/owner plan for the other four
-axes is in [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md).
+Verdict: **PARTIAL_PASS** — `weave` fully wired (v1.x ✅). The **in-repo / deductive
+portion of closure is complete for all 5 axes** (σ/τ/φ/J₂ + master identity verified
+deductively, 42/42; the five per-axis in-repo closure components landed & gated — see
+next section). Full v1.x axis-closure is **not yet 100%**: `virocapsid` C3b corpus,
+`quantum` F-Q-6 Mpro pocket VQE, `nanobot` C0d / N-R2, and `ribozyme` G26-RB-1′ sim
+re-run are out-of-repo by construction (R5 sunset relocated the heavy simulators to
+`~/core/nexus/sim_bridge/`; pocket-VQE is a separate compute job). Per-axis gates /
+deadlines / owners: [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md).
 
 ### In-repo / deductive closure status (2026-05-12)
 

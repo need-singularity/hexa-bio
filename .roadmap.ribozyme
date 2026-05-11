@@ -4,7 +4,7 @@
 > (Cech 1982 / Symons 1981 / Wu-Lai 1989 / Buzayan 1986 / Steitz 2000).
 > Cross-cutting state → `.roadmap.hexa_bio`.
 
-**Last sync**: 2026-05-06 · **Status**: v1.1.0 · **Cycle**: 25 (C2 closure)
+**Last sync**: 2026-05-12 · **Status**: v1.1.0 · **Cycle**: 26 (in-repo closure complete — R-R1 / G26-RB-2 / G26-RB-3 landed)
 
 ---
 
@@ -23,10 +23,10 @@ RIBOZYME 은 4 disease class 각각 catalytic RNA design. Meta `.roadmap.hexa_bi
 
 **"in-silico ribozyme design" definition** (lands §STALLED draft 2026-05-06; 3-component pipeline):
 1. **Sequence generation** — disease-target mRNA scan + hammerhead/HDV/hairpin substrate-recognition arm proposal (≥ 1 candidate per cell, 12-nt catalytic core fixed; σ(6)=12).
-2. **Structure prediction** — 2D fold (MFE / partition-function surrogate; Turner-NN subset already inlined in cycle-24 MVP; full ViennaRNA / Nussinov-Zuker inline port deferred to cycle-26 stretch) + active-site geometry sanity check vs canonical reference (Symons 1981 / Wu-Lai 1989 / Buzayan 1986).
-3. **Off-target screen** — host-transcriptome substrate-arm specificity (Hamming / seed-region pool, mirrors WEAVE Π^p_2 verifier v2 pattern). Schema field `off_target_screen` allowed-but-stubbed for v1.
+2. **Structure prediction** — 2D fold (MFE / partition-function surrogate; Turner-NN subset inlined in cycle-24 MVP; **Nussinov O(n³) MFE inline port LANDED 2026-05-12** — `_python_bridge/module/ribozyme_mfe_nussinov.py`, stdlib-only, `selftest/run_all.sh`-wired) + active-site geometry sanity check vs canonical reference (Symons 1981 / Wu-Lai 1989 / Buzayan 1986).
+3. **Off-target screen** — host-transcriptome substrate-arm specificity (Hamming / seed-region pool, mirrors WEAVE Π^p_2 verifier v2 pattern). **In-repo Hamming sliding-window screen + representative reference pool LANDED 2026-05-12** — `_python_bridge/module/ribozyme_off_target_screen.py` (arm + reverse-complement scan, 6-mRNA pool incl. a synthetic (CUG)ₙ low-complexity decoy, per-arm per-kb gate; `run_all.sh`-wired); full host-transcriptome corpus (GenCode/RefSeq) out-of-repo. Schema `structure_2d.dot_bracket='stub'` allowance DEPRECATED.
 
-C2 cells delivered (cycle 25) cover (1) at metadata-annotation grade; (2) and (3) are partial-stub and tracked under cycle-26 uplift (G26-RB-3, see §G).
+C2 cells delivered (cycle 25) cover (1) at metadata-annotation grade; (2) and (3) **in-repo portions LANDED 2026-05-12** (Nussinov MFE port + Hamming off-target screen); full host-transcriptome corpus remains out-of-repo (G26-RB-3 full-corpus, see §G). G26-RB-2 J₂=24 reaction-coordinate quotient **branch-locked + exec'd 2026-05-12** — `_python_bridge/module/ribozyme_reaction_coordinate_quotient.py` (J₂ = \|S₄\| = 4! = 24, S₄ ≅ O (octahedral), regular action on the 24 catalytic-ladder orderings; 14/14 deductive checks PASS).
 
 ## Checkpoints
 
@@ -37,7 +37,7 @@ C2 cells delivered (cycle 25) cover (1) at metadata-annotation grade; (2) and (3
 | C0c | 2026-09-28   | F-RB-2 n=30 Bayesian corpus closed                                                |
 | C1  | 즉시         | 4 cell target fix — meta §0' 와 동기                                               |
 | C2  | closed 2026-05-06 | 4 cell × ribozyme design + k_cat/K_M margin proof → registry.jsonl 4 줄 (cycle 25) |
-| C0d | 2026-06-15 / 2026-09-28 | Cycle-26 follow-ups — G26-RB-1 inter-rater (κ ≥ 0.6 by 06-15) · G26-RB-2 J₂=24 quotient decision (branch-lock 06-15, exec 09-28) · G26-RB-3 C2 DoD uplift (09-28). See §G. |
+| C0d | 2026-06-15 / 2026-09-28 | Cycle-26 follow-ups — G26-RB-1 → **G26-RB-1′ deterministic computational verification rubric** (no human rater; defined 2026-05-12, sim re-run out-of-repo, values already in MVP) · G26-RB-2 J₂=24 quotient ✅ **BRANCH-LOCKED + EXEC'd 2026-05-12** (S₄ ≅ O, orbit 24) · G26-RB-3 C2 DoD uplift ✅ **in-repo portion LANDED 2026-05-12** (Nussinov MFE + Hamming off-target screen; full host-transcriptome corpus out-of-repo). See §G + root `AXIS_CLOSURE_PLAN.md` §3/§11. |
 
 ## Require (verb-specific)
 

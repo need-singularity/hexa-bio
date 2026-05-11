@@ -9,9 +9,18 @@
 > tetrahedron; `quantum` (qpu_bridge VQE over `qmirror`) is the 5th axis —
 > the compute substrate spanning all four. Integrated platform manifest:
 > `.roadmap.platform_index` (5 axes + 5 cross-cutting platform layers +
-> disease-orthogonal entries). 5-axis 100% closure plan (only `weave`
-> closed so far — gates / deadlines / owners for the other four): root
-> `AXIS_CLOSURE_PLAN.md`.
+> disease-orthogonal entries). **5-axis closure**: the *in-repo / deductive*
+> portion is complete for all 5 axes as of 2026-05-12 — σ/τ/φ/J₂ + master
+> identity verified deductively (`selftest/n6_axis_computational_verification.py`,
+> 42/42), plus the five per-axis in-repo closure components landed & gated
+> (ribozyme R-R1 Nussinov MFE port · ribozyme G26-RB-3 comp 3 Hamming
+> off-target screen · ribozyme G26-RB-2 J₂=\|S₄\|=24 reaction-coordinate
+> quotient · virocapsid GATE-26-V-R1/C5 schema lock + 4-fixture conformance ·
+> nanobot N-R1 v2 reference emitter). Only `weave` is at full v1.x
+> closure-grade; the out-of-repo residual (quantum F-Q-6 Mpro pocket VQE ·
+> virocapsid C3b n≥100 PDB corpus · nanobot C0d/N-R2 · ribozyme G26-RB-1′
+> sim re-run · GATE-26-2 lean4 cert → v2.0.0) and per-axis gates / deadlines /
+> owners: root `AXIS_CLOSURE_PLAN.md`.
 
 **Last sync**: 2026-05-12 · **Current release**: v1.0.0 · **Branch**: `main`
 

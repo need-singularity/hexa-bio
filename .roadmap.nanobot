@@ -4,7 +4,7 @@
 > (Drexler 1986 / Seeman 1982 / Rothemund 2006). Cross-cutting state →
 > `.roadmap.hexa_bio`.
 
-**Last sync**: 2026-05-06 · **Status**: STUB v1.0.0-stub · **Cycle**: 25
+**Last sync**: 2026-05-12 · **Status**: STUB v1.0.0-stub (12-vertex STRUCTURAL-EXACT-CANDIDATE; closure-grade ~85%) · **Cycle**: 26 (N-R1 v2 reference emitter in-repo portion LANDED 2026-05-12 — `_python_bridge/module/nanobot_actuator_v2_reference_emit.py` emits valid `raw_77_nanobot_actuation_v2` rows, run_all.sh-wired; C0d cuboctahedron sim re-run + N-R2 canon-side L6 acceptance lock out-of-repo. See root `AXIS_CLOSURE_PLAN.md` §4/§11.)
 
 ---
 

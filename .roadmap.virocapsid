@@ -4,7 +4,7 @@
 > VLP, drug capsule, nano-cage (Caspar-Klug 1962 / Zlotnick 2003 /
 > Rossmann-Johnson 1985). Cross-cutting state → `.roadmap.hexa_bio`.
 
-**Last sync**: 2026-05-06 · **Status**: STUB v1.0.0-stub · **Cycle**: 25 (cycle 26 audit-resolution round 2: drafts LANDED + GATE-26 promoted)
+**Last sync**: 2026-05-12 · **Status**: STUB v1.0.0-stub (σ=12 STRUCTURAL-EXACT; closure-grade ~95%) · **Cycle**: 26 (GATE-26-V-R1 / C5 in-repo portion LANDED 2026-05-12 — `cage_output_v1.schema.json` `lock_metadata` + 4 conformance fixtures + `selftest/virocapsid_c5_conformance.py`, run_all.sh-wired; full n≥100 PDB corpus C3b out-of-repo. See root `AXIS_CLOSURE_PLAN.md` §5/§11.)
 
 ---
 
