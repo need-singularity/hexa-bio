@@ -21,7 +21,10 @@ abstract: |
   immunogenic, manufacturability, regulatory, or therapeutic-efficacy
   properties of any annotated marker.
 authors:
-  - name: hexa-bio contributors
+  - family-names: Park
+    given-names: Min Woo
+    alias: dancinlab
+    email: nerve011235@gmail.com
     affiliation: dancinlab
 keywords:
   - in-silico

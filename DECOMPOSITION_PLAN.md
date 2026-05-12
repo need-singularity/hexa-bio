@@ -91,7 +91,7 @@ hexa-energy
 | ~~`dolphin/dolphin.md`~~ | ✅ **MOVED to `hexa-brain/reference/`** 2026-05-12 | cetacean intelligence / bioacoustics (user 선택; hexa-pet 아님) |
 | ~~`dolphin-bioacoustics/dolphin-bioacoustics.md`~~ | ✅ **MOVED to `hexa-brain/reference/`** 2026-05-12 | |
 | ~~`hexa-limb/hexa-limb.md`~~ | ✅ **MOVED to `hexa-bot/reference/`** 2026-05-12 | 의수족 = 로봇 substrate; 참고용 .md (user "참고용문서로") |
-| `hexa-skin/hexa-skin.md` | 🟡 **TBD** — user 결정 대기 (sensor 분 → hexa-senses, 화장품 분 → Floréa, 둘 다, 또는 삭제) | electronic skin 은 sensor + cosmetic 양면 |
+| ~~`hexa-skin/hexa-skin.md`~~ | ✅ **MOVED to Floréa 🌸 as `skincare/skincare.md`** 2026-05-12 | user 결정: separate hexa-* repo 안 만들고 florea 흡수 (6 → 7 verbs). Cosmetic 측면 분리 향후 refinement |
 | `crispr-cas13-poc-diagnostic/` | ✅ **KEEP in hexa-bio** (user 정정) | CRISPR-Cas13 자체가 catalytic RNA = ribozyme axis 인접, bio 본질 맞음 |
 | `crispr-gene-editing/` | ✅ **KEEP in hexa-bio** | gene therapy = therapeutic, ribozyme axis 와 직접 연결 |
 | `synbio/` | ✅ **KEEP in hexa-bio** | synthetic biology = 5-axis foundational |
