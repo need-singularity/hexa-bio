@@ -87,113 +87,26 @@ verification + falsifier preregister. `quantum` is at Phase 1+ (H₂/LiH VQE
 
 ---
 
-## Installation
-
-### Via `hx` (recommended)
+## Install
 
 ```bash
-# Install hexa-lang (ships `hexa` + `hx` package manager)
-curl -fsSL https://raw.githubusercontent.com/dancinlab/hexa-lang/main/install.sh | bash
+# 1. Install hexa-lang (gives you `hexa` + `hx` package manager)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/dancinlab/hexa-lang/main/install.sh)"
 
-# Install hexa-bio
-hx install hexa-bio          # global, pulls latest from registry
-hx install hexa-bio@1.0.0    # pin specific version
-hexa-bio --version
+# 2. Install hexa-bio
+hx install hexa-bio
 ```
 
-`hx install hexa-bio` pulls from <https://github.com/dancinlab/hexa-bio> and
-installs the standalone CLI under `$HX_HOME/bin/hexa-bio`. The hexa-lang
-package registry resolves any cross-substrate dependencies declared in
-`hexa.toml`.
-
-### Optional deps
-
-`hx install hexa-bio` and every default subcommand (4 bio-axis skeletons,
-16-cell C2 sweep, `hexa-bio quantum` status snapshot) run with **zero**
-Python deps and **no** `qmirror` / QRNG. Two opt-in extras:
-
-**1. `weave` full empirical sandbox** — cage-assembly ODE + live Bayesian audit:
+## Run
 
 ```bash
-hx install hexa-bio            # if not already
-pip install --user numpy scipy
-export HEXA_BIO_WITH_NUMPY=1
-hexa-bio weave --all
-```
-
-**2. `quantum` axis full VQE path** — H₂/LiH ground-state energy via VQE on
-the `qmirror` quantum-computer substitute (IBM Cloud / IonQ / Quantinuum
-replacement; ≤30-qubit Aer-compatible pure-hexa state-vector kernel +
-ANU QRNG real quantum entropy + chemistry-VQE pipeline). Python qiskit-aer
-no longer required — qmirror's pure-hexa kernel handles VQE end-to-end:
-
-```bash
-hx install qmirror             # quantum-computer substitute (sister CLI)
-hexa-bio quantum falsifiers    # F-Q-* inventory
-```
-
-> Without `qmirror`, `hexa-bio quantum` still prints its Phase + falsifier
-> status snapshot (pure hexa, `$0`); only the live VQE runs need qmirror.
-> qmirror v2.1.0 carries 14/14 closure conditions (incl. cond.14
-> chemistry/molecular VQE H₂ STO-3G/0.74Å sub-µHa via UCCSD + active-space
-> CASCI). ANU QRNG (free public API; no key, no account) is the upstream
-> entropy source. The previous `pip install --user qiskit-aer` step is
-> obsolete as of cycle-30+++++ qmirror integration — see [Sister
-> repositories](#sister-repositories-live-dependencies--cli-direct-no-wrappers)
-> below.
-
----
-## Quick Start
-
-### 1. Run the full self-test (5-axis sentinel sweep)
-
-```bash
-hexa-bio selftest
-```
-
-Output: `__HEXA_BIO_SELFTEST__ PASS` + per-axis sentinel lines (5/5 modules
-load + print their tables) + the 16-cell C2 matrix sweep. **Sentinel-only
-PASS does not imply empirical claims validated** (see Caveats §1).
-
-### 2. WEAVE — protein cage / polyhedral self-assembly (WIRED)
-
-```bash
-hexa-bio weave                       # default skeleton (n=6 + falsifier table)
-hexa-bio weave --bayesian-audit      # cached posterior 0.97 (no Python needed)
-
-# Full empirical paths (requires HEXA_BIO_WITH_NUMPY=1):
-HEXA_BIO_WITH_NUMPY=1 hexa-bio weave --cage-assembly --t-end 1000
-HEXA_BIO_WITH_NUMPY=1 hexa-bio weave --bayesian-audit
-HEXA_BIO_WITH_NUMPY=1 hexa-bio weave --all
-```
-
-### 3. NANOBOT — molecular actuation (C0b skeleton)
-
-```bash
-hexa-bio nanobot
-# → prints n=6 lattice (σ(6)=12 STRUCTURAL-EXACT, 12-vertex polyhedron) + falsifier table
-```
-
-### 4. RIBOZYME — RNA-catalyst (C0b skeleton)
-
-```bash
-hexa-bio ribozyme
-# → prints n=6 lattice (σ(6)=12 STRUCTURAL-EXACT, 12-nt hammerhead core) + falsifier table
-```
-
-### 5. VIROCAPSID — viral capsid assembly (C0b skeleton)
-
-```bash
-hexa-bio virocapsid
-# → prints n=6 lattice (T=1 grounded via weave; T>1 V-R2 stretch) + falsifier table
-```
-
-### 6. QUANTUM — qpu_bridge VQE / ML compute axis
-
-```bash
-hexa-bio quantum                     # Phase + falsifier status snapshot (default)
-hexa-bio quantum falsifiers          # F-Q-* + F-Q-EXT-* inventory with verdicts
-hexa-bio quantum n6                   # n=6 invariant binding for the H₂/LiH path
+hexa-bio weave            # protein cage / polyhedral self-assembly        [WIRED]
+hexa-bio nanobot          # molecular actuation primitive                  [C0b skeleton]
+hexa-bio ribozyme         # RNA-catalyst primitive                         [C0b skeleton]
+hexa-bio virocapsid       # viral capsid assembly primitive                [C0b skeleton + PDB corpus]
+hexa-bio quantum          # qpu_bridge VQE / ML pilot compute axis (5th)   [Phase 1+; F-Q-1…5 PASS]
+hexa-bio status           # 5-axis status table + verdict + caveats
+hexa-bio selftest         # full 5-axis sentinel sweep + 16-cell C2 sweep
 ```
 
 ---
