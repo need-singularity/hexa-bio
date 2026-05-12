@@ -56,6 +56,8 @@ run "cmt_library_ranking" python3 "$HERE/cmt_library_ranking.py"
 run "cmt_vqe_ladder_readiness" bash "$HERE/cmt_vqe_ladder_readiness.sh"
 run "compute_substrate_routing" python3 "$HERE/compute_substrate_routing.py"
 run "akida_workload_readiness" bash "$HERE/akida_workload_readiness.sh"
+run "cmt_axis_and_cross_design_audit" python3 "$HERE/cmt_axis_and_cross_design_audit.py"
+run "cmt_smiles_validation" python3 "$HERE/cmt_smiles_validation.py"
 
 echo "─────────────────────────────────────────────"
 echo "selftest summary: $passes PASS / $fails FAIL"
