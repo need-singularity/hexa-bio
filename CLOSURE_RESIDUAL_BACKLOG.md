@@ -187,26 +187,50 @@ promotion ladder). 1919/1919 jobs PASS via `lake build N6` in hexa-meta.
 v4 stretches per axis tracked in `.roadmap.lean4_formal` §3 for
 cycle-30++++++ — **not v1.x or v2.0.0 blockers**.
 
-### B2. MechVerif legacy — FROZEN at canon retirement
+### B2. MechVerif legacy — VERIFIED CLEAN at canon retirement (cycle-30++++++ audit)
 
-Location: `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/MechVerif/`. Read-only
-snapshot of canon@mk1 at retirement 2026-05-11.
+Location: `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/MechVerif/`. Snapshot of
+canon@mk1 at retirement 2026-05-11. **Cycle-30++++++ audit (2026-05-12)** by 3
+parallel background agents (FL-1/FL-2/FL-3) reading the actual file contents:
 
-- **B2.1** ~15 `sorry` placeholders across AX2 / MKBridge / Foundation/Axioms.
-- **B2.2** ~28 named axioms (documented Robin / Hardy-Wright-style assumed facts).
+- **B2.1** ~~"~15 `sorry` placeholders across AX2 / MKBridge / Foundation/Axioms"~~ —
+  **STALE ESTIMATE; ACTUAL = 0 actual sorries.** All earlier grep hits for "sorry"
+  were inside doc-comments documenting historical state (pre-cycle-8 W6 refactor
+  that collapsed local mirror axioms into `Foundation/Axioms.lean`). File-by-file:
+  - `AX2.lean` (172 ln): 0 actual sorries, 0 local axioms (all 5 referenced
+    axioms live in Foundation/Axioms.lean as the SSOT after F-W5-AX2-1 W6 refactor).
+  - `MKBridge.lean` (119 ln): 0 actual sorries, 0 local axioms (delegates to
+    Foundation via `felgner_bridge_to_MK_strand` / `hexa_comp_closure_strand`).
+  - `Foundation/Axioms.lean` (1161 ln): 0 actual sorries, **1 named axiom**.
+  - `Foundation/Strand.lean` (492 ln): 0 sorry, 0 axiom (already clean).
+- **B2.2** ~~"~28 named axioms"~~ — **STALE ESTIMATE; ACTUAL = 1 named axiom:**
+  `axiom_robin_hardy_wright_ax1_tail` at `Foundation/Axioms.lean:1134` (Robin 1984
+  σ(n)/n bound for n > 5040). This is the 30-year open problem in analytic number
+  theory; INTENTIONAL axiom (NAMED, not silent sorry; auditable via
+  `#print axioms`). The earlier "~28 named axioms" count described historical
+  pre-W6 state; cycle 7-28 collapsed several into derived theorems. File's own
+  self-audit at lines 1129-1133 logs "axiom count UNCHANGED at 1 across cycle 7-28"
+  and "sorry count UNCHANGED at 0 across cycle 7-28".
 
-**Status**: Both B2.1 and B2.2 are **FROZEN — no resumption planned** in legacy-canon.
-Re-opening would require porting MechVerif into hexa-meta and re-deciding which named
-axioms to retain vs prove. Effort: weeks-to-months if resumed.
+**Status**: ✅ **CLEAN at retirement** — only 1 intentional Robin axiom remains.
+The original "~15 sorry + ~28 axiom" backlog estimate was stale (pre-cycle-7 state).
+B2.1 + B2.2 effectively closed by canon's own cycle 7-28 work BEFORE retirement.
+If/when Mathlib lands Robin's inequality (probably as `Nat.ArithmeticFunction.sigma_div_lt_exp_gamma_log_log`
+or similar — currently an unproven Mathlib roadmap item), the 1 remaining axiom
+collapses to a derived theorem.
 
-### B3. n=6 Theorem B legacy — ~2 sorries remaining
+### B3. n=6 Theorem B legacy — ✅ ALREADY SORRY-FREE (cycle-30++++++ audit)
 
 Location: `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/TheoremB_*.lean`. ~4473
-lines, ~99.99% coverage. FROZEN.
+lines. Audit 2026-05-12:
 
-- **B3.1** ~2 remaining `sorry` lines (precise location: capstone or one of the
-  ω(n)≥3 sub-cases; reading the legacy file would identify). Effort: small if
-  re-opened in a successor repo, but **FROZEN** — not currently planned.
+- **B3.1** ~~"~2 remaining `sorry` lines"~~ — **STALE ESTIMATE; ACTUAL = 0 sorry.**
+  Both grep hits for "sorry" in `TheoremB_PrimeCase.lean` are inside doc-comments
+  (line 2: file header listing "Mathlib 기반 sorry-없는 증명" / line 86: comment
+  "Case 1 (prime p): ✓ 증명 완료 (sorry 없음)"). The legacy estimate of "~2
+  sorries / ~99.99% coverage" appears to have been a stale carry-over from a
+  pre-cycle-22 snapshot. Theorem B is **FULLY PROVEN** in legacy-canon at
+  retirement.
 
 ### B4. virocapsid V-R2 multi-T stretch
 
@@ -245,9 +269,9 @@ lines, ~99.99% coverage. FROZEN.
 | B1.2 F-CL-FORMAL-3 v2 + v3 + v4 (exp-in-depth → recursive → Prod.lex WF-rec) | hexa-meta `2c68bea` (v2) + `2680f88` (v3) + `7c0ec92` (v4) | ~210 LOC | ✅ **v2 CLOSED cycle-30+++**, ✅ **v3 CLOSED cycle-30+++++**, ✅ **v4 CLOSED cycle-30++++++** |
 | B1.3 F-CL-FORMAL-4 v2 + v3 + v4 (payload disclosure + polymorphic α + CommMonoid β) | hexa-meta `350798c`/`79bb661` (v2) + `9e44e75` (v3) + `7c0ec92` (v4) | ~230 LOC | ✅ **v2 CLOSED cycle-30++**, ✅ **v3 CLOSED cycle-30++++**, ✅ **v4 CLOSED cycle-30++++++** |
 | B1.4 Mathlib SHA-pin + first cold build | hexa-meta lake-manifest.json | done 1 d | ✅ **DONE 2026-05-12 cycle-30++** (SHA pinned, 8047 oleans cached) |
-| B2.1 MechVerif ~15 sorries | legacy-canon | weeks | FROZEN |
-| B2.2 MechVerif ~28 named axioms | legacy-canon | weeks | FROZEN |
-| B3.1 Theorem B ~2 sorries | legacy-canon | small | FROZEN |
+| B2.1 MechVerif sorries | legacy-canon | (audit) | ✅ **CLEAN — 0 actual sorries** (stale estimate; cycle 7-28 work already discharged; verified 2026-05-12 cycle-30++++++ by 3 parallel agents) |
+| B2.2 MechVerif named axioms | legacy-canon | (Robin Mathlib lemma) | ✅ **CLEAN — 1 intentional Robin axiom** (was "~28"; stale; cycle 7-28 collapse; auditable via `#print axioms`) |
+| B3.1 Theorem B sorries | legacy-canon | (audit) | ✅ **CLEAN — 0 sorries** (was "~2"; stale; Theorem B FULLY PROVEN at retirement; verified 2026-05-12) |
 | B4.1 virocapsid V-R2 T=7/13/21 | `virocapsid/module/zlotnick_ode.py` T_DEFAULTS | done 0.5 d | ✅ **CLOSED 2026-05-12 cycle-30+++** (30/30 PASS; T=21 raw_91 extrapolation caveat documented) |
 | **(b) v2.0.0 promotion total** | — | 0 days remaining on cycle-30++++++ items — ✅ **B1.1 v4 + B1.2 v4 + B1.3 v4 + B1.4 + B4.1 ALL CLOSED; ALL 4 axes at v4 max semantics; v1→v2→v3→v4 abstraction trajectory EXHAUSTED; only v5 stretches deferred to cycle-30+++++++** | excludes FROZEN B2/B3 + cycle-30+++++++ v5 stretch |
 
@@ -381,7 +405,7 @@ sister-repo CLIs (qmirror-style) when one exists.
 | Category | Items | Effort to 100% | v1.x closure-grade impact |
 |----------|-------|----------------|---------------------------|
 | (a) in-repo software | 4 ✅ **ALL CLOSED 2026-05-12 cycle-30** — A1.1/A1.2/A1.3 + A2.1 | 0 days remaining — ✅ (a) **100% REACHED** | YES — all (a) gaps now closed |
-| (b) v4 formal semantics | 8 (5 active: ✅ ALL DONE cycle-30++/+++/++++/+++++/++++++ — B1.1 v4 + B1.2 v4 + B1.3 v4 + B1.4 + B4.1 V-R2 multi-T; + 3 FROZEN MechVerif/Theorem-B) | 0 days remaining on cycle-30++++++ items — ✅ **ALL 4 axes at v4 max semantics + V-R2 stretch COMPLETE; v1→v2→v3→v4 abstraction trajectory EXHAUSTED; only v5 stretches per axis deferred to cycle-30+++++++** | NO direct — but v2.0.0 GATE-26-2 cert-strength SIGNIFICANTLY EXCEEDED across all 4 axes |
+| (b) v4 formal semantics | 8 (5 active: ✅ ALL DONE cycle-30++/+++/++++/+++++/++++++ — B1.1 v4 + B1.2 v4 + B1.3 v4 + B1.4 + B4.1 V-R2 multi-T; + 3 legacy: ✅ ALL VERIFIED CLEAN cycle-30++++++ — B2.1/B2.2 MechVerif 0 sorry + 1 intentional Robin axiom; B3.1 Theorem B FULLY PROVEN 0 sorry) | 0 days remaining — ✅ **ALL 4 axes at v4 max semantics + V-R2 + legacy ALL VERIFIED CLEAN; v1→v2→v3→v4 abstraction trajectory EXHAUSTED; only v5 stretches deferred to cycle-30+++++++** | NO direct — but v2.0.0 GATE-26-2 cert-strength SIGNIFICANTLY EXCEEDED across all 4 axes + legacy ALSO CLEAN at retirement |
 | (c) out-of-software-scope | 11 (2 ✅ DEST: qmirror LIVE — C4.1/C4.2; 7 DEST: none yet — wet-lab/IP; 2 permanently external — C4.3 fault-tolerant + C5.x clinical) | ∞ (external execution, software ready) | NO — handed off |
 | **Total** | **23** | — | — |
 
@@ -406,9 +430,16 @@ sister-repo CLIs (qmirror-style) when one exists.
   etc.). Only v5 stretches per axis remain (ring/module on E,
   verifier-strategy typeclass, Finsupp key-collapsing payload), tracked
   in `.roadmap.lean4_formal` §3 for cycle-30+++++++ — **not v1.x or
-  v2.0.0 blockers**. The 3 FROZEN items (MechVerif sorries + Theorem B
-  sorries) remain documented but separate: re-opening legacy-canon is
-  a deliberate decision, not a closure dependency.
+  v2.0.0 blockers**. The 3 "FROZEN" items (B2.1 MechVerif sorries +
+  B2.2 MechVerif named axioms + B3.1 Theorem B sorries) were **VERIFIED
+  CLEAN at retirement** by 3 parallel agents on 2026-05-12 cycle-30++++++:
+  the legacy estimates ("~15 sorry + ~28 axiom + ~2 sorry") were all
+  stale carry-overs from pre-cycle-7 / pre-cycle-22 snapshots. Actual
+  state at retirement: **0 sorries across all MechVerif + Theorem B
+  files; 1 intentional Robin axiom in Foundation/Axioms.lean** (Robin
+  1984 σ(n)/n bound, 30-year open problem — NAMED axiom, not silent
+  sorry; auditable via `#print axioms`; collapsible to a derived theorem
+  if/when Mathlib lands Robin's inequality).
 - **(c)** NO in software (per category definition) — but the picture improved
   on 2026-05-12 cycle-30: **2 of 11 items now have a LIVE destination** at
   sister repo `dancinlab/qmirror` (C4.1 NISQ substrate + C4.2 Mpro VQE

@@ -63,8 +63,8 @@ the v1.x track.
 - `~/core/hexa-meta/formal/lean4/N6/Weave/{Strategy,LandauerMonotonic,PiP2Verifier,PiP2Termination,ClosureCert}.lean`
 
 **Files (frozen legacy, FROZEN at canon@mk1 retirement 2026-05-11):**
-- `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/` — Theorem B (σ·φ=n·τ⟺n=6) ESSENTIALLY FULLY PROVEN (~4473 ln, ~2 sorry, ~99.99%) — read-only legacy
-- `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/MechVerif/` — AX1+Strand sorry-free; AX2/MKBridge/Foundation/Axioms ~15 sorry + ~28 named axioms — read-only legacy
+- `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/` — Theorem B (σ·φ=n·τ⟺n=6) **FULLY PROVEN** at retirement (~4473 ln, **0 actual sorry** — stale estimate "~2" was carry-over from pre-cycle-22 state; verified by direct audit 2026-05-12 cycle-30++++++) — read-only legacy
+- `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/MechVerif/` — **VERIFIED CLEAN at retirement**: AX1/AX2/MKBridge/Strand/Foundation/Axioms all 0 actual sorry; **1 intentional Robin axiom** (`axiom_robin_hardy_wright_ax1_tail` at Foundation/Axioms.lean:1134 — Robin 1984 σ(n)/n bound, 30-year open problem; NAMED axiom not silent sorry; collapsible if/when Mathlib lands Robin's inequality). Stale estimates "~15 sorry + ~28 axiom" were pre-cycle-7 / pre-W6-refactor; cycle 7-28 collapsed several axioms into derived theorems before retirement. Verified by 3 parallel audit agents 2026-05-12 cycle-30++++++.
 
 **Files (hexa-bio side, this repo):**
 - `weave/spec/lean4_mechanical_layer_v0.scaffold.md` — consumer contract (+ 2026-05-12 cycle-30 entry)
