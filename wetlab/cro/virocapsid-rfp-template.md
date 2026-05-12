@@ -59,21 +59,3 @@ seek a cryo-EM pilot to verify T-number assignment + assembly yield for
 
 [user signature]
 
----
-
-## Vendor candidates (research-stage)
-
-| Region | Facility | Strength |
-|---|---|---|
-| Korea | **KAIST cryo-EM 센터** | Titan Krios + helium-cooled; trained operators |
-| Korea | **포스텍 cryo-EM** | secondary option |
-| Japan | **Osaka University Institute for Protein Research** | high-throughput cryo-EM, English-friendly |
-| UK | **Diamond Light Source eBIC** | best-in-class; free for collaborators (peer-review gate) |
-| US | **NIH cryo-EM facility (Bethesda)** | free for US-collaborators |
-| Germany | **EMBL Heidelberg** | best-in-class structural biology |
-
-## Budget reference
-
-Cryo-EM session + reconstruction: **$10K-40K per grid** (1 grid sufficient
-for single high-quality reconstruction). Protein expression + assembly
-screening upstream: **$10K-50K**. Total Phase 1: **$30K-100K**.

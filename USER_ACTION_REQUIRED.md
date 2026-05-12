@@ -154,38 +154,11 @@ recommended option (a)/(b)):
 
 ---
 
-## §5 우선순위 권장
+## §5 raw_91 honest C3
 
-**Cycle 30 끝 ~ Cycle 31 초** (1-2 주):
-1. ✅ §1.1 — ~~hexa-medic 생성~~ → DELETED 2026-05-12; wet-lab handoff 디렉토리는 hexa-bio 안 또는 per-axis 결정 (§4.3 update)
-2. §1.3 — Patent counsel 1차 무료 consultation 1건 (2-4 시간)
-3. §1.2 → §2.1 — wet-lab CRO 3-5 곳 RFP draft + send (8-16 시간)
-
-**Cycle 31 - 32** (1-2 개월):
-4. CRO replies 평가 + 1개 선택 (per axis)
-5. §2.3 — regulatory consultant 1차 미팅 잡기
-6. §4.1 — invention disclosure 3건 작성
-
-**Cycle 33+** (3-6 개월):
-7. Wet-lab pilot 시작 (선정한 CRO와)
-8. IP filing
-9. Cryo-EM session
-
-**미루기 가능 (12+ 개월)**:
-- §1.4 quantum HW vendor (qmirror 충분)
-- §2.3 regulatory pre-IND meeting (wet-lab 진행 1-2년 후)
-
----
-
-## §6 Software side 가 추가로 도와줄 수 있는 것
-
-만약 §1-§5 어느 항목이든 software 가 도울 수 있는 부분이 있으면 (e.g. RFP template 자동 채우기, invention disclosure 1차 draft, wet-lab 디렉토리 구조 seed) — request 만 주시면 됩니다. 외부 카운터파티와의 contact / decision / 계약 / 자금만이 software 가 못 하는 부분.
-
----
-
-## §7 raw_91 honest C3
-
-- 위 estimate (cost, timeline) 는 industry standard 기준. 실제 quote 는 각 CRO/firm 마다 다름.
-- Korea 기준이 fast-cheap 이지만 cryo-EM facility / DNA-origami 전문 vendor 는 US/EU 가 더 강함.
-- 모든 CRO RFP 는 NDA 우선 — disclosure 전에 confidentiality 보장 받기.
-- Patent filing 은 disclosure 후 12 개월 deadline (provisional + 1 yr PCT). Wet-lab 결과 나오기 전에 일정 부분 filing 하는 게 적절.
+- Estimates (cost, timeline) 는 industry standard 기준; 실제 quote 는 각 vendor 마다 다름
+- 모든 외부 컨택 항목은 [`AGENTS.md`](AGENTS.md) external-contact deferral
+  policy 에 따라 user-authorized per-item — agent 가 이 인덱스의 항목들
+  중 어떤 것도 "다음 단계" 로 제시하거나 사용자에게 푸시하지 않음
+- 이 문서는 user 가 결정 시 참조하는 인덱스 — agent 가 갱신을 트리거
+  하지 않음 (state 가 실제로 바뀔 때만 update)

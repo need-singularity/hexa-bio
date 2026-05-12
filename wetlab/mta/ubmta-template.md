@@ -110,18 +110,3 @@ Title:                                 Title:
 Date:                                  Date:
 ```
 
----
-
-## Pre-signing checklist (user action required)
-
-- [ ] Legal counsel reviewed (patent counsel + general counsel)
-- [ ] Party names + addresses filled (Schedule A/B)
-- [ ] Confidentiality period selected (5 / 7 / 10 years)
-- [ ] Governing law jurisdiction confirmed
-- [ ] Both parties have signed mutual NDA on file (pre-MTA)
-- [ ] Material Schedule A delivered to Recipient
-- [ ] Research Project Schedule B matches executed SOW
-- [ ] No conflict-of-interest disclosure required
-
-**Action**: USER sends to legal review before signing. Software (claude
-/ agents) does NOT execute MTAs.

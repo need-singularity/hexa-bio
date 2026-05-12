@@ -62,17 +62,3 @@ Looking forward to your reply.
 [user signature]
 [user contact info]
 
----
-
-## NDA prerequisite checklist (before sending detailed sequences)
-
-- [ ] CRO has signed mutual NDA on file with [user organization]
-- [ ] Sequence confidentiality marked in NDA scope
-- [ ] CRO is GLP-certified if downstream IND submission expected
-- [ ] CRO has no conflict-of-interest with competing ribozyme programs
-
-## Budget reference
-
-Industry-standard ribozyme kinetics pilot (Phase 1): **$25K-100K**
-depending on construct count, replicate depth, and CRO geography (Korea
-typically 30-40% lower than US/EU).

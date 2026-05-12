@@ -57,19 +57,3 @@ folded state.
 
 [user signature]
 
----
-
-## Vendor candidates (research-stage; not validated)
-
-| Region | CRO | Strength |
-|---|---|---|
-| Germany | **Tilibit Nanosystems** | DNA-origami specialist (Dietz lab origin) |
-| US | **Tecton Inc** | DNA-origami spin-off (Rothemund-Wong-Yan school) |
-| Korea | **KAIST cryo-EM 센터** | cryo-EM access; less origami-specific |
-| Korea | **서울대 nanoscience institute** | structural DNA collaboration possible |
-| US | **NIH cryo-EM facility** | free for collaborators (peer-review gate) |
-
-## Budget reference
-
-DNA-origami pilot (fold + AFM screen + 1 cryo-EM grid): **$50K-200K**
-depending on staple count, cryo-EM hours, and downstream characterization.

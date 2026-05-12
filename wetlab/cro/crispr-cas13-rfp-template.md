@@ -62,31 +62,3 @@ sensitivity matching WHO end-TB / UNAIDS 95-95-95 thresholds.
 
 [user signature]
 
----
-
-## Vendor candidates (research-stage)
-
-| Region | Type | Notes |
-|---|---|---|
-| Korea | **마크로젠** (Macrogen) | sequencing + Cas9/Cas13 service; clinical-sample access |
-| Korea | **바이오니아** (Bioneer) | oligo synthesis + Cas enzyme expression |
-| Korea | **연세대 의과대학** | CLIA-equivalent clinical pilot capacity (academic collaboration) |
-| US | **Sherlock Biosciences** (commercial) | direct Cas13 lateral-flow expertise; license-dependent |
-| US | **Mammoth Biosciences** (DETECTR) | Cas12 specialist; Cas13 less native |
-| Switzerland | **Roche Diagnostics** | enterprise CRO; high cost; regulatory-grade |
-
-## Budget reference
-
-Cas13 + lateral-flow pilot: **$50K-200K** (lab work + clinical samples).
-Clinical-sample pilot (banked anonymized): adds $20K-50K depending on
-sample count. Regulatory-grade (CLIA / WHO PQ submission): $100K-500K +.
-
-## Regulatory pathway considerations
-
-- US: **FDA EUA** (Emergency Use Authorization) precedent for COVID Cas
-  tests (SHERLOCK got EUA 2020). TB / HIV LDT (Lab-Developed Test) path
-  possible.
-- Korea: **식약처 IVD class** (체외진단의료기기). HIV / TB are usually
-  **Class III** (high-risk infectious disease diagnostics).
-- WHO: **PQ (prequalification)** pathway for global TB / HIV diagnostics —
-  preferred for Global South market.
