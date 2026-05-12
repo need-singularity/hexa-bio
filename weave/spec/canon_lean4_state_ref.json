@@ -45,10 +45,10 @@
     "theorem_name": "closure_cert_idempotent",
     "module_path": "N6.Weave.ClosureCert",
     "file": "formal/lean4/N6/Weave/ClosureCert.lean",
-    "lines": 59,
+    "lines": 146,
     "sorry_count": 0,
     "pass": true,
-    "proof_summary": "for all c, discloseTwice c = discloseOnce c by `rfl` against the field-overwrite semantics ({c with disclosed := true} idempotent under re-application). v1 flag-level model; payload-level disclosure invariants (caveat-bag invariance, signer-set monotonicity) remain a v2 work item — wider F-CL-FORMAL-4 PARTIAL upstream label still applies for the payload fragment."
+    "proof_summary": "for all c, discloseTwice c = discloseOnce c — PROMOTED v1 -> v2 2026-05-12 cycle-30++ (hexa-meta commits 350798c + 79bb661). ClosureCert now carries `caveat_bag` / `signer_set` (Mathlib `Finset Nat`) + `seal_caveats` / `seal_signers` snapshots; `discloseOnce` is a seal-on-first-disclosure operation; idempotence proof is a real case-split on `disclosed`, not rfl-over-identity. Bonus theorems kernel-checked: `caveat_bag_invariant`, `signer_set_invariant`, `addCaveat_idempotent`, `signer_set_monotonic`. Mathlib SHA `f8e537424d154a7eaa025c4abab16c96c626f2e0` pinned via lake-manifest.json. v3 cycle-30+++ stretch: polymorphic carrier `[DecidableEq alpha]` instead of `Nat`."
    }
   ],
   "total_sorry_count": 0,

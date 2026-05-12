@@ -10,14 +10,16 @@
 > long-horizon (cycle 30+) formal-verification trajectory, not part
 > of the in-silico falsifier closure cadence.
 
-**Last sync**: 2026-05-12 (cycle 30) · **Status**: 4/4 axes **PROVEN
-against WEAVE-semantics v1** (sorry-count=0, kernel-checked on lean4
-v4.30.0-rc1 via `lake build` in hexa-meta; no Mathlib required). Axis 1
-real-semantics PROVEN; axes 2/3/4 **promoted from PLACEHOLDER → v1**
-(real two-field Strategy / polynomial PiP2 bound / record-overwrite
-ClosureCert; see hexa-meta `ac97a63` / `a9b5722`). **Cycle**: 30 (v1
-promotion landed) → cycle 30++ (v2 full-WEAVE-algebra promotion remains;
-see §3 for the v1 → v2 work order).
+**Last sync**: 2026-05-12 (cycle 30++) · **Status**: 4/4 axes
+PROVEN at minimum v1, **Axis 4 PROMOTED v1 → v2** today
+(`closure_cert_idempotent` against the real `Finset`-backed disclosure
+semantics, with caveat-bag invariance + signer-set monotonicity bonuses
+also kernel-checked). Axes 1/2/3 remain at v1 (Axis 1 = REAL-SEMANTICS
+PROVEN, axes 2/3 = PROVEN against WEAVE-semantics v1). All axes
+sorry-count=0, kernel-checked on lean4 v4.30.0-rc1 + Mathlib SHA
+`f8e537424d154a7eaa025c4abab16c96c626f2e0` via `lake build` in hexa-meta.
+**Cycle**: 30++ (Axis 4 v2 landed) → cycle 30+++ (axes 2/3 v2 + axis 4
+v3 polymorphic carrier remains; see §3).
 
 ---
 
@@ -31,7 +33,7 @@ proves 4 closure-machinery theorems over hexa-bio's WEAVE composition.
 | F-CL-FORMAL-1 | `sigma_lattice_card` | `sigma 6 = 12` | **REAL-SEMANTICS PROVEN** (`sigma` is a computable Nat divisor-sum; `rfl`) |
 | F-CL-FORMAL-2 | `landauer_monotonic` | `heatConsumed (compose s₁ s₂) ≥ max …` | **PROVEN against WEAVE-semantics v1** — two-field `Strategy {bits_erased, heat_kT_ln2}` + Nat-additive `compose` + integer-Landauer-floor `LandauerPass` (`simp only; omega`). Bonus `landauer_pass_compose` certifies LandauerPass is closed under compose. v2 cycle-30++. |
 | F-CL-FORMAL-3 | `pi_p2_verifier_terminates` | `∃ n, verifierSteps q ≤ n` | **PROVEN against WEAVE-semantics v1** — `verifierSteps q := c.size * (q.depth + 1) + q.payload`; witness exhibits explicit polynomial bound using `cat.size = 12`. v2 cycle-30++ (exponential-in-depth Π^p_2 worst case). |
-| F-CL-FORMAL-4 | `closure_cert_idempotent` | `discloseTwice c = discloseOnce c` | **PROVEN against WEAVE-semantics v1** — `discloseOnce c := { c with disclosed := true }`; idempotence by record-overwrite identity. v2 cycle-30++ (payload-level disclosure invariants: caveat-bag invariance, signer-set monotonicity). |
+| F-CL-FORMAL-4 | `closure_cert_idempotent` | `discloseTwice c = discloseOnce c` | ✅ **PROVEN against WEAVE-semantics v2** (2026-05-12 cycle-30++) — `ClosureCert` now carries `caveat_bag` / `signer_set` (Mathlib `Finset Nat`) + `seal_caveats` / `seal_signers` snapshots; `discloseOnce` is a seal-on-first-disclosure operation (idempotent by `if_pos` on the `disclosed` flag). Bonus theorems: `caveat_bag_invariant`, `signer_set_invariant`, `addCaveat_idempotent`, `signer_set_monotonic` all kernel-checked. Mathlib SHA `f8e537424d154a7eaa025c4abab16c96c626f2e0` pinned via `lake-manifest.json`. v3 cycle-30+++ remains: polymorphic carrier (`[DecidableEq α]` instead of `Nat` for caveat/signer IDs). |
 
 **v1 → v2 promotion DoD per axis** (cycle-30++): full WEAVE composition
 algebra (sub-additive composition under reversible re-merge; real-valued

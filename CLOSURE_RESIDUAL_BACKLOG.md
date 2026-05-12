@@ -140,14 +140,26 @@ Quoted from `.roadmap.lean4_formal` §3. Active: `~/core/hexa-meta/formal/lean4/
   + recursive `verifierSteps` with branching factor (exponential-in-`q.depth`)
   + well-founded induction proof on `(catalogue_size, query_depth)` lex-order.
   Mathlib: `WellFoundedRelation`, `Nat.lt_wfRel`, `Finset.recOn`. Effort: 200-500 LOC.
-- **B1.3** F-CL-FORMAL-4 ClosureCert idempotence — full disclosure record
-  (timestamp, cycle, raw_91 tags, cumulative metadata, caveat-bag, signer-set)
-  + `discloseOnce` = idempotent metadata-merging with caveat-bag invariance +
-  signer-set monotonicity. Effort: 200-500 LOC.
-- **B1.4** Mathlib build infra — pin Mathlib by SHA (not `master`) at the moment B1.1
-  needs a `Real.log` lemma; first `lake build` is ~30+ min cold. Effort: 1 day infra.
+- **B1.3** F-CL-FORMAL-4 ClosureCert idempotence — ✅ **CLOSED 2026-05-12
+  cycle-30++**. `ClosureCert` now carries `caveat_bag` / `signer_set` (Mathlib
+  `Finset Nat`) + `seal_caveats` / `seal_signers` snapshots; `discloseOnce` is
+  a seal-on-first-disclosure operation; idempotence proof is a real
+  case-split on `disclosed`. Bonus theorems kernel-checked:
+  `caveat_bag_invariant`, `signer_set_invariant`, `addCaveat_idempotent`,
+  `signer_set_monotonic`. hexa-meta commits `350798c` (functional) +
+  `79bb661` (manifest pin); 593/593 jobs PASS via `lake build N6`. v3
+  polymorphic-carrier remains cycle-30+++ stretch.
+- **B1.4** Mathlib build infra — ✅ **DONE 2026-05-12 cycle-30++**. Mathlib
+  pinned at SHA `f8e537424d154a7eaa025c4abab16c96c626f2e0` via
+  `~/core/hexa-meta/formal/lean4/lake-manifest.json` (now committed, not
+  gitignored). Cache prefetch via `lake exe cache get` succeeded — 8047/8403
+  oleans downloaded from Azure (99% hit rate), saved the cold ~hour build.
+  Total mathlib disk: 6.6 GB at `.lake/packages/mathlib` (gitignored).
 
-**Proposed work order** (`.roadmap.lean4_formal` §3): Mathlib → B1.3 → B1.1 → B1.2.
+**Updated work order** (`.roadmap.lean4_formal` §3): ~~Mathlib → B1.3~~ ✅ DONE
+→ B1.1 (axis 2) → B1.2 (axis 3). The hardest two axes remain — axis 2 needs
+ℝ-valued heat + reversible-merge composition; axis 3 needs exponential-in-
+depth Π^p_2 well-founded recursion.
 
 ### B2. MechVerif legacy — FROZEN at canon retirement
 
@@ -182,10 +194,10 @@ lines, ~99.99% coverage. FROZEN.
 
 | Item | Source | Effort | Note |
 |------|--------|--------|------|
-| B1.1 F-CL-FORMAL-2 v2 (Landauer ℝ + reversible-merge) | `.roadmap.lean4_formal` §3 | 200-500 LOC | needs Mathlib |
-| B1.2 F-CL-FORMAL-3 v2 (exp-in-depth Π^p_2) | same | 200-500 LOC | needs Mathlib |
-| B1.3 F-CL-FORMAL-4 v2 (payload disclosure) | same | 200-500 LOC | needs Mathlib |
-| B1.4 Mathlib SHA-pin + first cold build | hexa-meta `lakefile.lean` | 1 d | gate B1.1-3 |
+| B1.1 F-CL-FORMAL-2 v2 (Landauer ℝ + reversible-merge) | `.roadmap.lean4_formal` §3 | 200-500 LOC | ⬜ next-up (Mathlib now wired) |
+| B1.2 F-CL-FORMAL-3 v2 (exp-in-depth Π^p_2) | same | 200-500 LOC | ⬜ deferred (hardest, well-founded recursion) |
+| B1.3 F-CL-FORMAL-4 v2 (payload disclosure) | hexa-meta `350798c`/`79bb661` | ~150 LOC | ✅ **CLOSED 2026-05-12 cycle-30++** |
+| B1.4 Mathlib SHA-pin + first cold build | hexa-meta lake-manifest.json | done 1 d | ✅ **DONE 2026-05-12 cycle-30++** (SHA pinned, 8047 oleans cached) |
 | B2.1 MechVerif ~15 sorries | legacy-canon | weeks | FROZEN |
 | B2.2 MechVerif ~28 named axioms | legacy-canon | weeks | FROZEN |
 | B3.1 Theorem B ~2 sorries | legacy-canon | small | FROZEN |
@@ -322,7 +334,7 @@ sister-repo CLIs (qmirror-style) when one exists.
 | Category | Items | Effort to 100% | v1.x closure-grade impact |
 |----------|-------|----------------|---------------------------|
 | (a) in-repo software | 4 ✅ **ALL CLOSED 2026-05-12 cycle-30** — A1.1/A1.2/A1.3 + A2.1 | 0 days remaining — ✅ (a) **100% REACHED** | YES — all (a) gaps now closed |
-| (b) v2 formal semantics | 8 (4 active + 4 FROZEN) | ~1-2 months active (FROZEN excluded) | NO — v2.0.0 stretch |
+| (b) v2 formal semantics | 8 (4 active: 2 ✅ DONE cycle-30++ — B1.3 + B1.4; 2 ⬜ pending — B1.1 + B1.2; + 4 FROZEN) | ~3-6 weeks remaining (B1.1 + B1.2 active) | NO — v2.0.0 stretch |
 | (c) out-of-software-scope | 11 (2 ✅ DEST: qmirror LIVE — C4.1/C4.2; 7 DEST: none yet — wet-lab/IP; 2 permanently external — C4.3 fault-tolerant + C5.x clinical) | ∞ (external execution, software ready) | NO — handed off |
 | **Total** | **23** | — | — |
 
