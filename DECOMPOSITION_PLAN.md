@@ -108,28 +108,42 @@ hexa-energy
 
 ---
 
-## §3 `hexa-beauty` 신규 repo 제안 scope
+## §3 신규 standalone repo: **Floréa** 🌸 (`dancinlab/florea`)
 
-만약 `dancinlab/hexa-beauty` 생성하면, 초기 contents:
+**Name (user-decided 2026-05-12)**: **Floréa** 🌸 — 불어 `flore` (꽃) + diminutive `-éa` suffix.
+Standalone brand (hexa-* family 와 별도; Lumière style). 발음: `flo·RAY·ah` / 플로레아.
+
+**GitHub URL**: `dancinlab/florea` (URL 슬러그는 accent 없이; display name 만 Floréa).
+
+**Scope**: 화장품 + 미용 + 성형 + skincare + 모발 + 향수 + 시술 — cosmetic / aesthetic 영역
+전체. n=6 invariant lattice 적용 (σ(6)=12 미용 verb 등).
+
+**초기 contents**:
 
 ```
-hexa-beauty/
-├── README.md                      # 미용 / cosmetic substrate, n=6 family member
-├── cosmetic-surgery/              # ← hexa-medic 에서 이동
-├── hair-regeneration/             # ← hexa-medic
-├── mens-intimate-cleanser/        # ← hexa-medic
-├── perfumery/                     # ← hexa-medic
-├── tattoo-removal/                # ← hexa-medic
-├── womens-intimate-cleanser/      # ← hexa-medic
-├── skin-cosmetic/                 # ← hexa-bio hexa-skin (cosmetic 부분)
-├── .roadmap.disease_aesthetic_dermatology    # ← hexa-bio
-├── .roadmap.disease_acne_cosmetic            # ← hexa-bio (cosmetic side)
-├── .roadmap.disease_aging_cosmetic           # ← hexa-bio (cosmetic side)
-└── cli/, tests/, state/           # standard infra
+florea/                            🌸 Floréa — cosmetic/aesthetic substrate
+├── README.md                       # Floréa mission + n=6 family 가입 선언
+├── hexa.toml                       # hexa family manifest
+├── CITATION.cff, LICENSE
+├── cosmetic-surgery/               ← hexa-medic 에서 이동 (성형외과)
+├── hair-regeneration/              ← hexa-medic (미용 모발)
+├── perfumery/                      ← hexa-medic (향수)
+├── tattoo-removal/                 ← hexa-medic (시술)
+├── mens-intimate-cleanser/         ← hexa-medic (personal care)
+├── womens-intimate-cleanser/       ← hexa-medic (personal care)
+├── skincare/                       ← hexa-bio/hexa-skin/ (cosmetic 측면)
+├── .roadmap.disease_aesthetic_dermatology   ← hexa-bio (cosmetic dermatology)
+├── .roadmap.disease_acne_cosmetic           ← hexa-bio (cosmetic side of acne)
+├── .roadmap.disease_aging_cosmetic          ← hexa-bio (consumer anti-aging)
+├── .roadmap.disease_alopecia_cosmetic       ← hexa-bio (cosmetic hair)
+├── cli/, tests/, state/, papers/   (standard infra; hexa family convention)
+└── selftest/                       (Floréa side gates)
 ```
 
-대안: cosmetic 가 비교적 small scope 면 `hexa-medic` 안에 머무르되, therapeutic 만 hexa-bio
-로 이동. 그러면 hexa-medic 이 사실상 "cosmetic + alt-medicine + 잡종" repo 가 됨 — 권장 X.
+**Branding angle**:
+- Lumière 와 같은 결의 French-rooted standalone brand (hexa-* family 멤버이지만 prefix 없음)
+- K-beauty / 글로벌 cosmetic 시장 모두에 친숙한 톤
+- 향후 sub-product line 도 자연: Floréa Skincare, Floréa Aesthetic, Floréa Surgery 등
 
 ---
 
