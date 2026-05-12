@@ -58,7 +58,8 @@ hardware, doesn't simulate them).
 |---|---|---|---|
 | **qmirror state-vector** (≤30 qubit) | `quantum` axis VQE — Mpro pocket (2e/2o → 2q), 5-warhead library, 11-drug pocket | ✅ **live** | — (all current quantum workloads ≤30 qubit) |
 | **qmirror chemistry-VQE (pure-hexa)** | H2/STO-3G/0.74Å cond.14 spectroscopic-accuracy gate | ✅ **live** | — (gated by `selftest/qmirror_chemistry_vqe_gate.sh`) |
-| **qmirror chemistry-VQE (+ classical PySCF backend)** | arbitrary drug-pocket VQE — CMT hd6/clc1/sar1/mfn2/gjb1 against HDAC6 / ClC-1 / SARM1 / MFN2 / Cx32 | ⏳ **PENDING** | needs a classical-chemistry integral backend (PySCF) to *build* the active-space Hamiltonian before the quantum solver runs — out of scope for the pure-hexa kernel (qmirror raw#10 caveat 1). Either re-introduce the retired python bridge (qiskit-nature + pyscf, the legacy `tests/mpro_pocket_vqe_v7.py` path) or extend qmirror chemistry_vqe with a `--with-pyscf` mode. Tracked as the F-Q-6-E ramp; see §4. |
+| **qmirror chemistry-VQE — CMT scaffolds, 2e/2o tier** (vendored Hamiltonians) | non-H2 molecular VQE — the 5 CMT candidate scaffolds (hxq-cmt-{clc1,sar1,mfn2,hd6,gjb1}-001) at a STO-3G HOMO/LUMO 2e/2o active space → 2-qubit UCCSD VQE vs CASCI(2,2) | ✅ **live (2e/2o tier) 2026-05-13** | `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians.hexa` — vendored 2e/2o parity-mapped Hamiltonians + CASCI(2,2) refs (offline rdkit+pyscf+qiskit-nature extraction; build-time only, NOT a runtime dep; H2-self-validated to machine precision), solved by the generic 2e/2o UCCSD path in `chemistry_vqe_native.hexa`. Gated by `selftest/cmt_vqe_ladder_readiness.sh` (`__QMIRROR_CHEM_CMT_VQE__ PASS`). This realizes the F-Q-6-E ramp; see §4. |
+| **qmirror chemistry-VQE — 4e/4o+ / pocket-embedded / final-molecule** | clinically-meaningful binding-affinity VQE (the actual K_d / ΔΔG, not a 2e/2o token) — needs a much larger active space (→ >2-qubit ansatz), the refined final molecule, and QM-of-the-binding-pocket (QM/MM) | ⏳ **next ramp** | the 2e/2o tier (row above) is a drastic reduction — a reproducible quantum-chemistry quantity, not a binding affinity. Larger active spaces need a generalized (>2-qubit) ansatz in qmirror; the final geometries need Phase-β chemotype refinement; pocket-embedded VQE is research-grade. Documented in `~/core/qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md` §4-5; see §4 below. |
 | **xeno → AKIDA AKD1000** (BrainChip neuromorphic, 1W spike inference) | edge AI: `ribozyme` G26-RB-3 off-target Hamming scan / `nanobot` sub-mW actuation controller / `medical-device` EEG-EMG-ECG pattern recognition / `crispr-cas13-poc-diagnostic` lateral-flow signal classification | ⏳ **PENDING** | AKD1000 physical chip arrival (ordered 2026-04-29, ETA pending; AKIDA Cloud access live 2026-05-08) + xeno Phase 1.5 `falsifier` subcommand. Readiness probed by `selftest/akida_workload_readiness.sh` (SKIP until both land). |
 | **xeno → Loihi3** (Intel neuromorphic) | well-founded-recursion / sequential workloads (no current hexa-bio mapping — speculative) | ⏳ **unexplored** | xeno roadmap (`.roadmap.loihi3`); no hexa-bio workload identified yet |
 | **xeno → Northpole** (IBM neuromorphic) | (no current hexa-bio mapping) | ⏳ **unexplored** | xeno roadmap (`.roadmap.northpole`) |
@@ -83,70 +84,85 @@ Where hexa-bio's quantum workloads sit on the substitution ladder:
 |---|---|---|---|
 | **0** | numpy/scipy classical | ~10-qubit ceiling, slow | not used (qmirror Tier 1 beats it) |
 | **1** | **qmirror pure-hexa state-vector** | ≤30 qubit, free, no vendor account, noiseless | ✅ **current** — all quantum workloads (Mpro pocket, 5-warhead library, 11-drug pocket) fit here |
-| **2** | **qmirror + classical PySCF backend** | arbitrary-molecule active-space Hamiltonian construction, still ≤30 qubit | ⏳ **the gap** — CMT drug pockets (and any new-molecule pocket VQE) blocked here. F-Q-6-E ramp. See §4. |
+| **2** | **qmirror + offline-vendored active-space Hamiltonians** (PySCF used offline, not at runtime) | named-molecule active-space Hamiltonian (the H2 pattern, generalized), ≤30 qubit | ✅ **2e/2o tier LANDED 2026-05-13** — `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians.hexa`: vendored 2e/2o Hamiltonians + CASCI(2,2) refs for the 5 CMT candidate scaffolds, UCCSD VQE reproduces each << 1 µHa (F-Q-6-E ramp realized at the 2e/2o tier). 4e/4o+ / general-`--with-pyscf` / pocket-embedded = next ramps. See §4. |
 | **3** | IBM Quantum (Heron 156q / Kookaburra 1386q / Flamingo 7000q) | real superconducting hardware, real noise, vendor cloud | not selected — no hexa-bio workload needs >30 qubit OR real noise yet |
 | **4** | IonQ Forte 36q / Quantinuum H2 56q (**via xeno**) | real trapped-ion hardware, different noise profile | not selected — xeno has the bridge (`.roadmap.ionq`); use when noise modeling matters |
 | **5** | fault-tolerant >1000 logical qubit (PsiQuantum / Google Willow) | error-corrected, post-threshold | 10-year horizon — vendor partnership, not procurement |
 
 **Key observation**: hexa-bio's entire current quantum workload (Mpro pocket VQE
-sub-µHa, 5-warhead library ranking, 11-drug pocket library) fits in Tier 1 (qmirror
-pure-hexa, ≤30 qubit, free). The only gap is **Tier 2** — and it's not a qubit-count
-gap, it's a Hamiltonian-CONSTRUCTION gap (the classical-chemistry preprocessing step,
-not the quantum-solver step). qmirror's "양자컴퓨터 대용" claim is fully true for the
-solver step; the construction step for arbitrary drug molecules needs PySCF.
+sub-µHa, 5-warhead library ranking, 11-drug pocket library, **+ the 5 CMT candidate
+scaffolds at 2e/2o**) fits in Tier 1-2 (qmirror pure-hexa solver, ≤30 qubit, free).
+The original Tier-2 gap — Hamiltonian CONSTRUCTION for non-H2 molecules — is closed
+at the 2e/2o tier via offline-vendored constants (the H2 pattern, generalized; PySCF
+used offline, not at runtime). qmirror's "양자컴퓨터 대용" claim is fully true for the
+solver step; the construction step is handled either by the pure-hexa kernel's
+hardcoded H2 case or by offline-vendored constants for named molecules. What remains
+is larger active spaces / a general `--with-pyscf` mode / pocket-embedded VQE — the
+next ramp.
 
 ---
 
-## §4 The Tier-2 gap — qmirror chemistry-VQE classical backend (F-Q-6-E ramp)
+## §4 The Tier-2 gap — qmirror chemistry-VQE classical backend (F-Q-6-E ramp) — ✅ REALIZED at the 2e/2o tier
 
-**Problem precisely**: `qmirror/chemistry_vqe/module/chemistry_vqe.hexa` is a
-pure-hexa kernel hardcoded for H2/STO-3G/0.74Å — a 5-term parity-mapped
-Hamiltonian + FCI reference, extracted offline from qiskit-nature 0.7.2 +
-pyscf 2.13.0. Per its raw#10 caveat 1: *"the active-space transformer + SMILES
-+ drug-class paths require classical chemistry primitives (PySCF integrals,
-RDKit geometry, CASCI) that are out of scope for a pure-hexa kernel"*.
+> **STATUS 2026-05-13: option (c) realized for the 5 CMT candidate scaffolds.**
+> `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians.hexa` ships vendored
+> 2e/2o-active-space parity-mapped Hamiltonians + CASCI(2,2) references for
+> hxq-cmt-{clc1,sar1,mfn2,hd6,gjb1}-001 (the gjb1 entry a pyridyl-thiazole stand-in,
+> since the committed gjb1-001 has "scaffold class TBD"); the new generic 2e/2o UCCSD
+> path in `chemistry_vqe_native.hexa` reproduces each CASCI(2,2) ref to << 1 µHa
+> (`__QMIRROR_CHEM_CMT_VQE__ PASS`). Extracted offline (rdkit 2026.03.1 + pyscf 2.13.0
+> + qiskit-nature 0.7.2 + qiskit 2.4.1) — build-time one-shot extraction, NOT a
+> runtime dependency (per qmirror's hexa-strict rule); H2-self-validated (the same
+> pipeline reproduces the hardcoded H2 constants to machine precision). hexa-bio's
+> `selftest/cmt_vqe_ladder_readiness.sh` now invokes it (SKIP→PASS); `.roadmap.disease_cmt_specific`
+> §6 Tier 3 moved from "DESIGN-AUDIT proxy" to "live VQE (2e/2o) binding"; `.roadmap.quantum`
+> F-Q-6-E from "BLOCKED" to "LANDED (2e/2o tier)". Plan: `~/core/qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md`
+> (option (c) realized; (b) general `--with-pyscf` and 4e/4o+ remain the next ramps).
 
-**Why this blocks CMT (and any new-molecule pocket VQE)**: to run a VQE on a
-drug-pocket Hamiltonian (e.g., HDAC6 catalytic site + hd6-001 ligand), you must
-first:
-1. Build the molecular geometry (RDKit / xyz)
-2. Compute the 1-/2-electron integrals over a basis set (PySCF)
-3. Reduce to an active space (CASCI / DMRG)
-4. Map fermions → qubits (parity / Jordan-Wigner)
-5. *Then* run the quantum solver (VQE — UCCSD ansatz + Pauli expectation + optimizer)
+**Original problem (now closed at 2e/2o)**: `qmirror/chemistry_vqe/module/chemistry_vqe.hexa`
+is a pure-hexa kernel hardcoded for H2/STO-3G/0.74Å. Per its raw#10 caveat 1: *"the
+active-space transformer + SMILES + drug-class paths require classical chemistry
+primitives (PySCF integrals, RDKit geometry, CASCI) that are out of scope for a
+pure-hexa kernel"* — true at RUNTIME. To run a VQE on a drug-pocket Hamiltonian you
+must first (1) build the geometry, (2) compute integrals over a basis set, (3) reduce
+to an active space, (4) map fermions → qubits, then (5) run the quantum solver. Steps
+1-4 are classical chemistry; the pure-hexa kernel does step 5 (the hardcoded H2 case
+bakes in 1-4). **Resolution adopted: (c) — do 1-4 OFFLINE, vendor the constants.**
 
-Steps 1-4 are classical chemistry. qmirror's pure-hexa kernel does step 5 (and the
-hardcoded H2 case bakes in 1-4). For arbitrary molecules, 1-4 need a classical
-backend.
+**Resolution options** (qmirror-side):
+- **(a) re-introduce the retired python bridge** — `qiskit-nature + pyscf` runner
+  qmirror shells out to. ❌ NOT adopted as the runtime path — re-introduces a Python
+  dependency qmirror Phase 10 deliberately retired (and violates qmirror's hexa-strict
+  rule). (Used internally, offline, to *generate* the (c) vendored constants — that's
+  fine: build-time one-shot extraction is a separate category.)
+- **(b) `--with-pyscf` opt-in mode** — keep the pure-hexa kernel as default, add an
+  optional classical-backend mode. Still adds `.py` runtime code + a pyscf dep → also
+  conflicts with qmirror's hexa-strict rule as a runtime path. Deferred; it's the
+  general-purpose ramp for ad-hoc molecules but needs a hexa-strict-compatible design.
+- **(c) precompute + vendor named-molecule Hamiltonians** — ✅ **ADOPTED & LANDED for
+  the 5 CMT scaffolds (2e/2o tier)**. Like the H2 case: extract the active-space
+  Hamiltonians offline (rdkit+pyscf+qiskit-nature on a dev machine), vendor the
+  parity-mapped constants + CASCI references into `chemistry_vqe_cmt_hamiltonians.hexa`,
+  solve with the pure-hexa UCCSD solver. No runtime Python. Limitation: only the
+  pre-computed molecules; CMT's 5 small-mol scaffolds → 5 vendored Hamiltonians.
 
-**Resolution options** (qmirror-side work — NOT a hexa-bio change):
-- **(a) re-introduce the retired python bridge** — `qiskit-nature + pyscf` via a
-  `chemistry_vqe_runner.py` that qmirror's hexa kernel shells out to (the legacy
-  `tests/mpro_pocket_vqe_v7.py` used `~/.hexabio_venv` for exactly this). Pro:
-  proven path. Con: re-introduces a Python dependency qmirror Phase 10 deliberately
-  retired.
-- **(b) add a `--with-pyscf` mode to qmirror chemistry_vqe** — keep the pure-hexa
-  kernel as default (H2 cond.14 gate), add an optional classical-backend mode that
-  requires PySCF when invoked with `--molecule <SMILES>`. Pro: pure-hexa default
-  stays; classical backend opt-in. Con: qmirror carries two code paths.
-- **(c) precompute Hamiltonians offline + vendor them** — like the H2 case, extract
-  the CMT drug-pocket active-space Hamiltonians offline (PySCF on a dev machine),
-  vendor the constants into qmirror, run VQE on them with the pure-hexa kernel. Pro:
-  no runtime Python. Con: only works for the specific pre-computed molecules; not
-  general; CMT has ~10 candidates → ~10 vendored Hamiltonian files.
+**What remains (the next ramps — NOT failures, scope)**:
+- **4e/4o+ active spaces** — the 2e/2o HOMO/LUMO space is a drastic reduction; a larger
+  active space gives a different (still valid) Hamiltonian and needs a >2-qubit ansatz
+  in qmirror (the H2/2e2o ansatz is hardcoded for 2 qubits).
+- **Final-molecule geometries** — the CMT placeholders precede Phase-β chemotype
+  refinement; a clinically-meaningful calc uses the refined molecule.
+- **Pocket-embedded VQE** — the actual binding-affinity calc (the enzyme active site
+  + ligand, QM/MM) is research-grade and beyond any of the above.
+- **(b) general `--with-pyscf`** — for ad-hoc new molecules, once a hexa-strict-compatible
+  design lands (e.g. an offline `hx` build-step that vendors the Hamiltonian, rather
+  than a runtime python shell-out).
 
-**Recommendation** (for qmirror's roadmap, not hexa-bio's): **(c) for the CMT
-candidates specifically** (precompute ~10 active-space Hamiltonians offline, vendor
-them — analogous to the H2 case), **and (b) as the general-purpose path** (`--with-pyscf`
-mode for ad-hoc new molecules). hexa-bio's `cmt_vqe_ladder_readiness.sh` already
-documents this gap; when qmirror lands (c), the readiness gate can flip from SKIP
-to a real CMT-pocket-VQE PASS, and `.roadmap.disease_cmt_specific` §6 Tier 3 moves
-from "DESIGN-AUDIT proxy" to "live VQE binding".
-
-**This is the highest-leverage compute upgrade for hexa-bio** — it unblocks the
-VQE-binding layer for CMT (and every future disease roadmap's small-molecule
-candidates). It's a qmirror-repo task; hexa-bio's role is to keep the readiness
-gate honest until it lands.
+The 2e/2o CASCI(2,2) energy is a reproducible quantum-chemistry quantity, not "the
+K_d" — so the in-repo gate (`cmt_vqe_ladder_readiness.sh`) verifies "a non-H2
+molecular VQE runs against these scaffolds and reproduces CASCI(2,2)", not "the
+binding affinity is X". The DESIGN-AUDIT layer (`cmt_*_audit.py`) remains the
+in-repo-verifiable closure for the *design*.
 
 ---
 
@@ -158,7 +174,8 @@ hexa-bio routes a workload to a substrate based on its characteristics:
 workload-spec → substrate decision:
   qubit ≤ 30, gate-model, noiseless              → qmirror state-vector       [ready]
   chemistry VQE, H2/STO-3G canonical              → qmirror chemistry_vqe      [ready]
-  chemistry VQE, arbitrary molecule               → qmirror chemistry_vqe+PySCF [PENDING — F-Q-6-E]
+  chemistry VQE, named molecule, 2e/2o (vendored) → qmirror chemistry_vqe_cmt  [ready — F-Q-6-E, the 5 CMT scaffolds]
+  chemistry VQE, arbitrary molecule / 4e/4o+      → qmirror chemistry_vqe+offline-vendor [next ramp — bigger active space needs >2-qubit ansatz]
   spike pattern matching / edge AI                → xeno → AKIDA               [PENDING — AKD1000 + xeno P1.5]
   well-founded recursion / sequential             → xeno → Loihi3              [unexplored]
   random entropy                                  → qmirror QRNG | xeno QRNG   [ready]
@@ -181,7 +198,9 @@ knows immediately what they can run vs what's blocked on which dependency.
 - `AGENTS.md` "Sister repositories" — operating rules (CLI-direct, no wrappers, gates not re-verifications)
 - `selftest/qmirror_chemistry_vqe_gate.sh` — qmirror H2 cond.14 gate
 - `selftest/xeno_substrate_gate.sh` — xeno status reachability gate
-- `selftest/cmt_vqe_ladder_readiness.sh` — CMT pocket VQE readiness (the Tier-2 gap for CMT specifically)
+- `selftest/cmt_vqe_ladder_readiness.sh` — CMT 2e/2o pocket-VQE gate (invokes qmirror's vendored CMT Hamiltonians; F-Q-6-E realized at the 2e/2o tier)
+- `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians.hexa` — the vendored 2e/2o Hamiltonians + the offline extraction recipe + H2 self-validation anchor
+- `qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md` — the option (a/b/c) analysis; option (c) realized 2026-05-13
 - `selftest/akida_workload_readiness.sh` — AKIDA workload readiness probe
 - `selftest/compute_substrate_routing.py` — the routing decision table
 - `.roadmap.quantum` — quantum axis F-Q-* falsifier inventory + F-Q-6-E ramp

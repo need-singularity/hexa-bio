@@ -286,9 +286,10 @@ def main() -> int:
     print(f"  per-axis falsifiers: {sum(1 for _ in per_axis)}/4 (W-1, V-1, RB-1, NB-1) — cover axes {sorted(axes_covered)}")
     print(f"  cross-axis combos: 2/2 (cross-1 demyelinating, cross-2 axonal)")
     print(f"  total falsifier gates passing: {n_pass}/{n_total}")
-    print(f"  combined with F-disease-cmt-Q-7 + Q-8 (cmt_library_ranking.py + cmt_side_effect_avoidance_audit.py):")
-    print(f"    → 8 of 14 CMT falsifiers now have in-repo deterministic gates (Q-7, Q-8, W-1, V-1, RB-1, NB-1, cross-1, cross-2)")
-    print(f"    → Q-1..6 (pocket VQE binding) have a readiness probe (cmt_vqe_ladder_readiness.sh); live VQE pending qmirror PySCF backend (F-Q-6-E ramp)")
+    print(f"  combined with F-disease-cmt-Q-7 + Q-8 (cmt_library_ranking.py + cmt_side_effect_avoidance_audit.py)")
+    print(f"  + Q-1..6 (cmt_vqe_ladder_readiness.sh → qmirror chemistry_vqe_cmt_hamiltonians.hexa, 2e/2o VQE LANDED 2026-05-13):")
+    print(f"    → 14 of 14 CMT falsifiers now have an in-repo deterministic gate (Q-1..6, Q-7, Q-8, W-1, V-1, RB-1, NB-1, cross-1, cross-2)")
+    print(f"    → Q-1..6 = live 2e/2o pocket VQE (vendored CMT Hamiltonians vs CASCI(2,2)); 4e/4o+ / final-molecule / pocket-embedded = next ramp")
 
     ok = (len(issues) == 0) and (n_pass == n_total)
     print()

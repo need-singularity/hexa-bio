@@ -368,9 +368,11 @@ def main() -> int:
     print(f"  {n_pass}/{len(CANDIDATE_IDS)} placeholder SMILES validated "
           f"(syntactically well-formed + roadmap-self-consistent + in small-molecule envelope)")
     print(f"  Tier-2 (placeholder structure) closure leg for axis-Q CMT candidates "
-          f"hd6/clc1/sar1/mfn2; live pocket-VQE binding (F-Q-1..6) remains "
-          f"qmirror-PySCF-backend-pending — see cmt_vqe_ladder_readiness.sh + "
-          f"~/core/qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md")
+          f"hd6/clc1/sar1/mfn2. Downstream: F-Q-1..6 pocket VQE binding is LIVE at "
+          f"the 2e/2o tier (qmirror chemistry_vqe_cmt_hamiltonians.hexa, vendored "
+          f"Hamiltonians vs CASCI(2,2)) — gated by cmt_vqe_ladder_readiness.sh; "
+          f"4e/4o+ / final-molecule / pocket-embedded VQE = next ramp "
+          f"(see ~/core/qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md §4-5)")
 
     if n_fail == 0:
         print("__CMT_SMILES_VALIDATION__ PASS")
