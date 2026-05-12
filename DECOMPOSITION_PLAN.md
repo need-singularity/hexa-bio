@@ -46,23 +46,23 @@ hexa-energy
 | `cosmetic-surgery` | **NEW hexa-beauty** | 미용 시술, FDA cosmetics / 미국 의료기기 다른 regulatory class |
 | `gastrointestinal-medicine` | **hexa-bio 흡수** | GI drug 개발 = therapeutic |
 | `hair-regeneration` | **NEW hexa-beauty** | 미용 (탈모는 borderline — therapeutic alopecia areata 는 hexa-bio, cosmetic hair growth 는 beauty) |
-| `herbalism` | **hexa-farm 이동** | 식물 기반 — farm/agri 도메인이 더 자연 (또는 alt-medicine 별도) |
+| ~~`herbalism`~~ | ✅ **DELETED 2026-05-12** (user "분류 애매한것들 삭제" decision) | 분류 모호 (farm/bio/alt-medicine 어디에도 안 맞음) |
 | `hiv` | **hexa-bio 흡수** | viral disease = virocapsid axis 후보 |
 | `hiv-treatment` | **hexa-bio 흡수** | HIV drug = therapeutic |
 | `immunology` | **hexa-bio 흡수** | 면역학 = therapeutic foundational |
 | `medical-device` | **hexa-mobility 또는 hexa-senses 이동** | device class (CDRH, not CDER) |
 | `mens-intimate-cleanser` | **NEW hexa-beauty** | personal care product (cosmetic) |
 | `microplastics` | **hexa-earth 이동** | environmental, not medicine |
-| `music-therapy` | **hexa-mind 이동** | mental/cognitive intervention |
-| `neuropharmacology` | **hexa-bio 흡수 OR hexa-mind** | 신경 drug — 어느쪽도 가능, drug = hexa-bio 권장 |
-| `nuclear-medicine` | **hexa-bio 흡수 (방사선 치료) + hexa-senses (이미징)** | dual: therapeutic (radioisotope) + diagnostic (PET/SPECT) |
+| ~~`music-therapy`~~ | ✅ **DELETED 2026-05-12** (user decision) | scope-creep verb removed entirely; not re-located to hexa-mind |
+| ~~`neuropharmacology`~~ | ✅ **DELETED 2026-05-12** (user 분류 애매 결정) | hexa-bio / hexa-mind 경계 모호 |
+| ~~`nuclear-medicine`~~ | ✅ **DELETED 2026-05-12** | therapeutic + diagnostic 이중 분류 모호 |
 | `perfumery` | **NEW hexa-beauty** | cosmetic/fragrance |
 | `pharmacology` | **hexa-bio 흡수** | 약리학 = foundational therapeutic |
 | `radiation-biology` | **hexa-bio 흡수** | 방사선 생물학 = therapeutic |
-| `sleep-medicine` | **hexa-bio 흡수 (drug) 또는 hexa-mind** | mostly drug, sleep aids = hexa-bio |
+| ~~`sleep-medicine`~~ | ✅ **DELETED 2026-05-12** | hexa-bio / hexa-mind 경계 모호 |
 | `tattoo-removal` | **NEW hexa-beauty** | cosmetic procedure |
 | `therapeutic-nanobot` | **hexa-bio 흡수 (NANOBOT axis)** | 명시적 5-axis 항목! 본래 여기 있어야 했음 |
-| `tibetan-medicine` | **하나로 결정 필요** — alt-medicine repo 만들거나, hexa-bio 흡수, 또는 별도 hexa-traditional | |
+| ~~`tibetan-medicine`~~ | ✅ **DELETED 2026-05-12** | alt-medicine 분류 모호 |
 | `vaccine` | **hexa-bio 흡수 (VIROCAPSID axis)** | 백신 = capsid-based delivery, 5-axis |
 | `virology` | **hexa-bio 흡수 (VIROCAPSID axis)** | 바이러스학 = capsid axis foundational |
 | `womens-intimate-cleanser` | **NEW hexa-beauty** | personal care product |
@@ -102,7 +102,16 @@ hexa-energy
 - `.roadmap.disease_aging_specific` (consumer anti-aging — therapeutic 측면도 있음)
 - `.roadmap.disease_alopecia` / `.roadmap.disease_alopecia_areata_specific` (areata = therapeutic; 일반 alopecia = cosmetic)
 - `.roadmap.disease_atopic_dermatitis_specific` (therapeutic — skincare 인 immunology drug)
-- `.roadmap.disease_dermatology` (포괄적 — therapeutic + cosmetic)
+- ~~`.roadmap.disease_dermatology`~~ ✅ **DELETED 2026-05-12** (cosmetic + therapeutic 분류 모호)
+
+**Rejected-axis exploration files** (전부 ✅ **DELETED 2026-05-12** — axis_expansion_decision_2026_05_08 에서 reject 됐고 exploration doc 만 dead-end 로 남아있던 것들; 분류 모호):
+- ~~`.roadmap.axis_bio_evolution_exploration`~~
+- ~~`.roadmap.axis_consciousness_exploration`~~
+- ~~`.roadmap.axis_planetary_health_exploration`~~
+- ~~`.roadmap.axis_quantum_biology_exploration`~~
+- ~~`.roadmap.disease_planetary_health`~~ (rejected-axis byproduct)
+
+(`.roadmap.axis_expansion_decision_2026_05_08` 자체는 RECORD of those rejections — 유지)
 
 ⚠️ 경계 모호한 dermatology 항목들은 user 가 case-by-case 결정 필요.
 
