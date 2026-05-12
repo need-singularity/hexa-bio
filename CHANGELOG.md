@@ -6,6 +6,32 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **N-R2 L7-L9 acceptance schemas drafted (consumer-proposed) + L6→L7-L9 contract test (`nanobot_l6_l7_contract_test.py`, 2026-05-12)** —
+  the canon@mk1 handoff JSON (`raw_77_therapeutic_nanobot_l7_acceptance_v1`, DECLARED v1.0.0-stub) names three per-layer
+  witness schemas (`raw_77_therapeutic_nanobot_l7_drug_load_v1` / `_l8_immune_evasion_v1` / `_l9_biodistribution_v1`) as
+  *placeholder names* — "actual schema files do not yet exist in either repo". Drafted them in-repo at
+  `nanobot/spec/proposed_l7_l9_witness_schemas/` (the §12-research **consumer-driven / Pact-style contract** pattern):
+  field-sets derived from the canon handoff JSON's per-layer `responsibility` + `primitives` + `consumes_from_l6` —
+  L7 = `drug_payload{shell_type, k_release_s_inv, payload_mass_amu}` + `surface_coating{peg_density_per_nm2, zeta_potential_mV}`
+  (consumes `work_per_cycle_kT`, `vertex_decorations`); L8 = `complement_evasion{c3b_deposition_rate_per_s, macrophage_clearance_t_half_h}`
+  + `opsonization_shield{igg_binding_kd_M, fc_receptor_avidity}` (consumes `pose_canonical_form`); L9 = `clearance_kinetics{renal_hepatic_ratio,
+  residence_time_h}` + `tissue_targeting{organ_uptake_percent_id_per_g, active_targeting_ligand_kd_M}` + `excretion_pathway{eGFR_threshold_ml_min,
+  bile_clearance_fraction}` (consumes `actuator_id`) — each with a `consumed_from_l6` enum + a raw_91 C3 note + a dir README.
+  Also: corrected `.roadmap.nanobot` (the N-R2 entry + Status header — which had not been updated for the 2026-05-12 L6 lock;
+  now reflects `emission_blocked_until_schema_lock=false`, the canon@mk1 acceptance-contract ref, and the L7-L9 drafts). The
+  canon side adopts/edits; the canonical copy then lives at `canon/domains/life/therapeutic-nanobot/spec/`. New
+  `_python_bridge/module/nanobot_l6_l7_contract_test.py` — a **consumer-driven contract test** (stdlib): verifies the hexa-bio L6
+  emitter (`raw_77_nanobot_actuation_v2` / `raw_77_nanobot_l6_handoff_v1`, LOCKED v1.0.0) provides every field each L7-L9 schema's
+  `consumed_from_l6` declares; that those declarations equal the canon handoff JSON's per-layer `consumes_from_l6` (modulo the
+  `work_per_cycle_kT_units`↔`work_per_cycle_kT` alias); that the L6 schema is locked v1.0.0 / emission unblocked; and that F-NB-1-c
+  `collision_overlap_target` = 0.0 (L0-L6 vs L7-L9 string-disjoint). **8/8 PASS**, sentinel `__NANOBOT_L6_L7_CONTRACT__ PASS`,
+  wired into `selftest/run_all.sh` (gate now **12 PASS / 3 pre-existing FAIL**). Honest C3 (raw#10/raw#91): a contract-*shape*
+  test at the boundary-acknowledgment level — it verifies the L6 emitter provides what the L7-L9 layers consume, NOT any
+  wet-lab/clinical fact; the L7-L9 schemas are hexa-bio *consumer-proposed drafts*; wet-lab integration + IP/contract review =
+  canon cycle-30+. `.roadmap.nanobot`, `AXIS_CLOSURE_PLAN.md` §4/§11/§12, README, `hexa.toml [closure]` updated. — completes the
+  in-repo / consumer-side of N-R2 (L6 producer schema LOCKED v1.0.0 · L7-L9 consumer schemas DRAFTED · the contract between them
+  TESTED 8/8); the canon-side adoption of the L7-L9 schemas + wet-lab/IP co-design remains canon cycle-30+ (out of this repo).
+
 - **canon@mk1 investigated; N-R2 (nanobot L6 handoff) hexa-bio-side LOCKED v1.0.0 + GATE-26-2 canon-state ABSORBED (2026-05-12)** —
   investigated `dancinlab/canon` branch `mk1` (where the canon content lives — `main` is gutted) and absorbed
   what hexa-bio needs for its two residual gaps (gaps 3 & 4 of the §12 research):

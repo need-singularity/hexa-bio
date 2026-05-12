@@ -255,9 +255,14 @@ all 5 axes**:
   proven** [~4473 ln, ~2 sorry, ~99.99%]) and emits the 4 `raw_77_lean4_proof_witness_v0` rows.
   Hexa-bio holds no `.lean` files by design — only the scaffold spec + the witness emitter + the state ref.
 - `nanobot/spec/canon_l7_acceptance_handoff_ref.json` + `nanobot/spec/handoff_l6_emission_v0.schema.json`
-  (`lock_metadata`) — N-R2 hexa-bio-side lock: a READ-ONLY ref copy of `canon@mk1`'s
-  `raw_77_therapeutic_nanobot_l7_acceptance_v1` (DECLARED v1.0.0-stub) + the L6 emission schema locked
-  v1.0.0 (emission unblocked, consumed_by_l7_l9 mapping recorded, consistent with the canon side).
+  (`lock_metadata`) + `nanobot/spec/proposed_l7_l9_witness_schemas/` (3 schemas + README) +
+  `_python_bridge/module/nanobot_l6_l7_contract_test.py` — N-R2 hexa-bio-side lock + the L7-L9 acceptance
+  schemas DRAFTED (consumer-proposed; canon adopts): a READ-ONLY ref copy of `canon@mk1`'s
+  `raw_77_therapeutic_nanobot_l7_acceptance_v1` (DECLARED v1.0.0-stub) + the L6 emission schema locked v1.0.0
+  (emission unblocked, `consumed_by_l7_l9` mapping) + 3 consumer-proposed L7-L9 per-layer witness schemas
+  (`raw_77_therapeutic_nanobot_l7_drug_load_v1`/`_l8_immune_evasion_v1`/`_l9_biodistribution_v1`, derived from the
+  canon@mk1 handoff JSON's per-layer primitives) + a consumer-driven contract test (8/8 PASS — the L6 emitter
+  provides every field each L7-L9 schema consumes, declarations == canon handoff's `consumes_from_l6`, F-NB-1-c ratio 0.0).
 - `_python_bridge/module/virocapsid_pdb_corpus.py` — virocapsid **C3a + C3b (GATE-26-V-1b)**:
   re-implementation of the R5-sunset icosahedral-capsid corpus + Bayes σ(6)=12-vs-uniform{5..50}
   audit; the corpus is now sourced from **VIPERdb v3.0**'s JSON web service -> vendored snapshot

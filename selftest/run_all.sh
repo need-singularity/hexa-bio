@@ -43,6 +43,7 @@ run "ribozyme_kinetics_simulation" python3 "$REPO_ROOT/_python_bridge/module/rib
 run "nanobot_actuation_simulation" python3 "$REPO_ROOT/_python_bridge/module/nanobot_actuation_simulation.py"
 run "virocapsid_pdb_corpus" python3 "$REPO_ROOT/_python_bridge/module/virocapsid_pdb_corpus.py"
 run "lean4_proof_witness_emit" python3 "$REPO_ROOT/_python_bridge/module/lean4_proof_witness_emit.py"
+run "nanobot_l6_l7_contract_test" python3 "$REPO_ROOT/_python_bridge/module/nanobot_l6_l7_contract_test.py"
 
 echo "─────────────────────────────────────────────"
 echo "selftest summary: $passes PASS / $fails FAIL"
