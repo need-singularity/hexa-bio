@@ -482,14 +482,41 @@ core stays Apache-2.0 under FSF MereAggregation.
 
 ---
 
+## Sister repositories (live dependencies — CLI-direct, NO wrappers)
+
+hexa-bio depends on three sister repos via **CLI / file-system reads**, not via
+Python wrappers or shadow-copied code. Each is a separate canonical SSOT that
+updates on its own cadence; hexa-bio picks up updates automatically through
+CLI invocations. The full operating rules are in [`AGENTS.md`](AGENTS.md)
+"Sister repositories — live dependencies".
+
+- **[`dancinlab/qmirror`](https://github.com/dancinlab/qmirror)** — quantum
+  substrate (IBM/IonQ/Quantinuum substitute). **v2.1.0 — 14/14 closure conditions
+  PASS** (8 v1.0 + 5 v2.0 + 1 v2.1 incl. cond.14 chemistry/molecular VQE H2 STO-3G/0.74Å
+  sub-µHa via UCCSD + active-space CASCI). ≤30-qubit Aer-compatible pure-hexa
+  state-vector kernel + ANU QRNG real quantum entropy. The `quantum` axis's
+  upstream. **Hexa-bio integration**: `selftest/qmirror_chemistry_vqe_gate.sh`
+  invokes `hexa run ~/core/qmirror/chemistry_vqe/module/chemistry_vqe.hexa --selftest`
+  directly (no Python wrapper); SKIP/PASS/FAIL semantics; wired into
+  `selftest/run_all.sh`. qmirror updates pick up automatically.
+- **[`dancinlab/hexa-meta`](https://github.com/dancinlab/hexa-meta)** —
+  formal-axis Lean4 layer (`formal/lean4/`, active after canon RETIRED
+  2026-05-11). 4/4 axes **PROVEN against WEAVE-semantics v1** (cycle-30, commit
+  `a9b5722`). hexa-bio reads via `_python_bridge/module/lean4_proof_witness_emit.py`
+  `--refresh` from hexa-meta main; emits raw_77_lean4_proof_witness_v0 rows.
+  **NO `.lean` files in hexa-bio by design.**
+- **`~/core/nexus/canon-infra/legacy-canon/`** — frozen canon@mk1 retirement
+  snapshot: Theorem B (σ·φ=n·τ⟺n=6) ESSENTIALLY FULLY PROVEN (~4473 ln, ~2
+  sorry, ~99.99%) + MechVerif legacy (read-only).
+
 ## Cross-links
 
-- Sister standalone: [`qmirror v2.0.0`](https://github.com/dancinlab/qmirror/releases/tag/v2.0.0) (quantum substrate — closure 13/13 conds, 8 v1 + 5 v2; the `quantum` axis's upstream)
 - Sister standalone: [`sim-universe v1.0.0`](https://github.com/dancinlab/sim-universe) (simulation substrate)
 - Sister standalone: [`honesty-monitor v1.0.0`](https://github.com/dancinlab/honesty-monitor) (AI honesty-bit falsifier)
-- Upstream concept SSOT: `canon/domains/biology/hexa-weave/hexa-weave.md` (declarative)
-- Upstream formal SSOT: `canon/lean4-n6/N6/MechVerif/`
-- Upstream paper SSOT: `canon/papers/hexa-weave-formal-mechanical-w2-2026-04-28.md`
+- Upstream concept SSOT: `~/core/nexus/canon-infra/legacy-canon/domains/biology/hexa-weave/hexa-weave.md` (declarative; FROZEN at canon retirement 2026-05-11)
+- Upstream formal SSOT (active): `~/core/hexa-meta/formal/lean4/` — see [`.roadmap.lean4_formal`](.roadmap.lean4_formal) §1 status
+- Upstream formal SSOT (frozen): `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/MechVerif/`
+- Upstream paper SSOT: `~/core/nexus/canon-infra/legacy-canon/papers/hexa-weave-formal-mechanical-w2-2026-04-28.md` (FROZEN)
 - 5-axis lock record: [`.roadmap.axis_expansion_decision_2026_05_08`](.roadmap.axis_expansion_decision_2026_05_08)
 - 5-axis 100% closure plan (gates / deadlines / owners): [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md)
 - 5-axis 100% closure — deep web + arXiv research (how to close the residual out-of-repo gaps): [`docs/closure_100_research_2026_05_12.md`](docs/closure_100_research_2026_05_12.md)

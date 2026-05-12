@@ -52,3 +52,88 @@ lattice-fit assertions. Use that entity's *own* invariants.
 Project-specific agent guidance may be appended below as separate
 sections. The lattice-policy registration above is canonical and
 should not be removed.*
+
+---
+
+## 🛰️ Sister repositories — live dependencies (do NOT reimplement)
+
+hexa-bio invokes external sister repos via CLI / file-system paths. Each is a
+separate canonical SSOT that hexa-bio reads but does NOT mirror or wrap. When
+adding capability, **prefer extending the sister repo and calling it via CLI**
+over implementing the same logic inside hexa-bio.
+
+### `dancinlab/qmirror` — quantum substrate (IBM/IonQ/Quantinuum substitute)
+
+- **Local**: `~/core/qmirror` (canonical: https://github.com/dancinlab/qmirror)
+- **Role**: ≤30-qubit statistically real-QPU-equivalent quantum substrate on
+  commodity CPUs. ANU QRNG (real quantum entropy, 4-tier fallback) + Aer-compatible
+  pure-hexa state-vector kernel + chemistry / molecular VQE (cond.14 H2 STO-3G /
+  0.74Å sub-µHa via UCCSD + active-space CASCI). v2.1.0 — **14/14 closure
+  conditions PASS**.
+- **Invocation**: hexa-lang CLI. `hexa run ~/core/qmirror/chemistry_vqe/module/chemistry_vqe.hexa --selftest`
+  (or the umbrella `qmirror` binary once installed via `hx install qmirror`).
+- **Hexa-bio integration**: `selftest/qmirror_chemistry_vqe_gate.sh` is a
+  **CLI-direct gate, NOT a Python wrapper / adapter**. It shells out to
+  `hexa run …` and reads exit code + stdout. SKIP semantics if `hexa` runtime
+  isn't reachable on this host (not a regression). PASS when qmirror's own
+  selftest returns 0.
+- **Why CLI-direct, not wrap**: qmirror is **continuously updated** (its own
+  Phase 1..N landing track). A Python adapter would freeze the qmirror surface
+  at the moment of writing and drift. CLI invocation picks up upstream changes
+  automatically without a hexa-bio re-edit.
+- **What lives in hexa-bio**: only the gate script + a witness emitter that
+  records "qmirror cond.14 = PASS @ version v2.1.0". **NO `.hexa` files, NO
+  shadow chemistry-VQE Python in hexa-bio.**
+- **Migration plan** for existing in-hexa-bio quantum tests (`tests/mpro_pocket_vqe_v7.py`,
+  `tests/mpro_warhead_library_vqe_v7.py`, currently on `~/.hexabio_venv`
+  qiskit/aer/nature/pyscf): tracked as [`CLOSURE_RESIDUAL_BACKLOG.md`](CLOSURE_RESIDUAL_BACKLOG.md) §C4.2.
+- **Status (2026-05-12)**: qmirror v2.1.0 chemistry_vqe selftest reachable on
+  this host but `hexa` runtime dispatch server is currently offline on the dev
+  machine — the gate SKIPs gracefully. PASS will flip automatically when the
+  runtime is reachable (or in CI).
+
+### `dancinlab/hexa-meta` — formal-axis Lean4 layer
+
+- **Local**: `~/core/hexa-meta/formal/lean4/` (canonical: https://github.com/dancinlab/hexa-meta)
+- **Role**: WEAVE-mechanical 4-axis consumer-contract layer (F-CL-FORMAL-1..4).
+  Active after canon RETIRED 2026-05-11. 4/4 axes **PROVEN against WEAVE-semantics
+  v1** (cycle-30, commit `a9b5722`); sorry_count=0, kernel-checked on lean4
+  v4.30.0-rc1 via `lake build` (no Mathlib required for v1).
+- **Hexa-bio integration**: `_python_bridge/module/lean4_proof_witness_emit.py`
+  (`--refresh` reads from hexa-meta main; merges so curator `proof_summary`
+  fields survive; emits 4 raw_77_lean4_proof_witness_v0 rows;
+  `selftest/run_all.sh`-wired; sentinel `__LEAN4_PROOF_WITNESS__ PASS`).
+- **What lives in hexa-bio**: state ref v2 (`weave/spec/canon_lean4_state_ref.json`),
+  consumer-contract scaffold (`weave/spec/lean4_mechanical_layer_v0.scaffold.md`),
+  witness schema + emitter. **NO `.lean` files in hexa-bio by design.**
+- **v2 promotion (cycle 30++)**: full-WEAVE-algebra v2 work items in
+  [`.roadmap.lean4_formal`](.roadmap.lean4_formal) §3 and
+  [`CLOSURE_RESIDUAL_BACKLOG.md`](CLOSURE_RESIDUAL_BACKLOG.md) §B.
+
+### `~/core/nexus/canon-infra/legacy-canon/` — frozen legacy snapshot
+
+- **Role**: canon@mk1 retirement snapshot (2026-05-11): Theorem B ESSENTIALLY
+  FULLY PROVEN (~4473 ln, ~2 sorry, ~99.99%) + MechVerif legacy (AX1+Strand
+  sorry-free; AX2/MKBridge/Foundation/Axioms ~15 sorry + ~28 named axioms).
+- **Status**: read-only — no active development. Reopening for v2 work would
+  require porting forward to hexa-meta or a successor repo.
+
+### Sister-repo rules (agent operating instructions)
+
+1. **Never duplicate a sister-repo's logic inside hexa-bio**. If you want a new
+   chemistry VQE primitive → extend qmirror, call from hexa-bio. If you want a
+   new Lean theorem → extend hexa-meta.
+2. **CLI integration over Python wrappers**. Sister repos update on their own
+   cadence; wrappers drift. Direct CLI/file-system reads pick up updates
+   automatically.
+3. **Gates, not re-verifications**. Hexa-bio's job is to gate (PASS/SKIP/FAIL
+   the sister's own selftest output) and emit witness rows, not to re-prove
+   what the sister already proved.
+4. **SKIP is honest, not failure**. If the sister isn't reachable on the host,
+   the gate SKIPs. SKIPs are not regressions. FAIL is reserved for "sister
+   reachable, sister returned non-zero".
+5. **Vendored snapshots** (`weave/spec/canon_lean4_state_ref.json`,
+   `nanobot/spec/canon_l7_acceptance_handoff_ref.json`, etc.) are READ-ONLY
+   curator artefacts — refresh via `--refresh` flags, never hand-edit the
+   axes/sorry-counts/etc. The curator fields (`proof_summary`, status text)
+   may be hand-edited; refresh MERGES so they survive.
