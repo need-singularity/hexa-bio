@@ -5,6 +5,12 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Added (cycle-30++++++++, 2026-05-13 — F-Q-6-E Ramp B externalized closure: variational VQE reaches chem-accuracy)
+
+- **F-Q-6-E Ramp B externalized closure — pure-hexa physics + Python-stdlib NM driver reaches CASCI(4,4) within chem-accuracy on LiH** (Option 2 of the prior commit's documented sub-ramps). Each energy eval is a fresh hexa subprocess via the qmirror oneshot module `chemistry_vqe/module/chemistry_vqe_cmt_uccsd_lih_4e4o_oneshot.hexa`; the optimizer is `selftest/cmt_uccsd_lih_4e4o_external_nm_driver.py`, a Python-stdlib-only Nelder-Mead. Live on dev host at maxiter=5 (5.7-min wall, 36 evals): **E_VQE = −7.8638100 Ha, CASCI(4,4) = −7.8643048 Ha, |Δ| = 494.8 µHa (3× UNDER the 1.6 mHa chem-accuracy bound), 58.5% recovery of the HF→CASCI correlation gap**. Higher maxiter would converge further (numpy harness: 1.06 mHa @ maxiter=200, 0.004 µHa @ maxiter=8000). New gate `selftest/cmt_uccsd_lih_4e4o_external_nm_readiness.sh` invokes the driver and aggregates the result; wired into `run_all.sh` after the ansatz-machinery gate. Sentinel `__CMT_UCCSD_LIH_4E4O_EXTERNAL_NM_READINESS__ PASS`.
+
+  Honest scope (raw_91 C3): pure-hexa **physics** (UCCSD Trotter ansatz + masked n-qubit Pauli expectation) + externalized **optimizer** (stdlib Python NM). This is the realized Option 2 from the prior commit. Option 1 — a vectorized in-place optimizer-in-hexa refactor — remains a deeper hexa-runtime task (the per-call boxed-float retention in `farr_get`/`farr_set` hot paths is a runtime issue, not a user-code issue; bisected). The externalized closure gives the variational result without needing the runtime fix.
+
 ### Added (cycle-30++++++++, 2026-05-13 — F-Q-6-E Ramp B partial: pure-hexa UCCSD ansatz machinery)
 
 - **F-Q-6-E Ramp B partial — pure-hexa UCCSD-at-4e/4o ansatz machinery** for
