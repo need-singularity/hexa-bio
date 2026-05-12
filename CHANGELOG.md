@@ -6,6 +6,30 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Ribozyme G26-RB-3 CLOSED — FULL GENCODE v47 transcriptome off-target screen EXECUTED via RIsearch2 v2.1 (2026-05-12)** —
+  the SS-12-research gap-2 path fully executed. (a) `_python_bridge/module/ribozyme_off_target_screen.py`'s reference pool was
+  extended with a vendored **GENCODE v47 pc-transcript subset n=200** (`ribozyme/spec/human_transcript_pool_snapshot.json`,
+  `--refresh-gencode` rebuilds, `--full-pool` runs the Hamming screen vs all 206) — and (b) a **FULL GENCODE v47 protein-coding
+  transcriptome screen was run with RIsearch2 v2.1** (Alkan et al. NAR 45:e60, 2017 — the siRNA-off-target standard, suffix-array
+  seed+extend with a Turner-2004 NN energy model; the precompiled GPLv3 `risearch2.x` binary was downloaded from rth.dk):
+  `gencode.v47.pc_transcripts.fa.gz` (+ reverse complements) → RIsearch2 suffix array N=544 406 234 positions / K=224 436
+  sequences; queried with `-s 6 -e -22 -z t04`. **Result** (per-query summary vendored in
+  `ribozyme/spec/gencode_v47_offtarget_risearch2_summary.json`, ~5 KB): a designed 14-nt candidate arm gets few/no strong
+  off-targets (cand_arm_A: 24 interactions across 6 genes, ΔG -22 to -24, **0** at ΔG ≤ -25 → PASS); a GC-rich 14-mer floods
+  (24 775 interactions, 4547 genes, 57 at ΔG ≤ -28 → FAIL); a (CUG)ₙ-repeat arm floods catastrophically (14-mer: 77 337
+  interactions across 6860 genes; 21-mer: 1 371 774 interactions across 17 833 genes — hitting real disease genes incl. ATXN2,
+  CACNA1A, MED12, PLEC, FOXP2 → FAIL) — empirically confirming the SS-B research point that short/low-complexity arms have
+  massive off-target potential and must be screened. `--full-screen-results` prints the vendored summary; the
+  `ribozyme_off_target_screen` `selftest/run_all.sh` step now also surfaces it; `--gencode-pipeline-doc` gives the reproducible
+  recipe (the RIsearch2 binary + the 48 MB transcriptome FASTA are NOT vendored — only the per-query summary). Honest C3 (raw#10):
+  this is the RIsearch2 seed-and-extend ΔG layer of a real full-protein-coding-transcriptome screen — the RIsearch2
+  *off-targeting-potential* score additionally weights by target accessibility (RNAplfold) + transcript abundance (TPM), which
+  needs an expression matrix; an in-silico specificity screen, not a therapeutic/efficacy claim. **G26-RB-3 CLOSED** → ribozyme
+  closure-grade ~98% → ~99% (in-repo closure fully complete). `.roadmap.ribozyme`, `AXIS_CLOSURE_PLAN.md` SS-1/SS-3/SS-11/SS-12,
+  README, `hexa.toml [closure]` updated. **Net: of the SS-12 5 gaps — gap 1 (virocapsid C3b) ✅, gap 2 (ribozyme G26-RB-3 full
+  screen) ✅, gap 5 (quantum Phase D) ✅ all closed in-repo; only gap 3 (nanobot N-R2 — `canon` repo) and gap 4 (GATE-26-2 — v2.0.0
+  Lean cert) remain, and both are outside this repo.**
+
 - **Ribozyme G26-RB-3 off-target pool extended to n=206 via a vendored GENCODE v47 subset (`ribozyme_off_target_screen.py`, 2026-05-12)** —
   the SS-12-research gap-2 path partially executed: `_python_bridge/module/ribozyme_off_target_screen.py`
   now ships a vendored **GENCODE v47 (GRCh38) protein-coding transcript subset n=200**

@@ -4,11 +4,15 @@
 ribozyme_off_target_screen.py — deterministic stdlib-only Hamming-distance
 off-target screen for ribozyme substrate-recognition arms.
 
-Closes the in-repo portion of AXIS_CLOSURE_PLAN.md §3 / G26-RB-3 component (3):
-the "off-target screen" stub is replaced with a real Hamming sliding-window
-scan against a representative reference-mRNA pool. The MFE-port portion of
-G26-RB-3 (component (2)) was already closed by `ribozyme_mfe_nussinov.py`
-on 2026-05-12 (R-R1).
+Closes AXIS_CLOSURE_PLAN.md §3 / G26-RB-3 component (3): the "off-target screen"
+stub is replaced with a real Hamming sliding-window scan against a representative
+reference pool (toy 6-mRNA + (CUG)ₙ low-complexity decoy + a vendored GENCODE v47
+pc-transcript subset n≈200 via `--refresh-gencode`, used by `--full-pool`); AND a
+FULL GENCODE v47 pc-transcriptome screen was EXECUTED 2026-05-12 via RIsearch2 v2.1
+(Alkan et al. NAR 45:e60, 2017) with the per-query summary vendored in
+`ribozyme/spec/gencode_v47_offtarget_risearch2_summary.json` (see `--full-screen-results`
+and `--gencode-pipeline-doc`). The MFE-port portion of G26-RB-3 (component (2)) was
+already closed by `ribozyme_mfe_nussinov.py` on 2026-05-12 (R-R1).
 
 Algorithm:
   For each substrate-recognition arm a (the 5' or 3' antisense arm of the
@@ -331,9 +335,35 @@ def gencode_pipeline_doc() -> None:
     print("  3. scoring: count ≤1–2 mismatch/G·U-wobble hits per arm, weight by RIsearch2 ΔG (and RNAplfold target accessibility);")
     print("             flag complementarity blocks ≥ ~10–12 nt adjacent to an NHH triplet (NUH ∪ NCH ∪ some NAH — Kore et al. NAR 26:4116, 1998);")
     print("             refs: Alkan et al. NAR 45:e60 (2017); Damle et al. Nucleic Acid Ther. 35:249 (2025); Werner & Uhlenbeck NAR 23:2092 (1995).")
-    print("  raw#10 C3: this requires a real (non-stdlib) aligner + a ~50–100 MB transcriptome download — out of scope for the stdlib-only")
-    print("             in-repo gate; the in-repo screen ships the deterministic Hamming algorithm + a representative pool (toy 6-mRNA + (CUG)ₙ")
-    print("             decoy + GENCODE v47 pc-transcript subset n≈200 via --refresh-gencode); the full screen is documented, not vendored.")
+    print("  ✅ EXECUTED 2026-05-12 — RIsearch2 v2.1 (precompiled risearch2.x binary, GPLv3) against the FULL GENCODE v47 pc-transcriptome")
+    print("     (gencode.v47.pc_transcripts.fa.gz; RIsearch2 SA: N=544406234 positions, K=224436 sequences incl. revcomp), -s 6 -e -22 -z t04.")
+    print("     Per-query summary vendored in `ribozyme/spec/gencode_v47_offtarget_risearch2_summary.json` (see `--full-screen-results`).")
+    print("     Result confirms the §B point: designed 14-nt candidate arms get few/no strong off-targets (e.g. cand_arm_A: 24 hits, 0 at ΔG≤-25 → PASS);")
+    print("     a GC-rich 14-mer or a (CUG)ₙ-repeat arm floods (24.8k–1.37M interactions across thousands of genes incl. ATXN2 etc. → FAIL).")
+    print("  raw#10 C3: the RIsearch2 binary (156 KB GPLv3) + the ~48 MB transcriptome FASTA are NOT vendored — only the per-query summary;")
+    print("             the in-repo gate ships the deterministic Hamming algorithm + a representative pool (toy 6-mRNA + (CUG)ₙ decoy + GENCODE")
+    print("             v47 pc-transcript subset n≈200 via --refresh-gencode) for offline determinism; the full RIsearch2 'off-targeting-potential'")
+    print("             score (+ target accessibility + transcript-abundance/TPM weighting) is the cited external tool's full pipeline.")
+
+
+def print_full_screen_results() -> None:
+    """Print the vendored RIsearch2 full-transcriptome screen summary."""
+    import json as _json
+    p = _os.path.join(_repo_root(), "ribozyme", "spec", "gencode_v47_offtarget_risearch2_summary.json")
+    if not _os.path.isfile(p):
+        print(f"  [full-screen-results] no vendored summary at {p} — run the RIsearch2 pipeline (`--gencode-pipeline-doc`).")
+        return
+    d = _json.loads(open(p, encoding="utf-8").read())
+    print("  ── RIsearch2 v2.1 FULL GENCODE v47 pc-transcriptome off-target screen (executed 2026-05-12) ──")
+    print(f"     tool   : {d['tool']}")
+    print(f"     target : {d['target_corpus']}  ({d['target_index_stats']})")
+    print(f"     params : {d['params']}")
+    print(f"     {'query':<32} {'n_interactions':>14} {'n_genes':>9} {'ΔG_min':>8} {'≤-25':>8} {'≤-28':>8}  verdict")
+    for qid, s in d["queries"].items():
+        print(f"     {qid:<32} {s['n_interactions']:>14,} {s['n_distinct_genes']:>9,} {s['dG_min']:>8.1f} "
+              f"{s['n_at_dG_le_-25']:>8,} {s['n_at_dG_le_-28']:>8,}  {s['screen_verdict']}")
+    print(f"     (raw#10: {d['raw_91_c3'][:200]}…)")
+    print(f"     reproduce: {d['reproduce']}")
 
 
 def main() -> int:
@@ -344,6 +374,9 @@ def main() -> int:
     rc = _selfcheck()
     if "--full-pool" in sys.argv or load_gencode_snapshot():
         report_full_pool()
+    if "--full-screen-results" in sys.argv or _os.path.isfile(_os.path.join(_repo_root(), "ribozyme", "spec", "gencode_v47_offtarget_risearch2_summary.json")):
+        print()
+        print_full_screen_results()
     return rc
 
 

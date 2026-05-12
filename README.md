@@ -196,7 +196,7 @@ hexa-bio quantum n6                   # n=6 invariant binding for the H₂/LiH p
 |------|------|--------------------------|---------------------------------|-------------------|
 | `weave` | composition | STRUCTURAL-EXACT (T=1, post 0.97) | ✅ **~100%** | cage-assembly ODE + Bayesian audit |
 | `virocapsid` | assembly | STRUCTURAL-EXACT (T=1 corpus + multi-T) | 🟢 **~99%** — C5 schema lock + 4-fixture conformance ✅ · C3a + **C3b (GATE-26-V-1b) CLOSED in-repo ✅ 2026-05-12** (corpus from VIPERdb v3.0 web service -> vendored snapshot, **n=527** / 87 families / 15 T-strata; log10_BF 876.27, 7/7 C3a + 3/3 C3b PASS); `virocapsid_pdb_corpus.py` + `--refresh-viperdb`; remaining: F-VIROCAPSID-1-c/-d independent axes (minor; cycle 28+) | VIPERdb-corpus T-number discrimination (n=527, σ(6)=12 = 12 pentamers ∀T incl. pseudo-T) + Caspar-Klug + Zlotnick cage-assembly ODE |
-| `ribozyme` | catalysis | STRUCTURAL-EXACT-CANDIDATE (12-nt; deductive PASS) | 🟢 **~98%** — R-R1 (Nussinov MFE) / G26-RB-3 comp 3 (Hamming off-target screen — pool extended to n=206 via GENCODE v47 subset) / G26-RB-2 (J₂=\|S₄\|=24 quotient) / G26-RB-1′ (4-state kinetics sim re-impl, F-RB-4 6/6) all in-repo ✅ 2026-05-12; remaining: G26-RB-3 *FULL* ~250k-transcript GENCODE/RefSeq screen w/ RIsearch2-grade scoring (documented external step `--gencode-pipeline-doc` — needs a real aligner + a ~50 MB download; not a v1.x closure blocker) | hammerhead 4-state kinetics (Eyring TST, k_cat≈0.6/min) + Nussinov MFE + Hamming off-target screen (toy + (CUG)ₙ decoy + GENCODE v47 pc-transcript subset n=200) |
+| `ribozyme` | catalysis | STRUCTURAL-EXACT-CANDIDATE (12-nt; deductive PASS) | 🟢 **~99%** — R-R1 (Nussinov MFE) / G26-RB-3 (Hamming off-target screen — pool n=206 via GENCODE v47 subset **+ FULL GENCODE v47 pc-transcriptome screen EXECUTED via RIsearch2 v2.1**, summary vendored) / G26-RB-2 (J₂=\|S₄\|=24 quotient) / G26-RB-1′ (4-state kinetics sim re-impl, F-RB-4 6/6) all in-repo ✅ 2026-05-12; remaining: minor robustness only — no v1.x closure blocker | hammerhead 4-state kinetics (Eyring TST, k_cat≈0.6/min) + Nussinov MFE + Hamming off-target screen + RIsearch2 v2.1 vs GENCODE v47 pc-transcriptome |
 | `nanobot` | actuation | STRUCTURAL-EXACT-CANDIDATE (12-vertex; deductive PASS) | 🟢 **~95%** — N-R1 v2 reference emitter ✅ · C0d cuboctahedron dual-skeleton 4-state actuation sim re-impl ✅ 2026-05-12 (both skeletons F-NB-4 6/6); remaining: N-R2 canon-side L6 acceptance lock (out-of-repo, `canon` repo) | 4-state DNA-origami actuation sim (work 50 kT, J₂=24 pose-canon) — both truncated-icosahedron & cuboctahedron skeletons |
 | `quantum` | computation | VERIFIED (H₂ 6-Pauli / LiH path) + pocket-scale (F-Q-6-D) + library-ranking (F-Q-6-F) | 🟢 **~82%** — F-Q-1…5 + F-Q-EXT-1…6+ + **F-Q-6-D PASS** (Mpro pocket cluster, 2e/2o → 2 qubit → VQE sub-µHa 0.0001 µHa vs CASCI(2,2), `tests/mpro_pocket_vqe_v7.py`) + **F-Q-6-F PASS** (Phase D — 5-warhead covalent-Mpro-inhibitor library ranking, all 11 fragments VQE=CASCI sub-µHa, `tests/mpro_warhead_library_vqe_v7.py`); remaining: L4 single-residue (subsumed) + GATE-26-2 lean4 → v2.0.0 | VQE (H₂ 0.4 µHa, LiH 1.41 mHa) + Mpro pocket VQE + 5-warhead library ranking + 11-drug pocket library + ML pilots |
 
@@ -226,12 +226,14 @@ all 5 axes**:
   (**42/42 checks PASS**, no human raters, no live simulation).
 - `_python_bridge/module/ribozyme_mfe_nussinov.py` — Nussinov MFE solver
   inline port (closes ribozyme **R-R1**; `dot_bracket='stub'` deprecated).
-- `_python_bridge/module/ribozyme_off_target_screen.py` — Hamming sliding-window
-  off-target screen (in-repo portion of ribozyme **G26-RB-3 comp 3**): arm + reverse-complement
-  scan, per-arm per-kb gate; reference pool = 6-mRNA toy + (CUG)ₙ low-complexity decoy +
-  **GENCODE v47 pc-transcript subset n=200** (`ribozyme/spec/human_transcript_pool_snapshot.json`,
-  `--refresh-gencode` rebuilds, `--full-pool` runs vs all 206); the FULL ~250k-transcript screen
-  with RIsearch2-grade ΔG/accessibility scoring is the documented external step (`--gencode-pipeline-doc`).
+- `_python_bridge/module/ribozyme_off_target_screen.py` — ribozyme **G26-RB-3** off-target screen:
+  Hamming sliding-window scan (arm + reverse-complement, per-arm per-kb gate; 4/4 self-check) over a
+  reference pool = 6-mRNA toy + (CUG)ₙ low-complexity decoy + **GENCODE v47 pc-transcript subset n=200**
+  (`ribozyme/spec/human_transcript_pool_snapshot.json`, `--refresh-gencode` rebuilds, `--full-pool` runs
+  vs all 206); **+ a FULL GENCODE v47 pc-transcriptome screen EXECUTED via RIsearch2 v2.1** (`-s 6 -e -22 -z t04`;
+  per-query summary vendored `ribozyme/spec/gencode_v47_offtarget_risearch2_summary.json`, `--full-screen-results`;
+  designed 14-nt arms → PASS, GC-rich / (CUG)ₙ arms → flood 24.8k–1.37M off-targets → FAIL; the RIsearch2
+  binary + the 48 MB FASTA aren't vendored — `--gencode-pipeline-doc` reproduces).
 - `_python_bridge/module/ribozyme_reaction_coordinate_quotient.py` — ribozyme
   **G26-RB-2** branch-lock: J₂ = |S₄| = 4! = 24, S₄ ≅ O (octahedral), regular
   action on the 24 catalytic-ladder orderings (14/14 deductive checks PASS).
