@@ -121,8 +121,11 @@ scope:
 - F-disease-cmt-Q-4: hxq-cmt-gjb1-001 — Cx32 mutant fold-rescue VQE + Cx26 (cochlear) cross-rxn audit + 척수강내 dosing PK
 - F-disease-cmt-Q-5: hxq-cmt-mfn2-001 — MFN2 GTPase R94Q dominant-negative interface VQE + paralog Rab/Ras selectivity
 - F-disease-cmt-Q-6: hxq-cmt-sar1-001 — SARM1 TIR/ARM NAD+ pocket VQE + reversible (non-covalent) commitment + IP-회피 scaffold confirm
-- F-disease-cmt-Q-7: 9-novel-drug + 25-comparator library ranking (탈수초형 vs 축삭형 sub-stratified)
-- F-disease-cmt-Q-8: 7-axis side-effect-avoidance constraint audit (§2) — 후보별 binary pass/fail per constraint
+- F-disease-cmt-Q-7: 9-novel-drug + 25-comparator library ranking (탈수초형 vs 축삭형 sub-stratified) — ✅ **in-repo deterministic gate LANDED 2026-05-12 cycle-30+++++++** (`selftest/cmt_library_ranking.py`, sentinel `__CMT_LIBRARY_RANKING__ PASS`): 10 novel + 10 key comparators (incl. 5 negative-control paradigms — CRISPR-DNA PMP22 edit / PXT3003 PleoDrug / systemic ricolinostat HDAC6 / NRG1 full-agonist / ataluren-class readthrough), 5 subtype strata (CMT1A / CMT1X / CMT2A / CMT2-axonal-broad / CMT4J), weighted-ordinal score (sefa7 0.30 + druglike 0.20 + ipclear 0.20 + modmat 0.12 + kfit 0.10 + subcov 0.08). Verifies: every stratum ≥1 covering novel; top-ranked per stratum is paradigm-closed; every novel ranks above its declared negative controls; all 10 novel have sefa7==7 (v4 paradigm-closure invariant); 5-axis saturation. Per-stratum leaderboard emitted. raw_91 C3: scores are DESIGN-AUDIT-derived ordinals, NOT VQE binding affinities — the live VQE library scan is Tier 3 / Phase γ (blocked on classical-chemistry backend, see F-disease-cmt-Q-1..6 note below).
+- F-disease-cmt-Q-8: 7-axis side-effect-avoidance constraint audit (§2) — 후보별 binary pass/fail per constraint — ✅ **in-repo deterministic gate LANDED 2026-05-12 cycle-30+++++++** (`selftest/cmt_side_effect_avoidance_audit.py`, sentinel `__CMT_SIDE_EFFECT_AUDIT__ PASS`): 10 hxq-cmt-* × 7 design axes, verdict ∈ {PASS, N/A}. Verifies: every candidate has a verdict on every axis (no FAIL, no missing); 5-axis saturation (Q/W/V/RB/NB); axis balance Q:5 RB:2 W:1 V:1 NB:1 (per §4 5-axis-cross-contribution + §11-v4 — the §1-table HEADER's "QUANTUM 4" is superseded; gjb1-001 IS a Q candidate per §1-body + §4 + §11-v4, encoded as the canonical resolution in the gate); v4 "paradigm-level 100% closure" claim internally coherent (all 10 pass all applicable constraints). 70 verdict cells = 45 PASS + 25 N/A.
+
+  **F-disease-cmt-Q-1..6 (pocket VQE binding) — Tier 3 / Phase γ readiness gate**: `selftest/cmt_vqe_ladder_readiness.sh` (sentinel `__CMT_VQE_LADDER_READINESS__ SKIP`) documents that qmirror's chemistry_vqe kernel is pure-hexa H2/STO-3G-only (raw#10 caveat 1: arbitrary-SMILES / active-space transformer "out of scope for a pure-hexa kernel"), so the CMT small-molecule pocket VQE (HDAC6 / ClC-1 / SARM1 / MFN2 / Cx32 against hd6/clc1/sar1/mfn2/gjb1) cannot run on it. The gate runs the qmirror H2 cond.14 spectroscopic-accuracy gate (the only chemistry-VQE the pure-hexa kernel does), then SKIPs cleanly — NOT a regression. CMT pocket VQE binding needs either the retired python bridge (qiskit-nature + pyscf, the legacy `tests/mpro_pocket_vqe_v7.py` path) or a future qmirror chemistry_vqe extension (F-Q-6-E ramp dependency). The §11-v4 "양자 closure 통계 (2e/2o + 4e/4o chem-acc PASS)" claims come from the `.roadmap.novel_drugs §12` build runs (separate); this readiness probe just confirms the qmirror-pure-hexa kernel can't reproduce them — hence the design-audit closure (Q-7 + Q-8 gates) is the in-repo-verifiable closure, and the VQE-binding closure is documented-pending.
+
 - F-disease-cmt-W-1: hxq-cmt-nrg1-001 — Schwann-restricted Fc-fusion + ErbB1/4 cross-rxn audit (cardiotoxicity / 유방) + partial agonism dose-response (Schwann 과증식 회피)
 - F-disease-cmt-V-1: hxq-cmt-fig4-001 — AAV9 capsid de-immunization + 4×miR-122 BS liver detarget + nAb seroprevalence simulation
 - F-disease-cmt-RB-1: hxq-cmt-pmp22-001 (지방산 vs SQ conjugate) + hxq-cmt-pmp22-002 (gapmer ASO) — knockdown 정밀도 + duration + Schwann biodistribution + HNPP overshoot rescue audit
@@ -150,9 +153,9 @@ scope:
 - Tier 0 (skeleton): ✅ v1 land 2026-05-10
 - Tier 1 (신약 candidate ID): ✅ v2 land 2026-05-10 — 10 hxq-cmt-* (5-axis 모두 cover) + 7-axis constraint
 - Tier 2 (SMILES/schematic Phase β): ⏳ DESIGN — 4 small-molecule SMILES placeholder commit, 6 schematic only (pmp22-001/002, gjb1-001, nrg1-001, fig4-001, nano-001)
-- Tier 3 (VQE binding Phase γ): ⏳ pending hxq Q-build (PMP22 3'UTR / HDAC6 / ClC-1 / SARM1 / MFN2 / Cx32 pocket)
-- Tier 4 (library ranking Phase δ): ⏳ pending — 25-comparator + 10-novel
-- Tier 5 (cross-axis pilot Phase ε): ⏳ pending — combo + Schwann-restricted Fc-fusion + capsid + nanocarrier modular cargo
+- Tier 3 (VQE binding Phase γ): 🟡 **DESIGN-AUDIT proxy LANDED, live VQE pending** — `.roadmap.novel_drugs §12` build runs report 2e/2o + 4e/4o chem-acc PASS for the 4 SMILES placeholders; in-repo `cmt_vqe_ladder_readiness.sh` confirms the qmirror-pure-hexa kernel can't reproduce those (H2-only), so live pocket VQE binding (HDAC6/ClC-1/SARM1/MFN2/Cx32) remains blocked on a classical-chemistry backend (retired python bridge or future F-Q-6-E ramp). The DESIGN-AUDIT closure (Tier 4 below) substitutes for it as the in-repo-verifiable gate.
+- Tier 4 (library ranking Phase δ): ✅ **DESIGN-AUDIT closure LANDED 2026-05-12 cycle-30+++++++** — `selftest/cmt_library_ranking.py` (10 novel + 10 comparators incl. 5 negative controls, 5 subtype strata, weighted-ordinal scoring; `__CMT_LIBRARY_RANKING__ PASS`) + `selftest/cmt_side_effect_avoidance_audit.py` (70-cell 7-axis side-effect-avoidance matrix; `__CMT_SIDE_EFFECT_AUDIT__ PASS`). raw_91 C3: this is the DESIGN-AUDIT layer (how-well-specified + side-effect-avoidant + modality-mature per the committed roadmap), NOT the VQE-binding-affinity layer (Tier 3, pending).
+- Tier 5 (cross-axis pilot Phase ε): ⏳ pending — combo + Schwann-restricted Fc-fusion + capsid + nanocarrier modular cargo (out-of-software-scope wet-lab, per AGENTS.md external-contact deferral policy)
 
 **양자-VQE adoption ladder (qubit 추정)**:
 - hxq-cmt-clc1-001 (heavy 17): 2e/2o ParityMapper hardware-eff depth=1, sub-µHa 가능권 — `.roadmap.novel_drugs` 선례 ⊆
@@ -257,7 +260,29 @@ scope:
 
 ## 11. Cumulative cycles
 
-2 cycle. v1 entry skeleton land 2026-05-10 (web research catalog). v2 신약-우선 rebuild land 2026-05-10 (10 hxq-cmt-* candidate, 5-axis 모두 cover + 7-axis side-effect-avoidance constraint + paradigm_shift_potential + platform_cross_link cycle 209-300 mandate + `.roadmap.novel_drugs` SSOT 동기화). 210th disease roadmap entry. v2 directive: "신약기준 — 부작용없는" → de novo hxq-cmt-* 10 candidates + 7-axis constraint set + paradigm_shift + platform_cross_link section land. wet-lab + 임상 0건 disclaimer 유지, AUP-safe, 5-axis lock 유지. SMILES placeholder 4종 (`hd6-001` `clc1-001` `sar1-001` `mfn2-001`) + schematic 6종 (`pmp22-001` `pmp22-002` `gjb1-001` `nrg1-001` `fig4-001` `nano-001`) — Phase β IP-회피 정밀화 + Hamiltonian build 대기.
+### v5 — 2026-05-12 cycle-30+++++++ (CMT 봉쇄심화 — in-repo deterministic closure gates LANDED)
+
+🔒 **DESIGN-AUDIT closure now in-repo-verifiable** — the v4 "paradigm-level 100% closure" claim was prose-only; v5 makes it a deterministic, stdlib-only, run_all.sh-wired gate set:
+
+| Gate | File | Sentinel | What it verifies |
+|---|---|---|---|
+| F-disease-cmt-Q-8 | `selftest/cmt_side_effect_avoidance_audit.py` | `__CMT_SIDE_EFFECT_AUDIT__ PASS` | 10 hxq-cmt-* × 7-axis side-effect-avoidance matrix (70 cells = 45 PASS + 25 N/A); 5-axis saturation; axis balance Q:5 RB:2 W:1 V:1 NB:1; v4 paradigm-closure internal coherence |
+| F-disease-cmt-Q-7 | `selftest/cmt_library_ranking.py` | `__CMT_LIBRARY_RANKING__ PASS` | 10 novel + 10 comparators (incl. 5 negative controls), 5 subtype strata, weighted-ordinal ranking; every stratum ≥1 covering novel; top-per-stratum is paradigm-closed; every novel > its declared negative controls; all-10-sefa7==7 |
+| F-disease-cmt-Q-1..6 readiness | `selftest/cmt_vqe_ladder_readiness.sh` | `__CMT_VQE_LADDER_READINESS__ SKIP` | qmirror chemistry_vqe is pure-hexa H2-only → CMT pocket VQE (HDAC6/ClC-1/SARM1/MFN2/Cx32) NOT runnable on it; runs the qmirror H2 cond.14 gate then SKIPs cleanly — honest about the Tier-3 readiness gap |
+
+⭐ **봉쇄 layer 구분 명시**: this v5 work closes the **DESIGN-AUDIT layer** (how-well-specified + side-effect-avoidant + modality-mature + subtype-stratified-rankable per the committed roadmap design). The **VQE-BINDING layer** (Tier 3 / Phase γ — actual pocket binding affinities + paralog selectivity ratios) remains pending a classical-chemistry backend (the retired python bridge, or a future qmirror chemistry_vqe extension via F-Q-6-E ramp) — `cmt_vqe_ladder_readiness.sh` documents that gap precisely rather than papering over it. The **WET-LAB layer** (Phase γ/δ — Schwann uptake, HDAC1/2/3 selectivity panel, NHP IT durability, perineurium ex vivo, etc.) is out-of-software-scope per AGENTS.md external-contact deferral policy.
+
+⭐ **qmirror = 양자컴퓨터 대용 한계 정직 인정**: qmirror replaces the IBM Cloud / IonQ / Quantinuum quantum-computer cloud APIs for the canonical H2/STO-3G case (and ≤30-qubit state-vector workloads generally) — but the CMT drug-pocket Hamiltonians need a classical-chemistry integral backend (PySCF) to *build* the active-space Hamiltonian before any quantum solver runs. The pure-hexa qmirror kernel doesn't have that backend (raw#10 caveat 1). So "qmirror 양자컴퓨터 대용" is true for the *quantum-solver* step but not for the *Hamiltonian-construction* step that precedes it for arbitrary drug molecules. This is why the CMT VQE binding closure is honestly "pending" not "done".
+
+⭐ **5-axis tooling fully exercised on CMT**: WEAVE (composition, ✅ 100%), VIROCAPSID (Zlotnick ODE + corpus, ✅ 100%), RIBOZYME (Nussinov MFE + off-target screen, ✅ 100%), NANOBOT (actuation sim + L6-L9 contract, ✅ 100%), QUANTUM (VQE — H2 ✅ done, CMT pockets pending backend) — the 100%-closed 5-axis toolkit is what the CMT roadmap's design-audit closure rests on; only the QUANTUM axis's *new-molecule pocket VQE* needs the classical-chemistry extension.
+
+### v4 — 2026-05-11 (CMT 100% paradigm closure — `.roadmap.novel_drugs §14` cross-link)
+
+(see below — unchanged)
+
+---
+
+2 cycle (v1-v4) + v5 in-repo closure-gate land. v1 entry skeleton land 2026-05-10 (web research catalog). v2 신약-우선 rebuild land 2026-05-10 (10 hxq-cmt-* candidate, 5-axis 모두 cover + 7-axis side-effect-avoidance constraint + paradigm_shift_potential + platform_cross_link cycle 209-300 mandate + `.roadmap.novel_drugs` SSOT 동기화). 210th disease roadmap entry. v2 directive: "신약기준 — 부작용없는" → de novo hxq-cmt-* 10 candidates + 7-axis constraint set + paradigm_shift + platform_cross_link section land. wet-lab + 임상 0건 disclaimer 유지, AUP-safe, 5-axis lock 유지. SMILES placeholder 4종 (`hd6-001` `clc1-001` `sar1-001` `mfn2-001`) + schematic 6종 (`pmp22-001` `pmp22-002` `gjb1-001` `nrg1-001` `fig4-001` `nano-001`) — Phase β IP-회피 정밀화 + Hamiltonian build 대기.
 
 ### v4 — 2026-05-11 (CMT 100% paradigm closure — `.roadmap.novel_drugs §14` cross-link)
 

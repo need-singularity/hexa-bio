@@ -51,6 +51,9 @@ run "lean4_proof_witness_emit" python3 "$REPO_ROOT/_python_bridge/module/lean4_p
 run "nanobot_l6_l7_contract_test" python3 "$REPO_ROOT/_python_bridge/module/nanobot_l6_l7_contract_test.py"
 run "qmirror_chemistry_vqe_gate" bash "$HERE/qmirror_chemistry_vqe_gate.sh"
 run "xeno_substrate_gate" bash "$HERE/xeno_substrate_gate.sh"
+run "cmt_side_effect_avoidance_audit" python3 "$HERE/cmt_side_effect_avoidance_audit.py"
+run "cmt_library_ranking" python3 "$HERE/cmt_library_ranking.py"
+run "cmt_vqe_ladder_readiness" bash "$HERE/cmt_vqe_ladder_readiness.sh"
 
 echo "─────────────────────────────────────────────"
 echo "selftest summary: $passes PASS / $fails FAIL"
