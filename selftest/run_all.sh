@@ -46,6 +46,7 @@ run "ribozyme_a1_3_nussinov_determinism_stress" python3 "$HERE/ribozyme_a1_3_nus
 run "nanobot_actuation_simulation" python3 "$REPO_ROOT/_python_bridge/module/nanobot_actuation_simulation.py"
 run "virocapsid_pdb_corpus" python3 "$REPO_ROOT/_python_bridge/module/virocapsid_pdb_corpus.py"
 run "virocapsid_f_virocapsid_1c_1d_audit" python3 "$HERE/virocapsid_f_virocapsid_1c_1d_audit.py"
+run "virocapsid_zlotnick_ode" python3 "$REPO_ROOT/virocapsid/module/zlotnick_ode.py" --selftest
 run "lean4_proof_witness_emit" python3 "$REPO_ROOT/_python_bridge/module/lean4_proof_witness_emit.py"
 run "nanobot_l6_l7_contract_test" python3 "$REPO_ROOT/_python_bridge/module/nanobot_l6_l7_contract_test.py"
 run "qmirror_chemistry_vqe_gate" bash "$HERE/qmirror_chemistry_vqe_gate.sh"

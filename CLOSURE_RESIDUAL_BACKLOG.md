@@ -81,14 +81,20 @@ Concrete items behind that catch-all:
 After cycle-30 (F-VIROCAPSID-1-c + 1-d CLOSED, `__VIROCAPSID_F1C_F1D__ PASS`),
 the only remaining table tag is:
 
-- **A2.1** "sandbox 평준화" (AXIS_CLOSURE_PLAN.md line 166) — virocapsid sandbox
-  currently shares `~/core/nexus/sim_bridge/weave/` ODE with the weave axis;
-  carving an independent Zlotnick ODE wiring at `virocapsid/module/zlotnick_ode.py`
-  + CLI selftest is the "🟡 shared bridge" → ✅ flip. Cycle-28+ tag in the plan.
-  Effort: ~1 day.
+- **A2.1** "sandbox 평준화" — ✅ **CLOSED in-repo 2026-05-12 cycle-30**.
+  `virocapsid/module/zlotnick_ode.py` — pure-stdlib mean-field Zlotnick 1999
+  cascade ODE with explicit-Euler integration; N=12 σ(6)-pentamer model;
+  `--selftest` / `--t-number` / `--emit-json` CLI; **15/15 PASS** (T=1/3/4
+  yield ≈ 0.76 smoke, mass conservation 2.7e-15 = machine epsilon, determinism
+  byte-identical). raw_91 honest C3: this is the substrate + smoke gate
+  (yield∈[0,1] + mass conserves + non-trivial dynamics + determinism), NOT a
+  calibration to specific experimental yields (≥0.85 calibration remains
+  `calibration.hexa` + `multi_t_calibration.hexa` responsibility). Wired into
+  `selftest/run_all.sh` (`virocapsid_zlotnick_ode`). Sentinel
+  `__VIROCAPSID_ZLOTNICK_ODE_CLI__ PASS`. AXIS_CLOSURE_PLAN.md L168 row flipped
+  from "🟡 shared bridge" to ✅ CLOSED.
 
-**Outcome if A2.1 lands**: virocapsid ~100% (a) (already; the tag is a 🟡 not a %
-deduction).
+**Outcome**: virocapsid ✅ **100% (a) — all in-repo software residuals closed.**
 
 ### A3. weave — clean
 
@@ -110,8 +116,8 @@ No (a) items remaining post cycle-30.
 | A1.1 ribozyme kinetics ±10% sweep | hexa-bio | 0.5 d | ✅ | ✅ CLOSED 2026-05-12 cycle-30 |
 | A1.2 off-target threshold replay | hexa-bio | 1 h | ✅ | ✅ CLOSED 2026-05-12 cycle-30 |
 | A1.3 Nussinov determinism stress | hexa-bio | 0.5 d | ✅ | ✅ CLOSED 2026-05-12 cycle-30 |
-| A2.1 virocapsid Zlotnick CLI independence | hexa-bio | 1 d | ✅ | ⬜ pending |
-| **Total to (a)-100%** | — | **~1 day remaining (A2.1)** | — | A1.1/A1.2/A1.3 ✅ |
+| A2.1 virocapsid Zlotnick CLI independence | hexa-bio | 1 d | ✅ | ✅ CLOSED 2026-05-12 |
+| **Total to (a)-100%** | — | **0 days remaining — ✅ (a) 100% REACHED 2026-05-12 cycle-30** | — | A1.1/A1.2/A1.3 + A2.1 ✅ |
 
 ---
 
@@ -315,17 +321,16 @@ sister-repo CLIs (qmirror-style) when one exists.
 
 | Category | Items | Effort to 100% | v1.x closure-grade impact |
 |----------|-------|----------------|---------------------------|
-| (a) in-repo software | 4 (3 ✅ CLOSED 2026-05-12 cycle-30 — A1.1/A1.2/A1.3; 1 pending — A2.1) | ~1 day remaining (A2.1) | YES — closes any (a) gaps |
+| (a) in-repo software | 4 ✅ **ALL CLOSED 2026-05-12 cycle-30** — A1.1/A1.2/A1.3 + A2.1 | 0 days remaining — ✅ (a) **100% REACHED** | YES — all (a) gaps now closed |
 | (b) v2 formal semantics | 8 (4 active + 4 FROZEN) | ~1-2 months active (FROZEN excluded) | NO — v2.0.0 stretch |
 | (c) out-of-software-scope | 11 (2 ✅ DEST: qmirror LIVE — C4.1/C4.2; 7 DEST: none yet — wet-lab/IP; 2 permanently external — C4.3 fault-tolerant + C5.x clinical) | ∞ (external execution, software ready) | NO — handed off |
 | **Total** | **23** | — | — |
 
 **Honest reading** of "100% closure 가능?":
 
-- **(a)** YES — 3 of 4 items ✅ CLOSED in-repo 2026-05-12 cycle-30
-  (A1.1/A1.2/A1.3 ribozyme robustness sentinels landed in `selftest/run_all.sh`);
-  remaining ~1 day = A2.1 virocapsid Zlotnick ODE CLI independence wiring;
-  user can authorize A2.1 and v1.x (a) reaches 100%.
+- **(a)** ✅ **DONE 2026-05-12 cycle-30** — all 4 items CLOSED in-repo
+  (A1.1/A1.2/A1.3 ribozyme robustness + A2.1 virocapsid Zlotnick ODE CLI).
+  All 4 sentinels wired into `selftest/run_all.sh`. **v1.x (a) = 100%.**
 - **(b)** YES with significant effort — ~1-2 months of cycle-30++ Mathlib / Lean
   design work for the 4 active items; the 4 FROZEN items (MechVerif sorries +
   Theorem B sorries) require re-opening legacy-canon and a deliberate decision
