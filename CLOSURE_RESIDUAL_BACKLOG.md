@@ -291,7 +291,7 @@ From AXIS_CLOSURE_PLAN.md line 149 / 151 and the N-R2 row:
   + AFM/cryo-EM verification. **DEST: none yet.** canon@mk1 hosted the
   `raw_77_therapeutic_nanobot_l7_acceptance_v1` placeholder but canon RETIRED
   2026-05-11. **Action needed**: select a wet-lab partner / CRO; provisional
-  handoff target = a future `hexa-medic` or new `hexa-pharma-handoff` repo.
+  handoff target = `hexa-bio/wetlab/` directory or a new `hexa-clinical` repo (per USER_ACTION_REQUIRED.md §1.1 — `hexa-medic` was DELETED 2026-05-12).
 - **C1.2** IP / contract review — patent landscape for the 12-vertex actuator
   geometry + L7-L9 acceptance contract (drug_load_v1 / immune_evasion_v1 /
   biodistribution_v1, currently drafted in `nanobot/spec/proposed_l7_l9_witness_schemas/`).
@@ -376,17 +376,17 @@ side. Already tracked in `.roadmap.clinical_translation_pathway`:
 
 | Item | Type | Sister repo | External API / vendor | Status |
 |------|------|-------------|----------------------|--------|
-| C1.1 nanobot wet-lab | CRO/wet-lab | hexa-medic? | none selected | DEST: none yet |
+| C1.1 nanobot wet-lab | CRO/wet-lab | hexa-bio/wetlab? (per USER_ACTION_REQUIRED.md §1.1 update — hexa-medic was DELETED 2026-05-12; wet-lab handoff destination TBD: hexa-bio/wetlab/, per-axis, or new hexa-clinical repo) | none selected | DEST: none yet |
 | C1.2 nanobot IP | legal | none | patent counsel | DEST: none yet |
 | C1.3 L7-L9 canonical contract | spec adoption | hexa-meta? | n/a | DEST: TBD |
-| C2.1 ribozyme in-vitro | wet-lab | hexa-medic? | none selected | DEST: none yet |
+| C2.1 ribozyme in-vitro | wet-lab | hexa-bio/wetlab? (per USER_ACTION_REQUIRED.md §1.1 update — hexa-medic was DELETED 2026-05-12; wet-lab handoff destination TBD: hexa-bio/wetlab/, per-axis, or new hexa-clinical repo) | none selected | DEST: none yet |
 | C2.2 off-target empirical | wet-lab | none | RNA-seq CRO | DEST: none yet |
 | C3.1 virocapsid cryo-EM | wet-lab | none | cryo-EM facility | DEST: none yet |
 | C3.2 cell-based assembly | wet-lab | none | cell-bio CRO | DEST: none yet |
 | C4.1 quantum NISQ substrate | quantum runtime | **`dancinlab/qmirror`** | n/a (CLI-direct via `hexa run`) | ✅ **DEST: qmirror v2.1.0 LIVE** — gate `selftest/qmirror_chemistry_vqe_gate.sh` SKIPs on this host (runtime dispatch offline); PASS on CI |
 | C4.2 Mpro VQE migration | qmirror extension | **`dancinlab/qmirror`** | n/a | ✅ DEST: qmirror upstream task (extend chemistry_vqe to Mpro pocket + warhead library); hexa-bio calls via CLI |
 | C4.3 fault-tolerant horizon (>30 qubit) | HW partnership | none (out of qmirror scope) | PsiQuantum / Google | DEST: 10-year horizon, not v1.x / v2.0.0 |
-| C5.1-5.3 clinical pipeline | clinical | hexa-medic? | CRO / FDA / 식약처 | DEST: roadmap only |
+| C5.1-5.3 clinical pipeline | clinical | hexa-bio/wetlab? (per USER_ACTION_REQUIRED.md §1.1 update — hexa-medic was DELETED 2026-05-12; wet-lab handoff destination TBD: hexa-bio/wetlab/, per-axis, or new hexa-clinical repo) | CRO / FDA / 식약처 | DEST: roadmap only |
 
 **Observation (updated 2026-05-12 cycle-30)**: **2 of 11 (c) items now have a
 LIVE destination** (C4.1 + C4.2 → sister repo `dancinlab/qmirror`, CLI-direct

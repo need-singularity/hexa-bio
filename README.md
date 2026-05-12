@@ -565,8 +565,10 @@ CLI invocations. The full operating rules are in [`AGENTS.md`](AGENTS.md)
 - **[`dancinlab/hexa-matter`](https://github.com/dancinlab/hexa-matter)** ⚛️ —
   materials substrate. Imported `microplastics/` verb from hexa-medic
   2026-05-12.
-- ~~**`dancinlab/hexa-medic`**~~ — **DECOMPOSED 2026-05-12 cycle-30++++++**;
-  meta-index only (0 verbs; all 24 migrated or deleted). See [DECOMPOSITION_PLAN.md](DECOMPOSITION_PLAN.md).
+- ~~**`dancinlab/hexa-medic`**~~ — **DELETED 2026-05-12 cycle-30++++++**
+  (remote + local both removed). All 24 verbs decomposed: 8 migrated
+  (Floréa + hexa-matter + hexa-bio medical-device) + 16 deleted
+  (6 ambiguous + 10 therapy). See [DECOMPOSITION_PLAN.md](DECOMPOSITION_PLAN.md).
 
 **Frozen legacy**:
 

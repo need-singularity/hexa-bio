@@ -205,10 +205,13 @@ over implementing the same logic inside hexa-bio.
   substrate. Holds `reference/hexa-limb.md` (ex-hexa-bio).
 - **[`dancinlab/hexa-matter`](https://github.com/dancinlab/hexa-matter)** ⚛️ —
   materials substrate. Absorbed `microplastics/` verb (ex-hexa-medic).
-- ~~**`dancinlab/hexa-medic`**~~ — **DECOMPOSED 2026-05-12 cycle-30++++++**
-  (meta-index only; 0 verbs; pending repo deletion). All 24 verbs migrated
-  (7) or deleted (16) per user decisions. See
-  [DECOMPOSITION_PLAN.md](DECOMPOSITION_PLAN.md).
+- ~~**`dancinlab/hexa-medic`**~~ — **DELETED 2026-05-12 cycle-30++++++**
+  (fully decomposed 24 → 0 verbs; remote + local both removed). All
+  24 verbs were migrated (8 destinations: 7 to Floréa+hexa-matter+hexa-bio,
+  1 to hexa-bio top-level category as medical-device) or deleted (16:
+  6 ambiguous + 10 therapy) per user decisions. The repo no longer exists;
+  git history preserved only via destination repo commit messages. See
+  [DECOMPOSITION_PLAN.md](DECOMPOSITION_PLAN.md) for the full split rationale.
 
 ### Sister-repo rules (agent operating instructions)
 

@@ -228,7 +228,7 @@ core domain:    hexa-chip · hexa-bio · hexa-cern · hexa-codex · hexa-cosmos
                 hexa-lang · hexa-sscb · hexa-time · hexa-space · hexa-physics
 extended:       hexa-antimatter · hexa-apps · hexa-bot · hexa-brain
                 hexa-earth · hexa-energy · hexa-fantasy · hexa-farm
-                hexa-finance · hexa-grid · hexa-medic · hexa-mind
+                hexa-finance · hexa-grid · ~~hexa-medic~~ (DELETED 2026-05-12) · hexa-mind
                 hexa-mobility · hexa-os · hexa-pet · hexa-scope
                 hexa-ufo
 ```

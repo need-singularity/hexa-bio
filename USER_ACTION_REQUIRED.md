@@ -16,15 +16,25 @@
 
 이 결정들은 software 가 대신 할 수 없음. 사용자가 직접 정해야 함.
 
-### 1.1 `dancinlab/hexa-medic` sister repo 생성 여부
-**Why this matters**: wet-lab / clinical 작업 (ribozyme in-vitro, nanobot wet-lab, virocapsid cryo-EM, cell-based assembly) 의 destination 이 현재 "none". hexa-bio 가 software-only repo 이므로, wet-lab은 별도 repo 에서 다뤄야 함. `hexa-medic` 이라는 sister repo 가 자연스러운 이름이지만 아직 만들어지지 않음.
+### 1.1 ~~`dancinlab/hexa-medic` sister repo 생성 여부~~ (OBSOLETE — 2026-05-12 update)
 
-**Options**:
-- (a) `hexa-medic` 새로 만들기 — 모든 wet-lab handoff schema, CRO contract templates, IRB / IND drafts 등 보관
-- (b) 기존 `hexa-bio` 안에 `wetlab/` 디렉토리로 — 단순하지만 software-only 원칙 깨짐
-- (c) 결정 미루기 — CRO 선정 후 그 시점에 결정
+**Status**: This item is no longer applicable. `hexa-medic` repo did exist
+(as a 24-verb canon spec catalog) but was **decomposed + deleted 2026-05-12**
+(cycle-30++++++) — verbs migrated to Floréa / hexa-matter / hexa-bio or
+deleted per scope discipline; remote + local both removed.
 
-**Recommended**: (a) hexa-medic 생성. 빈 repo + README 만 만들어두면 됨 (5분).
+**Updated wet-lab handoff destination**: TBD per axis. Options for wet-lab
+schema / CRO contract templates / IRB / IND drafts:
+- (a) hexa-bio top-level directories (`wetlab/` subdir alongside
+  `medical-device/`, `biology-medical/`, `bio-pharma/` — already standard
+  pattern)
+- (b) Per-axis directories (`nanobot/wetlab/`, `ribozyme/wetlab/` etc.)
+- (c) New repo (e.g. `dancinlab/hexa-clinical` 신규 — narrower scope than
+  ex-hexa-medic; only IND/clinical/CRO contract templates)
+
+**Recommended**: (a) `hexa-bio/wetlab/` directory or (b) per-axis
+subdir — software-only principle 깨지지 않음 (wet-lab handoff schemas
+are JSON/MD, not running code; valid as hexa-bio config).
 
 ### 1.2 Wet-lab CRO 후보 선정
 **Why**: §C1.1 nanobot, §C2.1 ribozyme, §C3.2 cell-based assembly 셋 다 wet-lab CRO 필요.
@@ -128,24 +138,28 @@ Per-axis deliverables:
 **Standard**: BIO MTA template (https://www.bio.org/) 또는 NIH UBMTA 사용.
 **Action**: legal review 필요 — §1.3 patent counsel 에게 위임 가능.
 
-### 4.3 hexa-medic repo seed (if §1.1 = yes)
-**What**: 새 repo 만들 때 첫 contents:
-- `README.md` — sister-repo role 설명
+### 4.3 wet-lab handoff directory seed (per §1.1 update — no separate repo)
+
+**What**: hexa-bio 안에 wet-lab handoff 디렉토리 구조 seed (per §1.1
+recommended option (a)/(b)):
 - `wetlab/protocols/` — CRO 별 SOP 보관 디렉토리
 - `wetlab/data/` — read-out 결과 (anonymized) 보관 디렉토리
 - `ip/` — provisional patent drafts (private branch 권장)
 - `regulatory/` — pre-IND drafts
 
-**Action**: 사용자가 결정 후 `gh repo create dancinlab/hexa-medic --private` 한 줄로 생성. 디렉토리 구조 seed 는 software (claude/agent) 가 할 수 있음.
+또는 per-axis 분산: `nanobot/wetlab/`, `ribozyme/wetlab/`, `virocapsid/wetlab/` 등.
+
+**Action**: 사용자가 (a) top-level vs (b) per-axis 결정 → software (claude)
+가 디렉토리 구조 seed 가능 (한 줄 요청으로 5분).
 
 ---
 
 ## §5 우선순위 권장
 
 **Cycle 30 끝 ~ Cycle 31 초** (1-2 주):
-1. ✅ §1.1 — `hexa-medic` repo 생성 결정 + 생성 (15분)
-2. ✅ §1.3 — Patent counsel 1차 무료 consultation 1건 (2-4 시간)
-3. ✅ §1.2 → §2.1 — wet-lab CRO 3-5 곳 RFP draft + send (8-16 시간)
+1. ✅ §1.1 — ~~hexa-medic 생성~~ → DELETED 2026-05-12; wet-lab handoff 디렉토리는 hexa-bio 안 또는 per-axis 결정 (§4.3 update)
+2. §1.3 — Patent counsel 1차 무료 consultation 1건 (2-4 시간)
+3. §1.2 → §2.1 — wet-lab CRO 3-5 곳 RFP draft + send (8-16 시간)
 
 **Cycle 31 - 32** (1-2 개월):
 4. CRO replies 평가 + 1개 선택 (per axis)
@@ -165,7 +179,7 @@ Per-axis deliverables:
 
 ## §6 Software side 가 추가로 도와줄 수 있는 것
 
-만약 §1-§5 어느 항목이든 software 가 도울 수 있는 부분이 있으면 (e.g. RFP template 자동 채우기, invention disclosure 1차 draft, hexa-medic seed 구조 생성) — request 만 주시면 됩니다. 외부 카운터파티와의 contact / decision / 계약 / 자금만이 software 가 못 하는 부분.
+만약 §1-§5 어느 항목이든 software 가 도울 수 있는 부분이 있으면 (e.g. RFP template 자동 채우기, invention disclosure 1차 draft, wet-lab 디렉토리 구조 seed) — request 만 주시면 됩니다. 외부 카운터파티와의 contact / decision / 계약 / 자금만이 software 가 못 하는 부분.
 
 ---
 

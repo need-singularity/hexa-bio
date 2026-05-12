@@ -71,14 +71,17 @@ hexa-energy
 - `cli/`, `tests/`, `state/`, `papers/`, `IMPORTED_FROM_CANON.md`, `hexa.toml`, `install.hexa`,
   `CITATION.cff`, `LICENSE`
 
-### §1.1 분해 후 hexa-medic 자체는?
+### §1.1 분해 후 hexa-medic 자체는? ✅ **(A) DELETED 2026-05-12**
 
-3 옵션:
-- **(A) 완전 archive** — 24 verb 다 분산 후 `hexa-medic` repo 자체를 archive
-- **(B) 메타 인덱스로 축소** — `README.md` 만 남겨서 "어디로 갔는지" pointer 역할
-- **(C) 일부 verb 만 남기기** — therapeutic + cosmetic 가 빠지면 무엇이 남는지 보고 결정 (예: `tibetan-medicine`, `herbalism` 같은 alt-medicine 만 남겨 alt-medicine hub 로 재포지셔닝)
+User decision: ~~**(B) meta-index 축소** (initial 권장)~~ → **(A) 완전 삭제**
+선택. 모든 24 verb 분산 + meta-index 단계 거친 후, `gh repo delete
+dancinlab/hexa-medic --yes` + `rm -rf ~/core/hexa-medic` 으로 완전 제거
+(2026-05-12 cycle-30++++++).
 
-**권장**: (B) 메타 인덱스. 24 verb 분해 끝나면 hexa-medic 은 "where did everything go" 인덱스로 변환 + sister repo links + git history preserve.
+Git history preservation: per-file lineage 가 destination repo 의 commit
+message + frontmatter `@canonical: canon@ded52144:domains/...` annotation
+으로 보존됨. hexa-medic 자체의 git history 는 손실 (intentional —
+sister-repo decomposition 의 깨끗한 cut-off).
 
 ---
 
