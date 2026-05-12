@@ -203,6 +203,55 @@ When (1)-(4) land, hexa-bio promotes:
 
 ---
 
+## 2026-05-12 — cycle-30: hexa-meta/formal/lean4 PROVEN against WEAVE-semantics v1
+
+The canon@mk1 → hexa-meta absorption (below, earlier same day) recorded the upstream stub
+layer as `STUB LANDED 2026-05-06, sorry_count=4`. The on-disk reality at the time of
+absorption was already richer (each of the 4 axes carried a *proof-over-placeholder* body,
+sorry_count=0, but with the supporting definitions — `Strategy`, `verifierSteps`,
+`discloseOnce` — stubbed to trivialise the proofs). Today's cycle-30 work, performed in
+hexa-meta on this machine (Lean 4 v4.30.0-rc1 + elan 4.2.1 already installed):
+
+  1. **WEAVE-semantics v1 upgrade** — replaced the placeholder definitions with a richer
+     (but still tractable, core-Lean-only) model:
+     - `N6.Weave.Strategy`: now a two-field record `{ bits_erased, heat_kT_ln2 }`;
+       `LandauerPass s := s.heat_kT_ln2 ≥ s.bits_erased` (the integer Landauer floor,
+       not a `True` placeholder); `compose` is Nat-additive on both fields.
+     - `N6.Weave.PiP2Verifier`: `verifierSteps q := c.size * (q.depth + 1) + q.payload`
+       (a real polynomial bound; was `0`).
+     - `N6.Weave.ClosureCert`: `discloseOnce c := { c with disclosed := true }`
+       (field-overwrite semantics; was `id`).
+  2. **Re-proved** all four F-CL-FORMAL-1..4 theorems against the upgraded semantics —
+     `lake build` is **GREEN** on hexa-meta/formal/lean4 with sorry_count=0 across all
+     four axes (kernel-checked on v4.30.0-rc1; no Mathlib required — proofs use only
+     `rfl` / `simp only` / `omega` / structural case-split).
+  3. **Bonus theorem** `landauer_pass_compose` in `N6.Weave.Strategy` certifies that
+     `LandauerPass` is closed under `compose` (the substantive floor-preservation lemma
+     that pairs with `landauer_monotonic`).
+  4. **Removed forward-looking Mathlib require** from `lakefile.lean` — re-add (with a
+     SHA pin, not `master`) only when the first real proof body needs a Mathlib lemma.
+  5. **Updated** `weave/spec/canon_lean4_state_ref.json` (schema v1 → v2) and
+     `_python_bridge/module/lean4_proof_witness_emit.py` (`--refresh` source = hexa-meta
+     main, with axis-record MERGE so `proof_summary` curator fields survive a refresh).
+
+**Promotion status**: `.roadmap.weave` §Falsifier preregister F-CL-FORMAL-1/2/3/4 should
+now flip from `STUB LANDED 2026-05-06 (sorry-count=4)` to **`PROVEN-v1 2026-05-12
+(cycle-30, sorry-count=0 against WEAVE-semantics v1)`**. Scaffold v0 → v1 *partial*: the
+theorem names + module paths are locked; the v1 promotion to a "PASS against full WEAVE
+algebra" awaits real-valued heat (Mathlib SHA-pin) + reversible-merge composition modes +
+exponential-in-depth PiP2 worst case + payload-level disclosure invariants (= v2 work).
+
+**raw_91 honest C3**: PASS = sorry-free against the v1 semantics defined in the upgraded
+`Strategy.lean` / `PiP2Verifier.lean` / `ClosureCert.lean`. NOT a claim about the
+unrestricted full WEAVE composition algebra. The v1 semantics is a faithful
+simplification: real Landauer-floor inequality at integer kT·ln2 granularity; real
+polynomial step bound for the 12-strand verifier (matching the bounded-instance v3
+behaviour, not the worst-case Π^p_2); real structural idempotence at the disclosure-flag
+level. Each `.lean` file carries its own raw_91 disclosure block documenting the v1
+caveat.
+
+---
+
 ## 2026-05-12 — canon@mk1 lean4 state absorbed; consumer witness-emit re-implemented
 
 Investigated `dancinlab/canon@mk1` (paths `formal/lean4/` and `lean4-n6/N6/`) and absorbed the state into hexa-bio

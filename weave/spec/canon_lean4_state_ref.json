@@ -1,13 +1,14 @@
 {
- "schema": "canon_lean4_state_ref_v1",
- "fetched_at": "2026-05-12T00:00:00Z (fixed; READ-ONLY summary of canon@mk1)",
- "source": "dancinlab/canon, branch mk1 (HEAD ded52144) — paths formal/lean4/ and lean4-n6/N6/",
- "lean_toolchain_present_on_this_machine": false,
- "note": "Vendored into hexa-bio 2026-05-12 so _python_bridge/module/lean4_proof_witness_emit.py can emit raw_77_lean4_proof_witness_v0 rows without cross-repo access. Source of truth = the canon repo (branch mk1); --refresh re-reads from ~/mac_home/core/canon@mk1 if available. Hexa-bio holds NO .lean files by design (see weave/spec/lean4_mechanical_layer_v0.scaffold.md); the .lean source lives only in canon.",
+ "schema": "canon_lean4_state_ref_v2",
+ "fetched_at": "(refreshed from hexa-meta main)",
+ "source": "dancinlab/canon RETIRED 2026-05-11 → split into (a) dancinlab/hexa-meta main (HEAD a4915a3) paths formal/lean4/ — ACTIVE consumer-contract layer; (b) ~/core/nexus/canon-infra/legacy-canon/lean4-n6/ — FROZEN snapshot of canon@mk1 (Theorem B + MechVerif). The mk1 branch is retired tooling; the active surface is hexa-meta.",
+ "lean_toolchain_present_on_this_machine": true,
+ "note": "Updated 2026-05-12 (cycle 30): canon RETIRED → consumer-contract layer absorbed into hexa-meta; the 4 axis theorems were UPGRADED from PROVEN-OVER-PLACEHOLDER to PROVEN against WEAVE-semantics v1 (real two-field Strategy / polynomial PiP2 bound / record-overwrite ClosureCert) and kernel-checked via `lake build` on lean4 v4.30.0-rc1 (no Mathlib required). Hexa-bio still holds NO `.lean` files — the `.lean` source lives only in hexa-meta. `--refresh` (in the emitter) now re-reads from `~/core/hexa-meta` main branch and MERGES (preserves `proof_summary` curator fields, refreshes only `lines` / `sorry_count` / `pass`).",
  "formal_lean4_consumer_contract_stub_layer": {
-  "location": "canon/formal/lean4/  (canon@mk1)",
-  "status": "STUB LANDED 2026-05-06 (cycle 25) — structurally-correct skeleton, NOT a verification (raw_91 C3 per canon/formal/lean4/README.md)",
-  "lakefile_requires": "Mathlib @ master (forward-looking; no reproducible pin yet — cycle-30+)",
+  "location": "hexa-meta/formal/lean4/  (dancinlab/hexa-meta main HEAD a4915a3)",
+  "status": "PROVEN against WEAVE-semantics v1 — 2026-05-12 (cycle 30). All 4 axis theorems kernel-checked on lean4 v4.30.0-rc1; sorry_count=0 across the board. raw_91 C3: the underlying semantics is a v1 model (integer kT·ln2 quanta for Landauer; polynomial bound for PiP2; flag-level disclosure for ClosureCert) — the full WEAVE composition algebra has richer modes (sub-additive composition under reversible re-merge; exponential-in-depth PiP2 worst case; payload-level disclosure invariants) that a v2 semantics would capture. Promote to v2 when real-valued heat + Mathlib SHA-pin + reversible-merge modes land.",
+  "lakefile_requires": "no external requires (Mathlib not needed — proofs use lean4 core only: rfl, simp, omega, structural case-split). Earlier forward-looking `require mathlib @ master` was removed 2026-05-12 because no proof body consumes a Mathlib lemma.",
+  "lean_toolchain_pin": "leanprover/lean4:v4.30.0-rc1 (per formal/lean4/lean-toolchain)",
   "axes": [
    {
     "axis": "F-CL-FORMAL-1",
@@ -15,49 +16,53 @@
     "module_path": "N6.InvariantLattice.SigmaLatticeCard",
     "file": "formal/lean4/N6/InvariantLattice/SigmaLatticeCard.lean",
     "lines": 28,
-    "sorry_count": 1,
-    "pass": false
+    "sorry_count": 0,
+    "pass": true,
+    "proof_summary": "sigma 6 = 12 by `rfl` against the computable Nat divisor-sum (List.range + filter + foldl). Real-semantics PASS (no placeholder caveat)."
    },
    {
     "axis": "F-CL-FORMAL-2",
     "theorem_name": "landauer_monotonic",
     "module_path": "N6.Weave.LandauerMonotonic",
     "file": "formal/lean4/N6/Weave/LandauerMonotonic.lean",
-    "lines": 36,
-    "sorry_count": 1,
-    "pass": false
+    "lines": 45,
+    "sorry_count": 0,
+    "pass": true,
+    "proof_summary": "heatConsumed (compose s_1 s_2) >= max (...) by `simp only [heatConsumed, compose]; omega` against the upgraded two-field Strategy (bits_erased + heat_kT_ln2). Bonus `landauer_pass_compose` in N6.Weave.Strategy kernel-certifies closure of LandauerPass under composition."
    },
    {
     "axis": "F-CL-FORMAL-3",
     "theorem_name": "pi_p2_verifier_terminates",
     "module_path": "N6.Weave.PiP2Termination",
     "file": "formal/lean4/N6/Weave/PiP2Termination.lean",
-    "lines": 32,
-    "sorry_count": 1,
-    "pass": false
+    "lines": 41,
+    "sorry_count": 0,
+    "pass": true,
+    "proof_summary": "exists n, verifierSteps q <= n with explicit witness n = 12 * (q.depth + 1) + q.payload (uses cat.size = 12 hypothesis, no longer ignored). Polynomial bound corresponds to bounded-instance verifier behaviour; unrestricted Pi^p_2 is exponential-in-depth (v2 work)."
    },
    {
     "axis": "F-CL-FORMAL-4",
     "theorem_name": "closure_cert_idempotent",
     "module_path": "N6.Weave.ClosureCert",
     "file": "formal/lean4/N6/Weave/ClosureCert.lean",
-    "lines": 42,
-    "sorry_count": 1,
-    "pass": false
+    "lines": 59,
+    "sorry_count": 0,
+    "pass": true,
+    "proof_summary": "for all c, discloseTwice c = discloseOnce c by `rfl` against the field-overwrite semantics ({c with disclosed := true} idempotent under re-application). v1 flag-level model; payload-level disclosure invariants (caveat-bag invariance, signer-set monotonicity) remain a v2 work item — wider F-CL-FORMAL-4 PARTIAL upstream label still applies for the payload fragment."
    }
   ],
-  "total_sorry_count": 4,
-  "pass_condition": "sorry_count == 0 per axis (PASS gate); currently every axis sorry_count == 1; NO axis is PASS — proof bodies = cycle 30+",
-  "free_symbol_stubs": [
-   "formal/lean4/N6/InvariantLattice/Sigma.lean",
-   "formal/lean4/N6/Weave/Strategy.lean",
-   "formal/lean4/N6/Weave/PiP2Verifier.lean"
+  "total_sorry_count": 0,
+  "pass_condition": "sorry_count == 0 per axis (PASS gate); ALL 4 axes PASS as of 2026-05-12 cycle-30. Note: PASS = sorry-free against WEAVE-semantics v1, not against the unrestricted full WEAVE algebra (see status field for v2 work items).",
+  "free_symbol_modules": [
+   "formal/lean4/N6/InvariantLattice/Sigma.lean (sigma definition — REAL, computable Nat function)",
+   "formal/lean4/N6/Weave/Strategy.lean (Strategy + heatConsumed + LandauerPass + compose + landauer_pass_compose — v1 upgraded)",
+   "formal/lean4/N6/Weave/PiP2Verifier.lean (StrandCatalogue + Pi_p_2_Query + verifierSteps — v1 upgraded with polynomial bound)"
   ]
  },
  "lean4_n6_theorem_b": {
-  "location": "canon/lean4-n6/N6/  (canon@mk1)",
-  "theorem": "Theorem B — σ(n)·φ(n) = n·τ(n)  ⟺  n = 6, for all n ≥ 2 (the n=6 invariant-lattice uniqueness theorem; σ = divisor sum, φ = Euler totient, τ = #divisors)",
-  "status": "ESSENTIALLY FULLY PROVEN — 23 sub-cases + capstone, machine-verified Lean 4 + mathlib; ~4473 lines (incl. capstone/Basic), sorry_count ≈ 2 (≈ 99.99% coverage per canon/lean4-n6/N6/README.md). canon mathematical foundation in machine-verified state.",
+  "location": "~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/  (FROZEN snapshot of canon@mk1 — canon RETIRED 2026-05-11)",
+  "theorem": "Theorem B — sigma(n)*phi(n) = n*tau(n)  iff  n = 6, for all n >= 2 (the n=6 invariant-lattice uniqueness theorem; sigma = divisor sum, phi = Euler totient, tau = #divisors)",
+  "status": "ESSENTIALLY FULLY PROVEN (frozen at canon@mk1 retirement) — 23 sub-cases + capstone, machine-verified Lean 4 + mathlib; ~4473 lines (incl. capstone/Basic), sorry_count ~= 2 (~ 99.99% coverage). The n=6 mathematical foundation is in a machine-verified state; legacy-canon is read-only — further work would happen in hexa-meta or a successor repo.",
   "n_theoremb_files": 31,
   "approx_total_lines": 4473,
   "approx_sorry_count": 2,
@@ -65,13 +70,13 @@
    "lean4-n6/N6/Basic.lean",
    "lean4-n6/N6/TheoremB_Capstone.lean",
    "lean4-n6/N6/TheoremB_PrimeCase.lean",
-   "lean4-n6/N6/TheoremB_Case4c_*.lean (15 files, ω(n)≥3 region)",
+   "lean4-n6/N6/TheoremB_Case4c_*.lean (15 files, omega(n)>=3 region)",
    "..."
   ]
  },
  "lean4_n6_mechverif_weave_layer": {
-  "location": "canon/lean4-n6/N6/MechVerif/  (canon@mk1)",
-  "status": "MIXED — AX1.lean (701 lines, 0 sorry, 7 named axioms) + Foundation/Strand.lean (492 lines, 0 sorry, 0 axioms) sorry-free; AX2.lean (172 lines, 6 sorry, 5 axioms), MKBridge.lean (119 lines, 6 sorry, 4 axioms), Foundation/Axioms.lean (1161 lines, 3 sorry, 8 named axioms) carry sorries/named-axioms. ~15 sorries + ~28 named axioms across the MechVerif layer (named axioms = explicitly-assumed Robin/Hardy-Wright-style facts, a documented formalization choice). The WEAVE mechanical-layer first attempt; cycle-30+ work continues."
+  "location": "~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/MechVerif/  (FROZEN at canon@mk1 retirement 2026-05-11)",
+  "status": "MIXED, FROZEN — AX1.lean (701 lines, 0 sorry, 7 named axioms) + Foundation/Strand.lean (492 lines, 0 sorry, 0 axioms) sorry-free; AX2.lean (172 lines, 6 sorry, 5 axioms), MKBridge.lean (119 lines, 6 sorry, 4 axioms), Foundation/Axioms.lean (1161 lines, 3 sorry, 8 named axioms) carry sorries / named-axioms. ~15 sorries + ~28 named axioms across the layer (named axioms = explicitly-assumed Robin / Hardy-Wright-style facts). The MechVerif first attempt is read-only legacy; the WEAVE-mechanical work continues in hexa-meta/formal/lean4 (today's cycle-30 upgrade)."
  },
- "gate_26_2_status_summary": "GATE-26-2 (n6-lattice formal certificate, all 5 axes): NOT a single 'do it' task. ACTUAL canon state — (a) the CORE n=6 uniqueness theorem (σ·φ=n·τ ⟺ n=6) is ESSENTIALLY FULLY PROVEN in canon/lean4-n6/N6/ (~4473 lines, ~2 sorries, ~99.99% coverage, Lean 4 + mathlib); (b) the WEAVE-mechanical 4-axis consumer-contract layer (canon/formal/lean4/) is a STUB LANDED (4-sorry skeleton, proof bodies cycle 30+); (c) the MechVerif AX1/AX2/Foundation/MKBridge layer is sorry-free for AX1+Strand, sorry/axiom-carrying for the rest (~15 sorries + ~28 named axioms, cycle 30+). Per the 2026-05-12 deep-research (docs/closure_100_research_2026_05_12.md §C): the *finitary axis-specific* claims (|S₄|=24, σ(6)=12 [divisor sum], master identity 12·2=6·4=24, |O|=24, V−E+F=2 for a given polyhedron, '12 pentamers for a given T') are DECIDABLE (`decide`/RCA₀-level, ≪ the impredicative Π¹₁-CA₀ the .roadmap.hexa_bio §G label suggests) — so the appropriate target for *those* is a Lean `decide` lemma (a COMPLETE proof, stronger than a sorry stub), not a sorry placeholder; mathlib already has `Fintype.card_perm` (⇒ |S₄|=4!=24), `Nat.ArithmeticFunction.sigma` (⇒ σ 1 6 = 12), `Nat.totient`. RECOMMENDATION: re-scope GATE-26-2 wording from 'Π¹₁-CA₀ cert' to 'Lean decide/RCA₀-level cert for the finitary claims + the (already-proven) Theorem B uniqueness + the (cycle-30+) WEAVE-mechanical 4-axis proof bodies'; the .lean source stays in canon (hexa-bio holds no .lean files by design)."
+ "gate_26_2_status_summary": "GATE-26-2 (n6-lattice formal certificate, all 5 axes): UPDATED 2026-05-12 cycle-30. ACTUAL state — (a) the CORE n=6 uniqueness theorem (sigma*phi = n*tau iff n=6) is ESSENTIALLY FULLY PROVEN in nexus/canon-infra/legacy-canon/lean4-n6/ (~4473 lines, ~2 sorries, ~99.99% coverage, Lean 4 + mathlib; FROZEN at canon retirement); (b) the WEAVE-mechanical 4-axis consumer-contract layer (hexa-meta/formal/lean4/) is PROVEN against WEAVE-semantics v1 — all 4 axes sorry_count=0, kernel-checked on lean4 v4.30.0-rc1 today (no Mathlib required); (c) the MechVerif AX1/AX2/Foundation/MKBridge layer is sorry-free for AX1+Strand, sorry/axiom-carrying for the rest (~15 sorries + ~28 named axioms; FROZEN legacy). Per the 2026-05-12 deep-research (docs/closure_100_research_2026_05_12.md §C): the *finitary axis-specific* claims (|S_4|=24, sigma(6)=12 [divisor sum], master identity 12*2=6*4=24, |O|=24, V-E+F=2 for a given polyhedron, '12 pentamers for a given T') are DECIDABLE (`decide`/RCA_0-level, << the impredicative Pi^1_1-CA_0 the .roadmap.hexa_bio §G label suggests) — so the appropriate target for *those* is a Lean `decide` lemma (a COMPLETE proof, stronger than a sorry stub), not a sorry placeholder; mathlib already has `Fintype.card_perm` (=> |S_4|=4!=24), `Nat.ArithmeticFunction.sigma` (=> sigma 1 6 = 12), `Nat.totient`. RECOMMENDATION: re-scope GATE-26-2 wording from 'Pi^1_1-CA_0 cert' to 'Lean decide/RCA_0-level cert for the finitary claims + the (already-proven) Theorem B uniqueness + the (today PROVEN against v1 semantics) WEAVE-mechanical 4-axis proof bodies'; the .lean source stays in hexa-meta / legacy-canon (hexa-bio holds no .lean files by design)."
 }
