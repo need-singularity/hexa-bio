@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hexa-bio/nanobot/spec/handoff_l6_emission_v0.schema.json",
-  "title": "raw_77_nanobot_l6_handoff_v1 — hexa-bio L6 emission contract",
-  "description": "N-R2 hexa-bio-side L6 single-machine-kinetics emission to therapeutic-nanobot consumer. Lands draft from .roadmap.nanobot §STALLED N-R2 (line 95). Therapeutic-nanobot acceptance side (raw_77_therapeutic_nanobot_l7_acceptance_v1) is defined in canon canonical session per memory/feedback_cross_repo_canonical.md and is intentionally out of scope here.",
+  "title": "raw_77_nanobot_l6_handoff_v1 — hexa-bio L6 emission contract (LOCKED v1.0.0 2026-05-12)",
+  "description": "N-R2 hexa-bio-side L6 single-machine-kinetics emission to the therapeutic-nanobot consumer. LOCKED 2026-05-12: verified consistent with the canon-side acceptance contract `raw_77_therapeutic_nanobot_l7_acceptance_v1` (canon@mk1:domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json, DECLARED v1.0.0-stub; vendored ref: nanobot/spec/canon_l7_acceptance_handoff_ref.json). The L6 emitter (nanobot_actuator_v2_reference_emit.py → raw_77_nanobot_actuation_v2) produces all fields the canon side consumes_from_l6: L7_drug_load ← {work_per_cycle_kT, vertex_decorations}; L8_immune_evasion ← {pose_canonical_form}; L9_biodistribution ← {actuator_id}. emission_blocked_until_schema_lock flipped to false. The canon-side wet-lab integration + IP/contract review are DEFERRED to canon cycle 30+ (raw_91 — not a v1.x hexa-bio item; the boundary acknowledgment is the v1.x end state, and F-NB-1-c collision_overlap_ratio = 0.0 PASS).",
   "type": "object",
   "required": [
     "schema_version",
@@ -27,12 +27,29 @@
     },
     "n6_invariant": {
       "type": "object",
-      "required": ["sigma_6", "tau_6", "phi_6", "J2"],
+      "required": [
+        "sigma_6",
+        "tau_6",
+        "phi_6",
+        "J2"
+      ],
       "properties": {
-        "sigma_6": {"type": "integer", "const": 12},
-        "tau_6":   {"type": "integer", "const": 4},
-        "phi_6":   {"type": "integer", "const": 2},
-        "J2":      {"type": "integer", "const": 24}
+        "sigma_6": {
+          "type": "integer",
+          "const": 12
+        },
+        "tau_6": {
+          "type": "integer",
+          "const": 4
+        },
+        "phi_6": {
+          "type": "integer",
+          "const": 2
+        },
+        "J2": {
+          "type": "integer",
+          "const": 24
+        }
       },
       "additionalProperties": false
     },
@@ -59,7 +76,11 @@
       "minItems": 3,
       "items": {
         "type": "string",
-        "enum": ["L7_drug_load", "L8_immune_evasion", "L9_biodistribution"]
+        "enum": [
+          "L7_drug_load",
+          "L8_immune_evasion",
+          "L9_biodistribution"
+        ]
       },
       "description": "Layers therapeutic-nanobot adds on top (clinical-application system). Schema lock pending external session."
     },
@@ -70,9 +91,33 @@
     },
     "emission_blocked_until_schema_lock": {
       "type": "boolean",
-      "default": true,
-      "description": "hexa-bio repo blocks live emission until therapeutic-nanobot acceptance schema is locked in canon canonical session. v0 status."
+      "default": false,
+      "description": "FALSE since 2026-05-12 (LOCKED v1.0.0): the canon-side acceptance contract raw_77_therapeutic_nanobot_l7_acceptance_v1 is DECLARED (canon@mk1; vendored ref) and the L6 emission schema is verified consistent with its consumes_from_l6 — emission unblocked. (Was true under v0.)"
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "lock_metadata": {
+    "gate_id": "N-R2 (hexa-bio-side L6 emission lock)",
+    "locked_date": "2026-05-12",
+    "locked_by": "hexa-bio session",
+    "version": "v1.0.0",
+    "previous": "v0 (emission_blocked_until_schema_lock=true; awaiting canon-side acceptance schema)",
+    "canon_acceptance_contract": "raw_77_therapeutic_nanobot_l7_acceptance_v1 (canon@mk1:domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json — DECLARED v1.0.0-stub; vendored ref nanobot/spec/canon_l7_acceptance_handoff_ref.json)",
+    "consumed_by_l7_l9": {
+      "L7_drug_load": [
+        "work_per_cycle_kT",
+        "vertex_decorations"
+      ],
+      "L8_immune_evasion": [
+        "pose_canonical_form"
+      ],
+      "L9_biodistribution": [
+        "actuator_id"
+      ]
+    },
+    "collision_overlap_ratio": 0.0,
+    "collision_overlap_pass_gate": "< 0.5 (F-NB-1-c) — PASS (L0-L6 vs L7-L9 string-disjoint by construction)",
+    "wet_lab_ip_status": "DEFERRED to canon cycle 30+ (canon-side; not a v1.x hexa-bio blocker)",
+    "raw_91_c3": "hexa-bio-side N-R2 portion CLOSED 2026-05-12: the L6 emission schema is locked v1.0.0, verified consistent with the canon-side DECLARED L7-L9 acceptance contract (vendored ref), emission unblocked. The full wet-lab co-design / IP review is canon cycle-30+ scope — the boundary-acknowledgment + non-collision audit (ratio 0.0) is the v1.x deliverable, and it PASSes."
+  }
 }

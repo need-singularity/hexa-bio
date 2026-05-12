@@ -1,0 +1,77 @@
+{
+ "schema": "canon_lean4_state_ref_v1",
+ "fetched_at": "2026-05-12T00:00:00Z (fixed; READ-ONLY summary of canon@mk1)",
+ "source": "dancinlab/canon, branch mk1 (HEAD ded52144) — paths formal/lean4/ and lean4-n6/N6/",
+ "lean_toolchain_present_on_this_machine": false,
+ "note": "Vendored into hexa-bio 2026-05-12 so _python_bridge/module/lean4_proof_witness_emit.py can emit raw_77_lean4_proof_witness_v0 rows without cross-repo access. Source of truth = the canon repo (branch mk1); --refresh re-reads from ~/mac_home/core/canon@mk1 if available. Hexa-bio holds NO .lean files by design (see weave/spec/lean4_mechanical_layer_v0.scaffold.md); the .lean source lives only in canon.",
+ "formal_lean4_consumer_contract_stub_layer": {
+  "location": "canon/formal/lean4/  (canon@mk1)",
+  "status": "STUB LANDED 2026-05-06 (cycle 25) — structurally-correct skeleton, NOT a verification (raw_91 C3 per canon/formal/lean4/README.md)",
+  "lakefile_requires": "Mathlib @ master (forward-looking; no reproducible pin yet — cycle-30+)",
+  "axes": [
+   {
+    "axis": "F-CL-FORMAL-1",
+    "theorem_name": "sigma_lattice_card",
+    "module_path": "N6.InvariantLattice.SigmaLatticeCard",
+    "file": "formal/lean4/N6/InvariantLattice/SigmaLatticeCard.lean",
+    "lines": 28,
+    "sorry_count": 1,
+    "pass": false
+   },
+   {
+    "axis": "F-CL-FORMAL-2",
+    "theorem_name": "landauer_monotonic",
+    "module_path": "N6.Weave.LandauerMonotonic",
+    "file": "formal/lean4/N6/Weave/LandauerMonotonic.lean",
+    "lines": 36,
+    "sorry_count": 1,
+    "pass": false
+   },
+   {
+    "axis": "F-CL-FORMAL-3",
+    "theorem_name": "pi_p2_verifier_terminates",
+    "module_path": "N6.Weave.PiP2Termination",
+    "file": "formal/lean4/N6/Weave/PiP2Termination.lean",
+    "lines": 32,
+    "sorry_count": 1,
+    "pass": false
+   },
+   {
+    "axis": "F-CL-FORMAL-4",
+    "theorem_name": "closure_cert_idempotent",
+    "module_path": "N6.Weave.ClosureCert",
+    "file": "formal/lean4/N6/Weave/ClosureCert.lean",
+    "lines": 42,
+    "sorry_count": 1,
+    "pass": false
+   }
+  ],
+  "total_sorry_count": 4,
+  "pass_condition": "sorry_count == 0 per axis (PASS gate); currently every axis sorry_count == 1; NO axis is PASS — proof bodies = cycle 30+",
+  "free_symbol_stubs": [
+   "formal/lean4/N6/InvariantLattice/Sigma.lean",
+   "formal/lean4/N6/Weave/Strategy.lean",
+   "formal/lean4/N6/Weave/PiP2Verifier.lean"
+  ]
+ },
+ "lean4_n6_theorem_b": {
+  "location": "canon/lean4-n6/N6/  (canon@mk1)",
+  "theorem": "Theorem B — σ(n)·φ(n) = n·τ(n)  ⟺  n = 6, for all n ≥ 2 (the n=6 invariant-lattice uniqueness theorem; σ = divisor sum, φ = Euler totient, τ = #divisors)",
+  "status": "ESSENTIALLY FULLY PROVEN — 23 sub-cases + capstone, machine-verified Lean 4 + mathlib; ~4473 lines (incl. capstone/Basic), sorry_count ≈ 2 (≈ 99.99% coverage per canon/lean4-n6/N6/README.md). canon mathematical foundation in machine-verified state.",
+  "n_theoremb_files": 31,
+  "approx_total_lines": 4473,
+  "approx_sorry_count": 2,
+  "key_files": [
+   "lean4-n6/N6/Basic.lean",
+   "lean4-n6/N6/TheoremB_Capstone.lean",
+   "lean4-n6/N6/TheoremB_PrimeCase.lean",
+   "lean4-n6/N6/TheoremB_Case4c_*.lean (15 files, ω(n)≥3 region)",
+   "..."
+  ]
+ },
+ "lean4_n6_mechverif_weave_layer": {
+  "location": "canon/lean4-n6/N6/MechVerif/  (canon@mk1)",
+  "status": "MIXED — AX1.lean (701 lines, 0 sorry, 7 named axioms) + Foundation/Strand.lean (492 lines, 0 sorry, 0 axioms) sorry-free; AX2.lean (172 lines, 6 sorry, 5 axioms), MKBridge.lean (119 lines, 6 sorry, 4 axioms), Foundation/Axioms.lean (1161 lines, 3 sorry, 8 named axioms) carry sorries/named-axioms. ~15 sorries + ~28 named axioms across the MechVerif layer (named axioms = explicitly-assumed Robin/Hardy-Wright-style facts, a documented formalization choice). The WEAVE mechanical-layer first attempt; cycle-30+ work continues."
+ },
+ "gate_26_2_status_summary": "GATE-26-2 (n6-lattice formal certificate, all 5 axes): NOT a single 'do it' task. ACTUAL canon state — (a) the CORE n=6 uniqueness theorem (σ·φ=n·τ ⟺ n=6) is ESSENTIALLY FULLY PROVEN in canon/lean4-n6/N6/ (~4473 lines, ~2 sorries, ~99.99% coverage, Lean 4 + mathlib); (b) the WEAVE-mechanical 4-axis consumer-contract layer (canon/formal/lean4/) is a STUB LANDED (4-sorry skeleton, proof bodies cycle 30+); (c) the MechVerif AX1/AX2/Foundation/MKBridge layer is sorry-free for AX1+Strand, sorry/axiom-carrying for the rest (~15 sorries + ~28 named axioms, cycle 30+). Per the 2026-05-12 deep-research (docs/closure_100_research_2026_05_12.md §C): the *finitary axis-specific* claims (|S₄|=24, σ(6)=12 [divisor sum], master identity 12·2=6·4=24, |O|=24, V−E+F=2 for a given polyhedron, '12 pentamers for a given T') are DECIDABLE (`decide`/RCA₀-level, ≪ the impredicative Π¹₁-CA₀ the .roadmap.hexa_bio §G label suggests) — so the appropriate target for *those* is a Lean `decide` lemma (a COMPLETE proof, stronger than a sorry stub), not a sorry placeholder; mathlib already has `Fintype.card_perm` (⇒ |S₄|=4!=24), `Nat.ArithmeticFunction.sigma` (⇒ σ 1 6 = 12), `Nat.totient`. RECOMMENDATION: re-scope GATE-26-2 wording from 'Π¹₁-CA₀ cert' to 'Lean decide/RCA₀-level cert for the finitary claims + the (already-proven) Theorem B uniqueness + the (cycle-30+) WEAVE-mechanical 4-axis proof bodies'; the .lean source stays in canon (hexa-bio holds no .lean files by design)."
+}

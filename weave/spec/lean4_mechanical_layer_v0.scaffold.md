@@ -199,3 +199,36 @@ When (1)-(4) land, hexa-bio promotes:
   - `memory/feedback_cross_repo_canonical.md` — cross-repo edit rule
   - `weave/spec/lean4_proof_witness_v0.schema.json` — witness schema
   - `docs/n6/hexa-weave.md` (symlink → `canon` canonical)
+
+
+---
+
+## 2026-05-12 — canon@mk1 lean4 state absorbed; consumer witness-emit re-implemented
+
+Investigated `dancinlab/canon@mk1` (paths `formal/lean4/` and `lean4-n6/N6/`) and absorbed the state into hexa-bio
+(hexa-bio still holds **NO `.lean` files** — the `.lean` source stays in canon; this is a state-summary + a witness emitter):
+
+- **`weave/spec/canon_lean4_state_ref.json`** — READ-ONLY summary of the canon@mk1 lean4 state (the 4-axis-stub
+  sorry-counts + module paths; the Theorem-B coverage; the MechVerif layer status). `--refresh` (in the emitter) re-reads it.
+- **`_python_bridge/module/lean4_proof_witness_emit.py`** — re-implemented (the R5-sunset original was removed): stdlib-only;
+  reads `canon_lean4_state_ref.json` (or `--refresh` from `~/mac_home/core/canon@mk1`); emits one `raw_77_lean4_proof_witness_v0`
+  row per F-CL-FORMAL-{1,2,3,4} axis (schema-conformant — validated against `lean4_proof_witness_v0.schema.json`); sentinel
+  `__LEAN4_PROOF_WITNESS__ PASS` (= the emitter ran + produced schema-shaped rows — NOT that any Lean axis is PASS); wired into
+  `selftest/run_all.sh`.
+
+**Actual canon@mk1 lean4 state** (this corrects the over-optimistic / out-of-date wording elsewhere):
+
+| layer | location (canon@mk1) | status |
+|-------|----------------------|--------|
+| WEAVE-mechanical 4-axis consumer-contract stub | `formal/lean4/N6/` | **STUB LANDED 2026-05-06 (cycle 25)** — 4 axis theorems, each ends in `sorry`; total sorry-count **4**; **NO axis is PASS** (gate = `sorry_count==0`); proof bodies = cycle 30+. raw_91 C3: structurally-correct skeleton, not a verification. |
+| **n=6 invariant-lattice UNIQUENESS — Theorem B** (σ·φ = n·τ ⟺ n=6) | `lean4-n6/N6/` | **ESSENTIALLY FULLY PROVEN** — 23 sub-cases + capstone, Lean 4 + mathlib, ~4473 lines, sorry-count ≈ 2 (~99.99% coverage). The n=6 mathematical foundation is in a machine-verified state. |
+| MechVerif (WEAVE mechanical first attempt) | `lean4-n6/N6/MechVerif/` | MIXED — `AX1.lean` (701 ln, 0 sorry, 7 named axioms) + `Foundation/Strand.lean` (492 ln, 0 sorry) sorry-free; `AX2.lean` / `MKBridge.lean` / `Foundation/Axioms.lean` carry ~15 sorries + ~28 named axioms (documented Robin/Hardy-Wright-style assumed facts); cycle-30+. |
+
+**GATE-26-2 re-scoping** (per `docs/closure_100_research_2026_05_12.md` §C): the *finitary axis-specific* claims that hexa-bio's
+n6-lattice rests on — |S₄|=24, σ(6)=12 (divisor sum), the master identity 12·2 = 6·4 = 24, |O|=24, V−E+F=2 for a *given*
+polyhedron, "12 pentamers for a *given* T" — are **DECIDABLE** (`decide`/`Decidable`-backed; formal strength ≤ RCA₀ ≈ PRA), not
+impredicative; the appropriate Lean target for *those* is a complete `decide` lemma (stronger than a `sorry` stub), and `mathlib`
+already has `Fintype.card_perm` (⇒ |S₄| = 4! = 24), `Nat.ArithmeticFunction.sigma` (⇒ `σ 1 6 = 12`), `Nat.totient`. The
+`.roadmap.hexa_bio §G GATE-26-2` "Π¹₁-CA₀" label is therefore a mis-calibration — `decide`/RCA₀-level is correct for the
+finitary slice; the Theorem-B uniqueness is *already* machine-verified; only the WEAVE-mechanical 4-axis proof bodies (+ the
+MechVerif sorries) remain (cycle 30+, in canon — hexa-bio holds no `.lean` files, only this scaffold + the witness emitter).

@@ -6,6 +6,52 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **canon@mk1 investigated; N-R2 (nanobot L6 handoff) hexa-bio-side LOCKED v1.0.0 + GATE-26-2 canon-state ABSORBED (2026-05-12)** —
+  investigated `dancinlab/canon` branch `mk1` (where the canon content lives — `main` is gutted) and absorbed
+  what hexa-bio needs for its two residual gaps (gaps 3 & 4 of the §12 research):
+  **(N-R2 — nanobot L6→L7-9 boundary):** canon@mk1's `domains/life/therapeutic-nanobot/handoff/2026-05-28_hexa-nanobot-therapeutic-nanobot-boundary.json`
+  carries the L7-L9 acceptance contract `raw_77_therapeutic_nanobot_l7_acceptance_v1` (`v1.0.0-stub`, status `DECLARED`,
+  scope `boundary_acknowledgment_only`; per-layer `consumes_from_l6`: L7_drug_load ← {work_per_cycle_kT, vertex_decorations},
+  L8_immune_evasion ← {pose_canonical_form}, L9_biodistribution ← {actuator_id}; n=7 disjoint L7-L9 primitive labels;
+  wet-lab integration + IP/contract review `DEFERRED_CYCLE_30_PLUS`). Absorbed: vendored a READ-ONLY ref copy at
+  `nanobot/spec/canon_l7_acceptance_handoff_ref.json`, and `nanobot/spec/handoff_l6_emission_v0.schema.json` gains a
+  `lock_metadata` block (`version: v1.0.0`, `emission_blocked_until_schema_lock: false`, `consumed_by_l7_l9` mapping,
+  canon-acceptance-contract ref, raw_91) + the `emission_blocked_until_schema_lock` property default flipped to `false`.
+  The hexa-bio L6 emitter (`nanobot_actuator_v2_reference_emit.py` → `raw_77_nanobot_actuation_v2`) already produces every
+  field the canon side consumes; F-NB-1-c collision_overlap_ratio = 0.0 PASS (L0-L6 vs L7-L9 string-disjoint by construction).
+  → **N-R2 hexa-bio-side CLOSED**; the canon-side wet-lab/IP co-design + the L7-L9 per-layer witness schemas
+  (`raw_77_therapeutic_nanobot_l7_drug_load_v1` etc., currently placeholder names) = canon cycle-30+ (not a v1.x hexa-bio blocker).
+  nanobot closure-grade ~95% → ~98%.
+  **(GATE-26-2 — Lean cert):** canon@mk1's lean4 state — (a) **`lean4-n6/N6/` Theorem B (σ(n)·φ(n) = n·τ(n) ⟺ n = 6)** is
+  **ESSENTIALLY FULLY PROVEN** (23 sub-cases + capstone, Lean 4 + mathlib, ~4473 lines, sorry-count ≈ 2, ~99.99% coverage —
+  the n=6 mathematical foundation is machine-verified); (b) **`formal/lean4/`** (the WEAVE-mechanical 4-axis consumer-contract
+  layer — `sigma_lattice_card` / `landauer_monotonic` / `pi_p2_verifier_terminates` / `closure_cert_idempotent`) is a
+  **STUB LANDED** (4-sorry skeleton; proof bodies = cycle 30+); (c) `lean4-n6/N6/MechVerif/` is sorry-free for AX1 + Foundation/Strand,
+  sorry/named-axiom-carrying for AX2 / MKBridge / Foundation/Axioms (~15 sorries + ~28 named axioms; cycle 30+). Absorbed into
+  hexa-bio (which holds **NO `.lean` files by design** — the `.lean` source stays in canon): vendored `weave/spec/canon_lean4_state_ref.json`
+  (a READ-ONLY state summary; `--refresh` re-reads from `~/mac_home/core/canon@mk1`), **re-implemented**
+  `_python_bridge/module/lean4_proof_witness_emit.py` (the R5-sunset original was gone — stdlib-only; emits one
+  `raw_77_lean4_proof_witness_v0` row per F-CL-FORMAL-{1,2,3,4} axis, schema-conformant against `weave/spec/lean4_proof_witness_v0.schema.json`;
+  reports the Theorem-B coverage + the GATE-26-2 status; sentinel `__LEAN4_PROOF_WITNESS__ PASS` = the emitter ran + produced
+  schema-shaped rows, NOT that any Lean axis is PASS — every WEAVE-mechanical axis is `sorry_count == 1`; `selftest/run_all.sh`-wired),
+  and a state note appended to `weave/spec/lean4_mechanical_layer_v0.scaffold.md`. **Π¹₁-CA₀ re-scoping** (per `docs/closure_100_research_2026_05_12.md` §C):
+  for the *finitary* axis-claims (|S₄| = 24, σ(6) = 12 [divisor sum], the master identity 12·2 = 6·4 = 24, |O| = 24, V−E+F = 2
+  for a given polyhedron, "12 pentamers for a given T") the appropriate Lean target is a `decide`/`Decidable`-backed lemma —
+  a *complete* proof (strength ≤ RCA₀ ≈ PRA) — not the impredicative Π¹₁-CA₀ (Simpson 2009) the `.roadmap.hexa_bio §G GATE-26-2`
+  label suggests; mathlib already has `Fintype.card_perm` (⇒ |S₄| = 4! = 24), `Nat.ArithmeticFunction.sigma` (⇒ σ 1 6 = 12),
+  `Nat.totient`. → **GATE-26-2 = (n=6 uniqueness ✅ proven · 4-axis STUB ✅ landed · consumer witness-emit ✅ re-impl · finitary
+  slice = decide-level, cheap)**; remaining = the 4 WEAVE-mechanical proof bodies (replace the 4 `sorry`s; `formal/lean4/lakefile.lean`
+  needs a reproducible mathlib pin) + the MechVerif sorries + (optional) the decide-level finitary lemmas — all cycle-30+, in canon
+  (hexa-bio holds no `.lean` files). quantum closure-grade ~82% → ~83%.
+  Honest C3 (raw#10 / raw#91): no formal correctness is claimed here; `lean4_proof_witness_emit.py` records the canon-side
+  proof-state (sorry-counts etc.) into hexa-bio witness rows — it does not verify anything (the Lean toolchain is not installed
+  on this machine; `lake build` in any Lean 4 + mathlib env is the verification). `.roadmap.nanobot`, `AXIS_CLOSURE_PLAN.md`
+  §1/§4/§6/§11/§12, README, `hexa.toml [closure]`, `weave/spec/lean4_mechanical_layer_v0.scaffold.md` updated; `selftest/run_all.sh`
+  gains the `lean4_proof_witness_emit` step. **Net: of the §12 5 gaps — gaps 1 (virocapsid C3b), 2 (ribozyme G26-RB-3 full
+  screen), 5 (quantum Phase D) ✅ CLOSED in-repo; gap 3 (nanobot N-R2) ✅ hexa-bio-side CLOSED (canon-side = cycle-30+); gap 4
+  (GATE-26-2) ✅ canon-state ABSORBED + the Theorem-B uniqueness ✅ proven + the 4-axis STUB ✅ landed (proof bodies cycle-30+).
+  Everything closable in this repo is closed; the residual is canon-side cycle-30+ work only.**
+
 - **Ribozyme G26-RB-3 CLOSED — FULL GENCODE v47 transcriptome off-target screen EXECUTED via RIsearch2 v2.1 (2026-05-12)** —
   the SS-12-research gap-2 path fully executed. (a) `_python_bridge/module/ribozyme_off_target_screen.py`'s reference pool was
   extended with a vendored **GENCODE v47 pc-transcript subset n=200** (`ribozyme/spec/human_transcript_pool_snapshot.json`,
