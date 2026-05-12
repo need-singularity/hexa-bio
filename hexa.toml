@@ -113,7 +113,7 @@ in_repo_closure_complete = true   # 2026-05-12 — σ/τ/φ/J₂ deductive (42/4
 in_repo_closure_components = [
     "selftest/n6_axis_computational_verification.py (σ/τ/φ/J₂ + master identity, 42/42)",
     "_python_bridge/module/ribozyme_mfe_nussinov.py (ribozyme R-R1 — Nussinov O(n^3) MFE port)",
-    "_python_bridge/module/ribozyme_off_target_screen.py (ribozyme G26-RB-3 comp 3 — Hamming off-target screen + representative pool)",
+    "_python_bridge/module/ribozyme_off_target_screen.py (ribozyme G26-RB-3 comp 3 — Hamming off-target screen; reference pool = 6-mRNA toy + (CUG)n decoy + GENCODE v47 pc-transcript subset n=200 via --refresh-gencode; full ~250k-transcript screen w/ RIsearch2-grade scoring = documented external step --gencode-pipeline-doc)",
     "_python_bridge/module/ribozyme_reaction_coordinate_quotient.py (ribozyme G26-RB-2 — J2=|S4|=24, S4 iso O)",
     "_python_bridge/module/ribozyme_kinetics_simulation.py (ribozyme G26-RB-1prime sim re-run — Eyring TST + 4-state RK4/Euler ODE, F-RB-4 6/6 PASS; re-impl of R5-sunset original)",
     "_python_bridge/module/nanobot_actuation_simulation.py (nanobot C0d dual-skeleton sim re-run — 4-state actuation + J2=24 pose-canon, both {truncated_icosahedron, cuboctahedron} F-NB-4 6/6 PASS; re-impl of R5-sunset original)",

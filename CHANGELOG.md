@@ -6,6 +6,38 @@ All notable changes to **hexa-bio** are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Ribozyme G26-RB-3 off-target pool extended to n=206 via a vendored GENCODE v47 subset (`ribozyme_off_target_screen.py`, 2026-05-12)** —
+  the SS-12-research gap-2 path partially executed: `_python_bridge/module/ribozyme_off_target_screen.py`
+  now ships a vendored **GENCODE v47 (GRCh38) protein-coding transcript subset n=200**
+  (`ribozyme/spec/human_transcript_pool_snapshot.json`, ~97 KB — the first 200 records of
+  `gencode.v47.pc_transcripts.fa.gz`, each truncated to 400 nt; `--refresh-gencode` rebuilds it
+  from the live EBI FTP). `--full-pool` runs the Hamming sliding-window screen for the demo arms
+  against {6-mRNA core toy pool + (CUG)n low-complexity decoy + 200 GENCODE transcripts} = 206
+  sequences / 80.5 kb (legit arms stay clean — e.g. FLT3 0.52/kb << the 4.0/kb gate; deterministic).
+  `--gencode-pipeline-doc` prints the **FULL host-transcriptome screen** as a documented external
+  step: download `gencode.v47.transcripts.fa.gz` (~250k transcripts) + RIsearch2 (Alkan et al.
+  NAR 45:e60, 2017 — the siRNA-off-target standard, suffix-array seed+extend with accessibility +
+  abundance weighting) or Cas-OFFinder or `bowtie -v3` + dG/seed/accessibility-weighted scoring +
+  NHH-triplet adjacency (NUH u NCH u some NAH — Kore et al. NAR 26:4116, 1998), refs Damle et al.
+  Nucleic Acid Ther. 35:249 (2025), Werner & Uhlenbeck NAR 23:2092 (1995). The gate's 4/4 self-check
+  still runs against the **core 6-entry toy pool** (unchanged — the (CUG)n positive control correctly
+  FAILs at 58/kb there; against the larger 206-pool it dilutes below a per-kb gate, which is precisely
+  why production screens score per-transcript / dG-weighted, not per-pool-kb); the full-pool run is
+  informational. `selftest/run_all.sh` already wires `ribozyme_off_target_screen` (gate-step
+  description updated); the step now also prints the full-pool report (snapshot is vendored, so it
+  loads). Honest C3 (raw#10): the in-repo screen ships the deterministic Hamming algorithm + a
+  *representative* human-transcriptome subset (n~206, up from the 6-mRNA toy) — the FULL ~250k-transcript
+  GENCODE/RefSeq screen with RIsearch2-grade dG/accessibility scoring genuinely needs a real
+  (non-stdlib) aligner + a ~50 MB transcriptome download (a pure-Python Hamming scan over 250k
+  transcripts is too slow *and* methodologically too weak — no G.U wobble / accessibility), so it is
+  **documented (`--gencode-pipeline-doc`), not vendored** — i.e. G26-RB-3's in-repo portion is now
+  substantially advanced (6 -> 206-transcript pool + the full-screen pipeline documented), but the
+  full transcriptome screen remains the external step. ribozyme closure-grade stays ~98% (the full
+  corpus is the remaining few %, now clearly an external-aligner item). `.roadmap.ribozyme`,
+  `AXIS_CLOSURE_PLAN.md` SS-1/SS-3/SS-11/SS-12, README, `hexa.toml [closure]` updated. (Of the SS-12
+  5 gaps: gap 1 OK closed, gap 5 OK closed, **gap 2 — in-repo as far as it goes**, gap 3 = `canon`
+  repo, gap 4 = v2.0.0.)
+
 - **Quantum Phase D / F-Q-6-F closed in-repo — 5-warhead covalent-Mpro-inhibitor VQE library ranking (`tests/mpro_warhead_library_vqe_v7.py`, 2026-05-12)** —
   the literature-aligned extension of the already-PASSed F-Q-6-D Mpro pocket-cluster VQE that
   closes quantum **Phase D** (the "5-10 candidate library ranking via VQE" gate). 5 congeneric

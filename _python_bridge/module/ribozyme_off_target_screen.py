@@ -210,10 +210,11 @@ def _selfcheck() -> int:
     print()
     if fails == 0:
         print(f"  --- summary --- {total} / {total} PASS → verdict: PASS")
-        print("  scope (raw#10 C3): algorithm + small representative pool only.")
-        print("        Production full host-transcriptome screen is out-of-repo")
-        print("        (GenCode / RefSeq backing → ~/core/nexus/sim_bridge/).")
-        print("        In-repo G26-RB-3 component (3) is CLOSED.")
+        print("  scope (raw#10 C3): the in-repo screen ships the deterministic Hamming algorithm + a representative pool")
+        print("        (toy 6-mRNA + (CUG)ₙ low-complexity decoy; + a GENCODE v47 pc-transcript subset n≈200 via `--refresh-gencode`,")
+        print("         used by `--full-pool`). The FULL ~250k-transcript GENCODE/RefSeq screen with RIsearch2-grade ΔG/accessibility")
+        print("         scoring + NHH-triplet adjacency is the documented external step (`--gencode-pipeline-doc`; needs a real aligner).")
+        print("        In-repo G26-RB-3 component (3): algorithm + protocol + representative pool CLOSED; full-transcriptome = external.")
         print("__RIBOZYME_OFF_TARGET_SCREEN__ PASS")
         return 0
     print(f"  --- summary --- {fails} FAIL → verdict: FAIL")
@@ -221,5 +222,130 @@ def _selfcheck() -> int:
     return 1
 
 
+# ── GENCODE v47 human transcript pool (extends the toy reference pool — G26-RB-3 §B / AXIS_CLOSURE_PLAN §12) ──
+# Vendored snapshot: the first N protein-coding transcripts of GENCODE v47 (GRCh38),
+# each truncated to TRUNC_NT nt — a *representative* human-transcriptome subset, NOT
+# the full ~250k-transcript set.  `--refresh-gencode` rebuilds it from the live FTP;
+# `--full-pool` runs the off-target screen against {core toy pool ∪ this snapshot}.
+# The *full* GENCODE/RefSeq transcriptome screen with RIsearch2-grade ΔG/accessibility
+# scoring + NHH-triplet adjacency is the documented external step — see
+# `gencode_pipeline_doc()` below, `docs/closure_100_research_2026_05_12.md` §B.
+import os as _os
+_GENCODE_SNAPSHOT_REL = _os.path.join("ribozyme", "spec", "human_transcript_pool_snapshot.json")
+_GENCODE_FASTA_URL = "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_47/gencode.v47.pc_transcripts.fa.gz"
+_GENCODE_N = 200          # # transcripts to keep in the vendored snapshot
+_GENCODE_TRUNC_NT = 400   # truncate each transcript to this many nt
+
+
+def _repo_root() -> str:
+    return _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", ".."))
+
+
+def _snapshot_path() -> str:
+    return _os.path.join(_repo_root(), _GENCODE_SNAPSHOT_REL)
+
+
+def load_gencode_snapshot():
+    """Return list of (transcript_id, RNA-sequence) for the vendored GENCODE subset, or [] if absent."""
+    p = _snapshot_path()
+    if not _os.path.isfile(p):
+        return []
+    import json as _json, io as _io
+    d = _json.loads(_io.open(p, encoding="utf-8").read())
+    return [(t["transcript_id"], t["seq"]) for t in d.get("transcripts", [])]
+
+
+def refresh_gencode(n: int = _GENCODE_N, trunc_nt: int = _GENCODE_TRUNC_NT, timeout: float = 120.0) -> dict:
+    """Download GENCODE v47 pc_transcripts FASTA, keep the first `n` records (truncated to `trunc_nt` nt),
+    write the vendored snapshot. Network — NOT used in the gate."""
+    import urllib.request, ssl, gzip, io as _io, json as _json
+    print(f"  [gencode] downloading {_GENCODE_FASTA_URL} (~48 MB) …", flush=True)
+    req = urllib.request.Request(_GENCODE_FASTA_URL, headers={"User-Agent": "Mozilla/5.0 (hexa-bio ribozyme off-target pool refresh)"})
+    with urllib.request.urlopen(req, timeout=timeout, context=ssl.create_default_context()) as r:
+        raw = r.read()
+    txt = gzip.decompress(raw).decode("ascii", "replace")
+    transcripts, cur_id, cur_gene, cur_seq, kept = [], None, None, [], 0
+    for line in txt.splitlines():
+        if line.startswith(">"):
+            if cur_id is not None and kept < n:
+                seq = "".join(cur_seq).upper().replace("T", "U")[:trunc_nt]
+                if all(c in "ACGU" for c in seq) and len(seq) >= 30:
+                    transcripts.append({"transcript_id": cur_id, "gene": cur_gene, "seq": seq}); kept += 1
+            if kept >= n:
+                cur_id = None; continue
+            fields = line[1:].split("|")
+            cur_id = fields[0].split(".")[0]                       # ENST… (strip version)
+            cur_gene = fields[5] if len(fields) > 5 else ""        # GENCODE pipe-format gene name
+            cur_seq = []
+        elif cur_id is not None:
+            cur_seq.append(line.strip())
+    if cur_id is not None and kept < n:
+        seq = "".join(cur_seq).upper().replace("T", "U")[:trunc_nt]
+        if all(c in "ACGU" for c in seq) and len(seq) >= 30:
+            transcripts.append({"transcript_id": cur_id, "gene": cur_gene, "seq": seq})
+    snap = {"source": "GENCODE v47 (GRCh38; Frankish et al., NAR 2025) — pc_transcripts FASTA, first N records, truncated",
+            "url": _GENCODE_FASTA_URL, "release": "v47", "n_transcripts": len(transcripts),
+            "trunc_nt": trunc_nt, "built_at": "2026-05-12T00:00:00Z (fixed for determinism)",
+            "note": "REPRESENTATIVE SUBSET, not the full ~250k-transcript transcriptome — see gencode_pipeline_doc() for the full-screen external step",
+            "transcripts": transcripts}
+    p = _snapshot_path(); _os.makedirs(_os.path.dirname(p), exist_ok=True)
+    _io.open(p, "w", encoding="utf-8").write(_json.dumps(snap, ensure_ascii=False, indent=1))
+    print(f"  [gencode] wrote {len(transcripts)} transcripts → {p}", flush=True)
+    return snap
+
+
+def report_full_pool() -> None:
+    """Run the off-target screen for the legit demo arms against {core toy pool ∪ GENCODE snapshot}."""
+    extra = load_gencode_snapshot()
+    if not extra:
+        print("  [full-pool] no GENCODE snapshot vendored — run `--refresh-gencode` to build "
+              f"`{_GENCODE_SNAPSHOT_REL}` (the core 7-entry toy pool is what the gate's self-check uses).")
+        return
+    combined = list(_POOL) + extra
+    pool_kb = pool_size_kb(combined)
+    print(f"\n  --- full-pool screen: core toy pool ({len(_POOL)}) + GENCODE v47 pc-transcript subset ({len(extra)}) = {len(combined)} sequences, {pool_kb:.2f} kb ---")
+    print(f"      (representative human-transcriptome subset — NOT the full ~250k-transcript set; full screen = external step, see `--gencode-pipeline-doc`)")
+    for label, (a5, a3) in _DEMO_CASES:
+        r = screen((a5, a3), pool=combined)
+        v = "PASS" if r["overall_pass"] else "FAIL"
+        print(f"      {label:<40} 5'={a5} 3'={a3}  hits 5'/3' = {r['arm_5prime_hits']}/{r['arm_3prime_hits']}  "
+              f"per-kb 5'/3' = {r['arm_5prime_per_kb']:.3f}/{r['arm_3prime_per_kb']:.3f}  screen_verdict={v}")
+    # determinism on the combined pool
+    a = screen(("CGAAUUCC", "GAACUUCG"), pool=combined)
+    b = screen(("CGAAUUCC", "GAACUUCG"), pool=combined)
+    print(f"      [{'PASS' if a == b else 'FAIL'}] determinism on combined pool")
+
+
+def gencode_pipeline_doc() -> None:
+    print(__doc__.strip().splitlines()[0])
+    print()
+    print("FULL host-transcriptome off-target screen — documented external step (G26-RB-3 §B / docs/closure_100_research_2026_05_12.md §B):")
+    print("  1. reference transcriptome:")
+    print(f"       wget {_GENCODE_FASTA_URL.replace('pc_transcripts','transcripts')}    # GENCODE v47 all transcripts (~250k), GRCh38")
+    print("       # (or RefSeq GCF_000001405.40_GRCh38.p14_rna.fna.gz, or Ensembl Homo_sapiens.GRCh38.cdna.all.fa.gz)")
+    print("  2. aligner / interaction predictor (pick one):")
+    print("       RIsearch2  (rth.dk/resources/risearch/ — suffix-array seed+extend RNA-RNA, the siRNA-off-target standard;")
+    print("                   has an off-targeting-potential pipeline weighting hits by target accessibility + transcript abundance)")
+    print("       Cas-OFFinder (rgenome.net/cas-offinder — genome-wide, no mismatch-count limit, allows bulges, OpenCL-accelerated)")
+    print("       bowtie -v 3 / bwa  (fast near-exact short-k-mer alignment vs the transcriptome FASTA)")
+    print("  3. scoring: count ≤1–2 mismatch/G·U-wobble hits per arm, weight by RIsearch2 ΔG (and RNAplfold target accessibility);")
+    print("             flag complementarity blocks ≥ ~10–12 nt adjacent to an NHH triplet (NUH ∪ NCH ∪ some NAH — Kore et al. NAR 26:4116, 1998);")
+    print("             refs: Alkan et al. NAR 45:e60 (2017); Damle et al. Nucleic Acid Ther. 35:249 (2025); Werner & Uhlenbeck NAR 23:2092 (1995).")
+    print("  raw#10 C3: this requires a real (non-stdlib) aligner + a ~50–100 MB transcriptome download — out of scope for the stdlib-only")
+    print("             in-repo gate; the in-repo screen ships the deterministic Hamming algorithm + a representative pool (toy 6-mRNA + (CUG)ₙ")
+    print("             decoy + GENCODE v47 pc-transcript subset n≈200 via --refresh-gencode); the full screen is documented, not vendored.")
+
+
+def main() -> int:
+    if "--gencode-pipeline-doc" in sys.argv:
+        gencode_pipeline_doc(); return 0
+    if "--refresh-gencode" in sys.argv:
+        refresh_gencode(); print()
+    rc = _selfcheck()
+    if "--full-pool" in sys.argv or load_gencode_snapshot():
+        report_full_pool()
+    return rc
+
+
 if __name__ == "__main__":
-    sys.exit(_selfcheck())
+    sys.exit(main())
