@@ -266,9 +266,37 @@ SIGN / PAY / MEET step is always user-authorized per-item.
 - A **status marker** (e.g. `STATUS: draft-ready, deferred for user
   send`) so future agents don't re-attempt the deferred step
 
-**Cross-ref**: [`USER_ACTION_REQUIRED.md`](USER_ACTION_REQUIRED.md) enumerates
-the current deferred items (Phase 1 wet-lab + Phase 2 IP + Phase 3+ clinical).
+**Hard rule — no proposals for deferred actions** (2026-05-12):
+Agents must **NOT** propose external-contact items as "next steps", "next
+to-do", "추천", "권장", "다음 진행" suggestions in their end-of-turn
+summaries or recommendations. Once a draft template + status marker is
+committed, the agent's deliverable for that item is **complete**. The
+user owns the external execution decision-tree and does not need
+periodic reminders of what's pending — `USER_ACTION_REQUIRED.md` is the
+single index, refreshed only when state actually changes.
+
+Specifically, agents must NOT say things like:
+- ❌ "다음 단계: patent counsel consultation"
+- ❌ "user 직접 실행: CRO RFP send"
+- ❌ "권장: pre-IND meeting 신청"
+- ❌ "Next: pay for cryo-EM session"
+
+Agents MAY say:
+- ✅ "Phase 1 templates 12 files committed (f780012). Done."
+- ✅ "wetlab/ structure ready in-repo."
+- ✅ (silent — end of turn after the in-repo work is done)
+
+If a future agent needs to do **more in-repo work** that builds on the
+template (e.g. "claude, generate axis-specific SOP for ribozyme"), the
+user requests it. Agents do not push.
+
+**Cross-ref**: [`USER_ACTION_REQUIRED.md`](USER_ACTION_REQUIRED.md) is the
+single canonical index for deferred items (Phase 1 wet-lab + Phase 2 IP +
+Phase 3+ clinical). Do not duplicate it in commit messages, end-of-turn
+summaries, or other docs.
 
 **raw_91 honest C3**: this policy makes hexa-bio's automation honest —
-agents won't fake or skip the external-step gates. The user knows exactly
-what's been done (in-repo) vs what's pending (external).
+agents won't fake or skip the external-step gates AND won't pester the
+user with reminders of external work they already own. The user knows
+exactly what's been done (in-repo) vs what's pending (external); the
+single source for "what's pending external" is USER_ACTION_REQUIRED.md.
