@@ -5,6 +5,71 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Added (cycle-30++++++++, 2026-05-13 late-night — F-Q-6-E Ramp B-2 6/6 + ADAPT-VQE + k-UpCCGSD via hexa-lang RFC 036/039)
+
+- **hexa-lang RFC 036 LANDED** (`32ca3f30`): `farr_int_array` packed
+  `int64_t*` handle + 8 builtins (`farr_int_zeros` / `farr_int_set` /
+  `farr_int_get` / `farr_int_free` / etc.). Replaces the
+  boxed-`[int]` arrays (`ham_flip[k]`, `ham_z[k]`, …) that drove the
+  per-iter HexaVal retention with raw C-side int64 buffers. Eliminates
+  the `HEXA_MEM_CAP_MB=2048` env-hatch dependency for the 876-Pauli
+  CMT 4e/5o cache + unblocks the 4e/6o (10-qubit) active-space tier
+  without further runtime changes. T1–T8 validation in
+  `qmirror/chemistry_vqe/module/_rfc036_smoke.hexa` (1M-element
+  handle stress test).
+- **hexa-lang RFC 039 LANDED** (`b0a4f146`): parameter-shift gradient
+  kernel + prerequisite raw-helper refactor — `_hx_pauli_exp_raw` and
+  `_hx_pauli_expectation_raw` extracted; `hexa_farr_pauli_exp_inplace`
+  / `_expectation` now thin shims over them. Also lands `ham_pack` /
+  `ansatz_pack` bundle constructors. The kernel evaluates ∂E/∂θ_k for
+  all parameters via the parameter-shift rule in one C call, making
+  the gradient essentially free. Enables hexa-native L-BFGS-B with
+  O(1) gradient evals per step.
+- **qmirror gjb1 4e/5o closure** — last hold-out from the prior 5/6
+  state closes via maxiter=4000 stretch with the RFC 036-backed
+  cache: **\|Δ\| = 40.27 µHa @ 305 s wall** (vs prior 4893 µHa @
+  maxiter=500). The 4e/5o cohort is now **6/6 in-process at chemical
+  accuracy** (LiH + clc1 / sar1 / mfn2 / hd6 / gjb1).
+- **qmirror ADAPT-VQE driver** —
+  `chemistry_vqe/module/_adapt_vqe_driver.hexa` +
+  `_adapt_vqe_lih_4e4o.hexa`. Operator pool from existing UCCSD-26
+  generator; FD-grad pool screen + inner L-BFGS-B; greedy max-\|g\|
+  selection; stop on max-\|g\| < 1e-3 Ha. **LiH 4e/4o**: K=10 ops
+  selected, **\|Δ\| = 0.043 µHa (37,000× under chem-acc bound,
+  ~25,000× tighter than UCCSD-26 NM-200 baseline at 1060 µHa), 62%
+  parameter-reduction simultaneously**, 17 s wall. FD-grad →
+  RFC 039 PS-grad is a 1-line swap point (flagged in driver
+  comments).
+- **qmirror k-UpCCGSD generator + driver** —
+  `_kupccgsd_generator.hexa` + `_kupccgsd_lih_4e4o.hexa`. Lee et al.
+  strict definition: 8 generalised singles + 2 same-spin pair doubles
+  per block (10 params/block; αβ-mixing doubles excluded per strict
+  definition), k-times replicated. **LiH 4e/4o sweep**: k=1 (10p) /
+  k=2 (20p) / k=3 (30p) all plateau at **344 µHa** (clears 1.6 mHa
+  bound but ~8000× looser than ADAPT-VQE at same 10-param budget).
+  The plateau is the strict-k-UpCCGSD subspace ceiling — αβ-mixing
+  doubles carry the remaining ~278 µHa of correlation, recoverable
+  only via ADAPT-VQE or full UCCSD. Confirms the textbook tradeoff:
+  ansatz *structure* matters more than block-count for this scaffold.
+- **qmirror L-BFGS-B prototype** —
+  `chemistry_vqe/module/_lbfgsb_driver.hexa` (pure-hexa m=10
+  two-loop, strong-Wolfe, bound clip, PD-guard). FD-grad today;
+  PS-grad swap is a 1-line change once hexa rebuilds against the
+  RFC 039 binding.
+- **qmirror `bench/`** — 10-diatomic independent-verification suite
+  (harness + manifest + 3/10 runnable today + 7/10
+  EXTRACTION_PENDING with offline pyscf+qiskit-nature recipe
+  shipped). First cross-check beyond CMT-specific scaffolds.
+- **`docs/RFC_036_*` + `docs/RFC_039_*`** — complete specs +
+  unified-diff patches (review-only mirror of what landed upstream).
+- **`qmirror/QMIRROR.md`** — scale-up / growth brainstorm catalog
+  (20 sections covering AS-ladder, ansatz richness, optimizer ladder,
+  RFC 036-043 proposals, mapping diversity, molecule diversity,
+  QM/MM, excited states, real-QPU integration deferred per AGENTS,
+  verification benchmarks, cross-axis applications, formal
+  verification, sampler realism, docs, xeno integration, API
+  surface, far-out, decision framework, "NOT to do" boundary).
+
 ### Added (cycle-30++++++++, 2026-05-13 night — `_absorption_bridge/` backport from hexa-matter Phase G)
 
 - **`_absorption_bridge/` LANDED** — 9 protein-structure ML + sequence
