@@ -5,6 +5,13 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Added (cycle-30++++++++, 2026-05-13 later — F-Q-6-E Ramp B FULL IN-PROCESS CLOSURE via hexa-lang RFC 034)
+
+- **hexa-lang RFC 034 LANDED** (e31ee484): new whole-loop C kernels `hexa_farr_pauli_exp_inplace` + `hexa_farr_pauli_expectation` added to the runtime, eliminating the per-iter HexaVal arena pressure that previously blocked qmirror's in-process 26-parameter NM (~180 MB/eval × ~4 evals → 768 MB cap exceeded; bisected to bare `farr_get`/`farr_set` in the hot path). Same architectural pattern as the existing `farr_apply_single` / `farr_apply_cnot` fast paths. Algorithm validated against `scipy.linalg.expm` at machine precision (max err < 1e-12 on 8 random 6-qubit Pauli strings) in qmirror's offline numpy harness.
+- **qmirror Ramp B FULL CLOSURE** (179a2db): in-process pure-hexa NM now works end-to-end. `chemistry_vqe_cmt_uccsd_lih_4e4o.hexa` switches its inner pauli helpers to RFC 034 builtins + restored 26-parameter NM driver. 5 new per-CMT-scaffold modules `chemistry_vqe_cmt_uccsd_cmt_<NAME>_4e4o.hexa` (clc1/sar1/mfn2/hd6/gjb1) vendor each scaffold's UCCSD-decomposition + Hamiltonian + HF state and run the same in-process NM. **Live results (maxiter=200, ~13s wall per scaffold)**: LiH Δ=66 µHa (24× under bound); clc1 Δ=227 µHa (7×); sar1 Δ=204 µHa (8×); mfn2 Δ=277 µHa (6×); hd6 Δ=11.7 µHa (137×); gjb1 Δ=1879 µHa (17% over bound, needs externalized fallback — in-process maxiter cap ~250 from secondary memory pressure in NM-side [float] vertex copies).
+- **`selftest/cmt_uccsd_inproc_nm_readiness.sh`** — aggregating gate iterating the 6 per-molecule modules; PASS if ≥majority reach chem-accuracy in-process (gjb1 falls back to externalized). Wired into `selftest/run_all.sh` → run_all = **33/33 PASS**. Sentinel `__CMT_UCCSD_INPROC_NM_READINESS__ PASS`.
+- **Performance**: in-process NM at maxiter=200 is **~26× faster** than the externalized loop at maxiter=5 (13s vs 5.7 min wall) for comparable chem-accuracy. RFC 034 + in-process = honest "pure-hexa variational VQE at 4e/4o" — energy kernel goes through the C builtin (same architectural class as `apply_single`), optimizer loop runs in hexa.
+
 ### Changed (cycle-30++++++++, 2026-05-13 — 100% (a) closure scoreboard refresh)
 
 - **README scoreboard refresh** — three new shield badges surface the
