@@ -5,6 +5,25 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Changed (cycle-30++++++++, 2026-05-13 — 100% (a) closure scoreboard refresh)
+
+- **README scoreboard refresh** — three new shield badges surface the
+  current verifiable state on the landing page: `v1.x closure (a) =
+  100% all 5 axes`, `selftest gates = 32/32 PASS` (live count from
+  `selftest/run_all.sh` after the `cmt_uccsd_lih_4e4o_external_nm_readiness`
+  wire-in), and `Real-limits` linking [`LIMIT_BREAKTHROUGH.md`](LIMIT_BREAKTHROUGH.md).
+  The stale "Status (2026-05-06)" snapshot updated to "Status
+  (2026-05-13, cycle-30++++++++)" with explicit out-of-software-scope
+  callout for categories (b) v5 Lean and (c) wet-lab/IP/hardware per
+  [`CLOSURE_RESIDUAL_BACKLOG.md`](CLOSURE_RESIDUAL_BACKLOG.md) §0.
+  raw#10 C3 caveat strengthened: closure here is **software-bookkeeping
+  only** — all 5 bio axes remain academically unproven at the wet-lab
+  boundary; HARD-walls (DNA fidelity, Eyring k_cat, Caspar-Klug ΔG,
+  ATP economy) cannot be broken by simulator improvements alone.
+  No verify/ scripts added (the repo's native verification pattern
+  is `selftest/run_all.sh` — adding a parallel `verify/` would
+  duplicate without value).
+
 ### Added (cycle-30++++++++, 2026-05-13 — F-Q-6-E Ramp B externalized closure: variational VQE reaches chem-accuracy)
 
 - **F-Q-6-E Ramp B externalized closure — pure-hexa physics + Python-stdlib NM driver reaches CASCI(4,4) within chem-accuracy on LiH** (Option 2 of the prior commit's documented sub-ramps). Each energy eval is a fresh hexa subprocess via the qmirror oneshot module `chemistry_vqe/module/chemistry_vqe_cmt_uccsd_lih_4e4o_oneshot.hexa`; the optimizer is `selftest/cmt_uccsd_lih_4e4o_external_nm_driver.py`, a Python-stdlib-only Nelder-Mead. Live on dev host at maxiter=5 (5.7-min wall, 36 evals): **E_VQE = −7.8638100 Ha, CASCI(4,4) = −7.8643048 Ha, |Δ| = 494.8 µHa (3× UNDER the 1.6 mHa chem-accuracy bound), 58.5% recovery of the HF→CASCI correlation gap**. Higher maxiter would converge further (numpy harness: 1.06 mHa @ maxiter=200, 0.004 µHa @ maxiter=8000). New gate `selftest/cmt_uccsd_lih_4e4o_external_nm_readiness.sh` invokes the driver and aggregates the result; wired into `run_all.sh` after the ansatz-machinery gate. Sentinel `__CMT_UCCSD_LIH_4E4O_EXTERNAL_NM_READINESS__ PASS`.

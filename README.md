@@ -19,17 +19,35 @@
 [![n=6 lattice](https://img.shields.io/badge/n%3D6-σ%3D12_τ%3D4_φ%3D2_J₂%3D24-purple.svg)](#n6-invariant-lattice)
 [![Roadmap](https://img.shields.io/badge/roadmap-MVP_gates_2026--07--28-orange.svg)](.roadmap.hexa_bio)
 [![Cycle 25](https://img.shields.io/badge/cycle_25-closed_2026--05--06-brightgreen.svg)](RELEASE_NOTES_v1.1.0.md)
+[![v1.x closure (a)](https://img.shields.io/badge/v1.x_closure_(a)-100%25_all_5_axes-brightgreen.svg)](#5-axis-status-table)
+[![selftest gates](https://img.shields.io/badge/selftest_gates-32%2F32_PASS-brightgreen.svg)](selftest/run_all.sh)
+[![Real-limits](https://img.shields.io/badge/limits-real_(LIMIT__BREAKTHROUGH.md)-blue.svg)](LIMIT_BREAKTHROUGH.md)
 
-> **Status (2026-05-06)**: cycle 25 closed; v1.1.0 candidate drafted (see
-> [`RELEASE_NOTES_v1.1.0.md`](RELEASE_NOTES_v1.1.0.md)). Cycle 25 traversed
-> the 16-cell C2 matrix (4 bio axis × 4 disease class) at IN-SILICO grade —
-> 16/16 cells PASS the simulator+metadata internal-consistency check. The
-> QUANTUM compute axis is tracked separately in [`.roadmap.quantum`](.roadmap.quantum)
-> (Phase 1+ LANDED, qpu_bridge L1).
-> **Honest caveat**: C2 PASS verifies in-silico simulator+metadata internal
-> consistency only — it is **NOT** therapeutic, clinical, regulatory,
-> immunogenic, or efficacy progress. C3+ (wet-lab → IND → phase I) is
-> explicitly out-of-repo. No medical claim is made or implied.
+> **Status (2026-05-13, cycle-30++++++++)**: v1.x **category-(a) closure
+> = 100% across all 5 axes** (weave / virocapsid / ribozyme / nanobot /
+> quantum). `selftest/run_all.sh` → **32/32 PASS** on dev host
+> (deterministic in-repo gates; SKIP-clean substrate gates included).
+> v1.1.0 candidate drafted (see [`RELEASE_NOTES_v1.1.0.md`](RELEASE_NOTES_v1.1.0.md)).
+> Cycle 25 traversed the 16-cell C2 matrix (4 bio axis × 4 disease class)
+> at IN-SILICO grade — 16/16 cells PASS the simulator+metadata
+> internal-consistency check. The QUANTUM compute axis is tracked
+> separately in [`.roadmap.quantum`](.roadmap.quantum) (Phase 1+ LANDED,
+> qpu_bridge L1; F-Q-6-E Ramp B EXTERNALIZED CLOSURE 2026-05-13 — LiH
+> 4e/4o variational VQE 494.8 µHa, 3× under chem-accuracy).
+> **Honest caveat (raw#10 C3)**: "100% closure" here is **bookkeeping
+> only** — category (a) measures in-repo software / formalism /
+> infrastructure. Category (b) v5 Lean stretches and category (c)
+> wet-lab / IP / hardware adoption are **explicitly out-of-software-scope**
+> (per [`CLOSURE_RESIDUAL_BACKLOG.md`](CLOSURE_RESIDUAL_BACKLOG.md) §0).
+> C2 PASS verifies in-silico simulator+metadata internal consistency
+> only — it is **NOT** therapeutic, clinical, regulatory, immunogenic,
+> or efficacy progress. C3+ (wet-lab → IND → phase I) is explicitly
+> out-of-repo. **All 5 axes (synthetic biology / CRISPR / virocapsid /
+> ribozyme catalysis / pocket VQE) are scientifically UNPROVEN at the
+> wet-lab boundary** — closure here is software-bookkeeping, never a
+> medical or empirical claim. Real-limits anchors (DNA fidelity,
+> Eyring k_cat, Caspar-Klug ΔG, ATP cost, CRISPR off-target floor):
+> see [`LIMIT_BREAKTHROUGH.md`](LIMIT_BREAKTHROUGH.md).
 
 > **Distribution**: GitHub canonical at <https://github.com/dancinlab/hexa-bio>.
 > CLI tooling — installed via `hx install hexa-bio` from the hexa-lang
