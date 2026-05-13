@@ -4,32 +4,36 @@
 #
 # F-Q-6-E Ramp B FULL IN-PROCESS closure — iterates the 6 per-molecule
 # qmirror modules (LiH + 5 CMT scaffolds) running PURE-HEXA in-process
-# 26-parameter Nelder-Mead on the UCCSD-at-4e/4o ansatz. Enabled by
-# hexa-lang RFC 034 (2026-05-13) which adds the whole-loop C kernels
-# `farr_pauli_exp_inplace` + `farr_pauli_expectation`, eliminating the
-# per-iter HexaVal arena pressure that previously blocked multi-call
-# in-process NM at ~4-5 evals.
+# Nelder-Mead on the UCCSD-at-4e/4o ansatz. Enabled by:
+#   - RFC 034 (2026-05-13): farr_pauli_exp_inplace + farr_pauli_expectation
+#     — whole-loop C kernels for the energy eval (eliminates the per-iter
+#     HexaVal arena pressure that previously blocked multi-call in-process
+#     NM at ~4-5 evals).
+#   - RFC 035 (2026-05-13): farr_simplex_centroid / vec_reflect / vec_blend
+#     / vertex_copy / simplex_sort / simplex_shrink — whole-NM-step C
+#     kernels for the optimizer loop (eliminates the per-iter boxed-[float]
+#     retention that previously capped maxiter at ~200 for high-coupling
+#     scaffolds like gjb1).
 #
 # Per-scaffold module: `chemistry_vqe_cmt_uccsd_<NAME>_4e4o.hexa` in qmirror.
-# Each runs maxiter=200 NM from theta=0; PASS criterion is |Δ vs CASCI(4,4)|
-# < 1.6 mHa (chemical accuracy).
+# Each runs NM from theta=0 (maxiter=200 for the [float] NM path; maxiter=500
+# for the RFC 035 farr-NM path, currently used by gjb1). PASS criterion is
+# |Δ vs CASCI(4,4)| < 1.6 mHa (chemical accuracy).
 #
-# Live wall (dev host): ~13s per scaffold (vs ~5.7 min in the externalized
-# pipeline — ~26× speedup from the in-process loop).
+# Live wall (dev host): ~10-25s per scaffold (vs ~5.7 min in the externalized
+# pipeline — ~20-35× speedup from the in-process loop).
 #
 # raw_91 honest C3:
-#   - Per-molecule walls under maxiter=200 fit cleanly; the 200-iter NM
-#     cap is set by a SECONDARY memory bound in the NM-side [float] vertex
-#     copies (~2 MB/iter from boxed-array overhead). gjb1 lands at ~1.9 mHa
-#     at maxiter=200 — just above the 1.6 mHa bound for this specific
-#     scaffold. Fall back to the externalized gate (cmt_uccsd_lih_4e4o_external_nm)
-#     for tighter convergence; the externalized loop has no in-process
-#     accumulation and reaches sub-µHa given enough wall.
+#   - All 6 scaffolds (lih + 5 CMT) PASS in-process at chem-accuracy.
+#     gjb1 specifically requires RFC 035 farr-NM at maxiter=500 to land
+#     at ~274 µHa (down from ~1879 µHa under the [float] NM at maxiter=200).
+#     The remaining 5 scaffolds stay on the [float] NM path since they
+#     converge inside maxiter=200.
 #   - "Pure-hexa NM" = the optimizer loop runs in hexa over hexa primitives.
-#     The energy kernel goes through the RFC 034 C builtins (rather than
-#     pure-hexa farr_get/set inner loops), which is the same architectural
-#     pattern as `apply_single` / `apply_cnot` (existing whole-loop fast
-#     paths). Faithful pure-hexa per qmirror's hexa-strict rule.
+#     The energy kernel goes through RFC 034 C builtins and the NM step
+#     loops go through RFC 035 C builtins (same architectural pattern as
+#     `apply_single` / `apply_cnot` whole-loop fast paths). Faithful
+#     pure-hexa per qmirror's hexa-strict rule.
 #
 # Sentinel: __CMT_UCCSD_INPROC_NM_READINESS__ PASS|SKIP|FAIL
 #
@@ -122,18 +126,15 @@ done
 
 echo
 echo "  per-molecule tally: $n_pass PASS / $n_skip SKIP / $n_fail FAIL  (of $n_total)"
-echo "  raw_91 C3: in-process NM at maxiter=200 fits cleanly. Scaffolds that"
-echo "  need maxiter>~250 (currently: gjb1) approach a secondary memory bound"
-echo "  in NM-side [float] vertex copies — fall back to externalized NM gate."
+echo "  raw_91 C3: RFC 034+035 close in-process Ramp B fully. Scaffolds that"
+echo "  needed maxiter > 200 (gjb1) use the RFC 035 farr-NM path in-module"
+echo "  (cv_uccsd_cmt_<name>_nm_h) at maxiter=500; the rest stay on [float] NM."
 if [ "$n_fail" -gt 0 ]; then
-  # FAIL counted only when sentinel explicitly emits FAIL; treat as gate-level
-  # PASS if majority of scaffolds PASS, since gjb1 is documented as falling
-  # back to externalized at maxiter>200.
-  if [ "$n_pass" -ge $((n_total / 2 + 1)) ]; then
-    echo "  $n_pass/$n_total scaffolds PASS the chem-accuracy bound in-process;"
-    echo "  $n_fail scaffold(s) (notably gjb1) need higher maxiter — covered by externalized gate."
-    echo "$SENTINEL_PASS"; exit 0
-  fi
+  # FAIL counted only when sentinel explicitly emits FAIL. With RFC 035 the
+  # in-process path covers all 6 scaffolds at chem-accuracy; any FAIL now
+  # signals a real regression and is propagated as gate-level FAIL.
+  echo "  $n_pass/$n_total scaffolds PASS the chem-accuracy bound in-process;"
+  echo "  $n_fail scaffold(s) FAIL — investigate (RFC 034/035 plumbing or per-scaffold cache)."
   echo "$SENTINEL_FAIL"; exit 1
 fi
 if [ "$n_pass" -ge 1 ]; then
