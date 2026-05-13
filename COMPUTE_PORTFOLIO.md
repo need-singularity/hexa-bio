@@ -4,11 +4,17 @@
 > `AGENTS.md` / `XENO.md` / `README.md` should POINT here, not duplicate the
 > substrate × workload × readiness matrix.
 
-**Status (2026-05-12 cycle-30+++++++)**: 2 live substrates (qmirror state-vector,
-qmirror chemistry-VQE H2), 1 live orchestrator (xeno status), N substrates
-inventoried-but-not-workload-wired (xeno's 7-substrate roadmap), 1 documented
-capability gap (qmirror chemistry-VQE for arbitrary drug molecules — needs a
-classical-chemistry integral backend).
+**Status (2026-05-13 cycle-30++++++++)**: live substrates expanded to qmirror
+state-vector + qmirror chemistry-VQE at THREE tiers — H2 (cond.14, pure-hexa),
+**all 5 CMT scaffolds at 2e/2o (pure-hexa UCCSD)**, **all 6 molecules (LiH+5 CMT)
+at 4e/4o (vendored ψ* replay)**, plus the **Ramp B externalized variational
+closure on LiH 4e/4o** (pure-hexa physics + stdlib-Python NM driver → Δ=494.8 µHa,
+3× under chem-acc bound, 5.7-min wall @ maxiter=5); 1 live orchestrator (xeno
+status), N substrates inventoried-but-not-workload-wired (xeno's 7-substrate
+roadmap). The original Tier-2 gap (non-H2 chemistry-VQE) is now realized at
+multiple sub-tiers — see §4. Open ramps: 4e/4o+ active spaces / final-molecule
+geometries / pocket-embedded QM/MM-VQE; in-process pure-hexa NM (vs externalized)
+blocked on hexa-runtime farr_get boxed-float retention.
 
 > **🔒 UNIVERSAL FALLBACK PRINCIPLE (load-bearing)**: *Every* compute substrate
 > above is **optional**. A user with no qmirror, no xeno, no AKIDA hardware, no
@@ -60,7 +66,9 @@ hardware, doesn't simulate them).
 | **qmirror chemistry-VQE (pure-hexa)** | H2/STO-3G/0.74Å cond.14 spectroscopic-accuracy gate | ✅ **live** | — (gated by `selftest/qmirror_chemistry_vqe_gate.sh`) |
 | **qmirror chemistry-VQE — CMT scaffolds, 2e/2o tier** (vendored Hamiltonians) | non-H2 molecular VQE — the 5 CMT candidate scaffolds (hxq-cmt-{clc1,sar1,mfn2,hd6,gjb1}-001) at a STO-3G HOMO/LUMO 2e/2o active space → 2-qubit UCCSD VQE vs CASCI(2,2) | ✅ **live (2e/2o tier) 2026-05-13** | `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians.hexa` — vendored 2e/2o parity-mapped Hamiltonians + CASCI(2,2) refs (offline rdkit+pyscf+qiskit-nature extraction; build-time only, NOT a runtime dep; H2-self-validated to machine precision), solved by the generic 2e/2o UCCSD path in `chemistry_vqe_native.hexa`. Gated by `selftest/cmt_vqe_ladder_readiness.sh` (`__QMIRROR_CHEM_CMT_VQE__ PASS`). This realizes the F-Q-6-E ramp; see §4. |
 | **qmirror chemistry-VQE — 4e/4o sub-tier** (vendored Hamiltonian + ψ* replay) | 6-qubit molecular VQE — **all 6 molecules** (LiH validation anchor + 5 CMT scaffolds clc1/sar1/mfn2/hd6/gjb1) at STO-3G frontier-orbital 4e/4o active space (HOMO-1, HOMO, LUMO, LUMO+1) → `ParityMapper((2,2))` + 2-qubit reduction = 6 qubits; 175-325 Pauli terms; UCCSD-converged ψ* (26 variational params, SLSQP offline) → CASCI(4,4) reproduction << 1 µHa | ✅ **live (4e/4o sub-tier) 2026-05-13** | `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_4e4o_<name>.hexa` (per-molecule, ×6) + shared library `chemistry_vqe_cmt_hamiltonians_4e4o_lib.hexa` — vendored 4e/4o Hamiltonians + UCCSD-converged ψ* + CASCI(4,4) refs (offline pipeline = qiskit-nature `UCCSD` + `SLSQP`; variational step is offline, hexa-side is **vendored VQE replay** via the generic n-qubit Pauli-expectation evaluator `cv_pauli_expectation_n_4e4o`). Per-molecule split because the single-file approach exceeded the hexa-interp 768 MB RSS cap. Gated by `selftest/cmt_vqe_ladder_4e4o_readiness.sh` (aggregates per-molecule sentinels `__QMIRROR_CHEM_CMT_VQE_4E4O_<NAME>__ PASS`); tally 6/6 PASS on dev host. Pure-hexa 4e/4o variational optimizer = next sub-ramp. See §4. |
-| **qmirror chemistry-VQE — pure-hexa UCCSD-at-4e/4o, other 4 CMT scaffolds, final-molecule / pocket-embedded** | (i) the variational step (currently offline SLSQP) ported to pure hexa — a 26-parameter optimizer + Trotterized UCCSD circuit applier; (ii) 4e/4o+ active spaces / final-molecule geometries / pocket-embedded QM/MM-VQE — the actual K_d/ΔΔG, not the 2e/2o or 4e/4o frontier-orbital token | ⏳ **open ramps** | (i) mechanical port of qiskit-nature's UCCSD + SLSQP into hexa primitives — substantial undertaking; (ii) chemistry judgment + research-grade QM/MM. Documented in `~/core/qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md` §4-5; see §4 below. |
+| **qmirror chemistry-VQE — pure-hexa UCCSD ansatz machinery (LiH 4e/4o)** | E(θ) evaluator: HF state init + UCCSD Trotter ansatz (26 generators, 152 Pauli rotations) + masked n-qubit Pauli expectation, all in pure hexa | ✅ **live (Ramp B ansatz-only) 2026-05-13** | `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_uccsd_lih_4e4o.hexa` — validated by E(θ=0) = HF reference to 3.6e-6 µHa (machine precision). Algorithm cross-validated against `scipy.linalg.expm` at machine precision in offline numpy harness. Gated by `selftest/cmt_uccsd_lih_4e4o_ansatz_readiness.sh`. |
+| **qmirror chemistry-VQE — Ramp B EXTERNALIZED variational closure (LiH 4e/4o)** | full variational VQE via externalized NM loop — Python-stdlib (NO scipy/numpy) Nelder-Mead drives the qmirror oneshot energy module (fresh hexa subprocess per energy eval, bypasses the in-process boxed-float leak) | ✅ **live (Ramp B Option 2 LANDED) 2026-05-13** | `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_uccsd_lih_4e4o_oneshot.hexa` + `selftest/cmt_uccsd_lih_4e4o_external_nm_driver.py` (pure-stdlib NM) + gate `selftest/cmt_uccsd_lih_4e4o_external_nm_readiness.sh`. Live result @ maxiter=5: **E_VQE = −7.8638 Ha, CASCI = −7.8643 Ha, \|Δ\| = 494.8 µHa (3× UNDER 1.6 mHa chem-acc bound), 58.5% HF→CASCI gap recovery, 5.7-min wall, 36 evals.** Higher maxiter would converge further (numpy harness: 1.06 mHa @ maxiter=200, 0.004 µHa @ maxiter=8000). |
+| **qmirror chemistry-VQE — IN-PROCESS pure-hexa NM (Option 1), 4 other CMT scaffolds @ Ramp B, final-molecule / pocket-embedded** | (i) the variational step in-process in pure hexa (currently Option 2 externalized — Option 1 would replace Python NM with in-hexa NM loop); (ii) the other 4 CMT scaffolds at the Ramp B tier (clc1/sar1/mfn2/hd6/gjb1 — currently only LiH demonstrated end-to-end); (iii) 4e/4o+ active spaces / final-molecule geometries / pocket-embedded QM/MM-VQE — the actual K_d/ΔΔG, not the frontier-orbital token | ⏳ **open ramps** | (i) **BLOCKED on hexa-runtime** — bare `farr_get`/`farr_set` retains ~1.5 KB/op as boxed floats; ~25 evals OOM at 768 MB cap. Needs unboxed farr returns + inner-loop GC in the hexa runtime (out of this repo's scope). (ii) Mechanical extension via the same offline UCCSD-extraction pipeline. (iii) Chemistry judgment + research-grade QM/MM. Documented in `~/core/qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md` §4-5; see §4 below. |
 | **xeno → AKIDA AKD1000** (BrainChip neuromorphic, 1W spike inference) | edge AI: `ribozyme` G26-RB-3 off-target Hamming scan / `nanobot` sub-mW actuation controller / `medical-device` EEG-EMG-ECG pattern recognition / `crispr-cas13-poc-diagnostic` lateral-flow signal classification | ⏳ **PENDING** | AKD1000 physical chip arrival (ordered 2026-04-29, ETA pending; AKIDA Cloud access live 2026-05-08) + xeno Phase 1.5 `falsifier` subcommand. Readiness probed by `selftest/akida_workload_readiness.sh` (SKIP until both land). |
 | **xeno → Loihi3** (Intel neuromorphic) | well-founded-recursion / sequential workloads (no current hexa-bio mapping — speculative) | ⏳ **unexplored** | xeno roadmap (`.roadmap.loihi3`); no hexa-bio workload identified yet |
 | **xeno → Northpole** (IBM neuromorphic) | (no current hexa-bio mapping) | ⏳ **unexplored** | xeno roadmap (`.roadmap.northpole`) |
@@ -69,11 +77,18 @@ hardware, doesn't simulate them).
 | **xeno → IonQ** (trapped-ion quantum-gate) | real-noise gate-model VQE (Tier 4 quantum — when noise modeling needed) | ⏳ **unexplored** | xeno roadmap (`.roadmap.ionq`); needs a vendor account via xeno; distinct from qmirror state-vector (which is noiseless) |
 | **xeno → QRNG** (quantum random number) | general entropy — randomized falsifier seeds (Monte Carlo enumeration, etc.) | ✅ **live** (via `xeno status`) | — (overlaps with qmirror's internal ANU QRNG; both usable as free entropy sources by hexa-bio) |
 
-**Live now**: qmirror state-vector + qmirror chemistry-VQE H2 + xeno status + xeno QRNG.
-**One key gap**: qmirror chemistry-VQE for arbitrary drug molecules (the CMT pocket VQE
-blocker) — this is the highest-leverage compute upgrade for hexa-bio.
-**Most pending items**: xeno's neuromorphic/organoid substrates — workload wiring
-awaits xeno's own Phase 1.5+ (AKD1000 arrival, `falsifier` subcommand).
+**Live now**: qmirror state-vector + qmirror chemistry-VQE H2 + qmirror chemistry-VQE
+2e/2o ladder (5 CMT scaffolds) + qmirror chemistry-VQE 4e/4o ladder (LiH + 5 CMT) +
+**Ramp B externalized variational closure on LiH 4e/4o** + xeno status + xeno QRNG.
+**Original Tier-2 gap is closed**: qmirror chemistry-VQE for non-H2 molecules is now
+realized at three sub-tiers (2e/2o pure-hexa UCCSD; 4e/4o vendored ψ* replay;
+Ramp B externalized variational NM with pure-hexa energy + Python-stdlib optimizer).
+**Open ramps** (not blockers — research-grade or runtime-dependent):
+4e/4o+ active spaces / final-molecule geometries (post Phase-β chemotype refinement) /
+pocket-embedded QM/MM-VQE / in-process pure-hexa NM (blocked on hexa-runtime
+boxed-float retention).
+**Most pending compute items elsewhere**: xeno's neuromorphic/organoid substrates —
+workload wiring awaits xeno's own Phase 1.5+ (AKD1000 arrival, `falsifier` subcommand).
 
 ---
 
@@ -103,7 +118,21 @@ next ramp.
 
 ---
 
-## §4 The Tier-2 gap — qmirror chemistry-VQE classical backend (F-Q-6-E ramp) — ✅ REALIZED at the 2e/2o AND 4e/4o tiers
+## §4 The Tier-2 gap — qmirror chemistry-VQE classical backend (F-Q-6-E ramp) — ✅ REALIZED at the 2e/2o + 4e/4o + Ramp B externalized tiers
+
+> **STATUS 2026-05-13 (third milestone same day): Ramp B externalized closure LANDED.**
+> The variational VQE itself now runs end-to-end via `selftest/cmt_uccsd_lih_4e4o_external_nm_driver.py`
+> (Python-stdlib NM, no scipy/numpy) driving the qmirror oneshot energy module
+> `chemistry_vqe_cmt_uccsd_lih_4e4o_oneshot.hexa` (one fresh hexa subprocess
+> per energy eval, bypasses the per-call boxed-float leak that blocked
+> in-process NM). Live result @ maxiter=5: **E_VQE − CASCI(4,4) = 494.8 µHa
+> (3× UNDER chem-accuracy), 58.5% HF→CASCI gap recovery, 5.7-min wall.**
+> Gate `selftest/cmt_uccsd_lih_4e4o_external_nm_readiness.sh` (wired into
+> `run_all.sh` → **32/32 PASS**). "Option 2" from the prior commit's
+> documented Ramp B sub-ramps. Open: Option 1 (in-process pure-hexa NM)
+> blocked on hexa-runtime farr_get boxed-float retention; documented as
+> deeper hexa-runtime task. 4 other CMT scaffolds at Ramp B = mechanical
+> extension via the same offline UCCSD-decomposition pipeline.
 
 > **STATUS 2026-05-13 (later same day): option (c) extended to the 4e/4o sub-tier.**
 > `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians_4e4o.hexa` ships
@@ -115,7 +144,7 @@ next ramp.
 > n-qubit Pauli-expectation evaluator, verdicts vs CASCI(4,4) at the 1.6 mHa
 > bound. Both molecules clear by 6 orders of magnitude. Sentinel
 > `__QMIRROR_CHEM_CMT_VQE_4E4O__ PASS`; hexa-bio gate
-> `selftest/cmt_vqe_ladder_4e4o_readiness.sh`; `run_all.sh` now 30/30 PASS.
+> `selftest/cmt_vqe_ladder_4e4o_readiness.sh`; `run_all.sh` now **32/32 PASS** (after the Ramp B externalized closure landed).
 > Open sub-ramps: (i) pure-hexa 4e/4o variational optimizer (replacing
 > "vendored ψ*" with "pure-hexa-found ψ*" — port qiskit-nature UCCSD + SLSQP
 > into hexa primitives); (ii) the other 4 CMT scaffolds at 4e/4o (clc1/sar1/
@@ -219,7 +248,11 @@ knows immediately what they can run vs what's blocked on which dependency.
 - `selftest/xeno_substrate_gate.sh` — xeno status reachability gate
 - `selftest/cmt_vqe_ladder_readiness.sh` — CMT 2e/2o pocket-VQE gate (invokes qmirror's vendored CMT Hamiltonians; F-Q-6-E realized at the 2e/2o tier)
 - `selftest/cmt_vqe_ladder_4e4o_readiness.sh` — CMT 4e/4o vendored-VQE-replay gate (F-Q-6-E 4e/4o sub-tier)
-- `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians_4e4o.hexa` — vendored 4e/4o Hamiltonians + UCCSD-converged ψ* + CASCI(4,4) refs + generic n-qubit Pauli-expectation evaluator
+- `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_4e4o_<name>.hexa` (×6 per-molecule) + `chemistry_vqe_cmt_hamiltonians_4e4o_lib.hexa` (shared) — vendored 4e/4o Hamiltonians + UCCSD-converged ψ* + CASCI(4,4) refs + generic n-qubit Pauli-expectation evaluator
+- `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_uccsd_lih_4e4o.hexa` — pure-hexa UCCSD ansatz machinery (Ramp B ansatz-only, validated by E(θ=0) = HF to machine precision)
+- `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_uccsd_lih_4e4o_oneshot.hexa` — single-shot energy evaluator (driven by the externalized NM)
+- `selftest/cmt_uccsd_lih_4e4o_ansatz_readiness.sh` — Ramp B ansatz-machinery gate
+- `selftest/cmt_uccsd_lih_4e4o_external_nm_driver.py` + `..._readiness.sh` — Ramp B EXTERNALIZED variational VQE gate (Δ=494.8 µHa, 3× under chem-acc)
 - `qmirror/chemistry_vqe/module/chemistry_vqe_cmt_hamiltonians.hexa` — the vendored 2e/2o Hamiltonians + the offline extraction recipe + H2 self-validation anchor
 - `qmirror/CHEMISTRY_VQE_PYSCF_BACKEND_PLAN_2026_05_12.md` — the option (a/b/c) analysis; option (c) realized 2026-05-13
 - `selftest/akida_workload_readiness.sh` — AKIDA workload readiness probe
