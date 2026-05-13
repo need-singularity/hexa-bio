@@ -105,6 +105,7 @@ axes_total = 5
 axes_wired = 1                    # weave
 axes_c0b_skeleton = 3             # nanobot, ribozyme, virocapsid (all with deductive σ/τ/φ/J₂ PASS via n6_axis_computational_verification)
 axes_phase1_plus = 1              # quantum (qpu_bridge L1)
+absorption_bridge_adapters = 9    # cycle-30++++++++ backport of hexa-matter Phase G pattern — AlphaFold-3 / RoseTTAFold / ESMFold / OpenFold / ColabFold / Foldseek / MMseqs2 / UniProt / PDB (offline-replay schema validators; AF3 NON-COMMERCIAL RESEARCH ONLY flagged in alphafold3/SOURCES.md)
 verdict = "PARTIAL_PASS"
 axis_count_lock = ".roadmap.axis_expansion_decision_2026_05_08 (5-axis; 6th/7th candidates reject/defer)"
 extracted_from = "nexus/sim_bridge/weave/ @ 2026-05-04"

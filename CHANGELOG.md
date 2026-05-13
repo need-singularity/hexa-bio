@@ -5,6 +5,67 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Added (cycle-30++++++++, 2026-05-13 night — `_absorption_bridge/` backport from hexa-matter Phase G)
+
+- **`_absorption_bridge/` LANDED** — 9 protein-structure ML + sequence
+  external-system absorption adapters backported from hexa-matter's
+  Phase G pattern (commit `e712068`, 2026-05-13). Closes the
+  long-standing gap audit finding: hexa-bio mentioned
+  AlphaFold/RoseTTAFold/ESMFold in 50 files as "Primary oracle" with NO
+  concrete absorption surface — only positioning text. Each adapter is
+  a standalone Python script with `--selftest` offline fixture replay;
+  no live API / weights / CLI invocation inside selftest (NO LIVE
+  NETWORK rule). New adapters:
+  - **AlphaFold-3** (`alphafold3/af3_smoke.py`) — DeepMind 2024-11
+    weights; **NON-COMMERCIAL RESEARCH ONLY** license loudly flagged in
+    `SOURCES.md` + `sources_audit.py` extra check (Abramson J. et al.
+    2024 Nature 630:493).
+  - **RoseTTAFold + RFAA** (`rosettafold/rosettafold_smoke.py`) — Baker
+    Lab; BSD-3-Clause / Apache-2.0 (commercial OK) (Baek M. et al. 2021
+    Science 373:871; Krishna R. et al. 2024 Science 384:eadl2528).
+  - **ESMFold** (`esmfold/esmfold_smoke.py`) — Meta AI; MIT;
+    single-sequence (no MSA) marker preserved in fixture (Lin Z. et al.
+    2023 Science 379:1123).
+  - **OpenFold** (`openfold/openfold_smoke.py`) — Columbia consortium;
+    Apache-2.0; trainable AF2 reimplementation (Ahdritz G. et al. 2024
+    Nat Methods 21:1514).
+  - **ColabFold** (`colabfold/colabfold_smoke.py`) — Steinegger lab;
+    MIT; AF2+MMseqs2 MSA engine (Mirdita M. et al. 2022 Nat Methods
+    19:679).
+  - **Foldseek** (`foldseek/foldseek_smoke.py`) — Steinegger lab; GPLv3;
+    3Di-alphabet structural search (van Kempen M. et al. 2024 Nat
+    Biotech 42:243).
+  - **MMseqs2** (`mmseqs/mmseqs_smoke.py`) — Steinegger & Söding; GPLv3
+    (Steinegger M. & Söding J. 2017 Nat Biotech 35:1026).
+  - **UniProt REST** (`uniprot/uniprot_api_smoke.py`) — EMBL-EBI / SIB /
+    PIR; CC-BY 4.0 data + free API (UniProt Consortium 2023 NAR
+    51:D523).
+  - **RCSB PDB REST** (`pdb/pdb_api_smoke.py`) — RCSB / wwPDB; CC0 data
+    + free API (Burley S.K. et al. 2023 NAR 51:D488).
+- **`HEXA-WEAVE.md` / `HEXA-VIROCAPSID.md` / `HEXA-NANOBOT.md` /
+  `HEXA-RIBOZYME.md`** — the "Primary oracle: AlphaFold-class fold
+  inference" row in each sister-comparison table now links to the
+  concrete `_absorption_bridge/<system>/SOURCES.md` entry instead of
+  citing a dangling system name. AF3 non-commercial restriction is
+  surfaced at the citation site.
+- **`_absorption_bridge/selftest/run_all.sh`** — aggregator emits
+  `__HEXA_BIO_ABSORPTION_BRIDGE__ PASS (10/10 modules, 0 skipped)` on
+  dev host (9 per-system wrappers + 1 sources-audit). Wired as new
+  gate `absorption_bridge_smoke` in `selftest/run_all.sh` → run_all =
+  **35/35 PASS** (was 34/34 prior). `hexa.toml [closure]` adds
+  `absorption_bridge_adapters = 9` field.
+- **`_absorption_bridge/pyproject.toml`** — optional deps gated by
+  `[rest_api]` (requests), `[bio_io]` (biopython + mdanalysis),
+  `[fold_runtime]` (torch + transformers). Stdlib-only fallback;
+  adapters SKIP cleanly when deps missing.
+- **License-honesty matrix** locked in `_absorption_bridge/README.md`
+  §"License honesty matrix" — AF3 non-commercial-only vs the
+  commercial-OK alternatives (RoseTTAFold / ESMFold / OpenFold /
+  ColabFold) made explicit at the bridge entrypoint. raw#10 C3
+  enforced: NO n=6 lattice-fit applied to fold predictions or
+  sequence alignments; each adapter passes through the external
+  system's OWN published metrics untouched.
+
 ### Added (cycle-30++++++++, 2026-05-13 evening — F-Q-6-E Ramp B 6/6 + Ramp B-2 (4e/5o) in-process via hexa-lang RFC 035)
 
 - **hexa-lang RFC 035 LANDED** (64bcf3ab): 8 new whole-NM-step C kernels

@@ -63,6 +63,7 @@ run "compute_substrate_routing" python3 "$HERE/compute_substrate_routing.py"
 run "akida_workload_readiness" bash "$HERE/akida_workload_readiness.sh"
 run "cmt_axis_and_cross_design_audit" python3 "$HERE/cmt_axis_and_cross_design_audit.py"
 run "cmt_smiles_validation" python3 "$HERE/cmt_smiles_validation.py"
+run "absorption_bridge_smoke" bash "$REPO_ROOT/_absorption_bridge/selftest/run_all.sh"
 
 echo "─────────────────────────────────────────────"
 echo "selftest summary: $passes PASS / $fails FAIL"

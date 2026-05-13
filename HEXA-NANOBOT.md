@@ -32,7 +32,7 @@ Molecular nanotechnology has a 40-year literature corpus (Drexler 1986 productiv
 | Object | Multi-strand bundle (P up to 10^4) | Single nano-machine (10^0-10^2 atoms per actuator) |
 | Direction | Target context to strand-set composition | Target work-output to actuator architecture |
 | Primary quantity | Inverse-search × Landauer floor | Mechanical work per cycle vs Brownian floor |
-| Primary oracle | AlphaFold-class fold inference | Molecular-dynamics simulation (Drexler 1986 / Goddard 2003) |
+| Primary oracle | AlphaFold-class fold inference (concrete adapter: [`_absorption_bridge/alphafold3/SOURCES.md`](_absorption_bridge/alphafold3/SOURCES.md) — note AF3 NON-COMMERCIAL RESEARCH ONLY; commercial-OK siblings: [RoseTTAFold](_absorption_bridge/rosettafold/SOURCES.md), [ESMFold](_absorption_bridge/esmfold/SOURCES.md), [OpenFold](_absorption_bridge/openfold/SOURCES.md), [ColabFold](_absorption_bridge/colabfold/SOURCES.md)) | Molecular-dynamics simulation (Drexler 1986 / Goddard 2003) |
 | Primary constraint | Landauer × NP-search ceiling | kT thermal noise floor at 310K |
 | Verdict horizon | THEORETICAL-ANALYTICAL (closure PASS) | THEORETICAL-ANALYTICAL (registration APPROACH) |
 

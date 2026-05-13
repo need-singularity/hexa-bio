@@ -33,7 +33,7 @@ Catalytic RNA has a 40-year experimental corpus (Cech 1982 Tetrahymena self-spli
 | Object | Multi-strand bundle (P up to 10^4) | Single nano-machine (10^0-10^2 atoms per actuator) | Single ribozyme active site (~12-30 nt catalytic core) |
 | Direction | Target context to strand-set composition | Target work-output to actuator architecture | Target bond-cleavage to catalytic-core architecture |
 | Primary quantity | Inverse-search x Landauer floor | Mechanical work per cycle vs Brownian floor | Catalytic rate enhancement k_cat / k_uncat |
-| Primary oracle | AlphaFold-class fold inference | Molecular-dynamics simulation (Drexler 1986 / Goddard 2003) | Chemical-kinetics simulation + RNA-secondary-structure prediction (Mfold / RNAfold / Rosetta-RNA) |
+| Primary oracle | AlphaFold-class fold inference (concrete adapter: [`_absorption_bridge/alphafold3/SOURCES.md`](_absorption_bridge/alphafold3/SOURCES.md) — note AF3 NON-COMMERCIAL RESEARCH ONLY; commercial-OK siblings: [RoseTTAFold](_absorption_bridge/rosettafold/SOURCES.md), [ESMFold](_absorption_bridge/esmfold/SOURCES.md), [OpenFold](_absorption_bridge/openfold/SOURCES.md), [ColabFold](_absorption_bridge/colabfold/SOURCES.md)) | Molecular-dynamics simulation (Drexler 1986 / Goddard 2003) | Chemical-kinetics simulation + RNA-secondary-structure prediction (Mfold / RNAfold / Rosetta-RNA) |
 | Primary constraint | Landauer x NP-search ceiling | kT thermal noise floor at 310K | Diffusion-limit ceiling k_cat / K_M ~ 10^8 M^-1 s^-1 |
 | Verdict horizon | THEORETICAL-ANALYTICAL (closure PASS) | THEORETICAL-ANALYTICAL (registration APPROACH) | THEORETICAL-ANALYTICAL (registration APPROACH) |
 

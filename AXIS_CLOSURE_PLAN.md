@@ -9,6 +9,21 @@
 > `.roadmap.hexa_bio` (cross-cutting) + `CHANGELOG.md` `[Unreleased]`
 > · **MVP gate**: 2026-07-28 (`.roadmap.hexa_bio §A.4`)
 >
+> **cycle-30++++++++ backport (2026-05-13 night)**: hexa-bio absorbs
+> hexa-matter's Phase G `_absorption_bridge/` pattern (commit `e712068`)
+> for the 9 protein-structure ML + sequence external systems we had
+> previously cited only as "Primary oracle: AlphaFold-class fold
+> inference" in HEXA-WEAVE / HEXA-VIROCAPSID / HEXA-NANOBOT /
+> HEXA-RIBOZYME without a concrete absorption surface. The new
+> `_absorption_bridge/` tree adds offline-replay schema validators for
+> AlphaFold-3 (NON-COMMERCIAL RESEARCH ONLY flagged), RoseTTAFold,
+> ESMFold, OpenFold, ColabFold, Foldseek, MMseqs2, UniProt, PDB. Wired
+> as `absorption_bridge_smoke` gate → `selftest/run_all.sh` 34/34 →
+> **35/35 PASS**. raw#10 C3: NO n=6 lattice-fit applied; each adapter
+> passes through the external system's OWN published metrics
+> (pLDDT, pTM, lDDT, E-value, ...) untouched. License-honesty matrix
+> at `_absorption_bridge/README.md`.
+>
 > **honest C3 (raw#10)**: 본 문서의 "100% closure" 는 *in-silico /
 > formalism / infrastructure* 스코프 한정 — σ(6)=12 STRUCTURAL-EXACT +
 > Bayesian audit decisive + output schema lock + C2 4/4 + falsifier

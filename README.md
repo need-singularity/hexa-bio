@@ -20,12 +20,13 @@
 [![Roadmap](https://img.shields.io/badge/roadmap-MVP_gates_2026--07--28-orange.svg)](.roadmap.hexa_bio)
 [![Cycle 25](https://img.shields.io/badge/cycle_25-closed_2026--05--06-brightgreen.svg)](RELEASE_NOTES_v1.1.0.md)
 [![v1.x closure (a)](https://img.shields.io/badge/v1.x_closure_(a)-100%25_all_5_axes-brightgreen.svg)](#5-axis-status-table)
-[![selftest gates](https://img.shields.io/badge/selftest_gates-32%2F32_PASS-brightgreen.svg)](selftest/run_all.sh)
+[![selftest gates](https://img.shields.io/badge/selftest_gates-35%2F35_PASS-brightgreen.svg)](selftest/run_all.sh)
+[![absorption bridge](https://img.shields.io/badge/absorption-9_adapters-blue.svg)](_absorption_bridge/README.md)
 [![Real-limits](https://img.shields.io/badge/limits-real_(LIMIT__BREAKTHROUGH.md)-blue.svg)](LIMIT_BREAKTHROUGH.md)
 
 > **Status (2026-05-13, cycle-30++++++++)**: v1.x **category-(a) closure
 > = 100% across all 5 axes** (weave / virocapsid / ribozyme / nanobot /
-> quantum). `selftest/run_all.sh` → **32/32 PASS** on dev host
+> quantum). `selftest/run_all.sh` → **35/35 PASS** on dev host
 > (deterministic in-repo gates; SKIP-clean substrate gates included).
 > v1.1.0 candidate drafted (see [`RELEASE_NOTES_v1.1.0.md`](RELEASE_NOTES_v1.1.0.md)).
 > Cycle 25 traversed the 16-cell C2 matrix (4 bio axis × 4 disease class)
@@ -328,6 +329,19 @@ Per-axis interpretation (where empirically grounded vs hypothesized — see
 │   ├── polyhedral_cage_bayesian_audit.py  # weave Bayesian audit
 │   ├── virocapsid_pdb_corpus.py           # virocapsid RCSB PDB corpus fetch (stdlib)
 │   └── …                                  # (nanobot/ribozyme C0b sims, quantum_*.py adapters)
+├── _absorption_bridge/                    # cycle-30++++++++ backport from hexa-matter Phase G —
+│   ├── README.md                          # 9 protein-structure ML + sequence adapters
+│   ├── pyproject.toml                     # optional deps (requests/biopython/mdanalysis/torch)
+│   ├── alphafold3/  af3_smoke.py          # DeepMind AF3 (NON-COMMERCIAL RESEARCH ONLY)
+│   ├── rosettafold/ rosettafold_smoke.py  # Baker Lab RoseTTAFold + RFAA (BSD/Apache)
+│   ├── esmfold/     esmfold_smoke.py      # Meta ESMFold (MIT, single-sequence)
+│   ├── openfold/    openfold_smoke.py     # OpenFold (Apache-2.0, trainable AF2 reimpl)
+│   ├── colabfold/   colabfold_smoke.py    # ColabFold (MIT, AF2+MMseqs2)
+│   ├── foldseek/    foldseek_smoke.py     # Foldseek structural search (GPLv3)
+│   ├── mmseqs/      mmseqs_smoke.py       # MMseqs2 sequence search (GPLv3)
+│   ├── uniprot/     uniprot_api_smoke.py  # UniProt REST (CC-BY 4.0)
+│   ├── pdb/         pdb_api_smoke.py      # RCSB PDB REST (CC0)
+│   └── selftest/    run_all.sh            # aggregator → __HEXA_BIO_ABSORPTION_BRIDGE__ PASS
 ├── tests/
 │   ├── test_weave.hexa
 │   ├── test_nanobot.hexa

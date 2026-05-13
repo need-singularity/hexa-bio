@@ -22,6 +22,8 @@ requires:
 # HEXA-WEAVE — write-side multi-strand molecular design composition under the n=6 invariant
 
 > Positioning: HEXA-WEAVE is the canon write-side counterpart to AlphaFold 3 (DeepMind 2024-05, open read-side single-protein prediction) and IsoDDE (Isomorphic Labs 2026-02, proprietary closed drug-design). Where FOLD answers "given a sequence, what is its structure?", WEAVE answers "given a target multi-molecule context, design the strand-set that produces it." The shift is from prediction over a single chain to composition over a strand bundle, threaded by the n6 invariant lattice (σ(6)=12 / τ(6)=4 / φ(6)=2 / J₂=24).
+>
+> **Read-side oracle absorption** (cycle-30++++++++ backport from hexa-matter Phase G): the FOLD-class systems we cite as "Primary oracle" have concrete adapters under [`_absorption_bridge/`](_absorption_bridge/README.md) — [AlphaFold-3](_absorption_bridge/alphafold3/SOURCES.md) (NON-COMMERCIAL RESEARCH ONLY), [RoseTTAFold](_absorption_bridge/rosettafold/SOURCES.md), [ESMFold](_absorption_bridge/esmfold/SOURCES.md), [OpenFold](_absorption_bridge/openfold/SOURCES.md), [ColabFold](_absorption_bridge/colabfold/SOURCES.md) (commercial-OK siblings), plus [Foldseek](_absorption_bridge/foldseek/SOURCES.md) / [MMseqs2](_absorption_bridge/mmseqs/SOURCES.md) (search), and [UniProt](_absorption_bridge/uniprot/SOURCES.md) / [PDB](_absorption_bridge/pdb/SOURCES.md) (references). No n=6 lattice-fit is applied to their outputs (raw#10 C3); each adapter passes through the system's OWN published metrics (pLDDT, pTM, lDDT, E-value, ...) untouched.
 
 ## §1 WHY (why a write-side weave layer matters)
 
