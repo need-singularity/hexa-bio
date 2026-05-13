@@ -5,6 +5,58 @@ All notable changes to **hexa-bio** are documented here. Format follows
 
 ## [Unreleased]
 
+### Added (cycle-30++++++++, 2026-05-14 night sweep — ADAPT-VQE 11/11 + 10-diatomic bench 9/11 + 4e/6o tier extraction in progress)
+
+- **ADAPT-VQE × 5 CMT scaffolds @ 4e/4o** (qmirror `852ad27`): 5/5 PASS,
+  pattern after the LiH 4e/4o run. K range 2-18; |Δ| range
+  1.95-50.6 µHa (all 32-820× under 1.6 mHa chem-acc bound). hd6
+  collapses to **K=2 / 3.67 µHa / 3s** (CASCI(4,4) dominated by two
+  excitations); other 4 scaffolds at K=15-18 within ~1 min wall each.
+  PS-grad swap DEFERRED — the "1-line swap" claim was overstated;
+  RFC 039 `farr_parameter_shift_grad` expects a *static* `ansatz_pack`
+  but ADAPT walks `selected[0..n_sel]` dynamically (re-build per
+  pool screen). 30-line `TODO(RFC 039)` block landed in
+  `_adapt_vqe_driver.hexa` lines 14-51 documenting what would be
+  needed (e.g. `ansatz_pack_append` or zero-coef stand-ins). FD-grad
+  path kept intact; closure quality unchanged.
+- **ADAPT-VQE × 6 molecules @ 4e/5o** (qmirror `f2e8a5e`, hexa-bio
+  `6cd806c`): 6/6 PASS on LiH + 5 CMT scaffolds @ 8-qubit /
+  876-Pauli / 54-param Hamiltonians. K range 2-35; |Δ| range
+  0.05-370 µHa. **hd6 again collapses to K=2 / 4.28 µHa / 8 s** —
+  same shape as 4e/4o. **gjb1 4e/5o ADAPT vs brute-force NM
+  baseline**: NM lands 40.27 µHa @ 305 s @ 54 params; ADAPT lands
+  172.79 µHa @ 703 s @ K=35 ops. Honest scoping: ADAPT is a
+  parameter-count win (54 → 35) NOT a wall win here — the FD-gradient
+  pool-screen overhead dominates at 54 params × 876 Pauli; the
+  RFC 039 PS-grad swap (pending per above) is the lever that closes
+  the wall gap. New gate `selftest/adapt_vqe_4e5o_readiness.sh`
+  (sentinel `__ADAPT_VQE_4E5O_READINESS__ PASS`) wired into
+  `run_all.sh`.
+- **10-diatomic bench cohort: 9/11 PASS** (qmirror `42643c2` +
+  `dd259c4`): vendored .hexa modules at 4e/4o for **BeH2 / H2O /
+  NH3 / N2 / CO / CH4** (5 new + ch4 added separately), each
+  reproducing CASCI(4,4) within 0.29–84.8 µHa. Replay-mode bench
+  harness `bench/chem_vqe_diatomic_bench.sh` returns
+  `__QMIRROR_BENCH_CHEM_VQE_DIATOMIC__ PASS  pass=9 pending=2`.
+  **HF and F2 marked NOT_AVAILABLE_STO3G**: STO-3G has too few
+  spatial orbitals for the 4e/4o active space after frozen-core
+  inactivation (HF: 6 spatial, 3 inactive → 3 left; F2: 10 spatial,
+  7 inactive → 3 left). Basis-set / chemistry constraint, NOT a
+  qmirror gap. Would re-enable at cc-pVDZ+ or smaller AS. First
+  independent verification beyond CMT-specific scaffolds; standard
+  small-molecule comparators for external sanity-check (W4-17 /
+  HEAT / NIST CCCBDB refs cited in manifest, NOT used as direct
+  comparator per honesty_notes).
+- **4e/6o (10-qubit) tier extraction in progress** (background
+  pid 64197): offline pyscf+qiskit-nature pipeline. LiH 4e/6o
+  done (n_qubits=10, n_pauli=631, params=92, offline VQE |Δ| =
+  10.0 µHa); clc1 done (n_pauli=1819, |Δ| = 19.4 µHa); sar1
+  in progress. Per-scaffold wall ~3-4 hours; total ~14-20 hours
+  for the 6-molecule cohort. Modules + readiness gate to land after
+  extraction completes (gate placeholder
+  `selftest/cmt_uccsd_4e6o_readiness.sh` already in place + wired
+  into `run_all.sh`).
+
 ### Added (cycle-30++++++++, 2026-05-13 late-night — F-Q-6-E Ramp B-2 6/6 + ADAPT-VQE + k-UpCCGSD via hexa-lang RFC 036/039)
 
 - **hexa-lang RFC 036 LANDED** (`32ca3f30`): `farr_int_array` packed
