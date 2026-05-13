@@ -66,6 +66,35 @@ All notable changes to **hexa-bio** are documented here. Format follows
   sequence alignments; each adapter passes through the external
   system's OWN published metrics untouched.
 
+### Added (cycle-30++++++++, 2026-05-13 night — F-Q-6-E Ramp B-2 (4e/5o) cohort: 5 CMT scaffolds 4/5 in-process)
+
+- **qmirror 5 CMT scaffolds @ 4e/5o (8-qubit)** (cc20b81): adds
+  `chemistry_vqe_cmt_uccsd_cmt_{clc1,sar1,mfn2,hd6,gjb1}_4e5o.hexa`
+  alongside the LiH 4e/5o anchor. Each vendors offline-extracted data
+  (`/tmp/cmt_4e5o.py` × 73 min wall: rdkit ETKDGv3/MMFF → STO-3G RHF →
+  4e/5o ActiveSpaceTransformer → ParityMapper((2,2)) + 2-qubit
+  reduction → 8-qubit 876-Pauli Hamiltonian + UCCSD ansatz with 54
+  parameters + 360 flat Pauli-term decomposition + CASCI(4,5) ref +
+  SLSQP-converged offline VQE energy). Each module runs the full
+  54-parameter pure-hexa NM via RFC 034 (energy kernels) + RFC 035
+  (NM-step kernels) at maxiter=500. Offline-VQE references show all 5
+  reach sub-50 µHa with gradient-based SLSQP; the in-process pure-hexa
+  NM achieves chemical accuracy on 4/5: clc1 457 µHa, sar1 630 µHa,
+  mfn2 311 µHa, hd6 15 µHa. **gjb1 stalls at 4893 µHa** at maxiter=500
+  (halves to 2386 µHa @ maxiter=1000 — well-behaved gradient-free NM
+  cost; would need maxiter≫4000 for chem-acc). Same shape as the
+  original 5/6 4e/4o story before RFC 035 farr-NM turned it 6/6 —
+  gjb1 is structurally harder at this active-space tier than the rest;
+  the RFC 034/035 plumbing is closure-faithful.
+- **`selftest/cmt_uccsd_4e5o_readiness.sh`** (952a001): aggregating
+  gate for the 5 CMT scaffolds @ 4e/5o. Exports
+  `HEXA_MEM_CAP_MB=2048` before invoking each module (the 876-Pauli
+  cache arena needs more headroom than the default 768 MB). Live:
+  **4/5 PASS, ~30–42s per scaffold, ~3 min total wall**. Sentinel
+  `__CMT_UCCSD_4E5O_READINESS__ PASS` (majority-pass with documented
+  gjb1 externalized fall-back, parallel to the 4e/4o gate's prior
+  semantics).
+
 ### Added (cycle-30++++++++, 2026-05-13 evening — F-Q-6-E Ramp B 6/6 + Ramp B-2 (4e/5o) in-process via hexa-lang RFC 035)
 
 - **hexa-lang RFC 035 LANDED** (64bcf3ab): 8 new whole-NM-step C kernels
