@@ -52,8 +52,9 @@
 
 @I id001 := "hexa-bio" :: identity-claim [d=2026-05-14 active]
   kind = "HEXA-Bio family — molecular / biochemistry standalone Molecular Toolkit"
+  brief = "HEXA family · biology · molecular · biochemistry · sister-substrate cross-links"
   axis = "5-axis substrate: QUANTUM · WEAVE · NANOBOT · RIBOZYME · VIROCAPSID"
-  parent = "dancinlab ecosystem · cites echoes/LATTICE_POLICY.md as authority"
+  parent = "dancinlab/echoes"
   scope = "write-side molecular sandbox (in-silico) · NOT wet-lab / clinical / regulatory"
 
 @I id002 := "hexa-bio.subdomains" :: identity-claim [d=2026-05-14 active]
@@ -112,7 +113,6 @@
 
 @D g3 := "honesty-obligation-external" :: governance [required deny:write]
   rule = "Claims about external entities (companies · CROs · labs · vendors · biotechs · regulators) must NOT include lattice-fit assertions. Use their OWN invariants."
-  authority = "raw#10 C3 · [@x_lattice_policy] §1.3"
   @> AGENTS.md
 
 @D g4 := "commit-conventions" :: governance [recommended]
@@ -182,7 +182,6 @@
 
 @X x_lattice_policy := "echoes/LATTICE_POLICY.md" :: policy [d=2026-05-12 active]
   url = "https://github.com/dancinlab/echoes/blob/main/LATTICE_POLICY.md"
-  scope = "cross-project SSOT — real-limits-first · external-entity ban · raw#10 C3 · dancinlab-wide deploy 2026-05-12"
 
 @X x_tape_spec := "tape v1.2 spec" :: spec [d=2026-05-14 active]
   url = "https://github.com/dancinlab/tape/blob/main/spec/tape.md"
