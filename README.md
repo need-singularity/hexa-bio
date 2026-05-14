@@ -118,6 +118,21 @@ verification + falsifier preregister. `quantum` is at Phase 1+ (H₂/LiH VQE
 
 ---
 
+## Status
+
+- **v1.0.0** released; **v1.1.0 candidate** drafted (see [`RELEASE_NOTES_v1.1.0.md`](RELEASE_NOTES_v1.1.0.md))
+- **5-axis lock**: QUANTUM · WEAVE · NANOBOT · RIBOZYME · VIROCAPSID (per `.roadmap.axis_expansion_decision_2026_05_08`)
+- **v1.x category-(a) closure = 100% across all 5 axes** (cycle-30++++++++, 2026-05-13)
+- `selftest/run_all.sh` → **35/35 PASS** on dev host (deterministic in-repo gates; SKIP-clean substrate gates included)
+- **n=6 invariant lattice**: σ(6)=12 · τ(6)=4 · φ(6)=2 · J₂=24 · master identity σ·φ = n·τ = 24
+- **16-cell C2 matrix** (4 bio axis × 4 disease class) — **16/16 PASS** at IN-SILICO grade (cycle 25)
+- **Category (b) v4 Lean semantics**: ALL 4 axes at v4 maximum (sorry-count=0; `lake build N6` → 900/900 jobs PASS)
+- **Category (c) wet-lab / IP / hardware**: explicitly out-of-software-scope (handed off to CRO / patent counsel / quantum vendors)
+- Parent: [`dancinlab/echoes`](https://github.com/dancinlab/echoes); GitHub canonical at <https://github.com/dancinlab/hexa-bio>
+- **Health**: all 5 axes scientifically UNPROVEN at the wet-lab boundary — closure here is software-bookkeeping, never a medical or empirical claim
+
+---
+
 ## Install
 
 ```bash
