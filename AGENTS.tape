@@ -54,7 +54,7 @@
   kind = "HEXA-Bio family — molecular / biochemistry standalone Molecular Toolkit"
   brief = "HEXA family · biology · molecular · biochemistry · sister-substrate cross-links"
   axis = "5-axis substrate: QUANTUM · WEAVE · NANOBOT · RIBOZYME · VIROCAPSID"
-  parent = "dancinlab/echoes"
+  parent = "dancinlab"
   scope = "write-side molecular sandbox (in-silico) · NOT wet-lab / clinical / regulatory"
 
 @I id002 := "hexa-bio.subdomains" :: identity-claim [d=2026-05-14 active]
