@@ -32,12 +32,15 @@
 @D real-limits := "real-limits-first-anchor" :: governance [required]
   rule = "verification anchors ≥1 real limit (per AGENTS.tape g1)"
   limits = [
-    "ADAMTS13 k_cat ≈ 2.5/s on stretched A2",
-    "A2 unfolding ΔG ≈ 7-10 kcal/mol (low-force regime)",
+    "ADAMTS13 k_cat = 0.14 /s single-molecule on unfolded A2 (Zhang 2009 Science 324:1330)",
+    "A2 unfolding ΔG = 3.9 ± 0.9 kcal/mol (6.6 ± 1.5 k_BT) — single-molecule mechanical (Zhang 2009)",
+    "A2 most-probable mechanical rupture force ≈ 11 pN (range 7-14, LOADING-RATE dependent; Zhang 2009)",
+    "A2 unfolded contour 57 ± 5 nm · persistence ≈ 1.1 nm · domain ≈ 177 aa (Zhang 2009; Zhang Q PNAS 106:9226)",
     "shear threshold for A2 cleavage exposure ≈ 30 dyn/cm² (well below LVAD 70-150)",
     "vWF multimer MW range 500 kDa - 20 MDa · HMW = >10 MDa lost first"
   ]
   authority = "[@g1]"
+  correction-note = "2026-05-16 g1/g3 fix: prior §3 values (k_cat 2.5/s, ΔG 7-10 kcal/mol, thermo force ~1 pN) DISAGREED with the scenario's own cited primary (Zhang 2009 Science 324:1330, verified verbatim PMC2753189). Replaced with the measured single-molecule values. The old 7-10 kcal/mol was an older bulk/chemical-denaturation figure, not the mechanically-relevant single-molecule ΔG."
 
 # ─── §4 5-axis contribution ──────────────────────────────────────────
 
@@ -98,3 +101,37 @@
 @X parent := "LVAD scenario portfolio" :: doc [active]
   path = "./README.md"
   scope = "§3 ② A2 stabilizer"
+
+# ─── §8 Mechanistic-premise anchor (real-limits-first) ───────────────
+
+@N a2_shear_anchor := "lvad-shear-drives-a2-unfolding" :: note [d=2026-05-16 active]
+  finding = "Zhang-2009-corrected (g1/g3). §3 #1 (ADAMTS13 k_cat = 0.14/s) and the cleavage-LIMITED kinetic regime are ROBUST. §3 #2/#3: A2 unfolding under LVAD shear is consistent with the established aVWS mechanism (real biology), BUT the simple threshold model's in-silico 'UNFOLD' is NOT a robust positive — it is marginal/loading-rate-dependent against the MEASURED rupture force."
+  module = "_python_bridge/module/a2_shear_unfolding_anchor.py"
+  physics <<~EOF
+    Two thresholds (do NOT conflate):
+      • thermodynamic equilibrium force F=ΔG/Δx = ΔG3.9/Δx53 ≈ 0.51 pN
+        (the LOW bound; WRONG threshold for a dwell-time mechanical process)
+      • Zhang-2009 MEASURED single-molecule rupture ≈ 11 pN (range 7-14,
+        LOADING-RATE dependent) — the mechanically-relevant figure
+    vWF HMW multimer (L≈5 µm) midpoint tension F_mid ≈ C_T·τ·L²:
+      τ=70  → 8.75-35 pN : > thermo(0.5) ✓ but 8.75 < 11 → NOT robust vs measured
+      τ=100 → 12.5-50 pN : ≥ 11 at low C_T → robust
+      τ=150 → 18.75-75 pN: robust
+    ⇒ in-silico UNFOLD at LVAD 70 is PREFACTOR/LOADING-RATE marginal, robust
+      only at ≥100 dyn/cm² or higher C_T. Rigorous verdict needs the DHS
+      force-clamp lifetime model (drylab #6, not yet built).
+    ADAMTS13 (§3#1): t_unfold ≤ 1e-6 s ≪ t_cleave = 1/0.14 = 7.14 s
+      → cleavage-LIMITED regime ROBUST (Crawley 2011; aVWS-consistent;
+      corrected slower k_cat makes this stronger, not weaker).
+  EOF
+  cross-scenario = "bidirectional dual of [[lvad.shear-gated-nanobot]] §8. SAME equation F_mid ∝ L². vWF(5 µm)@70 = 8.75 pN vs nanobot(0.1 µm)@70 = 0.0035 pN — the L² = 2500× ratio. ① is a ROBUST NEGATIVE (compact nanobot cannot collect shear force at all). ② is NOT a symmetric robust positive: the disease-mechanism PREMISE is established biology, but the simple in-silico threshold gives a marginal/loading-rate-sensitive UNFOLD verdict. Honest asymmetry — not 'one physics, opposite robust verdicts'."
+  citations = ["Zhang X 2009 Science 324:1330 (PMC2753189)", "Zhang Q 2009 PNAS 106:9226 (PMC2695068)", "Crawley 2011 Blood 118:3212", "Alexander-Katz 2006 PRL 97:138101"]
+  honest-scope = "in-silico simulator-consistency only ([@g8] [@f2]). Anchors: ROBUST = cleavage-limited kinetic regime (#1); the aVWS mechanism premise (established biology). NOT claimed: a robust in-silico UNFOLD positive (it is marginal vs the measured force). Evaluates NO chaperone; white-space (0 approved A2 stabilizers) unchanged; advances NO drug."
+
+---
+
+## Log
+
+- 2026-05-16 — scaffold inputs staged: a2_candidates.smi (5-10 real-cited compounds, mostly negative controls) + a2_residue_orbital_selector.py (mock-mode helper, real-mode NotImplementedError). VQE pipeline still cannot run against A2 — needs real A2 intermediate PDB + SMD trajectory (outside repo).
+- 2026-05-16 — §3 real-limit anchor first build (SUPERSEDED — used wrong numbers; see correction below).
+- 2026-05-16 — **g1/g3 CORRECTION + reconstruction.** A working-tree reset destroyed the uncommitted anchor; rebuilt CORRECTLY. RE agent (drylab/research/a2_cg_unfolding.md) verified verbatim from the scenario's OWN cited primary (Zhang X 2009 Science 324:1330, fetched PMC2753189) that the prior §3 numbers were WRONG: k_cat 2.5→**0.14/s**, ΔG 7-10→**3.9±0.9 kcal/mol**, contour 65→**57 nm**, and the relevant force is the MEASURED **~11 pN** rupture (not the ~1 pN thermodynamic estimate). §3 + §8 corrected. **Honest verdict change**: the earlier 'robust ① ⇄ ② positive duality' claim does NOT survive — at LVAD 70 dyn/cm² vWF tension (8.75 pN, conservative C_T) is BELOW the measured 11 pN, so ②'s in-silico UNFOLD is marginal/loading-rate-dependent (robust only ≥100 dyn/cm² or higher prefactor; rigorous verdict needs DHS force-clamp = drylab #6). What REMAINS robust: ADAMTS13 cleavage-LIMITED regime (#1, stronger with the slower k_cat) + the aVWS mechanism premise (established biology). __A2_SHEAR_UNFOLDING_ANCHOR__ PASS where PASS = the honest criteria set (C_A2_1 thermo-consistent + C_A2_2 cleavage-limited + C_A2_3 marginal-flag correctly raised), NOT 'robust positive'. NO therapeutic progress; white-space unchanged ([@g8]/[@f2]).
