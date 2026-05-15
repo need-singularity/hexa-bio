@@ -52,6 +52,33 @@
   brief = "release / version history · semver tracking"
   parent = "dancinlab/hexa-bio"
   sibling-log = "CHANGELOG.log.tape"
+  tape-class = "meta/changelog — honesty contract applied per user decision 2026-05-15 (no meta exemption)"
+
+# ── §0 Honesty preamble (LATTICE_POLICY g1/g2/f1 — META tape, no exemption) ──
+# This is a CHANGELOG. Per user decision 2026-05-15 it carries the SAME
+# lattice-honesty contract as a science tape. The honest position for a
+# changelog is recorded below, before any historical entry.
+
+@F f_lattice_fit := "lattice-fit-in-changelog-entries" :: governance [required deny:write]
+  pattern = "Deriving any claim (efficacy / count / ratio / closure-grade) FROM the n=6 lattice (σ=12, τ=4, φ=2, J₂=24) inside a changelog entry — e.g. 'closure = X% because σ·φ/2'."
+  why = "Lattice tokens that appear in the historical entries below are DESCRIPTIVE PROVENANCE of past engineering work, NOT a derivation. They are the literal NAMES of shipped artifacts (a feature named 'J₂=24 reaction-coordinate quotient'), the subject of a landed formal proof (Lean4 kernel-reducing the number-theoretic σ(6)=1+2+3+6=12), or a prior in-repo honesty caveat (the v1.0.0 entry that itself flagged the lattice as *speculative*). Recording that such work happened is history; deriving science from the lattice is the forbidden anti-pattern this guard forbids."
+  remedy = "Historical entries are preserved verbatim — true history is not rewritten to dodge a linter. Any FUTURE changelog entry must cite the real underlying engineering/science (commit hash + sister-repo gate + real source), never the lattice as a derivation. Lattice mentions remain coincidental OBSERVATION / artifact-name provenance only."
+  authority = "[@x_lattice_policy] g1/g2 · hexa-bio AGENTS.tape f1 · [@x_agents_tape] g_arch_vs_log_split"
+
+@N n6_honest_stance := "changelog lattice mentions are provenance, not derivation" :: note [required]
+  text = "Stated plainly and honestly: this is the hexa-bio repo CHANGELOG. The n=6 tokens (σ τ φ J₂) that appear in the entries below are the NAMES of shipped artifacts and the SUBJECT of landed work — historical context — never a derivation of any claim FROM the lattice. Three entries name lattice tokens: (1) the Ribozyme G26-RB-2 entry records a feature literally named 'J₂=24 reaction-coordinate quotient' (artifact name = provenance); (2) the F-CL-FORMAL-1 entry records a Lean4 proof that the number-theoretic divisor-sum σ(6)=1+2+3+6=12 — this is the DEFINITION of the sum-of-divisors function evaluated at 6 and verified by kernel reduction, a real mathematical fact, NOT science-derived-from-a-lattice; (3) the v1.0.0 entry is ITSELF the original in-repo honesty caveat that flagged the lattice as *speculative*. Per LATTICE_POLICY g1/g2 + lattice-as-tool, the lattice is declined here as a derivation tool; observation-not-derivation. The changelog asserts no science from the lattice. This honesty preamble is the META-tape pilot's corrective (user decision #1 2026-05-15: no meta exemption)."
+
+@X x_lattice_policy := "echoes/LATTICE_POLICY.md" :: governance [active]
+  url = "https://github.com/dancinlab/echoes/blob/main/LATTICE_POLICY.md"
+  scope = "real-limits-first · lattice-is-tool · observation-not-derivation — the governance authority this preamble enforces (governance, NOT literature; does not satisfy the grounding clause by itself)"
+
+@X x_agents_tape := "hexa-bio AGENTS.tape" :: governance [active]
+  path = "./AGENTS.tape"
+  scope = "g_arch_vs_log_split (architecture-vs-history split) · g1 real-limits-first · g2 lattice-is-tool · f1 lattice-fit-on-external-entity"
+
+@X x_hardy_wright_sigma := "Hardy & Wright — sum-of-divisors function σ(n)" :: literature [active]
+  ref = "Hardy GH, Wright EM. An Introduction to the Theory of Numbers. 6th ed. Oxford University Press, 2008. §16.7 (the sum-of-divisors function σ(n) = Σ_{d|n} d; σ(6) = 1+2+3+6 = 12)."
+  grounds = "The real underlying work behind the F-CL-FORMAL-1 changelog entry (L613): that entry records a Lean4 kernel proof of σ(6)=12. σ is the standard number-theoretic divisor-sum function — this textbook is the genuine source the proven mathematical fact rests on, NOT the n=6 lattice. This is honest grounding (option a): the changelog documents a number-theory proof landing; the number-theory source is cited. It is literature, not governance — the LATTICE_POLICY @X above is correctly classified governance and does NOT satisfy this grounding clause."
 
 @D b_adapt_vqe_4e6o_6_6_pass :: changelog [ok]
   text = "**ADAPT-VQE × 6 molecules @ 4e/6o (10-qubit) — 6/6 PASS** (qmirror new commit, hexa-bio new commit). Pure-hexa ADAPT-VQE driver `_adapt_vqe_driver_4e6o.hexa` + 6 runners on LiH + 5 CMT scaffolds. Closure target (|Δ|<1.6 mHa vs CASCI(4,6) AND K<92): lih K=25 |Δ|=10.88 µHa @1050s / clc1 K=35 |Δ|=918.48 µHa @2495s / sar1 K=25 |Δ|=790.59 µHa @1308s / mfn2 K=12 |Δ|=372.23 µHa @388s / hd6 K=2 |Δ|=4.28 µHa @34s (K=2 collapse continues from 4e/4o + 4e/5o) / gjb1 K=40 |Δ|=1392.49 µHa @3166s. ADAPT vs NM 4e/6o: param-count win 2-43% of 92-op UCCSD pool; NM tighter |Δ| on 4/6 scaffolds but ADAPT gives the principled K-reduction. Driver mirrors 4e/5o sister but uses RFC 036 packed-handle + RFC 037 batched Pauli expectation for the 1024-amp × 631-1819-Pauli inner loop (fits in ~2-5 GB at HEXA_MEM_UNLIMITED=1). New aggregator gate selftest/adapt_vqe_4e6o_readiness.sh wired into run_all.sh after cmt_uccsd_4e6o_readiness. ADAPT-VQE proof now spans 17/17 across 4e/4o + 4e/5o + 4e/6o tiers."
@@ -319,6 +346,7 @@
 
 @D b_ribozyme_g26_rb_2_branch_lock_la_65 :: changelog [ok]
   text = "**Ribozyme G26-RB-2 branch-lock landed — J₂=24 reaction-coordinate quotient (2026-05-12, ahead of 2026-06-15 branch-lock deadline)** —"
+  provenance = "'J₂=24 reaction-coordinate quotient' is the literal NAME of the shipped artifact — artifact-name provenance, not a derivation. See [@f_lattice_fit] / [@n6_honest_stance]."
 
 
 @D b_ribozyme_g26_rb_3_in_repo_portio_66 :: changelog [ok]
@@ -611,6 +639,8 @@
 
 @D b_f_cl_formal_1_real_semantics_pro_138 :: changelog [ok]
   text = "F-CL-FORMAL-1: real-semantics PROVEN — `sigma_lattice_card := rfl` (sigma is computable Nat function via List.range+filter+foldl, sigma 6 reduces to 1+2+3+6=12 by kernel evaluation)."
+  provenance = "Records a landed Lean4 proof of the number-theoretic divisor-sum σ(6)=1+2+3+6=12 — a real mathematical fact (the sum-of-divisors function evaluated at 6), NOT science derived from a lattice. Ungrounded numeric phrasing here is the SUBJECT of a proof, flagged as provenance."
+  |> "[@x_hardy_wright_sigma] (σ(n) = sum-of-divisors function; the genuine number-theory source the proven fact rests on)"
 
 
 @D b_f_cl_formal_2_3_4_proven_over_pl_139 :: changelog [ok]
@@ -764,6 +794,7 @@
 
 @D b_n_6_invariant_lattice_6_12_6_4_6_11 :: changelog [ok]
   text = "n=6 invariant lattice (`σ(6)=12, τ(6)=4, φ(6)=2, J₂=24`) is a *speculative*"
+  provenance = "This v1.0.0 entry is ITSELF the original in-repo honesty caveat that flagged the n=6 lattice as *speculative* — recording the historical anti-pattern disclosure, not asserting a derivation. Superseded in spirit by the §0 [@f_lattice_fit] guard above."
 
 
 @D b_falsifiers_for_stub_verbs_are_in_12 :: changelog [ok]
