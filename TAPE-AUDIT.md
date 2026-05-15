@@ -26,6 +26,30 @@
 - **hxc binaries** — ribozyme kinetic curves + virocapsid spectra are dataset-shaped; promote raw bytes via `tape_to_hxc`.
 - **n12 cube cells** — verb-dir × scale-tier matrix (hexa-weave/nanobot/ribozyme/virocapsid × 6 scales) maps onto an n12 cube face cleanly.
 
+## F. Cohort honesty remediation (2026-05-15 → 2026-05-16)
+
+The §C concern — 78 UPPERCASE.md domain files lifted to `<DOMAIN>.tape` siblings (hexa-bio mass-split `153b5a2`) — was a `.md → .tape` promotion that initially produced **lattice-tautology stubs**: fabricated `@D row_* x="EXACT"` rows deriving claims from σ=12, τ=4, φ=2, J₂=24 with no real citations. A cohort-wide honesty gate (`selftest/tape_lattice_honesty_lint.py` + `hexa-bio tape-lint` CLI) was added, and the 65 root tapes were rewritten over 5 sequential batches:
+
+| Batch | Tapes | Model | Theme |
+|---|---|---|---|
+| Pilot | CANCER-THERAPY · AGRICULTURE · CRISPR-GENE-EDITING · HEXA-WEAVE · CHANGELOG | Opus | high-stakes therapeutic + generic substrate + core axis + meta-pilot |
+| 1 | HIV-TREATMENT · VACCINE · NEURO · THERAPEUTIC-NANOBOT · MEDICAL-DEVICE · HEXA-{NANOBOT,RIBOZYME,VIROCAPSID,SKIN,LIMB} | Opus | high-stakes + axis tapes |
+| 2 | APICULTURE · AQUACULTURE · BAKING · BIO-PHARMA · CHEESE-DAIRY · COFFEE · ECOLOGY · ENTOMOLOGY · FERMENTATION · FOOD-SCIENCE | Sonnet 4.6 | generic substrate |
+| 3 | BIOLOGY · BIOLOGY-MEDICAL · HERBALISM · HORTICULTURE · MYCOLOGY · DOLPHIN · VETERINARY · VITICULTURE · WINE-ENOLOGY · URBAN-FARMING | Sonnet 4.6 | generic substrate (continued) |
+| 4 | PHARMACOLOGY · IMMUNOLOGY · NEUROPHARMACOLOGY · VIROLOGY · NUCLEAR-MEDICINE · RADIATION-BIOLOGY · SLEEP-MEDICINE · GASTROINTESTINAL-MEDICINE · CRISPR-CAS13-POC-DIAGNOSTIC · GENETICS | Opus | medical-adjacent |
+| 5 | HIV (virology) · NEUROSCIENCE · SYNBIO · TIBETAN-MEDICINE · XENO · BIOCHAR-DRYLAND · COFFEE-SCIENCE · DOLPHIN-BIOACOUSTICS · ECOLOGY-AGRI-FOOD · MICROPLASTICS | Opus×2 + Sonnet×8 | substrate residual (HIV + SYNBIO Opus for subject sensitivity / dual-use) |
+
+**Cohort state**: 55/65 PASS · 10/65 FAIL — the 10 remaining are all meta tapes (AXIS_CLOSURE_PLAN, CLOSURE_RESIDUAL_BACKLOG, COMPUTE_PORTFOLIO, DECOMPOSITION_PLAN, IMPORTED_FROM_CANON, LESSONS, USER_ACTION_REQUIRED, V1_1_0_HANDOFF, AXIS, DOG-ROBOT-TEST).
+
+**Linter meta-mode opt-in (2026-05-16, `selftest/tape_lattice_honesty_lint.py`)**: a CHANGELOG-tape pilot found that meta tapes (changelogs / plans / handoffs / backlog / governance indices) have no literature anchor by nature; forcing the standard literature-only grounding would force fabrication or honest FAIL. The linter now widens clause 3 for meta tapes that opt in via `@I id001` body `tape-class = "meta..."` — `@X :: governance` entries and `methodology-cite =` body lines also count as grounding. Guard (clause 1) and stance (clause 2) remain identical. See [`AGENTS.tape` @D g_meta_mode_optin](./AGENTS.tape).
+
+**Discipline highlights**:
+- **No fabricated numbers or citations.** Uncertain refs use primary-author/era only (mirroring florea `x_goren_2014`); confident refs carry full journal/volume/page.
+- **Evidence-grade tiering** explicit (HERBALISM A/B/C; TIBETAN-MEDICINE + heavy-metal safety; MICROPLASTICS well-documented-vs-emerging; NEUROPHARMACOLOGY anti-amyloid mAb modest-not-cure).
+- **Stub honesty corrections**: Baltimore = 7 groups NOT 6 (VIROLOGY); AASM 5 sleep stages NOT 6 (SLEEP-MEDICINE); 6-leg Hexapoda = morphology NOT lattice-derivation (ENTOMOLOGY); honeycomb hexagonal = Euclidean Hales 1999 NOT lattice (APICULTURE); Phytophthora = oomycete NOT true fungus (MYCOLOGY).
+- **Dual-use discipline**: SYNBIO (Tumpey 2005 DURC case study + deny:write tags + no operational protocols).
+- **Scope distinctions**: HIV (virology) vs HIV-TREATMENT (therapy); NEUROSCIENCE vs NEURO (BCI) vs NEUROPHARMACOLOGY; COFFEE vs COFFEE-SCIENCE; DOLPHIN vs DOLPHIN-BIOACOUSTICS; HEXA-WEAVE (general capsid assembly) vs HEXA-VIROCAPSID (virology specialization).
+
 ## Verdict
 
-**HEAVY** — 992 markers + structured JSONL absorption registry + 78 domains. Best ROI: collapse markers to `state/runs.tape`, then sibling `.tape` per top-N domain.
+**MEDIUM (revised)** — 55/65 cohort tapes honest-rewritten with real cited science (Pilot → Batch-5, 2026-05-15→16). Remaining 10 meta tapes blocked on linter meta-mode (resolved 2026-05-16) and queued for batch-6 honest grounding via governance/methodology-cite. The §A markers + JSONL absorption registry + §B identity-surface gaps remain open; the §C `<DOMAIN>.tape` cohort is now honest. Best next ROI: meta-batch-6 → cohort fully green → promote `tape-lint` into `selftest/run_all.sh` as a hard gate.

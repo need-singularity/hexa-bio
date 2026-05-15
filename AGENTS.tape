@@ -163,6 +163,13 @@
   authority = "[@x_tape_spec] §Domain-tape sibling §Architecture-vs-history split"
   @> AGENTS.md
 
+@D g_meta_mode_optin := "tape-lint meta-mode opt-in" :: governance [required d=2026-05-16 active]
+  rule = "Meta tapes (changelogs · plans · handoffs · backlog indices · governance docs) opt into the honesty-lint meta-mode by adding `tape-class = \"meta...\"` to their @I id001 body. Meta-mode widens clause 3 (grounding) to also accept @X :: governance entries and `methodology-cite =` body lines — guard (1) and stance (2) clauses remain identical."
+  why = "Cohort pilot 2026-05-15 found: meta tapes have no literature anchor by nature; forcing literature-only grounding would force either fabrication or honest FAIL. CHANGELOG happened to satisfy literature-only via a fortuitous σ(6)=12 Lean4 proof entry citable to Hardy&Wright; plans/handoffs/backlog have no such accident. Meta-mode resolves principled — meta tapes cite the governing policy or methodological source their honesty stance rests on."
+  authority = "selftest/tape_lattice_honesty_lint.py · cohort-pilot finding 2026-05-16 (CHANGELOG)"
+  applies-to = "AXIS_CLOSURE_PLAN · CLOSURE_RESIDUAL_BACKLOG · COMPUTE_PORTFOLIO · DECOMPOSITION_PLAN · IMPORTED_FROM_CANON · LESSONS · USER_ACTION_REQUIRED · V1_1_0_HANDOFF · AXIS · DOG-ROBOT-TEST · CHANGELOG · any future meta tape"
+  @> AGENTS.md
+
 
 # ─── §5 Forbidden patterns ───────────────────────────────────────────
 
