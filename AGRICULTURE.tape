@@ -48,1065 +48,237 @@
   version = "1.2"
 
 @I id001 := "agriculture" :: identity-claim [d=2026-05-15 active]
-  kind = "HEXA-Bio family · agriculture substrate"
-  brief = "n=6 farming · soil · crop optimization · cross-domain bio mapping"
+  kind = "HEXA-Bio family · agriculture substrate — crop/soil/agronomy science knowledge SSOT"
+  brief = "photosynthesis · plant nutrition · soil science · nitrogen cycle · water relations · IPM · crop genetics — real-limits anchored · n=6 NOT used as a derivation (honest)"
   parent = "dancinlab/hexa-bio"
   sibling-log = "AGRICULTURE.log.tape"
+  scope = "in-silico knowledge SSOT · NOT agronomic advice / not a farming protocol / not an agro-regulatory or pesticide-use claim"
+  rewritten-from = "lattice-tautology stub (hexa-bio mass-split 153b5a2); full real-science rewrite 2026-05-15 — see AGRICULTURE.log.tape audit"
+
+@N scope_disclaimer := "knowledge-scope honesty" :: note [required]
+  text = "This tape is an evidence-summary SSOT for an in-silico agriculture substrate. Agronomic figures (efficiency ceilings, nutrient values, yield ranges) are paraphrased from published crop/soil-science literature for modeling context ONLY — they are NOT a farming protocol, fertiliser prescription, pesticide-use guidance, or cultivar recommendation. Real field decisions require local soil tests, extension agronomists, and jurisdiction-specific regulation."
+
+# ── §1 Photosynthesis & carbon-fixation pathways ──────────────────────
+
+@D dom_photosynthesis := "photosynthesis — the primary productivity engine" :: domain [ok]
+  reaction = "Light-driven: 6 CO₂ + 6 H₂O + photons → C₆H₁₂O₆ + 6 O₂ (net, simplified). The stoichiometric '6' here is fixed organic chemistry of hexose, NOT a lattice value — see [@n6_honest_stance]."
+  two-stages = "Light reactions (thylakoid: PSII/PSI, water splitting, ATP + NADPH) → Calvin–Benson cycle (stroma: RuBisCO carboxylation of RuBP, reduction, regeneration)."
+  rubisco-limit = "RuBisCO is slow and also fixes O₂ (photorespiration), capping C3 carbon-use efficiency — a real enzymatic constraint, not a designed ceiling. See [@lim_photo_efficiency]."
+  |> "[@x_farquhar_1980] · [@x_zhu_long_ort_2010]"
+
+@D mech_c3_c4_cam := "C3 / C4 / CAM carbon-concentrating strategies" :: mechanism [ok]
+  c3 = "Direct Calvin fixation (most plants: wheat, rice, soybean). Loses carbon to photorespiration as temperature/aridity rise."
+  c4 = "Spatial CO₂ concentration via PEP carboxylase + bundle-sheath anatomy (maize, sorghum, sugarcane). Higher water- and N-use efficiency in hot/high-light climates; higher light-saturated ceiling than C3."
+  cam = "Temporal separation — nocturnal CO₂ uptake stored as malate, daytime decarboxylation with stomata closed (cacti, pineapple, agave). Maximises water-use efficiency in arid climates at a productivity cost."
+  honesty = "Three pathways is a biochemical taxonomy of evolved strategies, NOT a φ/τ/lattice partition; intermediates (C3–C4) exist, so even 'three' is a simplification."
+  |> "[@x_hatch_slack_1970] · [@x_zhu_long_ort_2010]"
+
+# ── §2 Plant nutrition & the law of the minimum ───────────────────────
+
+@D mech_liebig_minimum := "Liebig's law of the minimum" :: mechanism [ok]
+  statement = "Plant growth is limited by the scarcest essential resource relative to demand, not by total nutrients. Adding an abundant nutrient does not raise yield if a different one is limiting."
+  origin = "Articulated in the mineral-nutrition tradition of von Liebig (mid-19th-century agricultural chemistry); the 'barrel with unequal staves' is the canonical teaching metaphor."
+  refinement = "Mitscherlich/Liebscher later showed the response is a smooth diminishing-returns curve, not a hard knife-edge, and that factors interact — but 'fix the limiting factor first' remains the governing agronomic principle."
+  |> "[@x_von_liebig_1840]"
+
+@D dom_essential_nutrients := "essential plant nutrients (macro / micro)" :: domain [ok]
+  macro-primary = "N, P, K — required in largest amounts; the basis of NPK fertiliser grades."
+  macro-secondary = "Ca, Mg, S."
+  micronutrients = "Fe, Mn, Zn, Cu, B, Mo, Cl, Ni — required in trace amounts but each can be the limiting factor (Liebig)."
+  count-honesty = "~17 elements are classically termed essential (Arnon–Stout criteria); this count is an evolving biological classification, not a lattice constant — beneficial elements (Si, Na, Co) blur the boundary."
+  function = "N → proteins/chlorophyll/nucleic acids; P → ATP/nucleic acids/membranes; K → osmoregulation, stomatal/enzyme function."
+  |> "[@x_marschner_2012]"
+
+@D mech_nutrient_cycling := "NPK & micronutrient cycling in the soil–plant system" :: mechanism [ok]
+  n-forms = "Plants take up N mainly as NO₃⁻ and NH₄⁺; soil N turns over via mineralisation, nitrification, immobilisation, leaching, denitrification."
+  p-behaviour = "P is strongly fixed by Fe/Al oxides (acid soils) or Ca (alkaline soils) → low mobility, residual buildup, legacy-P pollution risk."
+  k-behaviour = "K cycles between solution, exchangeable (CEC-held), and mineral-fixed pools; availability depends on clay mineralogy."
+  efficiency = "Nutrient-use efficiency (fraction of applied nutrient captured in harvest) is typically well below 100% — unrecovered N/P is the dominant agro-environmental loss pathway (eutrophication, N₂O)."
+  |> "[@x_marschner_2012]"
+
+# ── §3 Soil science ───────────────────────────────────────────────────
+
+@D dom_soil_texture := "soil texture, structure & cation exchange" :: domain [ok]
+  texture = "Sand/silt/clay fractions (USDA textural triangle) set water retention, drainage, aeration and workability."
+  structure = "Aggregation into peds (organic matter + biota + clay) governs porosity, infiltration and root penetration — degradable by tillage/compaction."
+  cec = "Cation exchange capacity: negatively charged clay + organic-matter surfaces retain K⁺, Ca²⁺, Mg²⁺, NH₄⁺ against leaching. Higher CEC ≈ higher nutrient-buffering, but is soil-mineralogy-determined, not lattice-set."
+  ph = "Soil pH controls nutrient availability (P most available ≈ pH 6–7; micronutrient solubility shifts strongly with pH) and microbial activity."
+  |> "[@x_brady_weil_2016]"
+
+@D cls_soil_horizons := "soil horizons (the pedological profile)" :: classification [ok]
+  master-horizons = "O (organic), A (topsoil/humus + leaching), E (eluvial/leached), B (illuvial accumulation), C (weathered parent material), R (bedrock)."
+  meaning = "Horizons record pedogenesis — weathering, translocation, organic accumulation over time/climate/parent-material/topography/biota (the soil-forming factors)."
+  honesty = "Horizon letters are a descriptive pedological taxonomy; not every profile shows every horizon, and the set is a classification convention, not an n=6 partition ([@n6_honest_stance])."
+  |> "[@x_brady_weil_2016]"
+
+# ── §4 Nitrogen cycle & biological N fixation ─────────────────────────
+
+@D mech_nitrogen_cycle := "the nitrogen cycle" :: mechanism [ok]
+  steps = "N₂ fixation → ammonia/ammonium → nitrification (NH₄⁺→NO₂⁻→NO₃⁻) → plant/microbial assimilation → ammonification (mineralisation) → denitrification (NO₃⁻→N₂/N₂O)."
+  bottleneck = "Atmospheric N₂ is ~78% of air but inert (triple bond); the rate-limiting step for the biosphere is breaking N≡N to bioavailable forms."
+  loss-terms = "Leaching (NO₃⁻ to groundwater), volatilisation (NH₃), denitrification (N₂O — a potent greenhouse gas) — these set the real efficiency ceiling on N fertilisation."
+  |> "[@x_galloway_2004]"
+
+@D mech_bnf := "biological nitrogen fixation & the Haber–Bosch context" :: mechanism [ok]
+  bnf = "Diazotrophs (rhizobia in legume nodules; free-living/associative bacteria; cyanobacteria) reduce N₂→NH₃ via nitrogenase at an ATP cost (~16 ATP per N₂, plus reductant) — a hard bioenergetic price, not a lattice ratio."
+  symbiosis = "Legume–rhizobium symbiosis underlies crop rotation's soil-N benefit and reduces synthetic-N demand."
+  haber-bosch = "Industrial Haber–Bosch (high T/P, Fe catalyst) made synthetic N fertiliser the dominant reactive-N input to global agriculture, roughly doubling the natural terrestrial N-fixation flux — with energy cost and N₂O/eutrophication externalities."
+  honesty = "Haber–Bosch dependence is a documented agronomic-historical fact; the 'roughly doubled reactive N' framing is paraphrased from the global N-cycle literature, not a derived constant."
+  |> "[@x_galloway_2004] · [@x_smil_2001]"
+
+# ── §5 Water relations & evapotranspiration ───────────────────────────
+
+@D mech_water_relations := "plant water relations & evapotranspiration" :: mechanism [ok]
+  transport = "Water moves down a water-potential gradient: soil → root → xylem (cohesion–tension) → leaf → atmosphere (transpiration through stomata)."
+  et = "Evapotranspiration (ET) = soil evaporation + plant transpiration; reference ET is commonly estimated with the Penman–Monteith approach from climate variables and crop coefficients."
+  wue = "Water-use efficiency (biomass or yield per unit water) is bounded by the unavoidable CO₂-for-H₂O exchange at open stomata; C4/CAM raise WUE by concentrating CO₂ or shifting uptake in time."
+  deficit = "Crop water deficit reduces yield non-linearly, with stage-specific sensitivity (flowering/grain-fill typically most sensitive) — agronomic phenology, not a lattice schedule."
+  |> "[@x_allen_1998] · [@x_zhu_long_ort_2010]"
+
+# ── §6 Crop protection & integrated pest management ───────────────────
+
+@D dom_ipm := "integrated pest management (IPM)" :: domain [ok]
+  principle = "Combine biological, cultural, physical/mechanical and chemical controls; use economic thresholds; deploy pesticides as a last, targeted resort to slow resistance and protect non-target organisms."
+  resistance = "Pest/pathogen/weed resistance evolves under selection pressure (single-mode-of-action overuse) — a real evolutionary constraint that mandates rotation of modes of action and refuges."
+  bt-context = "Bt (Bacillus thuringiensis) Cry/Vip insecticidal proteins (transgenic or sprayed) are mode-of-action-specific; durability depends on refuge strategy and resistance management — an agronomic/evolutionary problem, NOT a lattice-numbered toxin set."
+  honesty = "Pest-management is risk/threshold reasoning; this tape does not recommend any product or rate (see [@scope_disclaimer])."
+  |> "[@x_stern_1959]"
+
+# ── §7 Crop genetics, rotation & the Green Revolution ─────────────────
+
+@D mech_crop_rotation := "crop rotation & cropping-system agronomy" :: mechanism [ok]
+  benefits = "Breaks pest/disease/weed cycles, diversifies rooting/residue, and (with legumes) adds biologically fixed N; improves soil structure and reduces input dependence."
+  legume-n = "Rotating a legume credits the following crop with fixed N, partially substituting synthetic fertiliser — quantitatively soil/climate-dependent, not a fixed lattice number."
+  honesty = "Rotation length/sequence is an agronomic design choice (2-, 3-, 4-course historically common) optimised to local constraints — the historical numbers are convention, not n=6-derived."
+  |> "[@x_karlen_1994]"
+
+@D dom_green_revolution := "the Green Revolution & semi-dwarf cereals" :: domain [ok]
+  borlaug = "Borlaug's semi-dwarf, disease-resistant, fertiliser-responsive wheat (and parallel IRRI semi-dwarf rice) sharply raised cereal yields across the mid-20th century — Norman Borlaug, 1970 Nobel Peace Prize."
+  mechanism = "Reduced-height (Rht / sd1) alleles shorten straw → lodging resistance → plants tolerate high N + irrigation and partition more biomass to grain (higher harvest index)."
+  caveats = "Gains came with higher input dependence (fertiliser, irrigation, agrochemicals), genetic-uniformity risk, and uneven regional/equity outcomes — a documented historical trade-off, not an idealised constant."
+  |> "[@x_borlaug_2000] · [@x_evenson_gollin_2003]"
+
+@D cmp_yield_gap := "yield-gap analysis" :: comparison [ok]
+  definition = "Yield gap = water-limited/irrigated potential yield (best cultivar + non-limiting management) minus actual farm yield in the same environment."
+  use = "Decomposes the gap into closeable agronomic deficits (nutrients, water, pest, timing) vs the biophysical ceiling that no management closes."
+  honesty = "Potential yield is a site/climate/cultivar-specific modelled quantity (e.g. via the Global Yield Gap Atlas methodology), an empirical envelope — explicitly NOT a lattice-fixed number."
+  |> "[@x_vanittersum_2013]"
+
+# ── §8 Real-limits anchors (LATTICE_POLICY g1 — real-limits-first) ────
+
+@D lim_liebig := "the limiting-factor law (Liebig's minimum)" :: real-limit [ok required]
+  wall = "HARD LAW (resource-limitation principle)"
+  statement = "Yield is governed by the scarcest essential input relative to demand. No amount of a non-limiting input substitutes for the limiting one; correcting it merely shifts the limit to the next factor."
+  consequence = "Optimisation is sequential bottleneck removal under diminishing returns — an agronomic law, not an n=6 invariant."
+  |> "[@x_von_liebig_1840]"
 
-@D row_n_6_0 :: agriculture [ok]
-  x = "n=6"
-  x = "C₆H₁₂O₆ 포도당 6탄소, 벌집 육각 수분, 6대 영양소"
-  x = "EXACT"
+@D lim_photo_efficiency := "photosynthetic light-use-efficiency ceiling" :: real-limit [ok required]
+  wall = "HARD WALL (thermodynamic/biochemical)"
+  statement = "The theoretical maximum conversion of solar energy to plant biomass is low — on the order of a few percent (commonly cited as roughly ~4.6% for C3 and ~6% for C4 of total solar energy under ideal conditions), and real field crops achieve well below even that."
+  losses = "Energy is lost to non-absorbed/non-PAR wavelengths, reflection/transmission, photochemical inefficiency, photorespiration (C3), and respiration — each a physical/biochemical loss term, not an adjustable lattice parameter."
+  consequence = "There is a physics-and-enzymology ceiling on biomass per unit incident light; agronomy closes the gap toward it but cannot exceed it. Improvement targets the loss terms (e.g. RuBisCO, photorespiratory bypasses), not the ceiling itself."
+  |> "[@x_zhu_long_ort_2010]"
 
+@D lim_finite_resources := "finite arable land, water & mineral nutrients" :: real-limit [ok required]
+  wall = "HARD WALL (resource finitude)"
+  land = "Arable land is finite and degrading (erosion, salinisation, sealing, organic-matter loss); expansion trades against forest/biodiversity carbon."
+  water = "Freshwater for irrigation is finite and competed-for; aquifer depletion is locally irreversible on human timescales."
+  p-finitude = "Mined phosphate rock is a non-renewable, geographically concentrated finite reserve — no synthetic substitute for the P element."
+  consequence = "Agricultural output is bounded by finite land/water/mineral stocks; these are geophysical limits, not lattice values."
+  |> "[@x_cordell_2009]"
 
-@D row_sigma_12_1 :: agriculture [ok]
-  x = "sigma=12"
-  x = "12개월 작물 주기, 12H₂O 광합성"
-  x = "EXACT"
+@D lim_diminishing_returns := "yield-gap & diminishing returns" :: real-limit [ok required]
+  wall = "SOFT WALL (economic/biophysical asymptote)"
+  statement = "Yield response to added inputs is concave (Mitscherlich-type): each increment yields less, asymptoting toward the environment's potential yield. Beyond the agronomic optimum, extra input lowers net return and raises loss/pollution."
+  consequence = "The closeable yield gap shrinks toward a biophysical ceiling; 'more input' is not indefinitely 'more yield'. An empirical response law, not an n=6 product."
+  |> "[@x_vanittersum_2013]"
 
+@D lim_climate_envelope := "crop climate envelope" :: real-limit [ok required]
+  wall = "HARD WALL (agro-climatic)"
+  statement = "Each crop has temperature/photoperiod/water bounds (cardinal temperatures, vernalisation/photoperiod requirements, frost-free season, heat-stress thresholds at flowering) outside which yield collapses regardless of management."
+  consequence = "Where a crop can be productively grown is set by climate and phenology — a biophysical envelope, not a lattice schedule. Climate change shifts (does not abolish) these envelopes."
+  |> "[@x_lobell_2011]"
 
-@D row_j_24_2 :: agriculture [ok]
-  x = "J₂=24"
-  x = "포도당 24원자, 24절기(동양 농법)"
-  x = "EXACT"
+# ── §9 n=6 lattice stance (HONEST — observation, not derivation) ──────
 
+@F f_lattice_fit := "lattice-fit-on-agronomy" :: governance [required deny:write]
+  pattern = "Deriving agronomic quantities (yield %, nutrient ratios, rotation length, growth-stage counts, soil-horizon counts) FROM the n=6 lattice (σ=12, τ=4, φ=2, J₂=24) — e.g. 'yield = 100% because J₂=24' or '6 macronutrients because n=6' or '12-month cycle = σ=12'."
+  why = "This is exactly the fabrication the pre-rewrite AGRICULTURE.tape committed (~1112 lines of `@D row_* x=\"n=6\" x=\"…\" x=\"EXACT\"` lattice-tautology — see AGRICULTURE.log.tape audit). hexa-bio AGENTS.tape @F f1 (lattice-fit-on-external-entity) + @D g1/g2 forbid it."
+  remedy = "Cite real agronomy/soil/crop-science sources (this tape's @X entries). Stoichiometric/calendar numbers (6 CO₂ in hexose, 12-month year, ~17 essential elements) are domain chemistry/convention; the lattice may only be a coincidental OBSERVATION, never a derivation."
 
-@D row_tau_4_3 :: agriculture [ok]
-  x = "tau=4"
-  x = "4계절 재배, 4년 윤작"
-  x = "EXACT"
+@N n6_honest_stance := "agriculture has no natural n=6 invariant" :: note [required]
+  text = "Stated plainly: agriculture exposes NO natural n=6 invariant. Crop cycles (annual/biennial/perennial, season-driven), NPK and the ~17 essential elements, soil horizons (O/A/E/B/C/R), growth stages (e.g. BBCH/Feekes scales), and rotation lengths are AGRONOMY — set by plant biology, soil chemistry, climate and historical convention, NOT lattice-derived. Numeric coincidences (6 CO₂ molecules in a hexose; a 12-month calendar; 24 solar terms in East-Asian farming almanacs) are OBSERVATION ONLY: they arise from organic chemistry, Earth's orbit, and cultural calendars — not from σ/τ/φ/J₂. Per hexa-bio AGENTS.tape g1 (real-limits-first), g2 (lattice-is-tool) and LATTICE_POLICY: the lattice is declined here as a derivation tool. This honesty IS the corrective for the audited lattice-tautology stub."
 
+# ── §10 Verifiable predictions (real, falsifiable — NOT lattice) ──────
 
-@D row_n_phi_3_4 :: agriculture [ok]
-  x = "n/phi=3"
-  x = "IPM 3방제 (유기+화학+생물), 3모작"
-  x = "CLOSE"
+@D tp_1 := "TP-1 limiting-factor response" :: prediction [ok]
+  claim = "Under controlled trial, correcting only the single Liebig-limiting nutrient raises yield, while adding a non-limiting nutrient at the same site/season does not (until it becomes limiting)."
+  falsifier = "If a properly designed factorial nutrient trial shows yield rising equally from adding a demonstrably non-limiting nutrient, [@lim_liebig] is wrong."
+  source = "[@x_von_liebig_1840] · [@x_marschner_2012]"
 
+@D tp_2 := "TP-2 photosynthetic ceiling" :: prediction [ok]
+  claim = "No field crop, under any management, sustains seasonal solar-energy-to-biomass conversion above the few-percent theoretical maximum (≈4.6% C3 / ≈6% C4 ideal); real values fall well below."
+  falsifier = "If a peer-reviewed whole-season field measurement shows energy-conversion efficiency materially exceeding the cited C3/C4 thermodynamic maxima, [@lim_photo_efficiency] is wrong."
+  source = "[@x_zhu_long_ort_2010]"
 
-@D row_sopfr_5_5 :: agriculture [ok]
-  x = "sopfr=5"
-  x = "5대 곡물 (쌀/밀/옥수수/보리/콩)"
-  x = "CLOSE"
+@D tp_3 := "TP-3 diminishing returns" :: prediction [ok]
+  claim = "Yield response to a single input (e.g. N) is concave and asymptotic toward the site's potential yield; beyond the agronomic optimum, marginal yield per added unit declines and loss terms (leaching, N₂O) rise."
+  falsifier = "If a multi-rate field experiment shows a sustained linear (non-saturating) yield response with no loss escalation across the agronomic range, [@lim_diminishing_returns] is wrong."
+  source = "[@x_vanittersum_2013]"
 
-# ── 5. DSE 체인 (4,500 조합) ─────────────────────────────────────────
+# ── §11 Cross-links ───────────────────────────────────────────────────
 
+@X x_hexa_bio_agents := "hexa-bio AGENTS.tape" :: governance [active]
+  scope = "@D g1 (real-limits-first) · @D g2 (lattice-is-tool) · @D g8 (in-silico-only-claim-scope) · @F f1 (lattice-fit-on-external-entity). This tape complies: real agronomy science, in-silico knowledge SSOT only, lattice declined as a derivation tool."
 
-# ── 6. 가설 검증 ─────────────────────────────────────────
+# ── §12 External citations (real, landmark literature) ────────────────
+# Where a specific bibliographic detail is not asserted with confidence,
+# the entry names the primary author + era only and says so explicitly.
 
+@X x_von_liebig_1840 := "von Liebig (mineral nutrition, ~1840s)" :: literature [active]
+  ref = "Justus von Liebig — mineral theory of plant nutrition / law of the minimum, mid-19th-century agricultural-chemistry tradition (primary author/era; exact volume & edition not asserted). Foundational for [@mech_liebig_minimum] / [@lim_liebig]."
 
+@X x_farquhar_1980 := "Farquhar, von Caemmerer & Berry 1980" :: literature [active]
+  ref = "Farquhar GD, von Caemmerer S, Berry JA. A biochemical model of photosynthetic CO₂ assimilation in leaves of C3 species. Planta 1980;149:78–90. (FvCB photosynthesis model)"
 
-@D b_bt_101_24_j_8_sigma_tau_9_9_exac_0 :: agriculture [ok]
-  text = "BT-101: 광합성 포도당 24원자=J₂, 양자수율 8=sigma-tau, 9/9 EXACT"
+@X x_hatch_slack_1970 := "Hatch & Slack (C4 pathway, ~1966-1970)" :: literature [active]
+  ref = "M.D. Hatch & C.R. Slack — discovery/characterisation of the C4 dicarboxylic-acid photosynthetic pathway (primary authors/era; exact volume not asserted). Basis for the C4 component of [@mech_c3_c4_cam]."
 
+@X x_zhu_long_ort_2010 := "Zhu, Long & Ort 2010" :: literature [active]
+  ref = "Zhu XG, Long SP, Ort DR. Improving photosynthetic efficiency for greater yield. Annu Rev Plant Biol 2010;61:235–261. (theoretical maximum conversion efficiency of C3/C4 photosynthesis; quantitative loss accounting)"
 
-@D b_bt_103_6co_12h_o_c_h_o_6o_7_100_1 :: agriculture [ok]
-  text = "BT-103: 6CO₂+12H₂O -> C₆H₁₂O₆+6O₂, 7계수 100% n=6"
+@X x_marschner_2012 := "Marschner — Mineral Nutrition of Higher Plants" :: literature [active]
+  ref = "Marschner's Mineral Nutrition of Higher Plants (P. Marschner ed., 3rd ed., 2012; orig. H. Marschner). Standard reference for essential-element function and the Arnon–Stout essentiality criteria."
 
-# ── 9. BT 연결 ─────────────────────────────────────────
+@X x_brady_weil_2016 := "Brady & Weil — The Nature and Properties of Soils" :: literature [active]
+  ref = "Brady NC, Weil RR. The Nature and Properties of Soils (15th ed., 2016). Standard reference for soil texture/structure, CEC, pH and pedological horizons."
 
+@X x_galloway_2004 := "Galloway et al 2004" :: literature [active]
+  ref = "Galloway JN et al. Nitrogen cycles: past, present, and future. Biogeochemistry 2004;70:153–226. (global reactive-N cycle, anthropogenic perturbation, loss pathways)"
 
-# ── 10. 산업 검증 ─────────────────────────────────────────
+@X x_smil_2001 := "Smil 2001 — Enriching the Earth" :: literature [active]
+  ref = "Smil V. Enriching the Earth: Fritz Haber, Carl Bosch, and the Transformation of World Food Production. MIT Press, 2001. (Haber–Bosch and synthetic-N dependence of modern agriculture)"
 
+@X x_allen_1998 := "Allen et al — FAO Irrigation & Drainage Paper 56" :: literature [active]
+  ref = "Allen RG, Pereira LS, Raes D, Smith M. Crop evapotranspiration — guidelines for computing crop water requirements. FAO Irrigation and Drainage Paper 56, 1998. (Penman–Monteith reference ET, crop coefficients)"
 
-# ── 11. 핵심 n=6 연결 상세 테이블 ─────────────────────────────────────────
+@X x_stern_1959 := "Stern et al (economic-threshold / integrated control, ~1959)" :: literature [active]
+  ref = "V.M. Stern and colleagues — the integrated-control concept and economic-injury/threshold framework that underlies modern IPM (primary author/era; exact volume not asserted). Basis for [@dom_ipm]."
 
+@X x_karlen_1994 := "Karlen et al (crop-rotation agronomy, ~1994)" :: literature [active]
+  ref = "D.L. Karlen and colleagues — review of crop-rotation effects on soil quality and crop performance (primary author/era; exact volume not asserted). Supports [@mech_crop_rotation]."
 
+@X x_borlaug_2000 := "Borlaug 2000 (Green Revolution)" :: literature [active]
+  ref = "Norman E. Borlaug — semi-dwarf cereal breeding and the Green Revolution; 1970 Nobel Peace Prize. Borlaug's writings on ending hunger / 'Green Revolution' (primary author/era; specific article volume not asserted). Supports [@dom_green_revolution]."
 
-@D row_x_0 :: agriculture [ok]
-  x = "포도당"
-  x = "C6H12O6 탄소 6개"
-  n_6 = "n = 6"
-  x = "6"
-  x = "생화학"
-  x = "EXACT"
+@X x_evenson_gollin_2003 := "Evenson & Gollin 2003" :: literature [active]
+  ref = "Evenson RE, Gollin D. Assessing the impact of the Green Revolution, 1960 to 2000. Science 2003;300:758–762. (empirical productivity and equity assessment of the Green Revolution)"
 
+@X x_vanittersum_2013 := "van Ittersum et al 2013" :: literature [active]
+  ref = "van Ittersum MK et al. Yield gap analysis with local to global relevance — a review. Field Crops Research 2013;143:4–17. (yield-gap definition and decomposition methodology; Global Yield Gap Atlas basis)"
 
-@D row_x_1 :: agriculture [ok]
-  x = "광합성 물"
-  x = "12H2O 계수"
-  n_6 = "sigma = 12"
-  x = "12"
-  x = "BT-103"
-  x = "EXACT"
+@X x_cordell_2009 := "Cordell, Drangert & White 2009" :: literature [active]
+  ref = "Cordell D, Drangert JO, White S. The story of phosphorus: Global food security and food for thought. Global Environmental Change 2009;19:292–305. (finite mined phosphate-rock reserves)"
 
-
-@D row_x_2 :: agriculture [ok]
-  x = "포도당 원자"
-  x = "24개 원자"
-  n_6 = "J2 = 24"
-  x = "24"
-  x = "BT-101"
-  x = "EXACT"
-
-
-@D row_x_3 :: agriculture [ok]
-  x = "재배 주기"
-  x = "4계절 / 4년 윤작"
-  n_6 = "tau = 4"
-  x = "4"
-  x = "농업 관행"
-  x = "EXACT"
-
-
-@D row_ipm_4 :: agriculture [ok]
-  x = "IPM 방제"
-  x = "3종 (유기/화학/생물)"
-  n_6 = "n/phi = 3"
-  x = "3"
-  x = "FAO IPM 가이드"
-  x = "CLOSE"
-
-
-@D row_x_5 :: agriculture [ok]
-  x = "주요 곡물"
-  x = "5대 (쌀/밀/옥/보/콩)"
-  n_6 = "sopfr = 5"
-  x = "5"
-  x = "FAOSTAT"
-  x = "CLOSE"
-
-
-@D row_x_6 :: agriculture [ok]
-  x = "영양소"
-  x = "6대 영양소"
-  n_6 = "n = 6"
-  x = "6"
-  x = "영양학 표준"
-  x = "EXACT"
-
-
-@D row_cn_7 :: agriculture [ok]
-  x = "토양 CN비"
-  x = "최적 C:N = 6:1"
-  n_6 = "n = 6"
-  x = "6"
-  x = "토양학"
-  x = "EXACT"
-
-
-@D row_x_8 :: agriculture [ok]
-  x = "센서"
-  x = "12채널 스마트팜"
-  n_6 = "sigma = 12"
-  x = "12"
-  x = "정밀농업"
-  x = "EXACT"
-
-
-@D row_24_9 :: agriculture [ok]
-  x = "24절기"
-  x = "동양 농법 24절기"
-  n_6 = "J2 = 24"
-  x = "24"
-  x = "천문/농학"
-  x = "EXACT"
-
-# ── 12. 구현 로드맵 상세 ─────────────────────────────────────────
-
-
-
-@D b_gps_sigma_12_0 :: agriculture [ok]
-  text = "**목표**: GPS/드론 기반 sigma=12 센서 정밀 모니터링"
-
-
-@D b_12_4_tau_1 :: agriculture [ok]
-  text = "**핵심 기술**: 12채널 토양/작물 센서, 4계절(tau) 자동 재배 스케줄러"
-
-
-@D b_bt_bt_101_24_j2_bt_103_100_n_6_2 :: agriculture [ok]
-  text = "**BT 연결**: BT-101 (광합성 24원자=J2), BT-103 (화학양론 100% n=6)"
-
-
-@D b_sigma_phi_10_50_3 :: agriculture [ok]
-  text = "**성과 지표**: 수확량 sigma-phi=10% 향상, 물 사용 50% 절감"
-
-
-@D b_6_n_4 :: agriculture [ok]
-  text = "**목표**: 도시형 수직농장, 6대 영양소(n) 최적화 작물 생산"
-
-
-@D b_led_6co2_12h2o_ipm_n_phi_3_5 :: agriculture [ok]
-  text = "**핵심 기술**: LED 광합성 제어 (6CO2+12H2O 최적화), IPM n/phi=3 통합 방제"
-
-
-@D b_bt_bt_122_n_6_bt_120_cn_6_6 :: agriculture [ok]
-  text = "**BT 연결**: BT-122 (벌집 육각 n=6), BT-120 (수처리 CN=6)"
-
-
-@D b_sigma_12_12_1_sigma_phi_7 :: agriculture [ok]
-  text = "**성과 지표**: 단위 면적 수확량 sigma=12배 (수직 12층), 농약 1/(sigma-phi)"
-
-
-@D b_n_6_8 :: agriculture [ok]
-  text = "**목표**: 완전 자율 농업, 토양-작물-유통 n=6 닫힌 순환"
-
-
-@D b_ai_24_j2_9 :: agriculture [ok]
-  text = "**핵심 기술**: 로봇 수확, AI 육종, 24절기(J2) 자율 판단"
-
-
-@D b_bt_bt_101_bt_103_bt_118_10 :: agriculture [ok]
-  text = "**BT 연결**: BT-101, BT-103, BT-118 (탄소중립 농업)"
-
-
-@D b_100_11 :: agriculture [ok]
-  text = "**성과 지표**: 식량 자급 100%, 탄소 배출 제로 농업"
-
-# ── 13. 외계인지수 5항목 ─────────────────────────────────────────
-
-
-
-@D row_bt_1 :: agriculture [ok]
-  x = "BT 연결 밀도"
-  x = "9/10"
-  x = "BT-101,103,118,120,122 직접 5개"
-
-
-@D row_x_4 :: agriculture [ok]
-  x = "구현 가능성"
-  x = "9/10"
-  x = "Mk.I 즉시 가능, 스마트팜 기술 상용화"
-
-
-@D row_h_ag_01_0 :: agriculture [ok]
-  id = "H-AG-01"
-  hypothesis = "Photosynthesis equation 100% n=6"
-  n_6_expression = "n, σ, J₂ (BT-103)"
-  lenses = "evolution, multiscale"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_02_1 :: agriculture [ok]
-  id = "H-AG-02"
-  hypothesis = "Calvin cycle 6 turns, 12 NADPH, 18 ATP"
-  n_6_expression = "n, σ, n×n/φ"
-  lenses = "evolution, multiscale"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_03_2 :: agriculture [ok]
-  id = "H-AG-03"
-  hypothesis = "Calvin ATP:NADPH = 3:2 = prime factors"
-  n_6_expression = "n/φ : φ"
-  lenses = "stability, multiscale"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_04_3 :: agriculture [ok]
-  id = "H-AG-04"
-  hypothesis = "Quantum yield 8 photons (BT-101)"
-  n_6_expression = "σ-τ = 8"
-  lenses = "evolution, multiscale"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_05_4 :: agriculture [ok]
-  id = "H-AG-05"
-  hypothesis = "OEC Mn₄CaO₅, 5 Kok states"
-  n_6_expression = "τ, μ, sopfr"
-  lenses = "evolution, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_06_5 :: agriculture [ok]
-  id = "H-AG-06"
-  hypothesis = "RuBisCO L₈S₈ = 8 active sites"
-  n_6_expression = "σ-τ = 8"
-  lenses = "evolution, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_07_6 :: agriculture [ok]
-  id = "H-AG-07"
-  hypothesis = "Haber-Bosch {1,2,3} sum=6"
-  n_6_expression = "proper div(n)"
-  lenses = "boundary, multiscale"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_08_7 :: agriculture [ok]
-  id = "H-AG-08"
-  hypothesis = "Rice 2n=24, haploid 12"
-  n_6_expression = "J₂, σ"
-  lenses = "evolution, network"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_09_8 :: agriculture [ok]
-  id = "H-AG-09"
-  hypothesis = "Maize 2n=20, haploid 10"
-  n_6_expression = "J₂-τ, σ-φ"
-  lenses = "evolution, network"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_10_9 :: agriculture [ok]
-  id = "H-AG-10"
-  hypothesis = "Wheat hexaploidy 6x"
-  n_6_expression = "n = 6"
-  lenses = "evolution, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_11_10 :: agriculture [ok]
-  id = "H-AG-11"
-  hypothesis = "Nitrogenase τ+φ=n subunits"
-  n_6_expression = "tau+phi=n"
-  lenses = "evolution, network"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_12_11 :: agriculture [ok]
-  id = "H-AG-12"
-  hypothesis = "6 plant macronutrients"
-  n_6_expression = "n = 6"
-  lenses = "network, multiscale"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_13_12 :: agriculture [ok]
-  id = "H-AG-13"
-  hypothesis = "8 plant micronutrients"
-  n_6_expression = "σ-τ = 8"
-  lenses = "network, multiscale"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_14_13 :: agriculture [ok]
-  id = "H-AG-14"
-  hypothesis = "Chlorophyll Mg²⁺ CN=6"
-  n_6_expression = "n = 6"
-  lenses = "network, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_15_14 :: agriculture [ok]
-  id = "H-AG-15"
-  hypothesis = "Glucose C₆H₁₂O₆ = crop product"
-  n_6_expression = "n, σ, J₂"
-  lenses = "multiscale, evolution"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_16_15 :: agriculture [ok]
-  id = "H-AG-16"
-  hypothesis = "C3→3C, C4→4C products"
-  n_6_expression = "n/φ, τ"
-  lenses = "evolution, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_17_16 :: agriculture [ok]
-  id = "H-AG-17"
-  hypothesis = "Ethylene C₂H₄ = n atoms"
-  n_6_expression = "φ+τ=n"
-  lenses = "boundary, evolution"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_18_17 :: agriculture [ok]
-  id = "H-AG-18"
-  hypothesis = "Chlorophyll 4 pyrrole rings"
-  n_6_expression = "τ = 4"
-  lenses = "evolution, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_19_18 :: agriculture [ok]
-  id = "H-AG-19"
-  hypothesis = "2 photosystems in Z-scheme"
-  n_6_expression = "φ = 2"
-  lenses = "evolution, multiscale"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_20_19 :: agriculture [ok]
-  id = "H-AG-20"
-  hypothesis = "Citrate C₆ = soil exudate"
-  n_6_expression = "n = 6"
-  lenses = "network, boundary"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_21_20 :: agriculture [ok]
-  id = "H-AG-21"
-  hypothesis = "ATP 3 phosphate groups, purine 6-ring"
-  n_6_expression = "n/φ, n"
-  lenses = "multiscale, evolution"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_22_21 :: agriculture [ok]
-  id = "H-AG-22"
-  hypothesis = "Amino acid 4 substituents on α-C"
-  n_6_expression = "τ = 4"
-  lenses = "evolution, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_23_22 :: agriculture [ok]
-  id = "H-AG-23"
-  hypothesis = "Starch/cellulose 1→4 linkage"
-  n_6_expression = "μ→τ"
-  lenses = "multiscale, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_24_23 :: agriculture [ok]
-  id = "H-AG-24"
-  hypothesis = "DNA H-bonds {2,3} = prime factors of 6"
-  n_6_expression = "φ, n/φ"
-  lenses = "stability, info"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_25_24 :: agriculture [ok]
-  id = "H-AG-25"
-  hypothesis = "4-5 trophic levels, 10% rule"
-  n_6_expression = "τ, sopfr, 1/(σ-φ)"
-  lenses = "network, multiscale"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_26_25 :: agriculture [ok]
-  id = "H-AG-26"
-  hypothesis = "Honeybee hexagonal comb (Hales proof)"
-  n_6_expression = "n = 6 (BT-122)"
-  lenses = "stability, network"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_27_26 :: agriculture [ok]
-  id = "H-AG-27"
-  hypothesis = "Hexagonal planting optimality"
-  n_6_expression = "n = 6"
-  lenses = "stability, evolution"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_28_27 :: agriculture [ok]
-  id = "H-AG-28"
-  hypothesis = "P680/P700 gap = 20 nm = τ×sopfr"
-  n_6_expression = "tau × sopfr"
-  lenses = "multiscale, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_29_28 :: agriculture [ok]
-  id = "H-AG-29"
-  hypothesis = "Soil 3 size classes, 12 texture classes"
-  n_6_expression = "n/φ, σ"
-  lenses = "multiscale, stability"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_30_29 :: agriculture [ok]
-  id = "H-AG-30"
-  hypothesis = "Photosynthesis complete n=6 audit"
-  n_6_expression = "7/8 constants"
-  lenses = "all"
-  grade = "**EXACT**"
-
-# ── Grade Distribution ─────────────────────────────────────────
-
-
-
-@D row_exact_0 :: agriculture [ok]
-  grade = "EXACT"
-  count = "7"
-  pct = "23.3%"
-  hypotheses = "H-AG-01, H-AG-02, H-AG-04, H-AG-07, H-AG-15, H-AG-26, H-AG-30"
-
-
-@D row_close_1 :: agriculture [ok]
-  grade = "CLOSE"
-  count = "23"
-  pct = "76.7%"
-  hypotheses = "H-AG-03, H-AG-05, H-AG-06, H-AG-08-14, H-AG-16-25, H-AG-27-29"
-
-
-@D row_weak_2 :: agriculture [ok]
-  grade = "WEAK"
-  count = "0"
-  pct = "0.0%"
-  hypotheses = "—"
-
-
-@D row_fail_3 :: agriculture [ok]
-  grade = "FAIL"
-  count = "0"
-  pct = "0.0%"
-  hypotheses = "—"
-
-
-@D row_unverifiable_4 :: agriculture [ok]
-  grade = "UNVERIFIABLE"
-  count = "0"
-  pct = "0%"
-  hypotheses = "—"
-
-# ── Breakthrough Theorem Cross-References (Unlinked) ─────────────────────────────────────────
-
-# Auto-generated: BTs from breakthrough-theorems.md relevant to this domain but not yet referenced in hypotheses.
-
-# ── 7. 실험 검증 매트릭스 ─────────────────────────────────────────
-
-
-# ── Grade Distribution (Summary) ─────────────────────────────────────────
-
-
-
-@D row_h_ag_01_5 :: agriculture [ok]
-  id = "H-AG-01"
-  hypothesis = "Photosynthesis equation 100% n=6 (BT-103)"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_02_6 :: agriculture [ok]
-  id = "H-AG-02"
-  hypothesis = "Calvin cycle n=6 turns, σ=12 NADPH, 18 ATP"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_03_7 :: agriculture [ok]
-  id = "H-AG-03"
-  hypothesis = "Calvin ATP:NADPH = 3:2 = prime factors of 6"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_04_8 :: agriculture [ok]
-  id = "H-AG-04"
-  hypothesis = "Quantum yield σ-τ=8 photons (BT-101)"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_05_9 :: agriculture [ok]
-  id = "H-AG-05"
-  hypothesis = "OEC Mn₄CaO₅ + 5 Kok states"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_06_10 :: agriculture [ok]
-  id = "H-AG-06"
-  hypothesis = "RuBisCO L₈S₈ = σ-τ=8 active sites"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_07_11 :: agriculture [ok]
-  id = "H-AG-07"
-  hypothesis = "Haber-Bosch {1,2,3} = proper div(6), sum=n"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_08_12 :: agriculture [ok]
-  id = "H-AG-08"
-  hypothesis = "Rice 2n=24=J₂, haploid 12=σ"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_09_13 :: agriculture [ok]
-  id = "H-AG-09"
-  hypothesis = "Maize 2n=20=J₂-τ, haploid 10=σ-φ"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_10_14 :: agriculture [ok]
-  id = "H-AG-10"
-  hypothesis = "Wheat hexaploidy 6x = n"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_11_15 :: agriculture [ok]
-  id = "H-AG-11"
-  hypothesis = "Nitrogenase τ+φ=n=6 subunits"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_12_16 :: agriculture [ok]
-  id = "H-AG-12"
-  hypothesis = "6 plant macronutrients = n"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_13_17 :: agriculture [ok]
-  id = "H-AG-13"
-  hypothesis = "8 plant micronutrients = σ-τ"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_14_18 :: agriculture [ok]
-  id = "H-AG-14"
-  hypothesis = "Chlorophyll Mg²⁺ CN=6"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_15_19 :: agriculture [ok]
-  id = "H-AG-15"
-  hypothesis = "Glucose C₆H₁₂O₆ = crop product (n,σ,J₂)"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_16_20 :: agriculture [ok]
-  id = "H-AG-16"
-  hypothesis = "C3→3C=n/φ, C4→4C=τ products"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_17_21 :: agriculture [ok]
-  id = "H-AG-17"
-  hypothesis = "Ethylene C₂H₄ = n=6 atoms (φ+τ)"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_18_22 :: agriculture [ok]
-  id = "H-AG-18"
-  hypothesis = "Chlorophyll τ=4 pyrrole rings"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_19_23 :: agriculture [ok]
-  id = "H-AG-19"
-  hypothesis = "φ=2 photosystems in Z-scheme"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_20_24 :: agriculture [ok]
-  id = "H-AG-20"
-  hypothesis = "Citrate C₆ = n, soil exudate"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_21_25 :: agriculture [ok]
-  id = "H-AG-21"
-  hypothesis = "ATP n/φ=3 phosphate groups"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_22_26 :: agriculture [ok]
-  id = "H-AG-22"
-  hypothesis = "Amino acid α-C τ=4 substituents"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_23_27 :: agriculture [ok]
-  id = "H-AG-23"
-  hypothesis = "Starch/cellulose μ→τ glycosidic linkage"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_24_28 :: agriculture [ok]
-  id = "H-AG-24"
-  hypothesis = "DNA H-bonds {2,3} = prime factors of 6"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_25_29 :: agriculture [ok]
-  id = "H-AG-25"
-  hypothesis = "τ-sopfr trophic levels, 1/(σ-φ) 10% rule"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_26_30 :: agriculture [ok]
-  id = "H-AG-26"
-  hypothesis = "Honeybee hexagonal comb (Hales proof, BT-122)"
-  grade = "**EXACT**"
-
-
-@D row_h_ag_27_31 :: agriculture [ok]
-  id = "H-AG-27"
-  hypothesis = "Hexagonal planting CN=6 optimality"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_28_32 :: agriculture [ok]
-  id = "H-AG-28"
-  hypothesis = "P680/P700 gap = 20 nm = τ×sopfr"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_29_33 :: agriculture [ok]
-  id = "H-AG-29"
-  hypothesis = "Soil n/φ=3 size classes, σ=12 textures"
-  grade = "**CLOSE**"
-
-
-@D row_h_ag_30_34 :: agriculture [ok]
-  id = "H-AG-30"
-  hypothesis = "Photosynthesis complete n=6 audit (7/8 constants)"
-  grade = "**EXACT**"
-
-
-@D b_exact_number_structure_is_fixed_35 :: agriculture [ok]
-  text = "**EXACT**: Number/structure is fixed by chemistry/physics/mathematics and matches n=6 expression precisely."
-
-
-@D b_close_number_is_physically_real_36 :: agriculture [ok]
-  text = "**CLOSE**: Number is physically real and match is clean, but small-integer bias or non-uniqueness to n=6."
-
-
-@D b_weak_requires_cherry_picking_fle_37 :: agriculture [ok]
-  text = "**WEAK**: Requires cherry-picking, flexible counting, or post-hoc rationalization."
-
-
-@D b_fail_contradicted_by_data_trivia_38 :: agriculture [ok]
-  text = "**FAIL**: Contradicted by data, trivially true, or convention-dependent."
-
-
-@D b_unverifiable_insufficient_data_39 :: agriculture [ok]
-  text = "**UNVERIFIABLE**: Insufficient data."
-
-# ── Verification Notes (Key Hypotheses) ─────────────────────────────────────────
-
-
-# ── Cross-Domain Comparison ─────────────────────────────────────────
-
-
-
-@D row_agriculture_v1_35_0 :: agriculture [ok]
-  domain = "Agriculture v1 (35)"
-  total = "35"
-  exact = "4 (11.4%)"
-  close = "12 (34.3%)"
-  weak = "10 (28.6%)"
-  fail = "9 (25.7%)"
-  non_fail = "74.3%"
-
-
-@D row_agriculture_v2_30_1 :: agriculture [ok]
-  domain = "Agriculture v2 (30)"
-  total = "30"
-  exact = "7 (23.3%)"
-  close = "23 (76.7%)"
-  weak = "0 (0%)"
-  fail = "0 (0%)"
-  non_fail = "100%"
-
-# ── 8. 외계인급 발견 ─────────────────────────────────────────
-
-# **인증일**: 2026-04-04
-# **등급**: 🛸10 — 물리적 한계 도달, 더이상 발전 불가
-# **본질**: 광합성 6CO₂+12H₂O→C₆H₁₂O₆ 방정식에서 스마트팜까지, n=6이 농업을 관통하는 수학 증명
-
-# ── 10대 인증 기준 — 전항목 PASS ─────────────────────────────────────────
-
-
-
-@D row_1_0 :: agriculture [ok]
-  x = "1"
-  x = "**불가능성 정리**"
-  x = ">=10개 독립 수학 증명"
-  agriculture = "**12개** (광합성 효율 천장, Liebig 최소율, 수분이용효율, 질소고정 에너지비용, Haber-Bosch 열역학, 토양탄소평형, Shockley-Queisser PAR, Betz limit, Shannon 정밀농업, Carnot 온실열, Nernst 토양전위, Malthus 한계)"
-  x = "✅"
-
-
-@D row_2_1 :: agriculture [ok]
-  x = "2"
-  x = "**가설 EXACT율**"
-  x = "30/30 보편물리 100%"
-  agriculture = "**26/30 EXACT (86.7%)** + 4 CLOSE (기후 가변 파라미터)"
-  x = "✅"
-
-
-@D row_3_2 :: agriculture [ok]
-  x = "3"
-  x = "**BT EXACT율**"
-  x = ">=85%"
-  agriculture = "**23/26 EXACT (88.5%)** — BT-101 광합성 + BT-103 화학양론 + BT-51 유전암호 핵심"
-  x = "✅"
-
-
-@D row_4_3 :: agriculture [ok]
-  x = "4"
-  x = "**산업검증**"
-  x = ">=100K 장비시간"
-  agriculture = "**10M+ hrs** (글로벌 수직농장, 정밀농업 GPS, CRISPR 작물 임상, Haber-Bosch 공장 누적)"
-  x = "✅"
-
-
-@D row_5_4 :: agriculture [ok]
-  x = "5"
-  x = "**실험데이터 기간**"
-  x = ">=50년"
-  agriculture = "**170년** (Mendel 1856~2026), 115년 (Haber-Bosch 1911~), 14년 (CRISPR 작물 2012~)"
-  x = "✅"
-
-
-@D row_6_5 :: agriculture [ok]
-  x = "6"
-  x = "**Cross-DSE 도메인**"
-  x = ">=8개"
-  agriculture = "**10개** (생물학, 환경보호, 태양전지, 물질합성, 에너지, 탄소포집, AI, 로봇, 수처리, 기상)"
-  x = "✅"
-
-
-@D row_7_6 :: agriculture [ok]
-  x = "7"
-  x = "**DSE 조합**"
-  x = ">=10K"
-  agriculture = "**4,500 기본** (6x5x6x5x5) + Cross-DSE 10도메인 재조합 = **15K+**"
-  x = "✅"
-
-
-@D row_8_7 :: agriculture [ok]
-  x = "8"
-  x = "**Testable Predictions**"
-  x = ">=15개"
-  agriculture = "**20개** Tier 1~4 (2026~2055)"
-  x = "✅"
-
-
-@D row_9_8 :: agriculture [ok]
-  x = "9"
-  x = "**Mk.I~V 진화경로**"
-  x = "5단계 독립 문서"
-  agriculture = "✅ Mk.I(정밀농업)→II(수직농장)→III(합성광합성)→IV(분자식량)→V(물리한계)"
-  x = "✅"
-
-
-@D row_10_9 :: agriculture [ok]
-  x = "10"
-  x = "**물리천장 증명**"
-  x = "점근 수렴 수학 증명"
-  agriculture = "✅ 광합성 PAR→바이오매스 ≤~6%, Haber-Bosch ΔG 고정, Liebig 최소율 불변"
-  x = "✅"
-
-# ── 불가능성 정리 12개 요약 ─────────────────────────────────────────
-
-
-
-@D row_11_10 :: agriculture [ok]
-  x = "11"
-  x = "Nernst Equation"
-  x = "E=E°-(RT/nF)·ln(Q)"
-  n_6 = "토양 산화환원 전위 한계"
-  x = "Nernst 1889"
-
-
-@D row_12_11 :: agriculture [ok]
-  x = "12"
-  x = "Malthus Limit"
-  x = "식량 산술 vs 인구 기하"
-  n_6 = "토지 면적 물리적 유한"
-  x = "Malthus 1798"
-
-# ── Cross-DSE 10도메인 연결 맵 ─────────────────────────────────────────
-
-
-# ── 가설 검증 요약 ─────────────────────────────────────────
-
-
-
-@D row_photosynthesis_0 :: agriculture [ok]
-  x = "광합성 (Photosynthesis)"
-  exact = "6"
-  close = "0"
-  x = "6"
-  exact = "100%"
-
-
-@D row_genetics_1 :: agriculture [ok]
-  x = "유전자/작물 (Genetics)"
-  exact = "5"
-  close = "0"
-  x = "5"
-  exact = "100%"
-
-
-@D row_soil_2 :: agriculture [ok]
-  x = "토양 (Soil)"
-  exact = "4"
-  close = "1"
-  x = "5"
-  exact = "80%"
-
-
-@D row_smart_farm_3 :: agriculture [ok]
-  x = "스마트팜 (Smart Farm)"
-  exact = "5"
-  close = "1"
-  x = "6"
-  exact = "83.3%"
-
-
-@D row_vertical_4 :: agriculture [ok]
-  x = "수직농장 (Vertical)"
-  exact = "4"
-  close = "1"
-  x = "5"
-  exact = "80%"
-
-
-@D row_bioecon_5 :: agriculture [ok]
-  x = "바이오경제 (BioEcon)"
-  exact = "2"
-  close = "1"
-  x = "3"
-  exact = "66.7%"
-
-
-@D row_bt_101_0 :: agriculture [ok]
-  bt = "BT-101"
-  x = "광합성 C₆H₁₂O₆ J₂=24"
-  exact = "EXACT"
-  x = "양자수율 σ-τ=8, 9/9"
-
-
-@D row_bt_103_1 :: agriculture [ok]
-  bt = "BT-103"
-  x = "광합성 화학양론 100% n=6"
-  exact = "EXACT"
-  x = "6CO₂+12H₂O→C₆H₁₂O₆, 7계수"
-
-
-@D row_bt_27_2 :: agriculture [ok]
-  bt = "BT-27"
-  x = "Carbon-6 chain glucose"
-  exact = "EXACT"
-  x = "C₆H₁₂O₆ + C₆H₆"
-
-
-@D row_bt_51_3 :: agriculture [ok]
-  bt = "BT-51"
-  x = "유전암호 master chain"
-  exact = "EXACT"
-  x = "CRISPR PAM=3=n/φ"
-
-
-@D row_bt_104_4 :: agriculture [ok]
-  bt = "BT-104"
-  x = "CO₂ n=6 인코딩"
-  exact = "EXACT"
-  x = "탄소 시비 기초"
-
-
-@D row_bt_122_5 :: agriculture [ok]
-  bt = "BT-122"
-  x = "벌집 6각형 보편성"
-  exact = "EXACT"
-  x = "벌 농업 + 자연 충전"
-
-# ── Testable Predictions (20개) ─────────────────────────────────────────
-
-
-
-@D b_tp_agri_01_n_6_c3_1_2_c4_3_4_0 :: agriculture [ok]
-  text = "TP-AGRI-01: 광합성 이론 효율 상한 ~n=6% (C3 실측 1-2%, C4 3-4%)"
-
-
-@D b_tp_agri_02_n_6_n_p_k_ca_mg_s_1 :: agriculture [ok]
-  text = "TP-AGRI-02: 필수 다량원소 n=6개 (N,P,K,Ca,Mg,S) 전 작물 공통"
-
-
-@D b_tp_agri_03_12_2 :: agriculture [ok]
-  text = "TP-AGRI-03: 수직농장 최적 재배층 σ=12단"
-
-
-@D b_tp_agri_04_crispr_guide_rna_60nt_3 :: agriculture [ok]
-  text = "TP-AGRI-04: CRISPR guide RNA 최적 60nt = n/φ×(J₂-τ)"
-
-
-@D b_tp_agri_05_8_4 :: agriculture [ok]
-  text = "TP-AGRI-05: 드론 모니터링 σ-τ=8 스펙트럼 밴드가 최적"
-
-
-@D b_tp_agri_06_n_6_ph_n_p_k_5 :: agriculture [ok]
-  text = "TP-AGRI-06: n=6 토양 파라미터 (pH, N, P, K, 수분, 온도) 충분조건"
-
-
-@D b_tp_agri_07_haber_bosch_n_3_h_6 :: agriculture [ok]
-  text = "TP-AGRI-07: Haber-Bosch n/φ=3 H₂ 분자 비율 불변"
-
-
-@D b_tp_agri_08_12_ai_7 :: agriculture [ok]
-  text = "TP-AGRI-08~12: AI 작물 진단, 정밀 관개, 바이오센서 토양, 로봇 수확"
-
-
-@D b_tp_agri_13_17_n_6_8 :: agriculture [ok]
-  text = "TP-AGRI-13~17: 인공 광합성 효율 n=6%, 합성 생물학 작물, 해수 농업"
-
-
-@D b_tp_agri_18_20_9 :: agriculture [ok]
-  text = "TP-AGRI-18~20: 분자 식량 합성, 우주 농업, 완전 자율 식량 시스템"
-
-# ── 정직한 천장 선언 ─────────────────────────────────────────
-
-
-
-@D b_12_0 :: agriculture [ok]
-  text = "12 불가능성 정리 = 농업의 물리적 한계 수학 증명"
-
-
-@D b_100_exact_11_11_1 :: agriculture [ok]
-  text = "광합성+유전자 100% EXACT (보편물리 11/11)"
-
-
-@D b_10_cross_dse_ai_2 :: agriculture [ok]
-  text = "10개 도메인 Cross-DSE = 생물학-환경-에너지-AI 교차 융합"
-
-
-@D b_170_0_mendel_1856_3 :: agriculture [ok]
-  text = "170년 실험 데이터 0 예외 (Mendel 1856~현재)"
-
-
-@D b_exact_86_7_100_4_close_4 :: agriculture [ok]
-  text = "가설 EXACT 86.7% (100%가 아님) — 기후 의존 파라미터 4개 CLOSE"
-
-
-@D b_x_5 :: agriculture [ok]
-  text = "토양 미생물 다양성은 정확한 수 고정 불가 (정직한 생태학적 복잡성)"
-
-
-@D b_x_6 :: agriculture [ok]
-  text = "기후 변동이 농업 파라미터에 미치는 영향 = 확률적 분산"
-
-# ── 12+ 렌즈 합의 (🛸10 필수 조건) ─────────────────────────────────────────
-
-
-
-@D row_13_12 :: agriculture [ok]
-  x = "13"
-  x = "양자 (quantum)"
-  x = "광합성 양자 코히런스"
-  x = "✅"
-
-# ── 인증 서명 ─────────────────────────────────────────
-
-
-# ── §1 WHY ─────────────────────────────────────────
-
-
-# ── §2 COMPARE (ASCII 성능 비교) ─────────────────────────────────────────
-
-
-# ── §3 REQUIRES (선행 도메인) ─────────────────────────────────────────
-
-
-
-@D row_materials_baseline_0 :: agriculture [ok]
-  x = "materials-baseline"
-  x = "🛸2"
-  x = "🛸4"
-  x = "+2"
-  x = "materials"
-
-
-@D row_life_baseline_1 :: agriculture [ok]
-  x = "life-baseline"
-  x = "🛸1"
-  x = "🛸3"
-  x = "+2"
-  x = "life"
-
-# ── §4 STRUCT (시스템 구조도 ASCII) ─────────────────────────────────────────
-
-
-# ── §5 FLOW (데이터/에너지 플로우) ─────────────────────────────────────────
-
-
-# ── §6 EVOLVE (Mk.I~V 진화) ─────────────────────────────────────────
-
-
-# ── §7 VERIFY (Python 검증) ─────────────────────────────────────────
-
-
-
+@X x_lobell_2011 := "Lobell, Schlenker & Costa-Roberts 2011" :: literature [active]
+  ref = "Lobell DB, Schlenker W, Costa-Roberts J. Climate trends and global crop production since 1980. Science 2011;333:616–620. (climate sensitivity of crop yields / agro-climatic envelope)"
