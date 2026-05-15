@@ -62,7 +62,7 @@
   bio-axes = [weave, nanobot, ribozyme, virocapsid]
   compute-axis = [quantum]
   topics = [proteins, DNA, RNA, pathogens, ribozyme-catalysis, virocapsids, nanobots, biochemistry, CRISPR, VQE]
-  status = "v1.x category-(a) closure = 100% across all 5 axes · selftest 35/35 PASS (2026-05-13)"
+  status = "v1.x category-(a) closure = 100% across all 5 axes · selftest 35/35 PASS (2026-05-13) · cohort honesty 65/65 PASS (2026-05-16, all root .tape carry @F f_lattice_fit + @N n6_honest_stance + grounded; meta-mode opt-in covers 11 meta tapes)"
 
 # ─── §2 Repo layout ───────────────────────────────────────────────────
 
