@@ -1,16 +1,57 @@
 #!/usr/bin/env tape
+# ══════════════════════════════════════════════════════════════════════
+# .tape v1.2 — grammar primer (cold-read by any LLM / agent / human)
+# ══════════════════════════════════════════════════════════════════════
+# Form: each entry is `@<type> <id> := "<subject>" :: <kind> [<grades>]`
+#       optionally followed by body lines (2-space indent) — key=value,
+#       edges (<- -> => …), or quoted prose.
+#
+# ENTRY TYPES (17):
+#   Runtime (10): @S session  @U user  @A assistant  @T tool-call  @R result
+#                 @H hook  @D decision  @K cost  @P provider  @? anomaly
+#   Foundation:   @I identity-claim
+#   Declarative:  @X external-citation  @F forbidden-pattern  @N note
+#                 @C config  @L layout  @V spec-version
+#
+# EDGES (12, on body lines, 2-space indent):
+#   Causal:     <- caused-by   -> triggers   == continues
+#               ~> supersedes  !! aborts     |> verified-by
+#   Effect:     => produces (followed by quoted natural-language)
+#   Structural: <: specializes  :> generalizes  ?> soft-depends
+#               !> conflicts-with  @> projects-to (e.g. @> AGENTS.md)
+#
+# GRADE TAGS (in [...] on entry header):
+#   Delivery:   ok · err · denied · cancelled · partial · superseded
+#   Governance: required · recommended · optional · draft · active · deprecated
+#   Scoped:     allow:<x> · deny:<x>
+#   Time/index: T<n> (turn)  N<n> (wall-sec)  d=<YYYY-MM-DD>
+#
+# PAYLOAD SYNTAX (body lines):
+#   key = "value"           single-line string
+#   key = [a, b, c]         array literal
+#   key <<~EOF              heredoc (multi-line; ends with EOF on own line)
+#     multi-line text
+#   EOF
+#   "see [@x1] §3"          inline citation by entry id
+#   `cmd or path`           backtick code-span (inline only)
+#
+# Full spec: ~/core/tape/spec/tape.md (or github.com/dancinlab/tape)
+# ══════════════════════════════════════════════════════════════════════
+
+
 # ══════════════════════════════════════════════════════════════
-# 원예학 — 궁극의 n=6 아키텍처 (HEXA-HORTICULTU)
+# HORTICULTURE.tape — architecture-current (editable per v1.2)
+# Event history → HORTICULTURE.log.tape sibling
 # ══════════════════════════════════════════════════════════════
 
-# 외계인 지수: 🛸 10 (물리적 한계 도달)
-# 천장 확인: 자연 결정계·생체 분자·산업 표준 n=6 EXACT 수렴
-# BT 범위: BT-429~433
-# 검증: `python3 verify_alien10.py` → 12/12 PASS 목표
-# ---
+@V := "tape" :: spec [active]
+  version = "1.2"
 
-# ── 이 기술이 당신의 삶을 바꾸는 방법 ─────────────────────────────────────────
-
+@I id001 := "horticulture" :: identity-claim [d=2026-05-15 active]
+  kind = "HEXA-Bio family · horticulture substrate"
+  brief = "plant cultivation · greenhouse · n=6 mapping"
+  parent = "dancinlab/hexa-bio"
+  sibling-log = "HORTICULTURE.log.tape"
 
 @D row_x_0 :: horticulture [ok]
   x = "품질 편차"
@@ -18,11 +59,13 @@
   hexa_horticultu = "±3% (n=6 표준)"
   x = "σ-φ=10배 균질"
 
+
 @D row_x_1 :: horticulture [ok]
   x = "생산 비용"
   x = "100"
   hexa_horticultu = "50"
   x = "1/φ = 절반"
+
 
 @D row_x_2 :: horticulture [ok]
   x = "폐기율"
@@ -30,17 +73,20 @@
   hexa_horticultu = "4%"
   x = "τ/J₂ = 1/6"
 
+
 @D row_x_3 :: horticulture [ok]
   x = "에너지"
   x = "100 kWh"
   hexa_horticultu = "10 kWh"
   x = "1/(σ-φ)=90% 절감"
 
+
 @D row_x_4 :: horticulture [ok]
   x = "개발 기간"
   x = "24개월"
   hexa_horticultu = "4개월"
   x = "J₂→τ = 6배 단축"
+
 
 @D row_x_5 :: horticulture [ok]
   x = "자동화 수준"
@@ -61,22 +107,28 @@
 # ── 4. Breakthrough Theorems (BT-429~433) ─────────────────────────────────────────
 
 
+
 @D b_bt_429_n_6_n_6_exact_0 :: horticulture [ok]
   text = "**BT-429**: 원예학 핵심 분류 차수 = n = 6 — n=6 EXACT"
+
 
 @D b_bt_430_4_4_n_6_exact_1 :: horticulture [ok]
   text = "**BT-430**: 원예학 표준 단계 = τ = 4 (4단 캐스케이드) — n=6 EXACT"
 
+
 @D b_bt_431_12_n_6_exact_2 :: horticulture [ok]
   text = "**BT-431**: 원예학 등급/모듈 = σ = 12 — n=6 EXACT"
 
+
 @D b_bt_432_j_24_n_6_exact_3 :: horticulture [ok]
   text = "**BT-432**: 원예학 시간/공간 단위 = J₂ = 24 — n=6 EXACT"
+
 
 @D b_bt_433_1_10_n_6_exact_4 :: horticulture [ok]
   text = "**BT-433**: 원예학 효율 비율 = 1/(σ-φ) = 10% — n=6 EXACT"
 
 # ── 5. n=6 EXACT 검증표 (12건) ─────────────────────────────────────────
+
 
 
 @D row_1_0 :: horticulture [ok]
@@ -86,12 +138,14 @@
   n_6 = "`N`"
   x = "EXACT"
 
+
 @D row_2_1 :: horticulture [ok]
   x = "2"
   x = "장미과 심피 기본"
   x = "5"
   n_6 = "`SOPFR`"
   x = "EXACT"
+
 
 @D row_3_2 :: horticulture [ok]
   x = "3"
@@ -100,12 +154,14 @@
   n_6 = "`TAU`"
   x = "EXACT"
 
+
 @D row_4_3 :: horticulture [ok]
   x = "4"
   x = "국화과 두상화 6각 대칭"
   x = "6"
   n_6 = "`N`"
   x = "EXACT"
+
 
 @D row_5_4 :: horticulture [ok]
   x = "5"
@@ -114,12 +170,14 @@
   n_6 = "`N`"
   x = "EXACT"
 
+
 @D row_6_5 :: horticulture [ok]
   x = "6"
   x = "관엽 phyllotaxis 2/5 분자"
   x = "2"
   n_6 = "`PHI`"
   x = "EXACT"
+
 
 @D row_7_6 :: horticulture [ok]
   x = "7"
@@ -128,12 +186,14 @@
   n_6 = "`TAU`"
   x = "EXACT"
 
+
 @D row_8_7 :: horticulture [ok]
   x = "8"
   x = "원예 작목 카테고리"
   x = "6"
   n_6 = "`N`"
   x = "EXACT"
+
 
 @D row_9_8 :: horticulture [ok]
   x = "9"
@@ -142,6 +202,7 @@
   n_6 = "`SIGMA`"
   x = "EXACT"
 
+
 @D row_10_9 :: horticulture [ok]
   x = "10"
   x = "온실 hexagonal panel"
@@ -149,12 +210,14 @@
   n_6 = "`N`"
   x = "EXACT"
 
+
 @D row_11_10 :: horticulture [ok]
   x = "11"
   x = "LED peak 파장 트리오"
   x = "3"
   n_6 = "`N // PHI`"
   x = "EXACT"
+
 
 @D row_12_11 :: horticulture [ok]
   x = "12"
@@ -168,11 +231,13 @@
 # ── 6. Testable Predictions ─────────────────────────────────────────
 
 
+
 @D row_tp_1_0 :: horticulture [ok]
   x = "TP-1"
   x = "n=6 표준 적용 시 품질 편차 1/(σ-φ)=10× 감소"
   x = "100 batch A/B test"
   x = "EXACT"
+
 
 @D row_tp_2_1 :: horticulture [ok]
   x = "TP-2"
@@ -180,11 +245,13 @@
   x = "30개 공정 통계"
   x = "EXACT"
 
+
 @D row_tp_3_2 :: horticulture [ok]
   x = "TP-3"
   x = "분류·등급 체계 → σ=12 또는 n=6 분기"
   x = "산업 표준 메타분석"
   x = "EXACT"
+
 
 @D row_tp_4_3 :: horticulture [ok]
   x = "TP-4"
@@ -195,11 +262,13 @@
 # ── 7. 진화 체크포인트 (Mk.I~V) ─────────────────────────────────────────
 
 
+
 @D row_mk_i_0 :: horticulture [ok]
   mk = "Mk.I"
   x = "현재"
   x = "✅ 진짜 실현가능"
   x = "[evolution/mk-1-current.md](evolution/mk-1-current.md)"
+
 
 @D row_mk_ii_1 :: horticulture [ok]
   mk = "Mk.II"
@@ -207,17 +276,20 @@
   x = "✅ 진짜 실현가능"
   x = "[evolution/mk-2-near-term.md](evolution/mk-2-near-term.md)"
 
+
 @D row_mk_iii_2 :: horticulture [ok]
   mk = "Mk.III"
   x = "20-30년"
   x = "🔮 장기 실현가능"
   x = "[evolution/mk-3-mid-term.md](evolution/mk-3-mid-term.md)"
 
+
 @D row_mk_iv_3 :: horticulture [ok]
   mk = "Mk.IV"
   x = "30-50년"
   x = "🔮 장기 실현가능"
   x = "[evolution/mk-4-long-term.md](evolution/mk-4-long-term.md)"
+
 
 @D row_mk_v_4 :: horticulture [ok]
   mk = "Mk.V"
@@ -228,11 +300,14 @@
 # ── 8. Honest Limitations ─────────────────────────────────────────
 
 
+
 @D b_1_n_6_0 :: horticulture [ok]
   text = "일부 항목은 자연 변이(±μ=1) 허용 범위 내 n=6 수렴"
 
+
 @D b_10_12_n_6_1 :: horticulture [ok]
   text = "산업 표준은 10진·12진 혼용 — n=6은 약수 풍부성으로 양쪽 호환"
+
 
 @D b_n_6_2 :: horticulture [ok]
   text = "본 문서는 원예학 전체를 환원하지 않으며, 핵심 골격이 n=6에 정렬됨을 주장"
@@ -309,12 +384,14 @@
 # ── 요약 테이블 ─────────────────────────────────────────
 
 
+
 @D row_h_hrt_01_0 :: horticulture [ok]
   x = "H-HRT-01"
   x = "광합성 반응 계수"
   x = "{6, 12}"
   n_6 = "n, sigma"
   x = "EXACT"
+
 
 @D row_h_hrt_02_1 :: horticulture [ok]
   x = "H-HRT-02"
@@ -323,12 +400,14 @@
   n_6 = "tau"
   x = "EXACT"
 
+
 @D row_h_hrt_03_2 :: horticulture [ok]
   x = "H-HRT-03"
   x = "피보나치 꽃잎 래더"
   x = "{3,5,8,13}"
   n_6 = "n/phi, sopfr, sigma-tau, sigma+mu"
   x = "EXACT"
+
 
 @D row_h_hrt_04_3 :: horticulture [ok]
   x = "H-HRT-04"
@@ -337,12 +416,14 @@
   n_6 = "n/phi"
   x = "EXACT"
 
+
 @D row_h_hrt_05_4 :: horticulture [ok]
   x = "H-HRT-05"
   x = "단자엽/쌍자엽 대분류"
   x = "2"
   n_6 = "phi"
   x = "EXACT"
+
 
 @D row_h_hrt_06_5 :: horticulture [ok]
   x = "H-HRT-06"
@@ -351,12 +432,14 @@
   n_6 = "sopfr"
   x = "EXACT"
 
+
 @D row_h_hrt_07_6 :: horticulture [ok]
   x = "H-HRT-07"
   x = "캘빈 회로 파라미터"
   x = "6/12/18"
   n_6 = "n/sigma/n*(n/phi)"
   x = "EXACT"
+
 
 @D row_h_hrt_08_7 :: horticulture [ok]
   x = "H-HRT-08"
@@ -365,12 +448,14 @@
   n_6 = "n/phi"
   x = "EXACT"
 
+
 @D row_h_hrt_09_8 :: horticulture [ok]
   x = "H-HRT-09"
   x = "계절 수"
   x = "4"
   n_6 = "tau"
   x = "EXACT"
+
 
 @D row_h_hrt_10_9 :: horticulture [ok]
   x = "H-HRT-10"
@@ -379,12 +464,14 @@
   n_6 = "n/phi"
   x = "EXACT"
 
+
 @D row_h_hrt_11_10 :: horticulture [ok]
   x = "H-HRT-11"
   x = "엽록소 종류"
   x = "2"
   n_6 = "phi"
   x = "EXACT"
+
 
 @D row_h_hrt_12_11 :: horticulture [ok]
   x = "H-HRT-12"
@@ -393,6 +480,7 @@
   n_6 = "phi"
   x = "EXACT"
 
+
 @D row_h_hrt_13_12 :: horticulture [ok]
   x = "H-HRT-13"
   x = "광합성 양자수율"
@@ -400,12 +488,14 @@
   n_6 = "sigma - tau"
   x = "EXACT"
 
+
 @D row_h_hrt_14_13 :: horticulture [ok]
   x = "H-HRT-14"
   x = "물관부 세포 유형"
   x = "4"
   n_6 = "tau"
   x = "EXACT"
+
 
 @D row_h_hrt_15_14 :: horticulture [ok]
   x = "H-HRT-15"
@@ -426,42 +516,18 @@
 # ── 기술 스펙 (n=6 파라미터) ─────────────────────────────────────────
 
 
-@D row_x_0 :: horticulture [ok]
-  x = "공정 단계"
-  x = "4"
-  n_6 = "τ"
-
-@D row_x_1 :: horticulture [ok]
-  x = "분류 차수"
-  x = "6"
-  n_6 = "n"
-
-@D row_x_2 :: horticulture [ok]
-  x = "등급/모듈"
-  x = "12"
-  n_6 = "σ"
-
-@D row_x_3 :: horticulture [ok]
-  x = "시간 단위"
-  x = "24"
-  n_6 = "J₂"
-
-@D row_x_4 :: horticulture [ok]
-  x = "효율 비율"
-  x = "10%"
-  n_6 = "1/(σ-φ)"
-
-# ── 우리 발견(BT)과의 연결 ─────────────────────────────────────────
-
 
 @D b_bt_86_cn_6_0 :: horticulture [ok]
   text = "BT-86 결정 배위수 CN=6 (기초)"
 
+
 @D b_bt_88_n_6_1 :: horticulture [ok]
   text = "BT-88 자기조립 n=6 육각 보편성"
 
+
 @D b_bt_122_n_6_2 :: horticulture [ok]
   text = "BT-122 벌집-눈꽃 n=6 기하 보편성"
+
 
 @D b_bt_bt_429_433_3 :: horticulture [ok]
   text = "BT BT-429~433 (원예학 전용 정리)"
@@ -469,11 +535,14 @@
 # ── 핵심 작업 ─────────────────────────────────────────
 
 
+
 @D b_n_6_0 :: horticulture [ok]
   text = "현존 산업 표준 안에서 n=6 정렬 항목 식별·표준화"
 
+
 @D b_n_6_1 :: horticulture [ok]
   text = "기존 장비 유지, 공정 파라미터만 n=6 격자로 재조정"
+
 
 @D b_15_5_2 :: horticulture [ok]
   text = "품질 편차 ±15% → ±5% 즉시 개선"
@@ -493,54 +562,14 @@
 # ── 기술 스펙 (n=6 파라미터) ─────────────────────────────────────────
 
 
-@D row_x_0 :: horticulture [ok]
-  x = "공정 단계"
-  x = "4"
-  n_6 = "τ"
-
-@D row_x_1 :: horticulture [ok]
-  x = "분류 차수"
-  x = "6"
-  n_6 = "n"
-
-@D row_x_2 :: horticulture [ok]
-  x = "등급/모듈"
-  x = "12"
-  n_6 = "σ"
-
-@D row_x_3 :: horticulture [ok]
-  x = "시간 단위"
-  x = "24"
-  n_6 = "J₂"
-
-@D row_x_4 :: horticulture [ok]
-  x = "효율 비율"
-  x = "10%"
-  n_6 = "1/(σ-φ)"
-
-# ── 우리 발견(BT)과의 연결 ─────────────────────────────────────────
-
-
-@D b_bt_86_cn_6_0 :: horticulture [ok]
-  text = "BT-86 결정 배위수 CN=6 (기초)"
-
-@D b_bt_88_n_6_1 :: horticulture [ok]
-  text = "BT-88 자기조립 n=6 육각 보편성"
-
-@D b_bt_122_n_6_2 :: horticulture [ok]
-  text = "BT-122 벌집-눈꽃 n=6 기하 보편성"
-
-@D b_bt_bt_429_433_3 :: horticulture [ok]
-  text = "BT BT-429~433 (원예학 전용 정리)"
-
-# ── 핵심 작업 ─────────────────────────────────────────
-
 
 @D b_n_6_4_12_0 :: horticulture [ok]
   text = "n=6 격자 기반 자동화 라인 (τ=4 단계 × σ=12 등급)"
 
+
 @D b_ai_j_24h_1 :: horticulture [ok]
   text = "AI 품질 검사 (J₂=24h 무인 운영)"
+
 
 @D b_1_50_1_n_16_2 :: horticulture [ok]
   text = "비용 1/φ=50%, 폐기율 1/n≈16%"
@@ -560,54 +589,14 @@
 # ── 기술 스펙 (n=6 파라미터) ─────────────────────────────────────────
 
 
-@D row_x_0 :: horticulture [ok]
-  x = "공정 단계"
-  x = "4"
-  n_6 = "τ"
-
-@D row_x_1 :: horticulture [ok]
-  x = "분류 차수"
-  x = "6"
-  n_6 = "n"
-
-@D row_x_2 :: horticulture [ok]
-  x = "등급/모듈"
-  x = "12"
-  n_6 = "σ"
-
-@D row_x_3 :: horticulture [ok]
-  x = "시간 단위"
-  x = "24"
-  n_6 = "J₂"
-
-@D row_x_4 :: horticulture [ok]
-  x = "효율 비율"
-  x = "10%"
-  n_6 = "1/(σ-φ)"
-
-# ── 우리 발견(BT)과의 연결 ─────────────────────────────────────────
-
-
-@D b_bt_86_cn_6_0 :: horticulture [ok]
-  text = "BT-86 결정 배위수 CN=6 (기초)"
-
-@D b_bt_88_n_6_1 :: horticulture [ok]
-  text = "BT-88 자기조립 n=6 육각 보편성"
-
-@D b_bt_122_n_6_2 :: horticulture [ok]
-  text = "BT-122 벌집-눈꽃 n=6 기하 보편성"
-
-@D b_bt_bt_429_433_3 :: horticulture [ok]
-  text = "BT BT-429~433 (원예학 전용 정리)"
-
-# ── 핵심 작업 ─────────────────────────────────────────
-
 
 @D b_n_6_carbon_z_6_0 :: horticulture [ok]
   text = "n=6 분자/결정 설계 — Carbon Z=6 백본 통합 소재"
 
+
 @D b_1_10_1 :: horticulture [ok]
   text = "에너지 1/(σ-φ)=10%"
+
 
 @D b_carbon_cycle_bt_95_2 :: horticulture [ok]
   text = "전 공정 폐쇄 루프 (Carbon Cycle BT-95 연동)"
@@ -627,54 +616,14 @@
 # ── 기술 스펙 (n=6 파라미터) ─────────────────────────────────────────
 
 
-@D row_x_0 :: horticulture [ok]
-  x = "공정 단계"
-  x = "4"
-  n_6 = "τ"
-
-@D row_x_1 :: horticulture [ok]
-  x = "분류 차수"
-  x = "6"
-  n_6 = "n"
-
-@D row_x_2 :: horticulture [ok]
-  x = "등급/모듈"
-  x = "12"
-  n_6 = "σ"
-
-@D row_x_3 :: horticulture [ok]
-  x = "시간 단위"
-  x = "24"
-  n_6 = "J₂"
-
-@D row_x_4 :: horticulture [ok]
-  x = "효율 비율"
-  x = "10%"
-  n_6 = "1/(σ-φ)"
-
-# ── 우리 발견(BT)과의 연결 ─────────────────────────────────────────
-
-
-@D b_bt_86_cn_6_0 :: horticulture [ok]
-  text = "BT-86 결정 배위수 CN=6 (기초)"
-
-@D b_bt_88_n_6_1 :: horticulture [ok]
-  text = "BT-88 자기조립 n=6 육각 보편성"
-
-@D b_bt_122_n_6_2 :: horticulture [ok]
-  text = "BT-122 벌집-눈꽃 n=6 기하 보편성"
-
-@D b_bt_bt_429_433_3 :: horticulture [ok]
-  text = "BT BT-429~433 (원예학 전용 정리)"
-
-# ── 핵심 작업 ─────────────────────────────────────────
-
 
 @D b_bt_88_hexagonal_self_assembly_0 :: horticulture [ok]
   text = "양자 제어 자기조립 (BT-88 hexagonal self-assembly)"
 
+
 @D b_1_1 :: horticulture [ok]
   text = "원자 단위 정밀도 — μ=1 편차"
+
 
 @D b_x_2 :: horticulture [ok]
   text = "전 지구 스케일 표준화 + 국제 협약"
@@ -694,74 +643,13 @@
 # ── 기술 스펙 (n=6 파라미터) ─────────────────────────────────────────
 
 
-@D row_x_0 :: horticulture [ok]
-  x = "공정 단계"
-  x = "4"
-  n_6 = "τ"
-
-@D row_x_1 :: horticulture [ok]
-  x = "분류 차수"
-  x = "6"
-  n_6 = "n"
-
-@D row_x_2 :: horticulture [ok]
-  x = "등급/모듈"
-  x = "12"
-  n_6 = "σ"
-
-@D row_x_3 :: horticulture [ok]
-  x = "시간 단위"
-  x = "24"
-  n_6 = "J₂"
-
-@D row_x_4 :: horticulture [ok]
-  x = "효율 비율"
-  x = "10%"
-  n_6 = "1/(σ-φ)"
-
-# ── 우리 발견(BT)과의 연결 ─────────────────────────────────────────
-
-
-@D b_bt_86_cn_6_0 :: horticulture [ok]
-  text = "BT-86 결정 배위수 CN=6 (기초)"
-
-@D b_bt_88_n_6_1 :: horticulture [ok]
-  text = "BT-88 자기조립 n=6 육각 보편성"
-
-@D b_bt_122_n_6_2 :: horticulture [ok]
-  text = "BT-122 벌집-눈꽃 n=6 기하 보편성"
-
-@D b_bt_bt_429_433_3 :: horticulture [ok]
-  text = "BT BT-429~433 (원예학 전용 정리)"
-
-# ── 핵심 작업 ─────────────────────────────────────────
-
 
 @D b_x_0 :: horticulture [ok]
   text = "분자 어셈블러 — 원료에서 완제품 직접 합성"
 
+
 @D b_volumetric_synthesis_1 :: horticulture [ok]
   text = "공간 위 직접 출력 (volumetric synthesis)"
-
-@D b_x_2 :: horticulture [ok]
-  text = "본 단계는 사고실험이며 실현 보장 없음"
-
-# ── 시중 대비 성능 ─────────────────────────────────────────
-
-
-# ── 이전 Mk 대비 개선 ─────────────────────────────────────────
-
-
-# ── 실현가능성 등급 ─────────────────────────────────────────
-
-
-# ── §1 WHY ─────────────────────────────────────────
-
-
-# ── §2 COMPARE (ASCII 성능 비교) ─────────────────────────────────────────
-
-
-# ── §3 REQUIRES (선행 도메인) ─────────────────────────────────────────
 
 
 @D row_materials_baseline_0 :: horticulture [ok]
@@ -770,6 +658,7 @@
   x = "🛸4"
   x = "+2"
   x = "[materials](../../materials/ceramics/ceramics.md)"
+
 
 @D row_life_baseline_1 :: horticulture [ok]
   x = "life-baseline"
@@ -788,4 +677,6 @@
 
 
 # ── §7 VERIFY (Python 검증) ─────────────────────────────────────────
+
+
 
