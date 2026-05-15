@@ -1,4 +1,52 @@
 #!/usr/bin/env tape
+# ══════════════════════════════════════════════════════════════════════
+# .tape v1.2 — grammar primer (cold-read by any LLM / agent / human)
+# ══════════════════════════════════════════════════════════════════════
+# Form: each entry is `@<type> <id> := "<subject>" :: <kind> [<grades>]`
+#       optionally followed by body lines (2-space indent) — key=value,
+#       edges (<- -> => …), or quoted prose.
+#
+# ENTRY TYPES (17):
+#   Runtime (10): @S session  @U user  @A assistant  @T tool-call  @R result
+#                 @H hook  @D decision  @K cost  @P provider  @? anomaly
+#   Foundation:   @I identity-claim
+#   Declarative:  @X external-citation  @F forbidden-pattern  @N note
+#                 @C config  @L layout  @V spec-version
+#
+# EDGES (12, on body lines, 2-space indent):
+#   Causal:     <- caused-by   -> triggers   == continues
+#               ~> supersedes  !! aborts     |> verified-by
+#   Effect:     => produces (followed by quoted natural-language)
+#   Structural: <: specializes  :> generalizes  ?> soft-depends
+#               !> conflicts-with  @> projects-to (e.g. @> AGENTS.md)
+#
+# GRADE TAGS (in [...] on entry header):
+#   Delivery:   ok · err · denied · cancelled · partial · superseded
+#   Governance: required · recommended · optional · draft · active · deprecated
+#   Scoped:     allow:<x> · deny:<x>
+#   Time/index: T<n> (turn)  N<n> (wall-sec)  d=<YYYY-MM-DD>
+#
+# PAYLOAD SYNTAX (body lines):
+#   key = "value"           single-line string
+#   key = [a, b, c]         array literal
+#   key <<~EOF              heredoc (multi-line; ends with EOF on own line)
+#     multi-line text
+#   EOF
+#   "see [@x1] §3"          inline citation by entry id
+#   `cmd or path`           backtick code-span (inline only)
+#
+# Full spec: ~/core/tape/spec/tape.md (or github.com/dancinlab/tape)
+# ══════════════════════════════════════════════════════════════════════
+
+@V := "tape" :: spec [active]
+  version = "1.2"
+
+@I id001 := "neuro" :: identity-claim [d=2026-05-15 active]
+  kind = "궁극의 AI 웨어러블 뇌-기계 인터페이스 — HEXA-NEURO (8단 체인: MAT→PROC→COIL→ELEC→DEC→IF→SAFE→APP)"
+  brief = "🛸10+++ closure · 202/202 EXACT (25 카테고리, 100%) · 측두골 클립 + 스마트폰 대체 특이점 · 6⁸=1,679,616 전수 → 215,000 유효"
+  parent = "dancinlab/hexa-bio"
+  sibling-log = "NEURO.log.tape"
+
 # ══════════════════════════════════════════════════════════════
 # 궁극의 AI 웨어러블 뇌-기계 인터페이스 — HEXA-NEURO
 # ══════════════════════════════════════════════════════════════
@@ -10,6 +58,7 @@
 # BT 연결: BT-123/124/126/132/135/136/152/157/185/192/254/255/265/283/284/299~306 + BT-33/42/46/54/56/58
 # 핵심: σ(6)·φ(6) = n·τ(6) = 24 — 뇌 전체가 n=6에서 유일 결정 → BCI 1개로 모든 웨어러블+치료 수렴
 # ---
+
 
 # ── 이 기술이 당신의 삶을 바꾸는 방법 ─────────────────────────────────────────
 
