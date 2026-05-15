@@ -1,4 +1,51 @@
 #!/usr/bin/env tape
+# ══════════════════════════════════════════════════════════════════════
+# .tape v1.2 — grammar primer (cold-read by any LLM / agent / human)
+# ══════════════════════════════════════════════════════════════════════
+# Form: each entry is `@<type> <id> := "<subject>" :: <kind> [<grades>]`
+#       optionally followed by body lines (2-space indent) — key=value,
+#       edges (<- -> => …), or quoted prose.
+#
+# ENTRY TYPES (17):
+#   Runtime (10): @S session  @U user  @A assistant  @T tool-call  @R result
+#                 @H hook  @D decision  @K cost  @P provider  @? anomaly
+#   Foundation:   @I identity-claim
+#   Declarative:  @X external-citation  @F forbidden-pattern  @N note
+#                 @C config  @L layout  @V spec-version
+#
+# EDGES (12, on body lines, 2-space indent):
+#   Causal:     <- caused-by   -> triggers   == continues
+#               ~> supersedes  !! aborts     |> verified-by
+#   Effect:     => produces (followed by quoted natural-language)
+#   Structural: <: specializes  :> generalizes  ?> soft-depends
+#               !> conflicts-with  @> projects-to (e.g. @> AGENTS.md)
+#
+# GRADE TAGS (in [...] on entry header):
+#   Delivery:   ok · err · denied · cancelled · partial · superseded
+#   Governance: required · recommended · optional · draft · active · deprecated
+#   Scoped:     allow:<x> · deny:<x>
+#   Time/index: T<n> (turn)  N<n> (wall-sec)  d=<YYYY-MM-DD>
+#
+# PAYLOAD SYNTAX (body lines):
+#   key = "value"           single-line string
+#   key = [a, b, c]         array literal
+#   key <<~EOF              heredoc (multi-line; ends with EOF on own line)
+#     multi-line text
+#   EOF
+#   "see [@x1] §3"          inline citation by entry id
+#   `cmd or path`           backtick code-span (inline only)
+#
+# Full spec: ~/core/tape/spec/tape.md (or github.com/dancinlab/tape)
+# ══════════════════════════════════════════════════════════════════════
+@V := "tape" :: spec [active]
+  version = "1.2"
+
+@I id001 := "tattoo-removal" :: identity-claim [d=2026-05-15 active]
+  kind = "ultimate tattoo removal SSOT — picosecond+R20+PFD clinic / clodronate MN patch / CCR2 antagonist · 3 business domains · n=6 EXACT anchors"
+  brief = "alien_index 10 · closure_grade 9 · 36/36 EXACT · CCR2 차단으로 대식세포 재포획 사이클 천장 해제 · 도메인1 시판 장비만으로 95%+ 완전제거율"
+  parent = "dancinlab/hexa-bio"
+  sibling-log = "TATTOO-REMOVAL.log.tape"
+
 # ══════════════════════════════════════════════════════════════
 # 궁극의 타투 제거 (Ultimate Tattoo Removal) -- Consolidated Goal
 # ══════════════════════════════════════════════════════════════
@@ -9,6 +56,7 @@
 # **본질**: 병목은 레이저 성능이 아니라 대식세포 재포획 사이클 — CCR2 차단으로 천장 해제
 # **승격 근거 (🛸8 → 🛸10)**: (1) BT-1159/1160 추가 — sopfr=5 중금속/J₂=24 스케줄 EXACT 승격, (2) 36/36 EXACT 100%, (3) 3건 testable prediction 정량 제시, (4) 도메인1 클리닉 시판 장비만으로 95%+ 완전제거율 달성 (상용 75% 대비 1.27배 = sigma/sigma-φ 비율)
 # ---
+
 
 # ── 1. Vision ─────────────────────────────────────────
 
