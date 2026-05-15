@@ -71,11 +71,25 @@ def lint(path: str) -> dict:
     has_stance = False
     has_citation = False
     deriv_hits: list[str] = []
+    in_guard_or_stance_body = False
 
     for i, raw in enumerate(lines, 1):
         l = raw.strip()
         if not l or l.startswith("#"):
             continue
+
+        # Track whether we are inside the lattice-fit guard / honest-n6
+        # stance entry's own body. Those entries MUST quote the forbidden
+        # lattice phrasing to forbid/declare it, so their body lines are
+        # not derivation claims. State flips on every entry header.
+        if l.startswith("@"):
+            in_guard_or_stance_body = (
+                (l.startswith("@F")
+                 and ("f_lattice_fit" in l or "lattice-fit" in l))
+                or (l.startswith("@N")
+                    and ("n6_honest" in l or "honesty_framing" in l
+                          or "honest" in l or "observation" in l))
+            )
 
         # 1. @F lattice-fit guard
         if l.startswith("@F"):
@@ -101,6 +115,16 @@ def lint(path: str) -> dict:
         #    block and the guard/stance entries themselves).
         if (not l.startswith("@") and not l.startswith("|>")
                 and _DERIV_RE.search(l)):
+            # The guard / honest-stance entry's own body must quote the
+            # forbidden phrasing to forbid/declare it — never a live claim.
+            if in_guard_or_stance_body:
+                continue
+            # @I provenance keys legitimately record a split/rewrite history
+            # that names lattice tokens; not a derivation claim.
+            if l.split("=", 1)[0].strip() in (
+                    "scope-rewritten", "scope-narrowed", "split-from",
+                    "prior-parent", "pattern"):
+                continue
             # An authoritative honesty note that *quotes* the bad phrasing to
             # forbid it is allowed; only count lines that look like live claims.
             low = l.lower()
