@@ -546,15 +546,20 @@ substrate is optional; absence → SKIP, never FAIL) is in
   substitute role. **Single canonical doc**: [`XENO.md`](XENO.md).
   Gate: `selftest/xeno_substrate_gate.sh` (wired in `selftest/run_all.sh`).
 
-**Family-related repos** (no runtime dependency; cross-link only):
+**Family-related repos** (downstream consumers / cross-link):
 
 - **[`dancinlab/florea`](https://github.com/dancinlab/florea)** 🌸 — cosmetic/
   aesthetic substrate (7-verb library: cosmetic-surgery, hair-regeneration,
   perfumery, tattoo-removal, mens/womens-intimate-cleanser, skincare).
   Standalone HEXA-family brand (no `hexa-` prefix, Lumière style). Spawned
-  2026-05-12 cycle-30++++++ via hexa-medic decomposition. hexa-bio relationship:
-  none operational; the `skincare` verb absorbed the ex-`hexa-skin/` content
-  that previously squatted in hexa-bio.
+  2026-05-12 cycle-30++++++ via hexa-medic decomposition. **hexa-bio
+  relationship (2026-05-15 onward)**: downstream consumer via CLI shell-out —
+  `florea analyze <verb>` delegates n=6 anchor verification / selftest gates /
+  Python witnesses to `hexa-bio` (florea has no analysis infrastructure;
+  see florea AGENTS.tape `@D g_use_hexa_bio_cli`). 6 verb `.tape` SSOT pairs
+  migrated florea ← hexa-bio (florea commits `04d4d4e` `4c72695` `ef2c7de` ·
+  hexa-bio commits `676f940` `7a460b3` `c18c119`). The `skincare` verb
+  absorbed the ex-`hexa-skin/` content that previously squatted here.
 - **[`dancinlab/hexa-brain`](https://github.com/dancinlab/hexa-brain)** 🧠 —
   neural substrate / cognitive architecture. Imported `reference/dolphin*.md`
   from hexa-bio 2026-05-12 (cetacean intelligence / bioacoustics; no longer

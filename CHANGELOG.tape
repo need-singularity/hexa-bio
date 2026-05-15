@@ -786,3 +786,7 @@
   text = "Closure verdict: **1/4 verbs PASS** (weave); 3/4 axes pre-implementation."
 
 
+@D b_florea_strategy_a_shell_out_49 :: changelog [ok d=2026-05-15]
+  text = "**Floréa 🌸 Strategy A — downstream-consumer via hexa-bio CLI** (2026-05-15). Florea declared no analytic infrastructure of its own (no selftest/, no _python_bridge/, no _qiskit_bridge/, no _absorption_bridge/); locking in `florea analyze <verb>` shell-out to hexa-bio per florea AGENTS.tape `@D g_use_hexa_bio_cli` (mirrors hexa-bio `g5_sister_repo_cli`). 6 verb .tape SSOT pairs migrated florea ← hexa-bio (tattoo-removal · hair-regeneration · cosmetic-surgery · perfumery · mens/womens-intimate-cleanser). hexa-bio commits: `676f940` `7a460b3` `c18c119`. Florea commits: `04d4d4e` `3dc13c0` `4c72695` `ef2c7de`. SKIP-is-honest semantics: florea SKIPs the analyze subcommand when hexa-bio is not on PATH."
+
+
