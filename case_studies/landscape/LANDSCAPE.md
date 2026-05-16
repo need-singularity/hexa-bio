@@ -12,9 +12,9 @@
 > disease × axis cells are empty, and that is the truth. Not the
 > deferred 200-disease re-mapping (a multi-disease pilot only).
 
-_Generated: 2026-05-16T10:07:52Z_
+_Generated: 2026-05-16T10:54:08Z_
 
-_Diseases discovered: 5 · axes (cols): 24 (5 core + 4 expansion-main + 15 sub)_
+_Diseases discovered: 10 · axes (cols): 24 (5 core + 4 expansion-main + 15 sub)_
 
 ## §0 Honest scope fence
 
@@ -44,11 +44,16 @@ The cell glyph legend is:
 
 | disease | QUANTUM | WEAVE | NANOBOT | RIBOZYME | VIROCAPSID | COVALENT | BIFUNCTIONAL | METALLODRUG | OLIGONUCLEOTIDE | PROTAC | LYTAC | AUTAC | RIBOTAC | COVALENT-DEGRADER | MOLECULAR-GLUE | ALLOSTERIC | CRYPTIC-POCKET | PPI | PEPTIDE | MACROCYCLE | REVERSIBLE-COVALENT | RNA-TARGETING-SMALL-MOLECULE | APTAMER | CAPSID-ASSEMBLY-MODULATOR |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| AD | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | BCL2 | 🔬 research | · | · | · | · | · | 🔬 research | · | · | · | · | · | · | · | · | · | · | ✓ venetoclax | · | · | · | · | · | · |
 | HIV-1 | · | · | · | · | · | · | 🔬 research | · | 🔬 research | · | · | · | · | · | · | ✓ maraviroc | · | · | · | · | · | · | · | ✓ lenacapavir |
 | KRAS-G12C | 🔬 research | · | · | · | · | ✓ sotorasib + adagrasib | 🔬 research | · | 🔬 research | · | · | · | · | · | · | · | ✓ sotorasib + adagrasib | · | · | · | · | · | · | · |
+| MIGRAINE | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | ✓ rimegepant + ubrogepant + atogepant + zavegepant | · | · | · | · | · | · |
 | COVID-19 | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | ✓ nirmatrelvir | · | · | · |
+| PD | · | · | · | · | · | ✓ rasagiline + selegiline | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| SCD | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | SMA | · | · | · | · | · | · | · | · | ✓ nusinersen | · | · | · | · | · | · | · | · | · | · | · | · | ✓ risdiplam | · | · |
+| T2DM | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · | ✓ semaglutide + tirzepatide | · | · | · | · | · |
 
 ## §2 Per-disease totals
 
@@ -63,11 +68,16 @@ bind to any axis column.
 
 | disease | FDA in-scope | research-stage | UNPLACED (CBER/CDRH) | portfolio | verdict |
 |:---|:---|:---|:---|:---|:---|
+| AD | 0 | 0 | 3 | `alzheimer_portfolio` | PASS |
 | BCL2 | 1 | 4 | 1 | `bcl2_portfolio` | PASS |
 | HIV-1 | 2 | 2 | 1 | `hiv1_portfolio` | PASS |
 | KRAS-G12C | 4 | 5 | 0 | `kras_g12c_portfolio` | PASS |
+| MIGRAINE | 4 | 0 | 4 | `migraine_portfolio` | PASS |
 | COVID-19 | 1 | 2 | 1 | `mpro_covid_portfolio` | PASS |
+| PD | 2 | 0 | 2 | `parkinson_portfolio` | PASS |
+| SCD | 0 | 0 | 3 | `sickle_cell_portfolio` | PASS |
 | SMA | 2 | 0 | 1 | `sma_portfolio` | PASS |
+| T2DM | 2 | 0 | 1 | `type2_diabetes_portfolio` | PASS |
 
 ## §3 Per-axis totals
 
@@ -86,7 +96,7 @@ exactly what would change that).
 | NANOBOT | core-5 | 0 | 0 |
 | RIBOZYME | core-5 | 0 | 0 |
 | VIROCAPSID | core-5 | 0 | 0 |
-| COVALENT | expansion-main | 2 | 0 |
+| COVALENT | expansion-main | 4 | 0 |
 | BIFUNCTIONAL | expansion-main | 0 | 3 |
 | METALLODRUG | expansion-main | 0 | 0 |
 | OLIGONUCLEOTIDE | expansion-main | 1 | 2 |
@@ -98,8 +108,8 @@ exactly what would change that).
 | MOLECULAR-GLUE | expansion-sub | 0 | 0 |
 | ALLOSTERIC | expansion-sub | 1 | 0 |
 | CRYPTIC-POCKET | expansion-sub | 2 | 0 |
-| PPI | expansion-sub | 1 | 0 |
-| PEPTIDE | expansion-sub | 0 | 0 |
+| PPI | expansion-sub | 5 | 0 |
+| PEPTIDE | expansion-sub | 2 | 0 |
 | MACROCYCLE | expansion-sub | 0 | 0 |
 | REVERSIBLE-COVALENT | expansion-sub | 1 | 0 |
 | RNA-TARGETING-SMALL-MOLECULE | expansion-sub | 1 | 0 |
@@ -108,11 +118,11 @@ exactly what would change that).
 
 ## §4 Honest empty-cell discussion
 
-Cohort size: 120 cells (5 diseases × 24 axes).
+Cohort size: 240 cells (10 diseases × 24 axes).
 
-- **FDA-occupied cells**: 8 (6.7% of cohort)
-- **Research-stage cells**: 7 (5.8% of cohort)
-- **Honest empty `·` cells**: 105 (87.5% of cohort)
+- **FDA-occupied cells**: 11 (4.6% of cohort)
+- **Research-stage cells**: 7 (2.9% of cohort)
+- **Honest empty `·` cells**: 222 (92.5% of cohort)
 
 The empty-cell majority is **not a gap** — it is the honest state
 of the per-disease evidence base. A landscape that puts something
@@ -125,14 +135,29 @@ in any axis column by design (no fake CBER coverage of axes that
 are by-definition CDER-only):
 
 
+- **AD** — lecanemab (CBER)
+- **AD** — donanemab (CBER)
+- **AD** — aducanumab (CBER)
 - **BCL2** — anti-apoptotic-pathway-engaging CAR-T / cell-therapy approaches to BCL-2-driven malignancies (CBER scope-disqualified)
 - **HIV-1** — gene-editing curative (e.g. CRISPR-Cas9, EBT-101) (CBER scope-disqualified)
+- **MIGRAINE** — Aimovig (CBER)
+- **MIGRAINE** — Ajovy (CBER)
+- **MIGRAINE** — Emgality (CBER)
+- **MIGRAINE** — Vyepti (CBER)
 - **COVID-19** — anti-SARS-CoV-2 monoclonal antibody (tixagevimab/cilgavimab, bebtelovimab, etc.) (CBER scope-disqualified)
+- **PD** — UNPLACED (—)
+- **PD** — UNPLACED (—)
+- **SCD** — Casgevy (CBER)
+- **SCD** — Lyfgenia (CBER)
+- **SCD** — Adakveo (CBER)
 - **SMA** — onasemnogene abeparvovec (CBER)
+- **T2DM** — insulin analogs (class) (CBER)
 
 ## §5 Cross-links
 
 - Per-disease writeups live under each portfolio's own README:
+
+  - **AD** — `case_studies/alzheimer_portfolio/README.md`
 
   - **BCL2** — `case_studies/bcl2_portfolio/README.md`
 
@@ -140,9 +165,17 @@ are by-definition CDER-only):
 
   - **KRAS-G12C** — `case_studies/kras_g12c_portfolio/README.md`
 
+  - **MIGRAINE** — `case_studies/migraine_portfolio/README.md`
+
   - **COVID-19** — `case_studies/mpro_covid_portfolio/README.md`
 
+  - **PD** — `case_studies/parkinson_portfolio/README.md`
+
+  - **SCD** — `case_studies/sickle_cell_portfolio/README.md`
+
   - **SMA** — `case_studies/sma_portfolio/README.md`
+
+  - **T2DM** — `case_studies/type2_diabetes_portfolio/README.md`
 
 - Axis truth: `AXIS/HIERARCHY.tape` (core-5 in `AXIS.tape`,
   expansion-main + sub-axes in `AXIS/HIERARCHY.tape`).

@@ -331,3 +331,21 @@ simulator-consistency only (`g8`/`f2`). 외부 modality는 자체 약물 precede
   아닌 assistant 제안 후보 — 점수=assistant 추정치임을 명시(§6 caveat).
   core-5(`../AXIS.tape`) 불변·§4 keep-5 dissent 보존. lattice 비도출
   (f_lattice_fit)·in-silico only(g8/f2)·자체 precedent(g3/f1).
+- 2026-05-16 — **Phase-8 배치: cross 3 + 질환 portfolio 5 + 파이프라인
+  무결성 게이트 2** (USER DIRECTION "all bg go"). HIERARCHY.tape §2.17.
+  Cross: BB1 APTAMER×CAPSID-ASSEMBLY-MODULATOR(점유율 맵 Δg_eff=θ·Δg_max
+  → simulate_cam 그대로 주입; aptamer-as-CAM은 RESEARCH-STAGE,
+  schema-const research_stage_modality=true; content-filter
+  false-positive로 로컬 직접 구현 — PASS 9/9) · BB2 METALLODRUG×
+  CRYPTIC-POCKET(7/7) · BB3 PEPTIDE×ALLOSTERIC(8/8). Portfolio: CC1
+  Alzheimer(in-scope 0건 정직 — schema-const in_scope=[]+
+  zero_in_scope_acknowledged=true) · CC2 Migraine(12/12) · CC3
+  Type-2-Diabetes(CDER이나 axis-mapping 없음 schema-const, 7/7) · CC4
+  Parkinson · CC5 Sickle-Cell(voxelotor PPI+ALLOSTERIC 이중 매핑) —
+  CC4/CC5는 일시적 rate-limit 알림에도 디스크상 파일 PASS 검증 완료.
+  Infra: DD2 provenance-pipeline(14 FULL/9 PARTIAL/0 FAIL_NO_TS/9 SKIP,
+  reporter ≠ enforcer) · DD3 case-studies export bundle(8 portfolio,
+  byte-identical). 신규 게이트 13개 run_all.sh 배선. honesty 경계
+  (research-stage / CBER-UNPLACED / CDER-no-axis-mapping / zero-in-
+  scope) schema-const 구조적 강제. 각 cross 양쪽 sim import(no-fork f3).
+  cross ≠ 신규 축 — core-5 불변·in-silico only(g8/f2)·lattice 비도출.

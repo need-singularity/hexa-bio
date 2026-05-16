@@ -250,6 +250,22 @@
   O3_dashboard = "selftest/status_md_generator.py + AXIS/STATUS.md — 8-section auto-generated dashboard (axis count · tier distribution · falsifier status · determinism · cross coverage · case studies · honesty · timestamp). Byte-identical re-runs. __STATUS_MD_GENERATOR__ PASS."
   scope = "in-silico only (g8/f2). Case studies are NEVER 200-disease deferred work. UNPLACED honesty (CBER scope-disqualified entries: Zolgensma · anti-SARS-CoV-2 mAbs · CRISPR-Cas9 gene editing · CAR-T) is structurally enforced via schema-const axis=null."
 
+# ─── §2.17 Phase-8 cross-axis + portfolios + infra (USER DIRECTION 2026-05-16) ──
+
+@D phase8_batch := "3 cross + 5 disease portfolios + 2 infra gates" :: decision [active d=2026-05-16]
+  basis = "extend the expansion layer with one more cross-axis round, five further one-disease portfolios, and two pipeline-integrity gates. Each composes existing sims (no fork — f3); case_studies remain honest one-disease pilots, NEVER the deferred 200-disease re-mapping."
+  BB1_aptamer_capsid_modulator = "_python_bridge/module/aptamer_capsid_modulator_cross.py — APTAMER sub-axis (:> RIBOZYME, Nussinov fold + 1:1 Langmuir Kd) × CAPSID-ASSEMBLY-MODULATOR sub-axis (:> VIROCAPSID, Zlotnick equilibrium + Caspar-Klug). Occupancy map Δg_eff=θ·Δg_max feeds simulate_cam verbatim. An aptamer AS a capsid-assembly modulator is RESEARCH-STAGE — schema-const research_stage_modality=true; aptamer modality (pegaptanib FDA 2004 · avacincaptad pegol FDA 2023) and CAM drug class (lenacapavir FDA 2022) cited by own separate approvals (g3/f1). Built locally after content-filter false-positive. PASS 9/9. __APTAMER_CAPSID_MODULATOR_CROSS__ PASS."
+  BB2_metallodrug_cryptic_pocket = "_python_bridge/module/metallodrug_cryptic_pocket_cross.py — METALLODRUG × CRYPTIC-POCKET. PASS 7/7. __METALLODRUG_CRYPTIC_POCKET_CROSS__ PASS."
+  BB3_peptide_allosteric = "_python_bridge/module/peptide_allosteric_cross.py — PEPTIDE (:> WEAVE) × ALLOSTERIC (:> QUANTUM). PASS 8/8. __PEPTIDE_ALLOSTERIC_CROSS__ PASS."
+  CC1_alzheimer = "case_studies/alzheimer_portfolio/ — zero in-scope axis-mapped CDER drug; schema-const in_scope=[] + zero_in_scope_acknowledged=true (honest empty portfolio). PASS 7/7."
+  CC2_migraine = "case_studies/migraine_portfolio/ — 4 PPI + 4 CBER negatives. PASS 12/12."
+  CC3_type2_diabetes = "case_studies/type2_diabetes_portfolio/ — 2 PEPTIDE + 3 SGLT2 (CDER but no axis-mapping, schema-const cder_in_scope_but_no_axis_mapping=true) + insulin CBER. PASS 7/7."
+  CC4_parkinson = "case_studies/parkinson_portfolio/ — completed despite a transient rate-limit notification (files verified PASS on disk). __PARKINSON_PORTFOLIO__ PASS."
+  CC5_sickle_cell = "case_studies/sickle_cell_portfolio/ — voxelotor PPI+ALLOSTERIC dual mapping; completed despite a transient rate-limit notification. __SICKLE_CELL_PORTFOLIO__ PASS."
+  DD2_provenance = "selftest/provenance_pipeline_gate.py — per-witness fixed-ts + sentinel + schema provenance trace. 14 FULL / 9 PARTIAL / 0 FAIL_NO_TS / 9 SKIP. reporter ≠ enforcer. __PROVENANCE_PIPELINE_GATE__ PASS."
+  DD3_export = "selftest/case_studies_export.py + state/exports/case_studies_bundle_v1.json — 8 portfolios bundled (15 in_scope / 9 not-in-scope / 12 CDER-no-axis-mapping). Byte-identical re-runs. __CASE_STUDIES_EXPORT__ PASS."
+  scope = "in-silico simulator-consistency ONLY (g8/f2). No n=6-lattice derivation (f_lattice_fit). A cross is NOT a new axis — ../AXIS.tape core-5 UNCHANGED. Honesty boundaries (research-stage / CBER-UNPLACED / CDER-but-no-axis-mapping / zero-in-scope) are structurally enforced via schema-const. 13 new gates wired into selftest/run_all.sh."
+
 # ─── §3 External citations ────────────────────────────────────────────
 
 @X x_axis_core := "AXIS.tape (core-5 SSOT)" :: sibling-tape [active]
@@ -409,3 +425,24 @@
   A5 propagates the qualitative-input caveat (illustrative_only). A
   cross-axis bridge is NOT a new axis — core-5 (../AXIS.tape) UNCHANGED;
   in-silico-only (g8/f2); no n=6-lattice derivation (f_lattice_fit)."
+- 2026-05-16 — **Phase-8 batch: 3 cross + 5 disease portfolios + 2
+  pipeline-integrity gates** (USER DIRECTION "all bg go" — bg agents
+  + local builds). §2.17. Cross: BB1 APTAMER×CAPSID-ASSEMBLY-MODULATOR
+  (occupancy map Δg_eff=θ·Δg_max → simulate_cam verbatim; aptamer-as-
+  CAM is RESEARCH-STAGE, schema-const research_stage_modality=true;
+  built locally after content-filter false-positive — PASS 9/9) ·
+  BB2 METALLODRUG×CRYPTIC-POCKET (7/7) · BB3 PEPTIDE×ALLOSTERIC (8/8).
+  Portfolios: CC1 Alzheimer (zero-in-scope honest empty, schema-const
+  in_scope=[] + zero_in_scope_acknowledged=true) · CC2 Migraine
+  (12/12) · CC3 Type-2-Diabetes (CDER-but-no-axis-mapping schema-const,
+  7/7) · CC4 Parkinson · CC5 Sickle-Cell (voxelotor PPI+ALLOSTERIC
+  dual map) — CC4/CC5 completed despite transient rate-limit
+  notifications, files verified PASS on disk. Infra: DD2 provenance-
+  pipeline gate (14 FULL/9 PARTIAL/0 FAIL_NO_TS/9 SKIP, reporter ≠
+  enforcer) · DD3 case-studies export bundle (8 portfolios, byte-
+  identical re-runs). All 13 new gates wired into selftest/run_all.sh.
+  Honesty boundaries (research-stage / CBER-UNPLACED / CDER-no-axis-
+  mapping / zero-in-scope) structurally enforced via schema-const.
+  Each cross imports both sides' sims (no fork — f3). A cross is NOT a
+  new axis — core-5 (../AXIS.tape) UNCHANGED; in-silico-only (g8/f2);
+  no n=6-lattice derivation (f_lattice_fit)."

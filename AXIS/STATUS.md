@@ -72,7 +72,7 @@ Gate sentinel: `__DETERMINISM_REGRESSION_GATE__ PASS`.
 > _Filesystem-derived count of cross-axis bridge sims (`_python_bridge/module/*_cross.py`). A cross-axis bridge is NOT a new axis — core-5 unchanged._
 
 
-Cross-axis bridge sims: **21**.
+Cross-axis bridge sims: **24**.
 
 > _Each bridge imports both sides' sims (no fork — `f3`); each carries a passing sentinel + draft-07 schema; each is honesty-fenced (mathematical equivalence ≠ mechanistic equivalence; comparison ≠ ranking)._
 
@@ -81,7 +81,7 @@ Cross-axis bridge sims: **21**.
 > _One-disease in-silico pilots in `case_studies/`. NOT the 200-disease deferred work (which remains deferred)._
 
 
-Disease portfolios: **5** (bcl2_portfolio · hiv1_portfolio · kras_g12c_portfolio · mpro_covid_portfolio · sma_portfolio).
+Disease portfolios: **10** (alzheimer_portfolio · bcl2_portfolio · hiv1_portfolio · kras_g12c_portfolio · migraine_portfolio · mpro_covid_portfolio · parkinson_portfolio · sickle_cell_portfolio · sma_portfolio · type2_diabetes_portfolio).
 
 > _Each portfolio composes existing sims for FDA-approved drugs against one disease, with research-stage / CBER-scope items honestly listed as UNPLACED. NOT a clinical, efficacy, or portfolio-recommendation claim (g8)._
 

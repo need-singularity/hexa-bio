@@ -128,12 +128,22 @@ run "peptide_nanobot_cross"              python3 "$REPO_ROOT/_python_bridge/modu
 run "macrocycle_nanobot_cross"           python3 "$REPO_ROOT/_python_bridge/module/macrocycle_nanobot_cross.py"
 run "oligonucleotide_ribotac_cross"      python3 "$REPO_ROOT/_python_bridge/module/oligonucleotide_ribotac_cross.py"
 run "protac_ppi_cross"                   python3 "$REPO_ROOT/_python_bridge/module/protac_ppi_cross.py"
+# phase-8 cross-axis (BB1 + BB2 + BB3)
+run "aptamer_capsid_modulator_cross"     python3 "$REPO_ROOT/_python_bridge/module/aptamer_capsid_modulator_cross.py"
+run "metallodrug_cryptic_pocket_cross"   python3 "$REPO_ROOT/_python_bridge/module/metallodrug_cryptic_pocket_cross.py"
+run "peptide_allosteric_cross"           python3 "$REPO_ROOT/_python_bridge/module/peptide_allosteric_cross.py"
 # additional case studies (M1 + M3)
 run "kras_g12c_portfolio"                python3 "$REPO_ROOT/case_studies/kras_g12c_portfolio/kras_g12c_portfolio_runner.py"
 run "mpro_covid_portfolio"               python3 "$REPO_ROOT/case_studies/mpro_covid_portfolio/mpro_covid_portfolio_runner.py"
 run "bcl2_portfolio"                     python3 "$REPO_ROOT/case_studies/bcl2_portfolio/bcl2_portfolio_runner.py"
 run "drug_redesign_sandbox"              python3 "$REPO_ROOT/case_studies/drug_redesign_sandbox/drug_redesign_runner.py"
 run "landscape_generator"                python3 "$REPO_ROOT/case_studies/landscape/landscape_generator.py"
+# phase-8 case studies (CC1 + CC2 + CC3 + Parkinson + Sickle Cell)
+run "alzheimer_portfolio"                python3 "$REPO_ROOT/case_studies/alzheimer_portfolio/alzheimer_portfolio_runner.py"
+run "migraine_portfolio"                 python3 "$REPO_ROOT/case_studies/migraine_portfolio/migraine_portfolio_runner.py"
+run "type2_diabetes_portfolio"           python3 "$REPO_ROOT/case_studies/type2_diabetes_portfolio/type2_diabetes_portfolio_runner.py"
+run "parkinson_portfolio"                python3 "$REPO_ROOT/case_studies/parkinson_portfolio/parkinson_portfolio_runner.py"
+run "sickle_cell_portfolio"              python3 "$REPO_ROOT/case_studies/sickle_cell_portfolio/sickle_cell_portfolio_runner.py"
 # infrastructure gates (P1 + R1 + N2 + O2 + O3 + S-new + X1)
 run "atlas_atom_proofs"                  python3 "$HERE/atlas_atom_proofs.py"
 run "atlas_atom_tier_upgrade_gate"       python3 "$HERE/atlas_atom_tier_upgrade_gate.py"
@@ -142,6 +152,9 @@ run "cross_axis_matrix"                  python3 "$HERE/cross_axis_matrix.py"
 run "status_md_generator"                python3 "$HERE/status_md_generator.py"
 run "schema_const_audit"                 python3 "$HERE/schema_const_audit.py"
 run "deferred_items_tracking_gate"       python3 "$HERE/deferred_items_tracking_gate.py"
+# phase-8 infrastructure gates (DD2 + DD3)
+run "provenance_pipeline_gate"           python3 "$HERE/provenance_pipeline_gate.py"
+run "case_studies_export"                python3 "$HERE/case_studies_export.py"
 # root dispatcher (O1 + T-new)
 run "hexa_bio_root_dispatcher"           hexa run "$REPO_ROOT/hexa_bio.hexa"
 run "qmirror_chemistry_vqe_gate" bash "$HERE/qmirror_chemistry_vqe_gate.sh"

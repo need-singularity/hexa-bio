@@ -1,0 +1,2128 @@
+{
+  "_runner_status": {
+    "drug_redesign_sandbox": {
+      "reason": "",
+      "status": "PASS"
+    },
+    "landscape": {
+      "reason": "runner exited 0 but emitted no parseable JSON object carrying `schema_version` in stdout — g7 skip-is-honest, witness slot is null in the bundle",
+      "status": "SKIP-no-json"
+    },
+    "portfolios": {
+      "alzheimer": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "bcl2": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "hiv1": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "kras_g12c": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "migraine": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "mpro_covid": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "parkinson": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "sickle_cell": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "sma": {
+        "reason": "",
+        "status": "PASS"
+      },
+      "type2_diabetes": {
+        "reason": "",
+        "status": "PASS"
+      }
+    }
+  },
+  "bundle_checksums": {
+    "alzheimer": "0108aa7de09a6d3e9e37a7216c92c19aab6f413f50c37bf6948f09a7d85a7e67",
+    "bcl2": "b7a447030f0f03dfcb4d364ae34c691d1590f7fdc629efbd3a853f5d2105301c",
+    "drug_redesign_sandbox": "e866f45bb6cf988fbc6ea13327cce2afb83371a9402655e187f5dd41cc680bc7",
+    "hiv1": "0f594e73623b8eb85f82c321542c788bde4143b93aa02541b842c53c0ec87370",
+    "kras_g12c": "ec0819015fed70d613a2084814409eb6bf89c9b9f2f6b6e82c1e7ec3c7f1f7cb",
+    "landscape": null,
+    "migraine": "3ec4adf5e2170bba084cd45ab272ebe177f910b3763a0e3fd903fb55ece709d2",
+    "mpro_covid": "b083ffed431f9e914377c67c6c39a6c5f6c2d0156e9d8a3359276fb23f5ba82f",
+    "parkinson": "b692f409e8b4c1d08ed40ae027b0a6b9687101a4ee3110d38e51c3d026a077f3",
+    "sickle_cell": "9386a1b9c64b1d0843f06ff2e115efcd8b11c6226517c0a5109ac1c1591dcfbe",
+    "sma": "85e1de0a399a8670a8092c1a84db2afe60998bfd1a1ea45405a9274b74c03e84",
+    "type2_diabetes": "ed58f5c2675ef4b866eadd9588ccec7d33539c7bb33a76bdf48c2433d5f666e5"
+  },
+  "bundle_metadata": {
+    "fixed_generated_at_constant": "2026-05-16T00:00:00Z",
+    "honest_scope_statement": "IN-SILICO ONLY. This bundle aggregates per-portfolio witness JSON from the hexa-bio case_studies/ cohort. Every per-portfolio PASS certifies in-silico simulator + metadata internal consistency ONLY. It is NEVER a therapeutic, clinical, regulatory, efficacy, immunogenic, binding-affinity, potency, selectivity, or portfolio-recommendation claim. No quantity in this bundle is derived from the n=6 lattice (governance g1 / f_lattice_fit). Negatives (research-stage modalities, UNPLACED CBER/CDRH rows, CDER-in-scope-no-axis-mapping rows) are recorded honestly — they are a FEATURE of the cohort, not a gap. Aggregate counts are HONEST sums over each portfolio's own data structure; no synthetic / weighted / cross-portfolio ranking is introduced. The bundle is a transport artifact under state/exports/, kept separate from case_studies/ source definitions on purpose. Governance: g1 real-limits-first · g3 honesty-external · g7 skip-is-honest · g8 in-silico-only.",
+    "in_silico_only": true,
+    "n_portfolios": 10,
+    "output_convention": "Generated bundles live under state/exports/, NEVER under case_studies/ — generated transport artifacts are kept separate from source-of-truth case-study definitions.",
+    "reproducibility": "Re-running selftest/case_studies_export.py on the same repo state yields a byte-identical bundle file (fixed timestamp constant + sorted discovery + stable JSON serialization).",
+    "total_cder_no_axis_drugs": 18,
+    "total_in_scope_drugs": 18,
+    "total_not_in_scope_drugs": 14
+  },
+  "bundle_schema_version": "case_studies_bundle_v1",
+  "drug_redesign_sandbox": {
+    "acceptance": {
+      "criteria": {
+        "X10_L2_kinact_below_eyring_ceiling": true,
+        "X1_four_lenses": true,
+        "X2_lens_ids_unique_L1_L2_L3_L4": true,
+        "X3_exactly_one_status_quo": true,
+        "X4_status_quo_is_L1": true,
+        "X5_all_alt_lenses_illustrative_only_true": true,
+        "X6_all_alt_lenses_not_a_redesign_recommendation_true": true,
+        "X7_each_lens_has_real_limit_anchor": true,
+        "X8_each_lens_has_axis_mapping": true,
+        "X9_L1_reversible_signature_consistent": true
+      },
+      "pass_count": 10,
+      "total": 10,
+      "verdict": "PASS"
+    },
+    "case_study_id": "drug_redesign_sandbox.v1",
+    "cross_links": [
+      {
+        "id": "A5",
+        "module": "_python_bridge/module/reversible_covalent_mpro_vqe_cross.py",
+        "note": "REVERSIBLE-COVALENT x Mpro warhead VQE cross — the existing bridge whose `illustrative_only=true` caveat pattern this sandbox echoes on every alternative-lens row."
+      },
+      {
+        "id": "mpro_warhead_library_vqe_v7",
+        "module": "tests/mpro_warhead_library_vqe_v7.py",
+        "note": "the mpro warhead library that already covers the Mpro Cys145 warhead-class space; the sandbox builds on it (not modified) and adds three more axis lenses around it."
+      },
+      {
+        "id": "REVERSIBLE-COVALENT",
+        "module": "_python_bridge/module/reversible_covalent_sim.py",
+        "note": "parent sim for L1 (status quo); IMPORTED via importlib (f3)."
+      },
+      {
+        "id": "COVALENT",
+        "module": "_python_bridge/module/covalent_inhibition_sim.py",
+        "note": "parent sim for L2 (irreversible); IMPORTED via importlib (f3)."
+      },
+      {
+        "id": "PROTAC",
+        "module": "_python_bridge/module/protac_sim.py",
+        "note": "parent sim for L3 (PROTAC); IMPORTED via importlib (f3)."
+      },
+      {
+        "id": "PPI",
+        "module": "_python_bridge/module/ppi_sim.py",
+        "note": "parent sim for L4 (PPI disruption); IMPORTED via importlib (f3)."
+      }
+    ],
+    "honesty": {
+      "all_alternative_lenses_illustrative": true,
+      "comparison_is_ranking": false,
+      "core_5_unchanged": true,
+      "in_silico_only": true,
+      "no_fork_of_sister_sims": true,
+      "no_lattice_derivation": true,
+      "not_a_redesign_recommendation": true,
+      "one_target_sandbox_not_200_disease_remap": true,
+      "original_drug_remains_the_clinical_truth": true,
+      "statement": "Drug-redesign SANDBOX for one target (SARS-CoV-2 Mpro) around one FDA-approved drug (nirmatrelvir / Paxlovid). The four axis lenses (L1 reversible-covalent status quo; L2 irreversible covalent; L3 PROTAC; L4 PPI disruption) are in-silico simulator-consistency MODEL SIGNATURES, NOT efficacy predictions, NOT redesign proposals, NOT clinical / therapeutic / regulatory claims (g8 / f2). nirmatrelvir is clinically validated; the three alternative lenses are RESEARCH/ILLUSTRATIVE projections. Each alternative-lens row carries `illustrative_only` and `not_a_redesign_recommendation`, echoing the A5 cross's caveat pattern. No quantity is derived from the n=6 lattice (g3 / f1 / f_lattice_fit); each lens cites its OWN modality precedent. f3 no-fork: all four parent sims are imported, never re-implemented. Core-5 axes unchanged."
+    },
+    "lenses": [
+      {
+        "axis_mapping": {
+          "axis": "REVERSIBLE-COVALENT",
+          "axis_layer": "sub-axis",
+          "parent_axis": "COVALENT (expansion-main)"
+        },
+        "illustrative_only": true,
+        "is_status_quo": true,
+        "lens_caveat": "L1 is the STATUS-QUO modality (the actual nirmatrelvir mechanism). The model SIGNATURE is the in-silico Eyring equilibrium for the nitrile warhead CLASS; it is NOT a fit to nirmatrelvir's measured Ki / kinact / residence.",
+        "lens_id": "L1",
+        "lens_name": "status quo — reversible covalent (nitrile)",
+        "modality_precedent_citations": [
+          "Owen et al., Science 374:1586 (2021) — nirmatrelvir/PF-07321332",
+          "Boras et al., Nat. Commun. 12:6055 (2021) — nitrile->thioimidate at Cys145"
+        ],
+        "model_signature": {
+          "K_eq": 11.415056465866023,
+          "K_eq_consistency_rel_err": 1.711767724656661e-15,
+          "dg_off_kcal_per_mol": 19.5,
+          "dg_on_kcal_per_mol": 18.0,
+          "dg_rxn_kcal_per_mol": -1.5,
+          "eyring_prefactor_ceiling_per_s": 6459351928231.548,
+          "koff_below_eyring_ceiling": true,
+          "koff_per_s": 0.11560433332839248,
+          "kon_below_eyring_ceiling": true,
+          "kon_per_s": 1.3196299926423976,
+          "residence_time_human": "8.65 s",
+          "residence_time_s": 8.65019477392202,
+          "reversibility": "reversible",
+          "warhead": "nitrile_nirmatrelvir",
+          "warhead_class": "nitrile_to_thioimidate"
+        },
+        "not_a_redesign_recommendation": true,
+        "real_limit_anchor": "Eyring transition-state theory: a unimolecular elementary rate is bounded by the universal frequency prefactor kB*T/h (~6.46e12 /s @ T=310 K). koff is bounded; reversibility classification koff >= 1e-4 /s anchored by warhead-class koff regimes (Singh 2011; Boike 2022).",
+        "real_limit_citations": [
+          "Eyring H, J. Chem. Phys. 3:107-115 (1935) — transition-state theory",
+          "Singh et al., Nat. Rev. Drug Discov. 10:307 (2011) — covalent kinetics",
+          "Boike, Bhattacharya & Cravatt, Nat. Rev. Drug Discov. 21:881 (2022)"
+        ],
+        "sim_module": "_python_bridge/module/reversible_covalent_sim.py"
+      },
+      {
+        "axis_mapping": {
+          "axis": "COVALENT",
+          "axis_layer": "expansion-main",
+          "parent_axis": "(expansion-main — not core-5)"
+        },
+        "illustrative_only": true,
+        "is_status_quo": false,
+        "lens_caveat": "L2 uses the acrylamide-warhead CLASS (here the sotorasib-KRAS-G12C surrogate row) as an in-silico signature for what an irreversible covalent Mpro inhibitor would LOOK like as a model. It is NOT a proposal to put an acrylamide on Mpro Cys145; published Mpro warhead chemistry (nitrile / aldehyde / alpha-ketoamide) deliberately favours reversible warheads for viral-protease selectivity.",
+        "lens_id": "L2",
+        "lens_name": "irreversible covalent (acrylamide) — illustrative re-engineering",
+        "modality_precedent_citations": [
+          "Honigberg et al., PNAS 107:13075 (2010) — ibrutinib BTK Cys481",
+          "Canon et al., Nature 575:217 (2019) — sotorasib KRAS-G12C Cys12",
+          "afatinib FDA 2013 — acrylamide EGFR Cys797"
+        ],
+        "model_signature": {
+          "Ki_molar": 3e-07,
+          "dg_covalent_step_kcal_per_mol": 19.4,
+          "dg_implied_from_kinact_kcal_per_mol": 22.31394896235826,
+          "eyring_prefactor_ceiling_per_s": 6459351928231.548,
+          "free_enzyme_half_life_human": "12.5 min",
+          "free_enzyme_half_life_s": 750.9094456066075,
+          "inhibitor_surrogate": "sotorasib_KRAS_Cys12",
+          "kinact_below_eyring_ceiling": true,
+          "kinact_over_Ki_M_per_s": 4000.0,
+          "kinact_per_s": 0.0012,
+          "kobs_per_s": 0.000923076923076923,
+          "metric_consistency_rel_err": 1.1368683772161603e-16,
+          "warhead_class": "acrylamide_thio_michael"
+        },
+        "not_a_redesign_recommendation": true,
+        "real_limit_anchor": "Strelow kinact/Ki second-order efficiency framework for covalent inhibitors; Eyring transition-state theory ceiling kB*T/h. The covalent step's elementary rate cannot exceed the universal Eyring prefactor.",
+        "real_limit_citations": [
+          "Strelow JM, J. Biomol. Screen. / SLAS Discov. 22(1):3-20 (2017)",
+          "Eyring H, J. Chem. Phys. 3:107-115 (1935)"
+        ],
+        "sim_module": "_python_bridge/module/covalent_inhibition_sim.py"
+      },
+      {
+        "axis_mapping": {
+          "axis": "PROTAC",
+          "axis_layer": "sub-axis",
+          "parent_axis": "BIFUNCTIONAL (expansion-main)"
+        },
+        "illustrative_only": true,
+        "is_status_quo": false,
+        "lens_caveat": "L3 uses the strong-cooperativity reference PROTAC row as an in-silico signature for what an Mpro-targeting PROTAC would LOOK like as a model. It is NOT a proposal of a real Mpro PROTAC; no FDA-approved PROTAC exists in any indication as of the witness ts, and viral-protease degraders face host-E3-ligase availability constraints in infected cells that this surrogate does NOT model.",
+        "lens_id": "L3",
+        "lens_name": "degradation — PROTAC bifunctional degrader (illustrative)",
+        "modality_precedent_citations": [
+          "Sakamoto et al., PNAS 98:8554 (2001) — first PROTAC concept",
+          "ARV-471 / vepdegestrant (Arvinas/Pfizer) — ER PROTAC, clinical",
+          "ARV-110 / bavdegalutamide (Arvinas) — AR PROTAC, clinical"
+        ],
+        "model_signature": {
+          "alpha_cooperativity": 20.0,
+          "cooperativity_class": "positive",
+          "degradation_drive": 0.23529411764705885,
+          "e3_ligase": "CRBN",
+          "hook_effect_present": true,
+          "kd_e3_nM": 20.0,
+          "kd_target_nM": 6.0,
+          "kd_ternary_apparent_nM": 1.0,
+          "protac_at_peak_nM": 10.0,
+          "protac_surrogate": "strongcoop_PROTAC_like",
+          "ternary_fraction_peak": 0.29411764705882354,
+          "transfer_efficiency": 0.8
+        },
+        "not_a_redesign_recommendation": true,
+        "real_limit_anchor": "Three-body mass-action equilibrium (law of mass action; fraction-bound theta = [L]/(K_d+[L]) with theta = 1/2 exactly at [L] = K_d). The hook effect (non-monotone [T.D.E] vs [PROTAC]) is the thermodynamic consequence of high-[PROTAC] binary saturation; cooperativity factor alpha sets apparent K_d,ternary = K_d(E3)/alpha.",
+        "real_limit_citations": [
+          "Douglass et al., J. Am. Chem. Soc. 135:6092 (2013)",
+          "Gadd et al., Nat. Chem. Biol. 13:514 (2017) — alpha for VHL-BRD4",
+          "Han, J. Biol. Chem. 295:15280 (2020) — ternary mathematical solutions"
+        ],
+        "sim_module": "_python_bridge/module/protac_sim.py"
+      },
+      {
+        "axis_mapping": {
+          "axis": "PPI",
+          "axis_layer": "sub-axis",
+          "parent_axis": "QUANTUM (core-5)"
+        },
+        "illustrative_only": true,
+        "is_status_quo": false,
+        "lens_caveat": "L4 uses an alpha-helix-peptide-cleft hotspot interface row as a SURROGATE for the Mpro N-finger dimerization interface signature; it is NOT a measured alanine scan of the Mpro dimer. Mpro is functionally obligate-dimeric, and dimerization-disruption inhibitors have been reported as a research strategy (Goyal & Goyal 2013), but no FDA-approved Mpro PPI disruptor exists and venetoclax is the cited PPI-drug precedent for the modality, NOT for the target.",
+        "lens_id": "L4",
+        "lens_name": "PPI disruption — Mpro dimerization interface (illustrative)",
+        "modality_precedent_citations": [
+          "Souers et al., Nat. Med. 19:202 (2013); venetoclax FDA 2016 — BH3-mimetic BCL-2",
+          "Tse et al., Cancer Res. 68:3421 (2008) — navitoclax dual BCL-2/BCL-xL",
+          "Goyal & Goyal, Protein Sci. 22:1547 (2013) — Mpro dimerization disruption (research)"
+        ],
+        "model_signature": {
+          "alanine_scan_ddg_kcal_per_mol": [
+            4.8,
+            3.2,
+            2.2,
+            0.9,
+            0.5
+          ],
+          "dg_hotspot_cluster_kcal_per_mol": -10.2,
+          "dg_interface_kcal_per_mol": -11.6,
+          "dg_mimic_kcal_per_mol": -8.363999999999999,
+          "hotspot_driven": true,
+          "hotspot_energy_fraction": 0.8793103448275862,
+          "interface_class": "alpha_helix_peptide_cleft",
+          "interface_surrogate": "mdm2_p53_cleft",
+          "ledger_residual_kcal_per_mol": 0.0,
+          "mimicry_fraction": 0.82,
+          "n_hotspot_residues": 3,
+          "n_interface_residues": 5,
+          "small_molecule_disruption_viable": true,
+          "sum_ddg_kcal_per_mol": 11.6,
+          "sum_hotspot_ddg_kcal_per_mol": 10.2
+        },
+        "not_a_redesign_recommendation": true,
+        "real_limit_anchor": "Bogan-Thorn binding-hotspot theory (J. Mol. Biol. 280:1, 1998): interface binding free energy is concentrated in a few hotspot residues (operationally Delta-Delta-G >= 2 kcal/mol by alanine scanning), NOT spread uniformly over the buried surface. A small-molecule mimic cannot recover more hotspot energy than the alanine-scanning ledger carries.",
+        "real_limit_citations": [
+          "Bogan & Thorn, J. Mol. Biol. 280:1 (1998) — hotspot theory",
+          "Clackson & Wells, Science 267:383 (1995) — alanine scanning",
+          "Wells & McClendon, Nature 450:1001 (2007) — PPI druggability"
+        ],
+        "sim_module": "_python_bridge/module/ppi_sim.py"
+      }
+    ],
+    "original_drug": {
+      "brand": "Paxlovid (nirmatrelvir + ritonavir)",
+      "drug": "nirmatrelvir",
+      "drug_precedent_refs": [
+        "Owen et al., Science 374:1586 (2021) — PF-07321332 discovery",
+        "Boras et al., Nat. Commun. 12:6055 (2021) — Cys145 thioimidate",
+        "FDA EUA (2022-12-22); NDA 217188 full approval (2023-05-25)"
+      ],
+      "fda_application": "EUA 2022; NDA 217188 full approval 2023-05-25",
+      "fda_center": "CDER",
+      "fda_year": 2023,
+      "is_clinically_validated": true,
+      "modality": "reversible-covalent nitrile-warhead small-molecule inhibitor of SARS-CoV-2 Mpro (Cys145 thioimidate adduct)",
+      "sponsor": "Pfizer"
+    },
+    "schema_version": "drug_redesign_sandbox_v1",
+    "sentinel": "__DRUG_REDESIGN_SANDBOX__ PASS",
+    "target": {
+      "aliases": [
+        "3CLpro",
+        "nsp5",
+        "main protease"
+      ],
+      "function": "cleaves the viral polyprotein at ~11 conserved sites to release functional non-structural proteins (Nsp4-Nsp16); the enzyme is functionally obligate-dimeric (N-finger interface)",
+      "name": "SARS-CoV-2 Mpro",
+      "organism": "Severe acute respiratory syndrome coronavirus 2",
+      "uniprot_class": "viral cysteine protease (catalytic dyad Cys145 / His41)"
+    },
+    "ts": "2026-05-16T00:00:00Z"
+  },
+  "generated_at": "2026-05-16T00:00:00Z",
+  "landscape": null,
+  "portfolios": {
+    "alzheimer": {
+      "case_study_id": "alzheimer_portfolio.v1",
+      "cross_axis_touch_point": {
+        "bridge_id": null,
+        "honesty_note": "No cross-axis touch point applies: with zero in-scope drugs there is no in-axis sim to bridge to anything. This is a structural acknowledgement, not a gap — the honest extremity of the UNPLACED pattern.",
+        "module": null
+      },
+      "disease": {
+        "abbreviation": "AD",
+        "honest_modality_landscape": "FDA-approved disease-modifying drugs = three anti-amyloid mAbs (CBER biologics, UNPLACED by criterion #4). FDA-approved symptomatic drugs = three cholinergic palliatives (donepezil 1996 / rivastigmine 2000 / galantamine 2001, CDER) plus memantine (NMDA antagonist, not enumerated here as the expansion focus is on disease-modifying modalities). No FDA-approved small-molecule disease-modifying drug maps onto any expansion-layer axis — ZERO in-scope is the honest result.",
+        "name": "Alzheimer disease",
+        "primary_pathology": "extracellular amyloid-β plaque deposition + intraneuronal hyperphosphorylated tau tangles + neuroinflammation + progressive cholinergic neuron loss"
+      },
+      "honesty": {
+        "all_three_cber_disease_modifying_fda_approved": true,
+        "all_three_legacy_palliatives_fda_approved": true,
+        "axes_designed_for_new_modalities_not_legacy_palliatives": true,
+        "in_silico_only": true,
+        "legacy_palliatives_have_no_clean_axis_map": true,
+        "no_lattice_derivation": true,
+        "not_a_clinical_claim": true,
+        "not_a_portfolio_recommendation": true,
+        "not_a_superiority_claim": true,
+        "not_an_efficacy_ranking": true,
+        "scope_is_one_disease_pilot": true,
+        "statement": "Alzheimer disease is the case study whose honest result is ZERO in-scope drugs. The disease's only FDA-approved disease-modifying drugs are three anti-amyloid monoclonal antibodies (lecanemab/Leqembi 2023, donanemab/Kisunla 2024, aducanumab/Aduhelm 2021 — voluntarily withdrawn 2024); all three are CBER-regulated biologics and are honestly UNPLACED by the same criterion #4 + g8 pattern that already governs Zolgensma / Casgevy / Comirnaty (@N genetic_medicine_status) and Enhertu / Kadcyla (@N adc_status). The long-FDA-approved cholinergic palliatives (donepezil 1996, rivastigmine 2000, galantamine 2001) are CDER small molecules but their acetylcholinesterase-inhibition mechanism does not map cleanly onto any of the expansion-layer axes; flagging them under `legacy_palliatives_no_axis` is honest, force-fitting them into ALLOSTERIC or COVALENT would be lattice-fit-on-external-entity (f1). ZERO in-scope is the truthful result, not a gap. The schema permits in_scope_drugs to be the empty array and enforces `zero_in_scope_acknowledged` + `zero_in_scope_is_a_valid_outcome` as schema-level consts so the outcome is structurally honest, not editorial. All six listed drugs are FDA-approved; modalities are described via their own published precedent (g3 / f1) — nothing is derived from the n=6 lattice (f_lattice_fit). Scope = one-disease pilot, NOT the 200-disease deferred work.",
+        "unplaced_handling_is_honest": true,
+        "zero_in_scope_acknowledged": true,
+        "zero_in_scope_is_a_valid_outcome": true
+      },
+      "in_scope_drugs": [],
+      "legacy_palliatives_no_axis": [
+        {
+          "axis": null,
+          "brand": "Aricept",
+          "drug_name": "donepezil",
+          "drug_precedent_citations": [
+            "Sugimoto H et al. 1995, J Med Chem 38:4821-4829 (donepezil discovery)",
+            "FDA NDA 020690 — donepezil hydrochloride (Aricept) approval 1996-11-25, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 1996,
+          "in_scope": false,
+          "legacy_palliative_no_axis": true,
+          "modality": "small molecule — reversible centrally-acting acetylcholinesterase (AChE) inhibitor; raises synaptic acetylcholine to compensate for cholinergic neuron loss",
+          "no_axis_map_reason": "AChE inhibition is a classical reversible enzyme-inhibitor mechanism with no clean mapping onto the hexa-bio expansion-layer axes. The axis tree is designed for new modalities (PROTAC / CAPSID-ASSEMBLY-MODULATOR / OLIGONUCLEOTIDE / METALLODRUG / COVALENT / BIFUNCTIONAL / sub-axes); a reversible non-covalent AChE inhibitor does not match any. Force-fitting into ALLOSTERIC or COVALENT would be lattice-fit-on-external-entity (f1) — observational similarity is not derivational identity. Honest call: flag, do not force-fit.",
+          "reported_not_run": true,
+          "sponsor": "Eisai / Pfizer",
+          "symptomatic_not_disease_modifying": true
+        },
+        {
+          "axis": null,
+          "brand": "Exelon",
+          "drug_name": "rivastigmine",
+          "drug_precedent_citations": [
+            "Bar-On P et al. 2002, Biochemistry 41:3555-3564 (rivastigmine carbamate mechanism)",
+            "FDA NDA 020823 — rivastigmine tartrate (Exelon) approval 2000-04-21, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2000,
+          "in_scope": false,
+          "legacy_palliative_no_axis": true,
+          "modality": "small molecule — pseudo-irreversible (slowly reversible) carbamate inhibitor of both acetylcholinesterase and butyrylcholinesterase; carbamylates the active-site serine",
+          "no_axis_map_reason": "Pseudo-irreversible cholinesterase inhibition (carbamylation of the active-site serine) does not map cleanly onto the expansion-layer axes. While it has a covalent-character mechanism, the pharmacology and target class (cholinergic palliative for symptomatic AD) place it outside the scope the COVALENT axis was registered for (new-modality covalent drugs for the modern oncology / antiviral palette). Force-fitting would be f1 — flag, do not force-fit.",
+          "reported_not_run": true,
+          "sponsor": "Novartis",
+          "symptomatic_not_disease_modifying": true
+        },
+        {
+          "axis": null,
+          "brand": "Razadyne",
+          "drug_name": "galantamine",
+          "drug_precedent_citations": [
+            "Maelicke A et al. 2001, Biol Psychiatry 49:279-288 (galantamine dual mechanism)",
+            "FDA NDA 021169 — galantamine hydrobromide (Razadyne, formerly Reminyl) approval 2001-02-28, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2001,
+          "in_scope": false,
+          "legacy_palliative_no_axis": true,
+          "modality": "small molecule — reversible competitive acetylcholinesterase inhibitor with allosteric potentiation of nicotinic acetylcholine receptors (dual cholinergic action)",
+          "no_axis_map_reason": "Reversible AChE inhibition with additional allosteric nicotinic potentiation is a legacy cholinergic palliative mechanism. The dual action does not make it an ALLOSTERIC-axis drug in the expansion-layer sense: the axis was registered for the modern allosteric paradigm anchored to specific real limits, not for legacy cholinergic palliatives. Force-fitting would be f1 — flag, do not force-fit.",
+          "reported_not_run": true,
+          "sponsor": "Janssen / Shire",
+          "symptomatic_not_disease_modifying": true
+        }
+      ],
+      "not_in_scope_drugs": [
+        {
+          "axis": null,
+          "brand": "Leqembi",
+          "cber_reason": "Monoclonal antibody = biologic — CBER-regulated under PHSA §351 (BLA), NOT NDA under CDER. Per criterion #4 (drug-only/CDER discipline) the hexa-bio axis tree does not register CBER biologics.",
+          "drug_name": "lecanemab",
+          "drug_precedent_citations": [
+            "van Dyck CH et al. 2023, N Engl J Med 388:9-21 (CLARITY AD lecanemab phase-3)",
+            "FDA STN BL 761269 — lecanemab-irmb (Leqembi) accelerated approval 2023-01-06; traditional approval 2023-07-06, CBER"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2023,
+          "in_scope": false,
+          "modality": "humanized IgG1 monoclonal antibody — anti-amyloid-β protofibril binder; reduces brain amyloid plaque burden via Fc-mediated microglial clearance",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Implementing an anti-amyloid mAb axis would breach criterion #4 + g8 in-silico-only honesty (immunogenicity, Fc-effector profile, neutralizing-antibody-pre-screen carry claim load that the in-silico axes cannot bound).",
+          "reported_not_run": true,
+          "sponsor": "Eisai / Biogen",
+          "status_note": "FDA-approved (traditional approval 2023-07-06, CBER).",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status + @N adc_status — same CBER-scope UNPLACED handling already established (Zolgensma / Casgevy / Comirnaty for gene/cell/mRNA; Enhertu / Kadcyla for ADCs). Anti-amyloid mAbs join the same honesty cohort."
+        },
+        {
+          "axis": null,
+          "brand": "Kisunla",
+          "cber_reason": "Monoclonal antibody = biologic — CBER-regulated under PHSA §351 (BLA), NOT NDA under CDER. Per criterion #4 (drug-only/CDER discipline) the hexa-bio axis tree does not register CBER biologics.",
+          "drug_name": "donanemab",
+          "drug_precedent_citations": [
+            "Sims JR et al. 2023, JAMA 330:512-527 (TRAILBLAZER-ALZ 2 donanemab phase-3)",
+            "FDA STN BL 761248 — donanemab-azbt (Kisunla) traditional approval 2024-07-02, CBER"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2024,
+          "in_scope": false,
+          "modality": "humanized IgG1 monoclonal antibody — targets the N-terminal pyroglutamate-modified amyloid-β epitope present on deposited plaque; drives microglial plaque removal",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Same UNPLACED rationale as lecanemab.",
+          "reported_not_run": true,
+          "sponsor": "Eli Lilly",
+          "status_note": "FDA-approved (traditional approval 2024-07-02, CBER).",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status + @N adc_status — CBER-scope UNPLACED pattern. Anti-amyloid mAbs join this honesty cohort."
+        },
+        {
+          "axis": null,
+          "brand": "Aduhelm",
+          "cber_reason": "Monoclonal antibody = biologic — CBER-regulated under PHSA §351 (BLA), NOT NDA under CDER. Per criterion #4 (drug-only/CDER discipline) the hexa-bio axis tree does not register CBER biologics.",
+          "drug_name": "aducanumab",
+          "drug_precedent_citations": [
+            "Sevigny J et al. 2016, Nature 537:50-56 (aducanumab plaque reduction)",
+            "FDA STN BL 761178 — aducanumab-avwa (Aduhelm) accelerated approval 2021-06-07, CBER",
+            "Biogen press release 2024-01-31 — voluntary discontinuation of Aduhelm in the United States"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2021,
+          "in_scope": false,
+          "modality": "human IgG1 monoclonal antibody — anti-amyloid-β aggregate (oligomer / fibril) binder; selected from a B-cell repertoire of cognitively-normal elderly donors",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Same UNPLACED rationale as lecanemab / donanemab. The drug's accelerated-approval history (2021) and its voluntary withdrawal (2024) are recorded honestly in `status_note`; this case study does not editorialize on the approval decision (g3 / f4 — no external-entity claim).",
+          "reported_not_run": true,
+          "sponsor": "Biogen",
+          "status_note": "Accelerated approval 2021-06-07 (CBER); voluntarily withdrawn from the U.S. market 2024-01-31. Listed for completeness as one of the three FDA-approved anti-amyloid mAbs (g3 — record what is, do not editorialize).",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status + @N adc_status — CBER-scope UNPLACED pattern. Anti-amyloid mAbs join this honesty cohort."
+        }
+      ],
+      "schema_version": "alzheimer_portfolio_v1",
+      "sentinel": "__ALZHEIMER_PORTFOLIO__ PASS"
+    },
+    "bcl2": {
+      "acceptance": {
+        "criteria": {
+          "X10_both_interfaces_hotspot_driven": true,
+          "X11_both_disruptions_viable": true,
+          "X12_ledger_within_bounds": true,
+          "X1_two_in_scope_drugs": true,
+          "X2_first_in_scope_is_fda_approved_cder": true,
+          "X3_second_in_scope_is_clinical_stage_honest": true,
+          "X4_each_in_scope_has_real_limit_anchor": true,
+          "X5_each_in_scope_has_axis_mapping_PPI": true,
+          "X6_in_scope_in_silico_only_flag_set": true,
+          "X7_research_stage_negatives_recorded": true,
+          "X8_negatives_marked_not_run": true,
+          "X9_both_interfaces_are_bh3_helix_groove": true
+        },
+        "pass_count": 12,
+        "total": 12,
+        "verdict": "PASS"
+      },
+      "case_study_id": "bcl2_portfolio.v1",
+      "cross_axis_touch_points": [
+        {
+          "id": "G3",
+          "module": "_python_bridge/module/ppi_molecular_glue_cross.py",
+          "note": "G3 shares the BCL-2 BH3-groove interface as its hotspot-rich reference case (BH3 grooves clear at α ≈ 10 vs hotspot-poor KIX shallow groove failing at α > 5000). Cited for completeness — venetoclax is a PPI disruptor, NOT a molecular glue; this portfolio does NOT claim a molecular-glue modality for the BH3-mimetics."
+        }
+      ],
+      "disease": {
+        "abbreviation": "BCL2",
+        "name": "BCL-2-family-driven hematologic malignancy (e.g. chronic lymphocytic leukemia, small lymphocytic lymphoma, acute myeloid leukemia)",
+        "target_family": "BCL-2 family anti-apoptotic proteins (BCL-2, BCL-xL, MCL-1) and their pro-apoptotic BH3-only binding partners (BIM, BID, BAD, NOXA, PUMA, etc.)"
+      },
+      "honesty": {
+        "clinical_stage_drug_marked_honestly": true,
+        "core_5_unchanged": true,
+        "in_silico_only": true,
+        "no_fork_of_sister_sims": true,
+        "no_lattice_derivation": true,
+        "not_a_molecular_glue_claim": true,
+        "one_disease_pilot_not_200_disease_remap": true,
+        "research_stage_negatives_listed_honestly": true,
+        "statement": "Per-disease IN-SILICO composition of one existing sub-axis sim (PPI :> QUANTUM) for two BH3-mimetic small-molecule PPI inhibitors of the BCL-2 family: venetoclax / Venclexta (FDA-approved 2016, CDER) and navitoclax / ABT-263 (clinical-stage, NOT FDA-approved — honestly flagged via fda_approval_status='clinical_stage' and null fda_year/fda_center). The parent PPI sim's panel cites BOTH drugs directly by name as the drug precedents for the bcl2_bh3_groove and bclxl_bh3_groove rows respectively. Research-stage negatives (BCL-2 PROTACs, macrocyclic / stapled-peptide BH3-mimetics, CAR-T cell therapies) are recorded honestly, not modeled. The G3 cross-axis touch-point (PPI × MOLECULAR-GLUE) is cited for completeness — this portfolio does NOT claim a molecular-glue modality for the BH3-mimetics; venetoclax is a PPI DISRUPTOR. NEVER a therapeutic / clinical / oncology / efficacy / regulatory / portfolio-recommendation claim (g8 / f2). Drugs described by own published precedent (Souers 2013, Tse 2008, FDA NDA 208573) — nothing here is derived from the n=6 lattice (g3 / f1 / f_lattice_fit). The 200-disease re-mapping remains deferred per AXIS/HIERARCHY.tape Log."
+      },
+      "in_scope_drugs": [
+        {
+          "axis_mapping": {
+            "axis": "PPI",
+            "axis_layer": "expansion-sub",
+            "parent_axis": "QUANTUM (core-5)"
+          },
+          "brand": "Venclexta",
+          "drug": "venetoclax",
+          "drug_precedent_refs": [
+            "Souers et al., Nat. Med. 19:202 (2013)",
+            "Stilgenbauer et al., Lancet Oncol. 17:768 (2016)",
+            "FDA NDA 208573 (Venclexta first approval, 2016-04-11)"
+          ],
+          "fda_application": "NDA 208573 — Venclexta first approval 2016-04-11 (CLL with 17p deletion); subsequent expansions for SLL and AML",
+          "fda_approval_status": "approved",
+          "fda_center": "CDER",
+          "fda_year": 2016,
+          "in_silico_only": true,
+          "modality": "BH3-mimetic small-molecule PPI inhibitor — disrupts the BCL-2 / pro-apoptotic-BH3 protein-protein interaction by mimicking the BH3 helix's hotspot residues in the BCL-2 groove",
+          "real_limit_anchor": "Bogan & Thorn 1998 binding-hotspot theory (J. Mol. Biol. 280:1) — interface binding free energy concentrated in a few hotspot residues (ΔΔG ≥ 2 kcal/mol by alanine scanning), bounded by the alanine-scanning ledger; druggability of flat hotspot-driven PPIs follows Wells & McClendon, Nature 450:1001 (2007)",
+          "sim_run": {
+            "dg_hotspot_cluster_kcal_per_mol": -10.9,
+            "dg_interface_kcal_per_mol": -13.0,
+            "dg_mimic_kcal_per_mol": -9.265,
+            "hotspot_ddg_threshold_kcal_per_mol": 2.0,
+            "hotspot_driven": true,
+            "hotspot_energy_fraction": 0.8384615384615385,
+            "interface": "bcl2_bh3_groove",
+            "interface_class": "bh3_helix_groove",
+            "ledger_residual_kcal_per_mol": 0.0,
+            "mimic_within_ledger": true,
+            "mimicry_fraction": 0.85,
+            "n_hotspot_residues": 3,
+            "n_interface_residues": 6,
+            "sim_module": "ppi_sim",
+            "small_molecule_disruption_viable": true,
+            "sum_ddg_kcal_per_mol": 13.0,
+            "sum_hotspot_ddg_kcal_per_mol": 10.9
+          },
+          "sponsor": "AbbVie / Genentech"
+        },
+        {
+          "axis_mapping": {
+            "axis": "PPI",
+            "axis_layer": "expansion-sub",
+            "parent_axis": "QUANTUM (core-5)"
+          },
+          "brand": "ABT-263 (no marketed brand — clinical-stage)",
+          "drug": "navitoclax",
+          "drug_precedent_refs": [
+            "Tse et al., Cancer Res. 68:3421 (2008)",
+            "Roberts et al., J. Clin. Oncol. 30:488 (2012) — navitoclax phase I in CLL/SLL"
+          ],
+          "fda_application": null,
+          "fda_approval_status": "clinical_stage",
+          "fda_center": null,
+          "fda_year": null,
+          "in_silico_only": true,
+          "modality": "BH3-mimetic small-molecule PPI inhibitor — dual BCL-2 / BCL-xL inhibitor; BCL-xL-driven thrombocytopenia has limited its single-agent clinical window",
+          "real_limit_anchor": "Bogan & Thorn 1998 binding-hotspot theory (J. Mol. Biol. 280:1) — interface binding free energy concentrated in a few hotspot residues (ΔΔG ≥ 2 kcal/mol by alanine scanning), bounded by the alanine-scanning ledger; druggability of flat hotspot-driven PPIs follows Wells & McClendon, Nature 450:1001 (2007)",
+          "sim_run": {
+            "dg_hotspot_cluster_kcal_per_mol": -10.1,
+            "dg_interface_kcal_per_mol": -12.299999999999999,
+            "dg_mimic_kcal_per_mol": -8.08,
+            "hotspot_ddg_threshold_kcal_per_mol": 2.0,
+            "hotspot_driven": true,
+            "hotspot_energy_fraction": 0.8211382113821138,
+            "interface": "bclxl_bh3_groove",
+            "interface_class": "bh3_helix_groove",
+            "ledger_residual_kcal_per_mol": 1.7763568394002505e-15,
+            "mimic_within_ledger": true,
+            "mimicry_fraction": 0.8,
+            "n_hotspot_residues": 3,
+            "n_interface_residues": 6,
+            "sim_module": "ppi_sim",
+            "small_molecule_disruption_viable": true,
+            "sum_ddg_kcal_per_mol": 12.299999999999999,
+            "sum_hotspot_ddg_kcal_per_mol": 10.1
+          },
+          "sponsor": "AbbVie"
+        }
+      ],
+      "research_stage_negatives": [
+        {
+          "axis_in_repo": "BIFUNCTIONAL (expansion-main)",
+          "candidate_class": "BCL-2- / BCL-xL-targeting PROTAC bifunctional degrader (e.g. DT2216 against BCL-xL)",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved BCL-2- or BCL-xL-targeting bifunctional degrader exists; several preclinical CRBN- and VHL-recruiting BCL-family PROTACs are reported (including DT2216 designed to limit BCL-xL-driven thrombocytopenia by tissue-selective degradation), but none have advanced to FDA approval",
+          "reported_not_run": true,
+          "status": "research-stage / preclinical / early clinical"
+        },
+        {
+          "axis_in_repo": "PPI (:> QUANTUM) — macrocyclic/peptide specialization, no FDA precedent",
+          "candidate_class": "macrocyclic BH3-mimetic / stapled BH3-peptide BCL-2 inhibitor",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved macrocyclic or stapled-peptide BCL-2 inhibitor exists; several stapled-BH3-peptide and cyclopeptide leads are in preclinical / early clinical development",
+          "reported_not_run": true,
+          "status": "research-stage / early clinical"
+        },
+        {
+          "axis_in_repo": null,
+          "candidate_class": "anti-apoptotic-pathway-engaging CAR-T / cell-therapy approaches to BCL-2-driven malignancies",
+          "fda_approved": false,
+          "fda_center_if_filed": "CBER",
+          "in_scope": false,
+          "reason": "CBER-regulated biologic; out of repo CDER scope per criterion #4 drug-only/CDER discipline. Honest UNPLACED, same pattern as Zolgensma in case_studies/sma_portfolio/.",
+          "reported_not_run": true,
+          "status": "CBER-regulated cell therapy",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status"
+        }
+      ],
+      "schema_version": "bcl2_portfolio_v1",
+      "sentinel": "__BCL2_PORTFOLIO__ PASS",
+      "ts": "2026-05-16T00:00:00Z"
+    },
+    "hiv1": {
+      "acceptance": {
+        "criteria": {
+          "X10_allosteric_ceiling_respected": true,
+          "X1_two_in_scope_drugs": true,
+          "X2_all_in_scope_are_cder": true,
+          "X3_each_in_scope_has_real_limit_anchor": true,
+          "X4_each_in_scope_has_axis_mapping": true,
+          "X5_in_scope_in_silico_only_flag_set": true,
+          "X6_research_stage_negatives_recorded": true,
+          "X7_negatives_marked_not_run": true,
+          "X8_cam_row_returned_a_trap_regime": true,
+          "X9_allosteric_row_is_a_modulator_NAM_or_PAM": true
+        },
+        "pass_count": 10,
+        "total": 10,
+        "verdict": "PASS"
+      },
+      "case_study_id": "hiv1_portfolio.v1",
+      "cross_axis_touch_points": [
+        {
+          "id": "A4",
+          "module": "_python_bridge/module/capsid_modulator_pdb_anchor_cross.py",
+          "note": "HIV-1 capsids classified honest 'T-number N/A — non-icosahedral fullerene cone'; the cross refuses to fabricate a T-number"
+        },
+        {
+          "id": "G2",
+          "module": "_python_bridge/module/allosteric_cryptic_pocket_cross.py",
+          "note": "MWC and cryptic-pocket are identical 2-state equilibria under R↔open mapping; the general framework this case study draws on"
+        }
+      ],
+      "disease": {
+        "abbreviation": "HIV-1",
+        "name": "Human Immunodeficiency Virus 1 infection"
+      },
+      "honesty": {
+        "core_5_unchanged": true,
+        "in_silico_only": true,
+        "no_fork_of_sister_sims": true,
+        "one_disease_pilot_not_200_disease_remap": true,
+        "research_stage_negatives_listed_honestly": true,
+        "statement": "Per-disease IN-SILICO composition of two existing axis sims for two FDA-approved CDER drugs (lenacapavir, maraviroc). Research-stage negatives (anti-HIV ASOs, HIV-PROTACs) and CBER negatives (gene-editing curatives) are recorded honestly, not modeled. NEVER a therapeutic / clinical / efficacy / regulatory / portfolio-recommendation claim (g8 / f2). The 200-disease re-mapping remains deferred per AXIS/HIERARCHY.tape Log."
+      },
+      "in_scope_drugs": [
+        {
+          "axis_mapping": {
+            "axis": "CAPSID-ASSEMBLY-MODULATOR",
+            "axis_layer": "sub-axis",
+            "parent_axis": "VIROCAPSID (core-5)"
+          },
+          "brand": "Sunlenca",
+          "drug": "lenacapavir",
+          "drug_precedent_refs": [
+            "Link et al., Nature 584:614 (2020)",
+            "Bester et al., Science 370:360 (2020)",
+            "FDA NDA 215973 (2022-12-22)"
+          ],
+          "fda_application": "NDA 215973",
+          "fda_center": "CDER",
+          "fda_year": 2022,
+          "in_silico_only": true,
+          "modality": "capsid-assembly modulator (small molecule)",
+          "real_limit_anchor": "Caspar & Klug 1962 quasi-equivalence T-number geometry; Zlotnick 1994 (Biochemistry 33:1233) / Zlotnick 2003 (J Mol Recognit 16:294) weak-contact thermodynamics + over-stabilization kinetic-trap regime",
+          "sim_run": {
+            "assembled_fraction_shift": 0.9988063973113882,
+            "delta_dg_kcal": -3.0,
+            "g_contact_cam_kcal": -6.0,
+            "kinetic_trap_regime": true,
+            "scenario": "strong_over_stabilizer",
+            "sim_module": "capsid_assembly_modulator_sim"
+          },
+          "sponsor": "Gilead"
+        },
+        {
+          "axis_mapping": {
+            "axis": "ALLOSTERIC",
+            "axis_layer": "sub-axis",
+            "parent_axis": "QUANTUM (core-5)"
+          },
+          "brand": "Selzentry",
+          "drug": "maraviroc",
+          "drug_precedent_refs": [
+            "Dorr et al., Antimicrob Agents Chemother 49:4721 (2005)",
+            "FDA NDA 022128 (2007-08-06)"
+          ],
+          "fda_application": "NDA 022128",
+          "fda_center": "CDER",
+          "fda_year": 2007,
+          "in_silico_only": true,
+          "modality": "CCR5 allosteric inhibitor (small molecule)",
+          "real_limit_anchor": "Monod, Wyman & Changeux 1965 (J Mol Biol 12:88) MWC two-state allosteric model; saturable allosteric ceiling (Christopoulos & Kenakin 2002, Pharmacol Rev 54:323)",
+          "sim_run": {
+            "ceiling_respected": true,
+            "cooperativity_alpha": 0.02,
+            "is_allosteric_modulator": true,
+            "log10_alpha": -1.6989700043360187,
+            "modulation_kind": "NAM",
+            "modulator_class": "negative_allosteric_modulator",
+            "modulator_kd_uM": 5.0,
+            "scenario": "maraviroc_CCR5_NAM",
+            "sim_module": "allosteric_sim"
+          },
+          "sponsor": "ViiV / Pfizer"
+        }
+      ],
+      "research_stage_negatives": [
+        {
+          "axis_in_repo": "OLIGONUCLEOTIDE (expansion-main)",
+          "candidate_class": "anti-HIV antisense oligonucleotide",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved anti-HIV ASO exists; fomivirsen was the first FDA-approved ASO but targeted CMV and was withdrawn in 2002",
+          "reported_not_run": true,
+          "status": "research-stage"
+        },
+        {
+          "axis_in_repo": "BIFUNCTIONAL (expansion-main)",
+          "candidate_class": "HIV-targeting bifunctional degrader (PROTAC)",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved HIV-targeting bifunctional degrader; the BIFUNCTIONAL axis exists in the repo but no clinical HIV drug maps onto it",
+          "reported_not_run": true,
+          "status": "research-stage"
+        },
+        {
+          "axis_in_repo": null,
+          "candidate_class": "gene-editing curative (e.g. CRISPR-Cas9, EBT-101)",
+          "fda_approved": false,
+          "fda_center_if_filed": "CBER",
+          "in_scope": false,
+          "reason": "CBER-regulated biologic; out of repo CDER scope per criterion #4 drug-only/CDER discipline (same pattern as Zolgensma in case_studies/sma_portfolio/). Honest UNPLACED.",
+          "reported_not_run": true,
+          "status": "clinical-trial-stage; CBER-regulated",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status"
+        }
+      ],
+      "schema_version": "hiv1_portfolio_v1",
+      "sentinel": "__HIV1_PORTFOLIO__ PASS",
+      "ts": "2026-05-16T00:00:00Z"
+    },
+    "kras_g12c": {
+      "acceptance": {
+        "criteria": {
+          "X10_switch_ii_pocket_is_cryptic": true,
+          "X11_eyring_ceiling_respected_both": true,
+          "X12_cryptic_ledger_consistent": true,
+          "X1_two_in_scope_drugs": true,
+          "X2_all_in_scope_are_cder": true,
+          "X3_each_in_scope_has_real_limit_anchor": true,
+          "X4_each_in_scope_has_axis_mapping": true,
+          "X5_in_scope_in_silico_only_flag_set": true,
+          "X6_research_stage_negatives_recorded": true,
+          "X7_negatives_marked_not_run": true,
+          "X8_both_rows_target_Cys12": true,
+          "X9_both_rows_acrylamide_thio_michael": true
+        },
+        "pass_count": 12,
+        "total": 12,
+        "verdict": "PASS"
+      },
+      "case_study_id": "kras_g12c_portfolio.v1",
+      "cross_axis_touch_points": [
+        {
+          "id": "G2",
+          "module": "_python_bridge/module/allosteric_cryptic_pocket_cross.py",
+          "note": "MWC two-state and cryptic-pocket open/closed populations coincide under R↔open mapping (rel-err < 1e-12). sotorasib / KRAS-G12C is the named cryptic-side precedent of that cross — model-level unification this case study draws on."
+        },
+        {
+          "id": "A5",
+          "module": "_python_bridge/module/reversible_covalent_mpro_vqe_cross.py",
+          "note": "A5 models the Mpro target, but its `acrylamide_sotorasib` contrast row carries the same irreversible-covalent warhead modality (acrylamide → Cys thio-Michael adduct, large |ΔG_rxn|, koff → 0) that the two KRAS-G12C drugs in this portfolio follow."
+        }
+      ],
+      "disease": {
+        "abbreviation": "KRAS-G12C",
+        "name": "KRAS-G12C-mutant cancer (e.g. non-small-cell lung cancer with KRAS p.G12C)",
+        "target_protein": "KRAS GTPase (G12C mutant)",
+        "targeted_residue": "Cys12 (G12C mutant-specific cysteine in the switch-II pocket)"
+      },
+      "honesty": {
+        "core_5_unchanged": true,
+        "in_silico_only": true,
+        "no_fork_of_sister_sims": true,
+        "no_lattice_derivation": true,
+        "one_disease_pilot_not_200_disease_remap": true,
+        "research_stage_negatives_listed_honestly": true,
+        "statement": "Per-disease IN-SILICO composition of two existing axis sims (COVALENT expansion-main; CRYPTIC-POCKET :> QUANTUM sub-axis) for two FDA-approved CDER drugs (sotorasib / Lumakras, adagrasib / Krazati). Both share the acrylamide-warhead / Cys12 / switch-II cryptic-pocket modality. Research-stage negatives (pan-KRAS PROTACs, anti-KRAS ASOs, pan-RAS / non-G12C KRAS inhibitors) are recorded honestly, not modeled. NEVER a therapeutic / clinical / oncology / efficacy / regulatory / portfolio-recommendation claim (g8 / f2). Drugs described by own published precedent (Canon 2019, Jänne 2022, FDA NDAs 214665 / 216340) — nothing here is derived from the n=6 lattice (g3 / f1 / f_lattice_fit). The 200-disease re-mapping remains deferred per AXIS/HIERARCHY.tape Log."
+      },
+      "in_scope_drugs": [
+        {
+          "axis_mapping": {
+            "axis": "COVALENT",
+            "axis_layer": "expansion-main",
+            "cryptic_touch_axis": "CRYPTIC-POCKET",
+            "cryptic_touch_axis_layer": "expansion-sub",
+            "cryptic_touch_parent_axis": "QUANTUM (core-5)",
+            "parent_axis": "COVALENT (expansion-main)"
+          },
+          "brand": "Lumakras",
+          "drug": "sotorasib",
+          "drug_precedent_refs": [
+            "Canon et al., Nature 575:217 (2019)",
+            "Hong et al., N. Engl. J. Med. 383:1207 (2020)",
+            "FDA NDA 214665 (Lumakras accelerated approval, 2021-05-28)",
+            "Ostrem et al., Nature 503:548 (2013) — switch-II cryptic pocket discovery"
+          ],
+          "fda_application": "NDA 214665 — accelerated approval 2021-05-28; full approval 2025",
+          "fda_center": "CDER",
+          "fda_year": 2021,
+          "in_silico_only": true,
+          "modality": "irreversible covalent acrylamide Michael acceptor — reacts with KRAS-G12C mutant-specific Cys12 thiol in the switch-II pocket",
+          "real_limit_anchor": "Strelow 2017 kinact/Ki framework for covalent-inhibitor efficiency + Eyring transition-state theory (kB·T/h ≈ 6.46e12 /s @ 310 K hard unimolecular ceiling); switch-II cryptic-pocket conformational-selection thermodynamic cycle (Hammes, Chang & Oas, PNAS 106:13737, 2009) — ΔG_bind_obs = ΔG_bind_open + ΔG_open",
+          "sim_run": {
+            "covalent_step": {
+              "Ki_molar": 3e-07,
+              "dg_covalent_step_kcal_per_mol": 19.4,
+              "free_enzyme_half_life_human": "12.5 min",
+              "free_enzyme_half_life_s": 750.9094456066075,
+              "inhibitor": "sotorasib_KRAS_Cys12",
+              "kinact_below_eyring_ceiling": true,
+              "kinact_eyring_tst_per_s": 0.13597925303004244,
+              "kinact_over_Ki_M_per_s": 4000.0,
+              "kinact_per_s": 0.0012,
+              "kinact_tst_below_eyring_ceiling": true,
+              "metric_consistency_rel_err": 1.1368683772161603e-16,
+              "sim_module": "covalent_inhibition_sim",
+              "warhead_class": "acrylamide_thio_michael"
+            },
+            "cryptic_pocket": {
+              "apo_open_state_population": 0.005516256911744731,
+              "cryptic_binder_viable": true,
+              "dg_bind_obs_kcal_per_mol": -9.3,
+              "dg_bind_open_kcal_per_mol": -12.5,
+              "dg_open_kcal_per_mol": 3.2,
+              "is_cryptic": true,
+              "ledger_consistency_rel_err": 0.0,
+              "opening_cost_outpaid": true,
+              "pocket": "kras_g12c_switch_II",
+              "pocket_class": "cryptic_switch_pocket",
+              "pocket_state": "cryptic",
+              "sim_module": "cryptic_pocket_sim"
+            }
+          },
+          "sponsor": "Amgen"
+        },
+        {
+          "axis_mapping": {
+            "axis": "COVALENT",
+            "axis_layer": "expansion-main",
+            "cryptic_touch_axis": "CRYPTIC-POCKET",
+            "cryptic_touch_axis_layer": "expansion-sub",
+            "cryptic_touch_parent_axis": "QUANTUM (core-5)",
+            "parent_axis": "COVALENT (expansion-main)"
+          },
+          "brand": "Krazati",
+          "drug": "adagrasib",
+          "drug_precedent_refs": [
+            "Jänne et al., N. Engl. J. Med. 387:120 (2022)",
+            "FDA NDA 216340 (Krazati accelerated approval, 2022-12-12)",
+            "Ostrem et al., Nature 503:548 (2013) — switch-II cryptic pocket discovery"
+          ],
+          "fda_application": "NDA 216340 — accelerated approval 2022-12-12",
+          "fda_center": "CDER",
+          "fda_year": 2022,
+          "in_silico_only": true,
+          "modality": "irreversible covalent acrylamide Michael acceptor — reacts with KRAS-G12C mutant-specific Cys12 thiol in the switch-II pocket",
+          "real_limit_anchor": "Strelow 2017 kinact/Ki framework for covalent-inhibitor efficiency + Eyring transition-state theory (kB·T/h ≈ 6.46e12 /s @ 310 K hard unimolecular ceiling); switch-II cryptic-pocket conformational-selection thermodynamic cycle (Hammes, Chang & Oas, PNAS 106:13737, 2009) — ΔG_bind_obs = ΔG_bind_open + ΔG_open",
+          "sim_run": {
+            "covalent_step": {
+              "Ki_molar": 2e-07,
+              "dg_covalent_step_kcal_per_mol": 19.2,
+              "free_enzyme_half_life_human": "8.66 min",
+              "free_enzyme_half_life_s": 519.860385419959,
+              "inhibitor": "adagrasib_KRAS_Cys12",
+              "kinact_below_eyring_ceiling": true,
+              "kinact_eyring_tst_per_s": 0.1881350557181159,
+              "kinact_over_Ki_M_per_s": 8000.000000000001,
+              "kinact_per_s": 0.0016,
+              "kinact_tst_below_eyring_ceiling": true,
+              "metric_consistency_rel_err": 0.0,
+              "sim_module": "covalent_inhibition_sim",
+              "warhead_class": "acrylamide_thio_michael"
+            },
+            "cryptic_pocket": {
+              "apo_open_state_population": 0.005516256911744731,
+              "cryptic_binder_viable": true,
+              "dg_bind_obs_kcal_per_mol": -9.3,
+              "dg_bind_open_kcal_per_mol": -12.5,
+              "dg_open_kcal_per_mol": 3.2,
+              "is_cryptic": true,
+              "ledger_consistency_rel_err": 0.0,
+              "opening_cost_outpaid": true,
+              "pocket": "kras_g12c_switch_II",
+              "pocket_class": "cryptic_switch_pocket",
+              "pocket_state": "cryptic",
+              "sim_module": "cryptic_pocket_sim"
+            }
+          },
+          "sponsor": "Mirati Therapeutics / Bristol-Myers Squibb"
+        }
+      ],
+      "research_stage_negatives": [
+        {
+          "axis_in_repo": "BIFUNCTIONAL (expansion-main)",
+          "candidate_class": "pan-KRAS / KRAS-G12C-selective PROTAC bifunctional degrader (e.g. LC-2)",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved KRAS-targeting bifunctional degrader exists; several preclinical CRBN- and VHL-recruiting KRAS-G12C-selective PROTACs are reported but none have advanced to FDA approval",
+          "reported_not_run": true,
+          "status": "research-stage / preclinical"
+        },
+        {
+          "axis_in_repo": "OLIGONUCLEOTIDE (expansion-main)",
+          "candidate_class": "antisense oligonucleotide against KRAS",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved anti-KRAS ASO exists; the OLIGONUCLEOTIDE axis exists in the repo but no clinical anti-KRAS drug maps onto it",
+          "reported_not_run": true,
+          "status": "research-stage"
+        },
+        {
+          "axis_in_repo": "COVALENT (expansion-main) — for covalent pan-RAS chemotypes; CRYPTIC-POCKET (:> QUANTUM) for switch-II-related cryptic sites",
+          "candidate_class": "pan-RAS active-state inhibitor / non-G12C KRAS mutant inhibitor (e.g. RMC-6236, divarasib)",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved pan-RAS or non-G12C KRAS-mutant inhibitor exists at the time of writing; several candidates are in late clinical trials but none are FDA-approved",
+          "reported_not_run": true,
+          "status": "research-stage / clinical-trial-stage"
+        }
+      ],
+      "schema_version": "kras_g12c_portfolio_v1",
+      "sentinel": "__KRAS_G12C_PORTFOLIO__ PASS",
+      "ts": "2026-05-16T00:00:00Z"
+    },
+    "migraine": {
+      "acceptance": {
+        "criteria": {
+          "X10_unplaced_are_cber": true,
+          "X11_parent_panel_row_is_class_surrogate": true,
+          "X12_ledger_within_bounds": true,
+          "X1_four_in_scope_drugs": true,
+          "X2_all_in_scope_are_cder": true,
+          "X3_each_in_scope_has_real_limit_anchor": true,
+          "X4_each_in_scope_maps_to_PPI": true,
+          "X5_in_scope_in_silico_only_flag_set": true,
+          "X6_each_in_scope_has_own_drug_precedent_refs": true,
+          "X7_four_cber_unplaced_rows": true,
+          "X8_unplaced_axis_is_null": true,
+          "X9_unplaced_in_scope_false_and_not_run": true
+        },
+        "pass_count": 12,
+        "total": 12,
+        "verdict": "PASS"
+      },
+      "case_study_id": "migraine_portfolio.v1",
+      "cross_axis_touch_points": [
+        {
+          "id": "G3",
+          "module": "_python_bridge/module/ppi_molecular_glue_cross.py",
+          "note": "G3 (PPI × MOLECULAR-GLUE) is cited for COMPLETENESS only — gepants are PPI DISRUPTORS, NOT molecular glues. No migraine-specific molecular glue exists; this portfolio does NOT claim a molecular-glue modality for any gepant. The cross-axis touch-point is recorded so the parity table mirrors the BCL-2 portfolio's G3 reference."
+        }
+      ],
+      "disease": {
+        "abbreviation": "MIGRAINE",
+        "name": "migraine (episodic and chronic; acute and preventive indications across the gepant class)",
+        "target_pathway": "CGRP (calcitonin-gene-related-peptide) signalling at the CGRP receptor (CLR + RAMP1 receptor complex) on trigeminal sensory neurons and vascular smooth muscle"
+      },
+      "honesty": {
+        "cber_mabs_unplaced_handled_honestly": true,
+        "core_5_unchanged": true,
+        "in_silico_only": true,
+        "no_fork_of_sister_sims": true,
+        "no_lattice_derivation": true,
+        "not_a_molecular_glue_claim": true,
+        "one_disease_pilot_not_200_disease_remap": true,
+        "statement": "Per-disease IN-SILICO composition of one existing sub-axis sim (PPI :> QUANTUM) for the four FDA-approved CDER small-molecule CGRP-receptor antagonists (gepants): rimegepant / Nurtec ODT (Pfizer/Biohaven, FDA 2020), ubrogepant / Ubrelvy (AbbVie/Allergan, FDA 2019), atogepant / Qulipta (AbbVie, FDA 2021) and zavegepant / Zavzpret (Pfizer, FDA 2023, intranasal). All four disrupt the CGRP / CGRP-receptor PPI by occupying the orthosteric peptide-binding site on the CLR + RAMP1 receptor complex — one PPI-disruption modality class, four approved drugs. The parent ppi_sim's `mdm2_p53_cleft` row is used as the panel-class surrogate (`alpha_helix_peptide_cleft` interface class) honestly — the parent sim's own honesty note states ΔΔG values are literature-informed surrogates for interface CLASSES, NOT fits to specific complexes. The four FDA-approved CBER monoclonal antibodies (erenumab / Aimovig 2018, fremanezumab / Ajovy 2018, galcanezumab / Emgality 2018, eptinezumab / Vyepti 2020) are honestly UNPLACED with axis=null and reported_not_run=true — CBER biologics fall outside the hexa-bio criterion #4 drug-only/CDER scope boundary (same honest pattern as Zolgensma in case_studies/sma_portfolio/). UNPLACED is the honest call — NOT a deferral or downgrade; all four mAbs are FDA-approved. G3 (PPI × MOLECULAR-GLUE) is cited for completeness only — no gepant is claimed as a molecular glue. NEVER a therapeutic / clinical / neurologic / efficacy / regulatory / portfolio-recommendation claim (g8 / f2). Drugs described by own published precedent (Croop 2019, Dodick 2019, Ailani 2021, Lipton 2023, and the FDA approval letters) — nothing is derived from the n=6 lattice (g3 / f1 / f_lattice_fit). The 200-disease re-mapping remains deferred per AXIS/HIERARCHY.tape Log."
+      },
+      "in_scope_drugs": [
+        {
+          "axis_mapping": {
+            "axis": "PPI",
+            "axis_layer": "expansion-sub",
+            "parent_axis": "QUANTUM (core-5)"
+          },
+          "brand": "Nurtec ODT",
+          "drug": "rimegepant",
+          "drug_precedent_refs": [
+            "Croop R et al., Lancet 394:737 (2019) — rimegepant phase III in acute migraine",
+            "Croop R et al., Lancet 397:51 (2021) — rimegepant preventive treatment of episodic migraine",
+            "FDA NDA 212728 (Nurtec ODT, 2020-02-27)"
+          ],
+          "fda_application": "NDA 212728 — Nurtec ODT first approval 2020-02-27 (acute treatment of migraine); preventive indication added 2021-05-27",
+          "fda_center": "CDER",
+          "fda_year": 2020,
+          "in_silico_only": true,
+          "modality": "small-molecule CGRP-receptor antagonist — disrupts the CGRP / CGRP-receptor protein-protein interaction by occupying the orthosteric peptide-binding site on the CLR + RAMP1 receptor complex",
+          "real_limit_anchor": "Bogan & Thorn 1998 binding-hotspot theory (J. Mol. Biol. 280:1) — interface binding free energy concentrated in a few hotspot residues (ΔΔG ≥ 2 kcal/mol by alanine scanning), bounded by the alanine-scanning ledger; druggability of flat hotspot-driven PPIs follows Wells & McClendon, Nature 450:1001 (2007)",
+          "sim_run": {
+            "dg_hotspot_cluster_kcal_per_mol": -10.2,
+            "dg_interface_kcal_per_mol": -11.6,
+            "dg_mimic_kcal_per_mol": -8.363999999999999,
+            "hotspot_ddg_threshold_kcal_per_mol": 2.0,
+            "hotspot_driven": true,
+            "hotspot_energy_fraction": 0.8793103448275862,
+            "interface_class": "alpha_helix_peptide_cleft",
+            "ledger_residual_kcal_per_mol": 0.0,
+            "mimic_within_ledger": true,
+            "mimicry_fraction": 0.82,
+            "n_hotspot_residues": 3,
+            "n_interface_residues": 5,
+            "panel_class_surrogate_for": "CGRP / CGRP-receptor PPI (alpha-helical N-terminal peptide anchor binding the CLR + RAMP1 receptor groove)",
+            "parent_panel_row": "mdm2_p53_cleft",
+            "sim_module": "ppi_sim",
+            "small_molecule_disruption_viable": true,
+            "sum_ddg_kcal_per_mol": 11.6,
+            "sum_hotspot_ddg_kcal_per_mol": 10.2
+          },
+          "sponsor": "Pfizer / Biohaven Pharmaceuticals"
+        },
+        {
+          "axis_mapping": {
+            "axis": "PPI",
+            "axis_layer": "expansion-sub",
+            "parent_axis": "QUANTUM (core-5)"
+          },
+          "brand": "Ubrelvy",
+          "drug": "ubrogepant",
+          "drug_precedent_refs": [
+            "Dodick DW et al., N Engl J Med 381:2230 (2019) — ubrogepant phase III ACHIEVE I",
+            "Lipton RB et al., JAMA 322:1887 (2019) — ubrogepant phase III ACHIEVE II",
+            "FDA NDA 211765 (Ubrelvy, 2019-12-23)"
+          ],
+          "fda_application": "NDA 211765 — Ubrelvy first approval 2019-12-23 (acute treatment of migraine with or without aura in adults)",
+          "fda_center": "CDER",
+          "fda_year": 2019,
+          "in_silico_only": true,
+          "modality": "small-molecule CGRP-receptor antagonist — disrupts the CGRP / CGRP-receptor protein-protein interaction by occupying the orthosteric peptide-binding site on the CLR + RAMP1 receptor complex",
+          "real_limit_anchor": "Bogan & Thorn 1998 binding-hotspot theory (J. Mol. Biol. 280:1) — interface binding free energy concentrated in a few hotspot residues (ΔΔG ≥ 2 kcal/mol by alanine scanning), bounded by the alanine-scanning ledger; druggability of flat hotspot-driven PPIs follows Wells & McClendon, Nature 450:1001 (2007)",
+          "sim_run": {
+            "dg_hotspot_cluster_kcal_per_mol": -10.2,
+            "dg_interface_kcal_per_mol": -11.6,
+            "dg_mimic_kcal_per_mol": -8.363999999999999,
+            "hotspot_ddg_threshold_kcal_per_mol": 2.0,
+            "hotspot_driven": true,
+            "hotspot_energy_fraction": 0.8793103448275862,
+            "interface_class": "alpha_helix_peptide_cleft",
+            "ledger_residual_kcal_per_mol": 0.0,
+            "mimic_within_ledger": true,
+            "mimicry_fraction": 0.82,
+            "n_hotspot_residues": 3,
+            "n_interface_residues": 5,
+            "panel_class_surrogate_for": "CGRP / CGRP-receptor PPI (alpha-helical N-terminal peptide anchor binding the CLR + RAMP1 receptor groove)",
+            "parent_panel_row": "mdm2_p53_cleft",
+            "sim_module": "ppi_sim",
+            "small_molecule_disruption_viable": true,
+            "sum_ddg_kcal_per_mol": 11.6,
+            "sum_hotspot_ddg_kcal_per_mol": 10.2
+          },
+          "sponsor": "AbbVie / Allergan"
+        },
+        {
+          "axis_mapping": {
+            "axis": "PPI",
+            "axis_layer": "expansion-sub",
+            "parent_axis": "QUANTUM (core-5)"
+          },
+          "brand": "Qulipta",
+          "drug": "atogepant",
+          "drug_precedent_refs": [
+            "Ailani J et al., N Engl J Med 385:695 (2021) — atogepant phase III ADVANCE",
+            "Goadsby PJ et al., Lancet Neurol 19:727 (2020) — atogepant phase IIb/III dose-finding",
+            "FDA NDA 215206 (Qulipta, 2021-09-28)"
+          ],
+          "fda_application": "NDA 215206 — Qulipta first approval 2021-09-28 (preventive treatment of episodic migraine in adults)",
+          "fda_center": "CDER",
+          "fda_year": 2021,
+          "in_silico_only": true,
+          "modality": "small-molecule CGRP-receptor antagonist — preventive; disrupts the CGRP / CGRP-receptor protein-protein interaction by occupying the orthosteric peptide-binding site on the CLR + RAMP1 receptor complex",
+          "real_limit_anchor": "Bogan & Thorn 1998 binding-hotspot theory (J. Mol. Biol. 280:1) — interface binding free energy concentrated in a few hotspot residues (ΔΔG ≥ 2 kcal/mol by alanine scanning), bounded by the alanine-scanning ledger; druggability of flat hotspot-driven PPIs follows Wells & McClendon, Nature 450:1001 (2007)",
+          "sim_run": {
+            "dg_hotspot_cluster_kcal_per_mol": -10.2,
+            "dg_interface_kcal_per_mol": -11.6,
+            "dg_mimic_kcal_per_mol": -8.363999999999999,
+            "hotspot_ddg_threshold_kcal_per_mol": 2.0,
+            "hotspot_driven": true,
+            "hotspot_energy_fraction": 0.8793103448275862,
+            "interface_class": "alpha_helix_peptide_cleft",
+            "ledger_residual_kcal_per_mol": 0.0,
+            "mimic_within_ledger": true,
+            "mimicry_fraction": 0.82,
+            "n_hotspot_residues": 3,
+            "n_interface_residues": 5,
+            "panel_class_surrogate_for": "CGRP / CGRP-receptor PPI (alpha-helical N-terminal peptide anchor binding the CLR + RAMP1 receptor groove)",
+            "parent_panel_row": "mdm2_p53_cleft",
+            "sim_module": "ppi_sim",
+            "small_molecule_disruption_viable": true,
+            "sum_ddg_kcal_per_mol": 11.6,
+            "sum_hotspot_ddg_kcal_per_mol": 10.2
+          },
+          "sponsor": "AbbVie"
+        },
+        {
+          "axis_mapping": {
+            "axis": "PPI",
+            "axis_layer": "expansion-sub",
+            "parent_axis": "QUANTUM (core-5)"
+          },
+          "brand": "Zavzpret",
+          "drug": "zavegepant",
+          "drug_precedent_refs": [
+            "Lipton RB et al., Lancet Neurol 22:209 (2023) — zavegepant intranasal phase III",
+            "Croop R et al., Headache 62:1153 (2022) — zavegepant intranasal phase II/III dose-ranging",
+            "FDA NDA 216386 (Zavzpret, 2023-03-09)"
+          ],
+          "fda_application": "NDA 216386 — Zavzpret first approval 2023-03-09 (acute treatment of migraine; first intranasal CGRP-receptor antagonist)",
+          "fda_center": "CDER",
+          "fda_year": 2023,
+          "in_silico_only": true,
+          "modality": "small-molecule CGRP-receptor antagonist — intranasal acute; disrupts the CGRP / CGRP-receptor protein-protein interaction by occupying the orthosteric peptide-binding site on the CLR + RAMP1 receptor complex",
+          "real_limit_anchor": "Bogan & Thorn 1998 binding-hotspot theory (J. Mol. Biol. 280:1) — interface binding free energy concentrated in a few hotspot residues (ΔΔG ≥ 2 kcal/mol by alanine scanning), bounded by the alanine-scanning ledger; druggability of flat hotspot-driven PPIs follows Wells & McClendon, Nature 450:1001 (2007)",
+          "sim_run": {
+            "dg_hotspot_cluster_kcal_per_mol": -10.2,
+            "dg_interface_kcal_per_mol": -11.6,
+            "dg_mimic_kcal_per_mol": -8.363999999999999,
+            "hotspot_ddg_threshold_kcal_per_mol": 2.0,
+            "hotspot_driven": true,
+            "hotspot_energy_fraction": 0.8793103448275862,
+            "interface_class": "alpha_helix_peptide_cleft",
+            "ledger_residual_kcal_per_mol": 0.0,
+            "mimic_within_ledger": true,
+            "mimicry_fraction": 0.82,
+            "n_hotspot_residues": 3,
+            "n_interface_residues": 5,
+            "panel_class_surrogate_for": "CGRP / CGRP-receptor PPI (alpha-helical N-terminal peptide anchor binding the CLR + RAMP1 receptor groove)",
+            "parent_panel_row": "mdm2_p53_cleft",
+            "sim_module": "ppi_sim",
+            "small_molecule_disruption_viable": true,
+            "sum_ddg_kcal_per_mol": 11.6,
+            "sum_hotspot_ddg_kcal_per_mol": 10.2
+          },
+          "sponsor": "Pfizer"
+        }
+      ],
+      "not_in_scope_drugs": [
+        {
+          "axis": null,
+          "brand": "Aimovig",
+          "drug": "erenumab",
+          "drug_precedent_refs": [
+            "Goadsby PJ et al., N Engl J Med 377:2123 (2017) — erenumab phase III STRIVE",
+            "FDA BLA 761077 (Aimovig, 2018-05-17, CBER)"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2018,
+          "in_scope": false,
+          "modality": "anti-CGRP-RECEPTOR fully human IgG2 monoclonal antibody — subcutaneous; the only anti-receptor mAb in the class (the other three target the CGRP ligand itself)",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Monoclonal antibodies are CBER-regulated; implementing a code axis for CBER mAbs would breach criterion #4 + g8 in-silico-only honesty. FDA-approved 2018 (BLA 761077).",
+          "reported_not_run": true,
+          "sponsor": "Amgen / Novartis",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status (same UNPLACED handling family) and @N adc_status (parallel CBER-antibody-scope UNPLACED note); case_studies/sma_portfolio/ Zolgensma row as the in-repo precedent for CBER FDA-approved biologics"
+        },
+        {
+          "axis": null,
+          "brand": "Ajovy",
+          "drug": "fremanezumab",
+          "drug_precedent_refs": [
+            "Silberstein SD et al., N Engl J Med 377:2113 (2017) — fremanezumab phase III HALO-CM/HALO-EM",
+            "FDA BLA 761089 (Ajovy, 2018-09-14, CBER)"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2018,
+          "in_scope": false,
+          "modality": "anti-CGRP humanized IgG2 monoclonal antibody — subcutaneous (monthly or quarterly); targets the CGRP ligand",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Monoclonal antibodies are CBER-regulated; implementing a code axis for CBER mAbs would breach criterion #4 + g8 in-silico-only honesty. FDA-approved 2018 (BLA 761089).",
+          "reported_not_run": true,
+          "sponsor": "Teva Pharmaceuticals",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status (same UNPLACED handling family) and @N adc_status (parallel CBER-antibody-scope UNPLACED note); case_studies/sma_portfolio/ Zolgensma row as the in-repo precedent for CBER FDA-approved biologics"
+        },
+        {
+          "axis": null,
+          "brand": "Emgality",
+          "drug": "galcanezumab",
+          "drug_precedent_refs": [
+            "Stauffer VL et al., JAMA Neurol 75:1080 (2018) — galcanezumab phase III EVOLVE-1",
+            "Skljarevski V et al., Cephalalgia 38:1442 (2018) — galcanezumab phase III EVOLVE-2",
+            "FDA BLA 761063 (Emgality, 2018-09-27, CBER)"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2018,
+          "in_scope": false,
+          "modality": "anti-CGRP humanized IgG4 monoclonal antibody — subcutaneous monthly; targets the CGRP ligand",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Monoclonal antibodies are CBER-regulated; implementing a code axis for CBER mAbs would breach criterion #4 + g8 in-silico-only honesty. FDA-approved 2018 (BLA 761063).",
+          "reported_not_run": true,
+          "sponsor": "Eli Lilly",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status (same UNPLACED handling family) and @N adc_status (parallel CBER-antibody-scope UNPLACED note); case_studies/sma_portfolio/ Zolgensma row as the in-repo precedent for CBER FDA-approved biologics"
+        },
+        {
+          "axis": null,
+          "brand": "Vyepti",
+          "drug": "eptinezumab",
+          "drug_precedent_refs": [
+            "Ashina M et al., Cephalalgia 40:241 (2020) — eptinezumab phase III PROMISE-1",
+            "Lipton RB et al., Neurology 94:e1365 (2020) — eptinezumab phase III PROMISE-2",
+            "FDA BLA 761119 (Vyepti, 2020-02-21, CBER)"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2020,
+          "in_scope": false,
+          "modality": "anti-CGRP humanized IgG1 monoclonal antibody — INTRAVENOUS (the only IV mAb in the class; quarterly infusion); targets the CGRP ligand",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Monoclonal antibodies are CBER-regulated; implementing a code axis for CBER mAbs would breach criterion #4 + g8 in-silico-only honesty. FDA-approved 2020 (BLA 761119).",
+          "reported_not_run": true,
+          "sponsor": "Lundbeck (Alder BioPharmaceuticals)",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status (same UNPLACED handling family) and @N adc_status (parallel CBER-antibody-scope UNPLACED note); case_studies/sma_portfolio/ Zolgensma row as the in-repo precedent for CBER FDA-approved biologics"
+        }
+      ],
+      "schema_version": "migraine_portfolio_v1",
+      "sentinel": "__MIGRAINE_PORTFOLIO__ PASS",
+      "ts": "2026-05-16T00:00:00Z"
+    },
+    "mpro_covid": {
+      "acceptance": {
+        "criteria": {
+          "X10_K_eq_self_consistent": true,
+          "X1_one_in_scope_drug": true,
+          "X2_all_in_scope_are_cder": true,
+          "X3_each_in_scope_has_real_limit_anchor": true,
+          "X4_each_in_scope_has_axis_mapping": true,
+          "X5_in_scope_in_silico_only_flag_set": true,
+          "X6_research_stage_negatives_recorded": true,
+          "X7_negatives_marked_not_run": true,
+          "X8_nirmatrelvir_row_is_reversible": true,
+          "X9_eyring_ceiling_respected": true
+        },
+        "pass_count": 10,
+        "total": 10,
+        "verdict": "PASS"
+      },
+      "case_study_id": "mpro_covid_portfolio.v1",
+      "cross_axis_touch_points": [
+        {
+          "id": "A5",
+          "module": "_python_bridge/module/reversible_covalent_mpro_vqe_cross.py",
+          "note": "QUANTUM-axis Mpro warhead ΔE_rxn → REVERSIBLE-COVALENT Eyring kinetics → koff → residence time → reversibility class. The 5 panel rows are illustrative_only; this case study lifts the nitrile_nirmatrelvir row as the nirmatrelvir/Paxlovid drug-precedent line."
+        }
+      ],
+      "disease": {
+        "abbreviation": "COVID-19",
+        "catalytic_residue": "Cys145 (Mpro Cys145/His41 catalytic dyad)",
+        "name": "Coronavirus disease 2019 (SARS-CoV-2 infection)",
+        "target_protein": "SARS-CoV-2 main protease (Mpro / 3CLpro / nsp5)"
+      },
+      "honesty": {
+        "core_5_unchanged": true,
+        "in_silico_only": true,
+        "no_fork_of_sister_sims": true,
+        "no_lattice_derivation": true,
+        "one_disease_pilot_not_200_disease_remap": true,
+        "research_stage_negatives_listed_honestly": true,
+        "statement": "Per-disease IN-SILICO composition of one existing sub-axis sim (REVERSIBLE-COVALENT :> COVALENT) for one FDA-approved CDER drug (nirmatrelvir / Paxlovid). Non-US-FDA (ensitrelvir / PMDA), research-stage (non-covalent Mpro chemotypes) and CBER (anti-SARS-CoV-2 mAbs) negatives are recorded honestly, not modeled. NEVER a therapeutic / clinical / antiviral / efficacy / regulatory / portfolio-recommendation claim (g8 / f2). nirmatrelvir is described via its own published precedent (Owen et al. 2021; FDA NDA 217188) — nothing here is derived from the n=6 lattice (g3 / f1 / f_lattice_fit). The 200-disease re-mapping remains deferred per AXIS/HIERARCHY.tape Log."
+      },
+      "in_scope_drugs": [
+        {
+          "axis_mapping": {
+            "axis": "REVERSIBLE-COVALENT",
+            "axis_layer": "expansion-sub",
+            "parent_axis": "COVALENT (expansion-main)"
+          },
+          "brand": "Paxlovid (nirmatrelvir + ritonavir)",
+          "drug": "nirmatrelvir",
+          "drug_precedent_refs": [
+            "Owen et al., Science 374:1586 (2021)",
+            "Boras et al., Nat. Commun. 12:6055 (2021)",
+            "FDA NDA 217188 (Paxlovid full approval, 2023-05-25)"
+          ],
+          "fda_application": "EUA 091 (2022); NDA 217188 (full approval 2023-05-25)",
+          "fda_center": "CDER",
+          "fda_year": 2022,
+          "in_silico_only": true,
+          "modality": "reversible covalent nitrile warhead — forms a thioimidate adduct with the SARS-CoV-2 Mpro catalytic-dyad Cys145 thiolate",
+          "real_limit_anchor": "Eyring transition-state theory (Eyring, J. Chem. Phys. 3:107, 1935): the universal frequency prefactor kB·T/h ≈ 6.46e12 /s at T = 310 K bounds every modelled unimolecular rate",
+          "sim_run": {
+            "K_eq": 11.415056465866023,
+            "K_eq_consistency_rel_err": 1.711767724656661e-15,
+            "dg_on_kcal_per_mol": 18.0,
+            "dg_rxn_kcal_per_mol": -1.5,
+            "koff_below_eyring_ceiling": true,
+            "koff_per_s": 0.11560433332839248,
+            "kon_below_eyring_ceiling": true,
+            "kon_per_s": 1.3196299926423976,
+            "residence_time_human": "8.65 s",
+            "residence_time_s": 8.65019477392202,
+            "reversibility": "reversible",
+            "sim_module": "reversible_covalent_sim",
+            "warhead": "nitrile_nirmatrelvir",
+            "warhead_class": "nitrile_to_thioimidate"
+          },
+          "sponsor": "Pfizer"
+        }
+      ],
+      "research_stage_negatives": [
+        {
+          "axis_in_repo": "REVERSIBLE-COVALENT (general covalent-axis non-covalent contrast)",
+          "candidate_class": "ensitrelvir (Xocova, Shionogi) — non-covalent Mpro inhibitor, Japan PMDA-only",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "ensitrelvir is approved by Japan PMDA only; criterion #4 keeps US-FDA discipline for in-scope drugs. Recorded honestly, not modeled.",
+          "reported_not_run": true,
+          "status": "non-US-FDA (Japan PMDA emergency approval 2022-11; conditional full approval 2024)"
+        },
+        {
+          "axis_in_repo": null,
+          "candidate_class": "non-covalent Mpro inhibitor chemotypes (e.g. PF-00835231 piperidinone, HTS leads)",
+          "fda_approved": false,
+          "in_scope": false,
+          "reason": "no FDA-approved non-covalent Mpro inhibitor exists; various non-covalent chemotypes from the early COVID-19 response remain research-stage",
+          "reported_not_run": true,
+          "status": "research-stage"
+        },
+        {
+          "axis_in_repo": null,
+          "candidate_class": "anti-SARS-CoV-2 monoclonal antibody (tixagevimab/cilgavimab, bebtelovimab, etc.)",
+          "fda_approved": false,
+          "fda_center_if_filed": "CBER",
+          "in_scope": false,
+          "reason": "CBER-regulated biologic; out of repo CDER scope per criterion #4 drug-only/CDER discipline. All currently authorised anti-SARS-CoV-2 mAbs have been withdrawn or de-authorised against contemporary variants. Honest UNPLACED, same pattern as Zolgensma in case_studies/sma_portfolio/.",
+          "reported_not_run": true,
+          "status": "withdrawn / de-authorised against contemporary variants",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status"
+        }
+      ],
+      "schema_version": "mpro_covid_portfolio_v1",
+      "sentinel": "__MPRO_COVID_PORTFOLIO__ PASS",
+      "ts": "2026-05-16T00:00:00Z"
+    },
+    "parkinson": {
+      "case_study_id": "parkinson_portfolio.v1",
+      "cder_in_scope_no_axis_mapping": [
+        {
+          "axis": null,
+          "brand": "Sinemet (carbidopa-levodopa)",
+          "cder_in_scope_but_no_axis_mapping": true,
+          "drug_name": "levodopa",
+          "drug_precedent_citations": [
+            "Cotzias GC, Van Woert MH, Schiffer LM 1967, N Engl J Med 276:374-379 (L-DOPA oral therapy for Parkinson disease)",
+            "Birkmayer W, Hornykiewicz O 1961, Wien Klin Wochenschr 73:787-788 (intravenous L-DOPA for parkinsonian akinesia)",
+            "FDA NDA 017555 — carbidopa-levodopa (Sinemet) approval 1975-05-02, CDER (levodopa monotherapy FDA-approved 1970)"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 1970,
+          "in_scope_by_cder_discipline": true,
+          "modality": "small molecule — dopamine PRECURSOR amino-acid (L-3,4-dihydroxyphenylalanine, L-DOPA); crosses the blood-brain barrier and is decarboxylated to dopamine by aromatic amino-acid decarboxylase (AADC) in surviving nigrostriatal neurons. Carbidopa is a peripheral AADC inhibitor co-administered to limit peripheral conversion and side effects.",
+          "no_axis_map_reason": "levodopa is a single amino acid given as a precursor replacement — it is NOT a folded peptide (so the PEPTIDE sub-axis with its Zimm-Bragg helix-coil anchor does not apply: there is no helix-coil partition to compute on one residue), NOT a metallodrug (no coordinating metal center), NOT a covalent inhibitor (no warhead), NOT a PROTAC or molecular glue, NOT a macrocycle, NOT RNA-targeting. The expansion-layer axes were registered for new modality chemistries; amino-acid-precursor replacement is a 1960s metabolic-substitution mechanism with no matching axis. Force-fitting into PEPTIDE would be f1 — flag, do not force-fit.",
+          "no_axis_mapping": true,
+          "reported_not_run": true,
+          "sponsor": "Merck Sharp & Dohme (MSD)",
+          "symptomatic_not_disease_modifying": true
+        },
+        {
+          "axis": null,
+          "brand": "Comtan",
+          "cder_in_scope_but_no_axis_mapping": true,
+          "drug_name": "entacapone",
+          "drug_precedent_citations": [
+            "Mannisto PT, Kaakkola S 1999, Pharmacol Rev 51:593-628 (COMT and its inhibitors; entacapone pharmacology)",
+            "Backstrom R et al. 1989, J Med Chem 32:841-846 (nitrocatechol COMT inhibitor design)",
+            "FDA NDA 020796 — entacapone (Comtan) approval 1999-10-19, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 1999,
+          "in_scope_by_cder_discipline": true,
+          "modality": "small molecule — reversible peripheral catechol-O-methyltransferase (COMT) inhibitor; nitrocatechol pharmacophore competes with the catechol substrate to slow peripheral levodopa O-methylation, prolonging levodopa availability for central uptake. Levodopa adjunct, not monotherapy.",
+          "no_axis_map_reason": "Reversible competitive enzyme inhibition is the classical small-molecule mechanism; it is NOT a new modality chemistry. The expansion-layer axes (PROTAC / CAM / OLIGONUCLEOTIDE / METALLODRUG / COVALENT / BIFUNCTIONAL / sub-axes) were registered for distinct new-modality invariants. A reversible classical enzyme inhibitor does not introduce a new invariant — it is well-served by classical pharmacology and does not need its own axis. Same honest-gap call as the T2DM portfolio's SGLT2 inhibitors. Force-fitting would be f1 — flag, do not force-fit.",
+          "no_axis_mapping": true,
+          "reported_not_run": true,
+          "sponsor": "Novartis",
+          "symptomatic_not_disease_modifying": true
+        },
+        {
+          "axis": null,
+          "brand": "Ongentys",
+          "cder_in_scope_but_no_axis_mapping": true,
+          "drug_name": "opicapone",
+          "drug_precedent_citations": [
+            "Kiss LE et al. 2010, J Med Chem 53:3396-3411 (opicapone discovery; nitrocatechol oxadiazole COMT inhibitor)",
+            "Ferreira JJ et al. 2016, Lancet Neurol 15:154-165 (BIPARK-I opicapone phase III)",
+            "FDA NDA 212489 — opicapone (Ongentys) approval 2020-04-24, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2020,
+          "in_scope_by_cder_discipline": true,
+          "modality": "small molecule — third-generation reversible peripheral COMT inhibitor; 1,2,4-oxadiazole nitrocatechol with slow-off-rate kinetics enabling once-daily dosing as a levodopa adjunct for end-of-dose 'off' periods.",
+          "no_axis_map_reason": "Same class as entacapone — reversible competitive COMT inhibition. No new-modality invariant; no expansion-layer axis fit. Slow-off-rate kinetics is a drug-design refinement on a classical mechanism, not a new modality. Honest call: flag, do not force-fit.",
+          "no_axis_mapping": true,
+          "reported_not_run": true,
+          "sponsor": "Neurocrine Biosciences (BIAL originator)",
+          "symptomatic_not_disease_modifying": true
+        },
+        {
+          "axis": null,
+          "brand": "Xadago",
+          "cder_in_scope_but_no_axis_mapping": true,
+          "drug_name": "safinamide",
+          "drug_precedent_citations": [
+            "Caccia C et al. 2006, Neurology 67(7 Suppl 2):S18-S23 (safinamide pharmacology — reversible MAO-B + glutamate)",
+            "Borgohain R et al. 2014, Mov Disord 29:229-237 (safinamide SETTLE phase III)",
+            "FDA NDA 207145 — safinamide (Xadago) approval 2017-03-21, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2017,
+          "in_scope_by_cder_discipline": true,
+          "modality": "small molecule — REVERSIBLE selective MAO-B inhibitor (alpha-aminoamide pharmacophore) with additional state-dependent sodium-channel blockade that reduces stimulated glutamate release. Levodopa adjunct for 'off' episodes.",
+          "no_axis_map_reason": "REVERSIBLE MAO-B inhibition — explicitly NOT a covalent warhead mechanism (no propargylamine, no FAD adduct). The additional state-dependent sodium-channel block is classical channel pharmacology. Neither component maps onto any expansion-layer axis. Because safinamide is reversible it does NOT even share the observational covalency that flags rasagiline / selegiline as borderline COVALENT; the honest call is cder_in_scope_no_axis_mapping. Force-fitting would be f1.",
+          "no_axis_mapping": true,
+          "reported_not_run": true,
+          "sponsor": "Newron Pharmaceuticals",
+          "symptomatic_not_disease_modifying": true
+        }
+      ],
+      "cross_axis_touch_point": {
+        "bridge_id": null,
+        "honesty_note": "No clean cross-axis touch point applies. The two borderline-COVALENT rows do not bridge to a sister axis cleanly — the borderline placement is the whole point and bridging the borderline mapping into a second axis would compound the honesty concern. The four CDER-no-axis-mapping rows have no source axis to bridge from. This is a structural acknowledgement, not a gap.",
+        "module": null
+      },
+      "disease": {
+        "abbreviation": "PD",
+        "honest_modality_landscape": "FDA-approved Parkinson pharmacopoeia is dominated by OLD (1970s-2010s) CDER small molecules whose mechanisms do NOT map cleanly onto the new expansion-layer axes: levodopa (1970) is an amino-acid PRECURSOR replacement therapy (no axis); rasagiline (2006) / selegiline (1989) are MAO-B irreversible PROPARGYLAMINEs that form a covalent bond — BUT to the flavin N5 of FAD, NOT to the cysteine-warhead palette that anchors the modern COVALENT axis (borderline COVALENT, flagged honestly); entacapone (1999), opicapone (2020), and safinamide (2017) are CLASSICAL reversible enzyme inhibitors with no axis fit. Research-stage CBER candidates (AAV gene therapy, anti-alpha-synuclein mAbs) are UNPLACED. ZERO clean axis-fit + 2 borderline COVALENT + 4 CDER-no-axis-mapping is the honest result, echoing Alzheimer (ZERO in-scope) and Type 2 Diabetes (SGLT2 no-axis-map) as another no-clean-axis-fit disease.",
+        "name": "Parkinson disease",
+        "primary_pathology": "progressive degeneration of nigrostriatal dopaminergic neurons in the substantia nigra pars compacta + Lewy-body alpha-synuclein proteinopathy; motor symptoms (bradykinesia, rigidity, resting tremor, postural instability) emerge once striatal dopamine depletion exceeds compensatory thresholds."
+      },
+      "honesty": {
+        "all_cder_no_axis_drugs_fda_approved": true,
+        "all_in_scope_drugs_fda_approved": true,
+        "axes_designed_for_new_modalities_not_legacy_neuropharmacology": true,
+        "borderline_is_honest_not_force_fit": true,
+        "borderline_placement_documented": true,
+        "cder_in_scope_no_axis_mapping_is_honest_gap": true,
+        "in_silico_only": true,
+        "no_lattice_derivation": true,
+        "not_a_clinical_claim": true,
+        "not_a_portfolio_recommendation": true,
+        "not_a_superiority_claim": true,
+        "not_an_efficacy_ranking": true,
+        "research_stage_cber_unplaced_honestly": true,
+        "scope_is_one_disease_pilot": true,
+        "statement": "Parkinson disease is another no-clean-axis-fit case study, joining Alzheimer (ZERO in-scope; all three disease-modifying drugs CBER mAbs + cholinergic palliatives no-axis-map) and Type 2 Diabetes (SGLT2 inhibitors no-axis-map). The two MAO-B irreversible propargylamines (rasagiline 2006, selegiline 1989) are placed under COVALENT honestly as BORDERLINE — they DO form a covalent bond, but to flavin N5 of FAD rather than to the cysteine-warhead palette that anchors the modern COVALENT axis. Every in-scope row carries `borderline_axis_mapping: true` + a per-row `borderline_reason`; the parent covalent_inhibition_sim is invoked via importlib (f3 no-fork) and its Eyring TST ceiling (kB*T/h, generic) is carried forward as the real-limit anchor — NOT a drug-specific kinact / Ki fit. Four other CDER FDA-approved drugs (levodopa 1970, entacapone 1999, opicapone 2020, safinamide 2017) carry the T2DM-portfolio honesty const `cder_in_scope_but_no_axis_mapping: true` with per-row `no_axis_map_reason`. Research-stage CBER candidates (AAV gene therapy, anti-alpha-synuclein mAbs — no FDA approval) are recorded as honest UNPLACED negatives using the SMA-portfolio / @N genetic_medicine_status pattern. Every PASS certifies in-silico simulator + metadata internal consistency ONLY — NEVER a therapeutic, motor-symptom, neuroprotective, disease-modifying, immunogenic, regulatory, or portfolio-recommendation claim (g8 / f2). All listed drugs are described via their own published precedent (g3 / f1); nothing is derived from the n=6 lattice (f_lattice_fit). Scope = one-disease Parkinson pilot, NOT the deferred 200-disease re-mapping."
+      },
+      "in_scope_drugs": [
+        {
+          "axis": "COVALENT",
+          "axis_layer": "expansion-main",
+          "axis_module": "covalent_inhibition_sim",
+          "borderline_axis_mapping": true,
+          "borderline_reason": "MAO-B irreversible propargylamine inhibitors form a covalent bond — observational covalency IS present — but the bond is between the propargylamine carbon and the flavin N5 of the FAD cofactor, NOT to a target-protein cysteine thiolate. The modern COVALENT axis was registered with the cysteine-acrylamide warhead palette as its real-limit anchor (ibrutinib BTK Cys481; sotorasib / adagrasib KRAS-G12C Cys12; afatinib EGFR Cys797). MAO-B propargylamines lie outside that warhead palette. Placing them under COVALENT is therefore BORDERLINE, not clean — the Eyring TST real-limit (kB*T/h ceiling on any elementary covalent step) applies generically and is the honest anchor carried forward; the warhead-class chemistry is documented as a divergence. Omitting this borderline flag and silently placing the drugs under COVALENT would be f1 lattice-fit-on-external-entity (observational similarity treated as derivational identity).",
+          "brand": "Azilect",
+          "drug_name": "rasagiline",
+          "drug_precedent_citations": [
+            "Youdim MB, Bakhle YS 2006, Br J Pharmacol 147:S287-S296 (MAO inhibitor pharmacology review; rasagiline N-propargyl-1-aminoindan mechanism)",
+            "Binda C et al. 2004, J Med Chem 47:1767-1774 (crystal structure of rasagiline bound to MAO-B; flavin N5 adduct)",
+            "FDA NDA 021641 — rasagiline mesylate (Azilect) approval 2006-05-16, CDER"
+          ],
+          "eyring_prefactor_ceiling_per_s": 6459351928231.548,
+          "fda_center": "CDER",
+          "fda_year": 2006,
+          "in_scope": true,
+          "in_silico_only": true,
+          "kinact_eyring_tst_per_s": 0.2602955848142422,
+          "kinact_tst_below_eyring_ceiling": true,
+          "modality": "small molecule — MAO-B selective IRREVERSIBLE propargylamine inhibitor; the propargyl carbon reacts with the flavin N5 of FAD to form a stable N5-flavocyanine adduct, covalently inactivating MAO-B (R-(+)-N-propargyl-1-aminoindan)",
+          "real_limit_anchor": "Eyring transition-state theory — the universal frequency prefactor kB*T/h (~6.46e12 /s at T=310 K) is the hard unimolecular ceiling on any elementary covalent bond-forming step. This generic physical ceiling anchors any covalent-step kinact regardless of warhead chemistry — it is the part of the COVALENT axis real-limit anchor that applies without controversy to MAO-B propargylamines. The kinact / Ki kinetic framework (Strelow 2017) was developed for the cysteine-acrylamide palette and is registered as the parent sim's framework anchor; it is reported here as carried forward from the parent sim's panel surrogate, NOT fitted to the drug.",
+          "real_limit_citations": [
+            "Eyring H, J. Chem. Phys. 1935;3:107-115 (transition-state theory; kB*T/h universal prefactor)",
+            "Strelow JM, J Biomol Screen / SLAS Discovery 2017;22(1):3-20 (kinact/Ki covalent-inhibitor framework)"
+          ],
+          "sim_module": "covalent_inhibition_sim",
+          "sim_panel_surrogate": "acrylamide_thio_michael_class_surrogate",
+          "sponsor": "Teva"
+        },
+        {
+          "axis": "COVALENT",
+          "axis_layer": "expansion-main",
+          "axis_module": "covalent_inhibition_sim",
+          "borderline_axis_mapping": true,
+          "borderline_reason": "MAO-B irreversible propargylamine inhibitors form a covalent bond — observational covalency IS present — but the bond is between the propargylamine carbon and the flavin N5 of the FAD cofactor, NOT to a target-protein cysteine thiolate. The modern COVALENT axis was registered with the cysteine-acrylamide warhead palette as its real-limit anchor (ibrutinib BTK Cys481; sotorasib / adagrasib KRAS-G12C Cys12; afatinib EGFR Cys797). MAO-B propargylamines lie outside that warhead palette. Placing them under COVALENT is therefore BORDERLINE, not clean — the Eyring TST real-limit (kB*T/h ceiling on any elementary covalent step) applies generically and is the honest anchor carried forward; the warhead-class chemistry is documented as a divergence. Omitting this borderline flag and silently placing the drugs under COVALENT would be f1 lattice-fit-on-external-entity (observational similarity treated as derivational identity).",
+          "brand": "Eldepryl",
+          "drug_name": "selegiline",
+          "drug_precedent_citations": [
+            "Youdim MB, Bakhle YS 2006, Br J Pharmacol 147:S287-S296 (MAO inhibitor pharmacology review; selegiline / L-deprenyl as the prototype propargylamine MAO-B inhibitor)",
+            "Knoll J, Magyar K 1972, Adv Biochem Psychopharmacol 5:393-408 (selegiline / deprenyl discovery and MAO-B selectivity)",
+            "FDA NDA 019334 — selegiline hydrochloride (Eldepryl) approval 1989-06-05, CDER"
+          ],
+          "eyring_prefactor_ceiling_per_s": 6459351928231.548,
+          "fda_center": "CDER",
+          "fda_year": 1989,
+          "in_scope": true,
+          "in_silico_only": true,
+          "kinact_eyring_tst_per_s": 0.2602955848142422,
+          "kinact_tst_below_eyring_ceiling": true,
+          "modality": "small molecule — MAO-B selective IRREVERSIBLE propargylamine inhibitor; the propargyl carbon reacts with the flavin N5 of FAD to form a stable N5-flavocyanine adduct, covalently inactivating MAO-B (R-(-)-N,alpha-dimethyl-N-2-propynylphenethylamine; original L-deprenyl)",
+          "real_limit_anchor": "Eyring transition-state theory — the universal frequency prefactor kB*T/h (~6.46e12 /s at T=310 K) is the hard unimolecular ceiling on any elementary covalent bond-forming step. Generic physical ceiling, applies to MAO-B propargylamines without warhead-palette qualification. Strelow 2017 kinact/Ki framework reported as carried forward from the parent sim, NOT fitted to selegiline.",
+          "real_limit_citations": [
+            "Eyring H, J. Chem. Phys. 1935;3:107-115 (transition-state theory; kB*T/h universal prefactor)",
+            "Strelow JM, J Biomol Screen / SLAS Discovery 2017;22(1):3-20 (kinact/Ki covalent-inhibitor framework)"
+          ],
+          "sim_module": "covalent_inhibition_sim",
+          "sim_panel_surrogate": "acrylamide_thio_michael_class_surrogate",
+          "sponsor": "Mylan"
+        }
+      ],
+      "not_in_scope_drugs": [
+        {
+          "axis": null,
+          "candidate_class": "AAV-based gene therapy for Parkinson disease (e.g. AAV2-GDNF, AAV2-AADC, AAV2-GAD — multiple sponsors, phase I/II)",
+          "fda_approved": false,
+          "fda_center_if_filed": "CBER",
+          "in_scope": false,
+          "reason": "AAV-vectored gene therapies for Parkinson disease are biologics. They fall outside the hexa-bio criterion #4 drug-only/CDER scope boundary. No FDA-approved AAV gene therapy exists for Parkinson disease as of this case study's evidence horizon; the candidate class is listed for honest portfolio coverage, NOT for in-silico modeling.",
+          "reported_not_run": true,
+          "status": "research-stage / clinical-trial-stage; no FDA approval; CBER-regulated if/when filed (PHSA §351 BLA)",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status + case_studies/sma_portfolio/ Zolgensma row — the same CBER UNPLACED pattern. Anti-amyloid mAbs in case_studies/alzheimer_portfolio/ also follow this pattern."
+        },
+        {
+          "axis": null,
+          "candidate_class": "anti-alpha-synuclein monoclonal antibody (e.g. prasinezumab, cinpanemab — phase II / discontinued)",
+          "fda_approved": false,
+          "fda_center_if_filed": "CBER",
+          "in_scope": false,
+          "reason": "Anti-alpha-synuclein monoclonal antibodies are biologics (CBER under PHSA §351 BLA), outside criterion #4 CDER discipline. None is FDA-approved for Parkinson disease. Listed for honest portfolio coverage, NOT for in-silico modeling.",
+          "reported_not_run": true,
+          "status": "research-stage / clinical-trial-stage; no FDA approval (multiple phase II readouts; cinpanemab discontinued 2021); CBER-regulated if/when filed (PHSA §351 BLA)",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status + case_studies/alzheimer_portfolio/ anti-amyloid mAb UNPLACED rows — the same CBER mAb UNPLACED pattern."
+        }
+      ],
+      "schema_version": "parkinson_portfolio_v1",
+      "sentinel": "__PARKINSON_PORTFOLIO__ PASS"
+    },
+    "sickle_cell": {
+      "acceptance": {
+        "criteria": {
+          "X10_allosteric_ceiling_respected": true,
+          "X11_two_cder_no_axis_drugs": true,
+          "X12_cder_no_axis_all_cder_and_axis_null": true,
+          "X13_three_cber_unplaced_drugs": true,
+          "X14_cber_unplaced_all_cber_and_axis_null": true,
+          "X15_all_negatives_have_drug_precedent_refs": true,
+          "X1_one_in_scope_drug_voxelotor": true,
+          "X2_voxelotor_has_two_axis_mappings": true,
+          "X3_voxelotor_ppi_is_primary": true,
+          "X4_voxelotor_allosteric_is_secondary": true,
+          "X5_in_scope_is_cder": true,
+          "X6_in_silico_only_flag_set": true,
+          "X7_ppi_side_hotspot_driven": true,
+          "X8_ppi_side_ledger_conserved": true,
+          "X9_allosteric_side_is_PAM": true
+        },
+        "pass_count": 15,
+        "total": 15,
+        "verdict": "PASS"
+      },
+      "case_study_id": "sickle_cell_portfolio.v1",
+      "cder_in_scope_no_axis_mapping": [
+        {
+          "axis": null,
+          "brand": "Hydrea / Droxia / Siklos",
+          "category": "cder_in_scope_but_no_axis_mapping",
+          "drug": "hydroxyurea",
+          "drug_precedent_refs": [
+            "Charache et al., N. Engl. J. Med. 332:1317 (1995) — Multicenter Study of Hydroxyurea in Sickle Cell Anemia",
+            "FDA NDA 016295 (Hydrea, originally approved 1967 for neoplastic disease); SCD supplemental approval as Droxia 1998-02-25 (CDER)",
+            "FDA NDA 208843 — Siklos pediatric SCD approval 2017-12-21 (Addmedica, CDER)"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 1998,
+          "in_scope": false,
+          "modality": "ribonucleotide reductase inhibitor; induces fetal hemoglobin (HbF) reactivation in erythroid progenitors (primarily via NO-mediated upregulation of γ-globin expression). The mechanism is a gene-expression / transcriptional response — not a protein-protein contact disruption, not an allosteric modulator on a defined MWC two-state target, not an RNA-targeting small molecule, not an oligonucleotide, not a capsid modulator, not a bifunctional degrader.",
+          "reason": "CDER small molecule INSIDE the criterion #4 drug-only/CDER scope, but its gene-expression-modulator mechanism does NOT map cleanly onto any current in-repo axis. The honest call is to list it structurally as `cder_in_scope_but_no_axis_mapping`, not to invent a forced axis.",
+          "reported_not_run": true,
+          "sponsor": "Bristol-Myers Squibb (Hydrea / Droxia); Addmedica (Siklos)"
+        },
+        {
+          "axis": null,
+          "brand": "Endari",
+          "category": "cder_in_scope_but_no_axis_mapping",
+          "drug": "L-glutamine",
+          "drug_precedent_refs": [
+            "Niihara et al., N. Engl. J. Med. 379:226 (2018) — Phase III L-glutamine in SCD",
+            "FDA NDA 208587 — Endari approval 2017-07-07 (CDER)"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2017,
+          "in_scope": false,
+          "modality": "pharmaceutical-grade oral L-glutamine; nitrogen-substrate / NAD+ / glutathione redox-balance support in erythrocytes (antioxidant-substrate mechanism). Reduces frequency of acute vaso-occlusive complications. The mechanism is metabolic substrate provision — not a protein-protein contact disruption, not an allosteric modulator on a defined MWC two-state target.",
+          "reason": "CDER small molecule INSIDE the criterion #4 drug-only/CDER scope, but its antioxidant-substrate mechanism does NOT map cleanly onto any current in-repo axis. The honest call is to list it structurally as `cder_in_scope_but_no_axis_mapping`.",
+          "reported_not_run": true,
+          "sponsor": "Emmaus Medical"
+        }
+      ],
+      "cross_axis_touch_points": [
+        {
+          "id": "G2",
+          "module": "_python_bridge/module/allosteric_cryptic_pocket_cross.py",
+          "note": "ALLOSTERIC × CRYPTIC-POCKET. The MWC two-state model and the cryptic-pocket open/closed population coincide identically under R↔open mapping. Voxelotor's R-state stabilization is the textbook MWC mechanism the G2 cross formalizes."
+        },
+        {
+          "id": "G3",
+          "module": "_python_bridge/module/ppi_molecular_glue_cross.py",
+          "note": "PPI × MOLECULAR-GLUE. Listed for completeness of the cross-axis touch-point map; voxelotor is a PPI disruptor (not a glue), so this touch-point is cited as a framework anchor for the PPI side, not as a mechanism claim for voxelotor."
+        }
+      ],
+      "disease": {
+        "abbreviation": "SCD",
+        "name": "Sickle Cell Disease",
+        "shared_gene": "HBB (β-globin) — β6 Glu→Val sickle mutation",
+        "shared_pathology": "deoxy-HbS polymerization in erythrocytes → vaso-occlusive crises and chronic hemolytic anemia"
+      },
+      "honesty": {
+        "cber_unplaced_listed_honestly": true,
+        "cder_no_axis_listed_honestly": true,
+        "core_5_unchanged": true,
+        "in_silico_only": true,
+        "no_fork_of_sister_sims": true,
+        "no_lattice_derivation": true,
+        "one_disease_pilot_not_200_disease_remap": true,
+        "statement": "Per-disease IN-SILICO composition of two existing axis sims (ppi_sim + allosteric_sim) for the single FDA-approved CDER small molecule that maps cleanly onto in-repo axes for SCD: voxelotor (Oxbryta, FDA 2019). Voxelotor uniquely carries a DUAL axis mapping — its mechanism is simultaneously a PPI disruption (HbS-HbS deoxy-polymer contact at the α-chain N-terminal patch — primary) and a pure-MWC allosteric R/T modulation (secondary). The dual mapping is recorded structurally via an `axis_mappings` LIST. Two CDER-in-scope drugs whose mechanisms do not map onto current in-repo axes (hydroxyurea, L-glutamine) are recorded structurally in `cder_in_scope_no_axis_mapping` — honest coverage facts, not failures. Three CBER drugs (Casgevy, Lyfgenia, crizanlizumab) are recorded as UNPLACED in `not_in_scope_drugs` per criterion #4 drug-only/CDER discipline — same pattern as the Zolgensma row in the SMA portfolio. NEVER a therapeutic / clinical / efficacy / regulatory / portfolio-recommendation claim (g8 / f2). Each drug is described by its OWN published precedent (g3 / f1) — nothing is derived from the n=6 lattice (f_lattice_fit). Scope = one-disease pilot, NOT the 200-disease deferred re-mapping.",
+        "voxelotor_dual_mapping_is_a_feature": true
+      },
+      "in_scope_drugs": [
+        {
+          "axis_mappings": [
+            {
+              "axis": "PPI",
+              "axis_layer": "expansion-sub",
+              "axis_module": "_python_bridge/module/ppi_sim.py",
+              "drug_precedent_refs": [
+                "Oksenberg et al., Br. J. Haematol. 175:141 (2016) — GBT440 / voxelotor discovery + HbS polymerization inhibition",
+                "Vichinsky et al., N. Engl. J. Med. 381:509 (2019) — HOPE trial, voxelotor in SCD",
+                "FDA NDA 213137 — voxelotor (Oxbryta) approval, 2019-11-25, CDER"
+              ],
+              "parent_axis": "QUANTUM (core-5)",
+              "real_limit_anchor": "Bogan & Thorn 1998 binding-hotspot theory (J. Mol. Biol. 280:1) — interface binding free energy concentrated in a few hotspot residues (ΔΔG ≥ 2 kcal/mol by alanine scanning), bounded by the alanine-scanning ledger; druggability of flat hotspot-driven PPIs follows Wells & McClendon, Nature 450:1001 (2007). Applied here to the HbS-HbS deoxy-polymer contact patch — the β6-Val-acceptor geometry mapped by Wishner & Love 1975 (J. Mol. Biol. 98:179) and re-examined by Harrington et al. 1997 (J. Mol. Biol. 272:398).",
+              "role": "primary",
+              "sim_run": {
+                "dg_hotspot_cluster_kcal_per_mol": -8.5,
+                "dg_interface_kcal_per_mol": -10.5,
+                "dg_mimic_kcal_per_mol": -6.63,
+                "hotspot_ddg_threshold_kcal_per_mol": 2.0,
+                "hotspot_driven": true,
+                "hotspot_energy_fraction": 0.8095238095238095,
+                "interface": "voxelotor_HbS_HbS_deoxy_contact",
+                "interface_class": "hbs_polymer_contact_patch",
+                "ledger_residual_kcal_per_mol": 0.0,
+                "mimic_within_ledger": true,
+                "mimicry_fraction": 0.78,
+                "n_hotspot_residues": 3,
+                "n_interface_residues": 6,
+                "sim_module": "ppi_sim",
+                "small_molecule_disruption_viable": false,
+                "sum_ddg_kcal_per_mol": 10.5,
+                "sum_hotspot_ddg_kcal_per_mol": 8.5
+              }
+            },
+            {
+              "axis": "ALLOSTERIC",
+              "axis_layer": "expansion-sub",
+              "axis_module": "_python_bridge/module/allosteric_sim.py",
+              "drug_precedent_refs": [
+                "Metcalf et al., ACS Med. Chem. Lett. 8:321 (2017) — GBT440 / voxelotor — R-state HbS stabilization by α-Val1 Schiff-base linkage",
+                "FDA NDA 213137 — voxelotor (Oxbryta) approval, 2019-11-25, CDER"
+              ],
+              "parent_axis": "QUANTUM (core-5)",
+              "real_limit_anchor": "Monod, Wyman & Changeux 1965 (J. Mol. Biol. 12:88) MWC concerted two-state allosteric model — modulation is SATURABLE, bounded by the ceiling 1/α; ternary-complex / two-state extension follows Hall, Mol. Pharmacol. 58:1412 (2000) and Christopoulos & Kenakin, Pharmacol. Rev. 54:323 (2002). Applied here to the R/T equilibrium of the hemoglobin tetramer in line with Perutz's classic R/T two-state account (Perutz, Nature 228:726, 1970).",
+              "role": "secondary",
+              "sim_run": {
+                "allosteric_ceiling_shift": 0.16666666666666666,
+                "ceiling_respected": true,
+                "cooperativity_alpha": 6.0,
+                "ec50_shift_at_max_conc": 0.16833000665335993,
+                "is_allosteric_modulator": true,
+                "log10_alpha": 0.7781512503836436,
+                "modulation_kind": "PAM",
+                "modulator": "voxelotor_Hb_R_state_PAM",
+                "modulator_class": "positive_allosteric_modulator",
+                "modulator_kd_uM": 12.0,
+                "sim_module": "allosteric_sim",
+                "sweep_monotone_toward_ceiling": true
+              }
+            }
+          ],
+          "brand": "Oxbryta",
+          "drug": "voxelotor",
+          "fda_application": "NDA 213137 — Oxbryta approval 2019-11-25",
+          "fda_center": "CDER",
+          "fda_year": 2019,
+          "in_silico_only": true,
+          "modality": "hemoglobin oxygen-affinity modulator — reversible covalent Schiff-base / aldehyde-imine linkage to the α-chain N-terminal Val1; stabilizes the R (oxy) state, simultaneously increasing O2 affinity (allosteric R/T shift — pure MWC) AND reducing the deoxy-HbS population available to enter the sickle polymer (disrupting the HbS-HbS contact at the α-chain N-terminal contact patch)",
+          "sponsor": "Pfizer / Global Blood Therapeutics"
+        }
+      ],
+      "not_in_scope_drugs": [
+        {
+          "axis": null,
+          "brand": "Casgevy",
+          "category": "cber_unplaced_criterion_4",
+          "drug": "exagamglogene autotemcel (exa-cel)",
+          "drug_precedent_refs": [
+            "Frangoul et al., N. Engl. J. Med. 384:252 (2021) — CTX001 (now exa-cel) editing BCL11A enhancer in SCD/TDT",
+            "FDA STN BL 125787 — exa-cel (Casgevy) approval, 2023-12-08, CBER"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2023,
+          "in_scope": false,
+          "modality": "autologous ex-vivo CRISPR-Cas9 gene editing of patient CD34+ HSCs at the BCL11A erythroid enhancer, de-repressing γ-globin and reactivating fetal hemoglobin (HbF). One-time intravenous infusion of edited cells after myeloablative conditioning.",
+          "reason": "CBER-regulated cell-and-gene therapy biologic. criterion #4 drug-only/CDER scope boundary — same pattern as the Zolgensma row in the SMA portfolio. Implementing a CBER-scope code axis would breach criterion #4 + g8 in-silico-only honesty.",
+          "regulatory_status_note": "First FDA-approved CRISPR-based therapy; co-approved with Lyfgenia for SCD on the same day (2023-12-08).",
+          "reported_not_run": true,
+          "sponsor": "Vertex Pharmaceuticals / CRISPR Therapeutics"
+        },
+        {
+          "axis": null,
+          "brand": "Lyfgenia",
+          "category": "cber_unplaced_criterion_4",
+          "drug": "lovotibeglogene autotemcel (lovo-cel)",
+          "drug_precedent_refs": [
+            "Kanter et al., N. Engl. J. Med. 386:617 (2022) — LentiGlobin / lovo-cel in SCD",
+            "FDA STN BL 125765 — lovo-cel (Lyfgenia) approval, 2023-12-08, CBER"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2023,
+          "in_scope": false,
+          "modality": "autologous ex-vivo lentiviral gene-addition therapy: a BB305 lentiviral vector transduces patient CD34+ HSCs to express a modified anti-sickling β-globin transgene (βA-T87Q). Single-dose infusion after myeloablative conditioning.",
+          "reason": "CBER-regulated cell-and-gene therapy biologic. criterion #4 drug-only/CDER scope boundary — same pattern as the Zolgensma row in the SMA portfolio.",
+          "regulatory_status_note": "Co-approved with Casgevy on 2023-12-08; carries a boxed-warning label for hematologic malignancy risk associated with lentiviral integration.",
+          "reported_not_run": true,
+          "sponsor": "bluebird bio"
+        },
+        {
+          "axis": null,
+          "brand": "Adakveo",
+          "category": "cber_unplaced_criterion_4",
+          "drug": "crizanlizumab",
+          "drug_precedent_refs": [
+            "Ataga et al., N. Engl. J. Med. 376:429 (2017) — SUSTAIN trial, crizanlizumab in SCD",
+            "FDA STN BL 761128 — crizanlizumab (Adakveo) approval, 2019-11-15, CBER"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2019,
+          "in_scope": false,
+          "modality": "humanized IgG2 monoclonal antibody targeting P-selectin (CD62P), reducing leukocyte-endothelial adhesion and the frequency of vaso-occlusive crises. Intravenous infusion.",
+          "reason": "CBER-regulated biologic (therapeutic monoclonal antibody). criterion #4 drug-only/CDER scope boundary. Same UNPLACED pattern as antibody modalities elsewhere in the axis tree.",
+          "regulatory_status_note": "Regulatory complexity noted honestly: EMA conditional marketing authorization was REVOKED in 2023 after the STAND confirmatory trial failed to demonstrate benefit; FDA approval status has remained in place through 2024 at the time of this writing. Readers should re-check current FDA status directly on Drugs@FDA before quoting.",
+          "reported_not_run": true,
+          "sponsor": "Novartis"
+        }
+      ],
+      "schema_version": "sickle_cell_portfolio_v1",
+      "sentinel": "__SICKLE_CELL_PORTFOLIO__ PASS",
+      "ts": "2026-05-16T00:00:00Z"
+    },
+    "sma": {
+      "case_study_id": "sma_portfolio.v1",
+      "cross_axis_touch_point": {
+        "bridge_id": "A3",
+        "honesty_note": "This case study EXTENDS the single-disease A3 SMN2 cross into a fuller portfolio writeup (adds the third FDA-approved SMA drug as honestly UNPLACED + the portfolio framing). It does NOT duplicate or supersede A3 — A3 remains the canonical SMN2 cross-axis bridge.",
+        "module": "_python_bridge/module/rna_modality_comparison_smn2_cross.py",
+        "schema_version": "rna_modality_comparison_smn2_cross_v1"
+      },
+      "disease": {
+        "abbreviation": "SMA",
+        "name": "spinal muscular atrophy",
+        "shared_gene": "SMN1 (lost) / SMN2 (modulated paralog)",
+        "shared_splicing_event": "SMN2 exon-7 inclusion vs skipping"
+      },
+      "honesty": {
+        "all_three_drugs_fda_approved": true,
+        "in_silico_only": true,
+        "no_lattice_derivation": true,
+        "not_a_clinical_claim": true,
+        "not_a_portfolio_recommendation": true,
+        "not_a_superiority_claim": true,
+        "not_an_efficacy_ranking": true,
+        "scope_is_one_disease_pilot": true,
+        "statement": "SMA is the rare disease with THREE distinct FDA-approved modalities. Two map onto in-repo axes (RNA-TARGETING-SMALL-MOLECULE :> RIBOZYME for risdiplam; OLIGONUCLEOTIDE for nusinersen) and are exercised in-silico via the existing axis sims (no fork — g3/f3). The third — onasemnogene abeparvovec / Zolgensma — is a CBER-regulated AAV9 gene therapy and is honestly UNPLACED: implementing a GENETIC-MEDICINE code axis would breach criterion #4 drug-only/CDER + g8 in-silico-only honesty. The UNPLACED row is REPORTED-NOT-RUN with axis=null and is a feature of the portfolio, not a gap. All three drugs are FDA-approved; this is a modality comparison, NEVER an efficacy ranking, superiority claim, or portfolio recommendation. Modalities are described via their own published drug precedent — nothing is derived from the n=6 lattice (g3 / f1 / f_lattice_fit). Scope = one-disease pilot, NOT the 200-disease deferred work.",
+        "unplaced_handling_is_honest": true
+      },
+      "in_scope_drugs": [
+        {
+          "axis": "RNA-TARGETING-SMALL-MOLECULE",
+          "axis_layer": "expansion-sub",
+          "axis_module": "_python_bridge/module/rna_targeting_small_molecule_sim.py",
+          "brand": "Evrysdi",
+          "drug_name": "risdiplam",
+          "drug_precedent_citations": [
+            "Ratni H et al. 2018, J Med Chem 61:6501-6517 (risdiplam discovery)",
+            "Campagne S et al. 2019, Nat Chem Biol 15:1191-1198 (structural basis at SMN2 exon-7 5'ss)"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2020,
+          "in_scope": true,
+          "in_silico_only": true,
+          "modality": "small molecule — SMN2 exon-7 5'-splice-site splicing modulator (binds pre-mRNA, shifts the RNA secondary-structure ensemble toward the inclusion-competent fold)",
+          "model_signal_detail": {
+            "baseline_stem_fraction": 0.5,
+            "direction_consistent": true,
+            "ensemble_stem_fraction_delta": 0.038735,
+            "exon_inclusion_stem": {
+              "hi": 32,
+              "lo": 16,
+              "width": 16
+            },
+            "ligand_bound_stem_fraction": 0.75,
+            "mfe_stem_fraction_delta": 0.25,
+            "transcript_length_nt": 42
+          },
+          "model_signal_name": "exon_inclusion_stem_fraction_shift",
+          "model_signal_units": "dimensionless (Δ paired-fraction, baseline -> ligand-bound)",
+          "model_signal_value": 0.25,
+          "real_limit_anchor": "RNA secondary-structure thermodynamics — base-pair free energy governs the structural ensemble",
+          "real_limit_citations": [
+            "Nussinov et al. 1978, SIAM J Appl Math 35:68-82",
+            "Turner & Mathews 2010, NNDB, Nucleic Acids Res 38:D280-D282"
+          ],
+          "sponsor": "Roche / PTC Therapeutics / SMA Foundation"
+        },
+        {
+          "axis": "OLIGONUCLEOTIDE",
+          "axis_layer": "expansion-main",
+          "axis_module": "_python_bridge/module/oligonucleotide_hybridization_sim.py",
+          "brand": "Spinraza",
+          "drug_name": "nusinersen",
+          "drug_precedent_citations": [
+            "Hua Y et al. 2008, Am J Hum Genet 82:834-848 (ASO masking of ISS-N1)",
+            "Singh NN et al. 2006, Mol Cell Biol 26:1333-1346 (ISS-N1 intronic silencer in SMN2)"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2016,
+          "in_scope": true,
+          "in_silico_only": true,
+          "modality": "antisense oligonucleotide (ASO) — hybridizes the ISS-N1 intronic splicing-silencer element in SMN2 intron 7, masking the silencer so exon 7 is included (Watson-Crick duplex, not an ensemble shift)",
+          "model_signal_detail": {
+            "Tm_celsius": 69.7035,
+            "aso_5to3": "TTAAGGAGTAAGTCTGCCAGC",
+            "aso_length_nt": 21,
+            "dG37_kcal_mol": -25.2436,
+            "dH_kcal_mol": -160.5,
+            "dS_cal_mol_K": -436.1,
+            "gc_fraction": 0.47619047619047616,
+            "iss_n1_element_5to3": "GCTGGCAGACTTACTCCTTAA"
+          },
+          "model_signal_name": "aso_silencer_duplex_dG37",
+          "model_signal_units": "kcal/mol (NN ΔG° at 37 °C, 1 M Na+ standard state — non-physiological)",
+          "model_signal_value": -25.2436,
+          "real_limit_anchor": "Nucleic-acid duplex hybridization thermodynamics — nearest-neighbor base-pair stacking free energy bounds duplex stability",
+          "real_limit_citations": [
+            "SantaLucia J Jr 1998, Proc Natl Acad Sci USA 95(4):1460-1465 (unified NN parameters)"
+          ],
+          "sponsor": "Biogen / Ionis"
+        }
+      ],
+      "not_in_scope_drugs": [
+        {
+          "axis": null,
+          "brand": "Zolgensma",
+          "drug_name": "onasemnogene abeparvovec",
+          "drug_precedent_citations": [
+            "Mendell JR et al. 2017, N Engl J Med 377:1713-1722 (AVXS-101 phase-1 in SMA type 1)",
+            "FDA STN BL 125694 — onasemnogene abeparvovec-xioi (Zolgensma) approval, 2019-05-24, CBER"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 2019,
+          "in_scope": false,
+          "modality": "AAV9-mediated SMN1 gene therapy — a one-time intravenous infusion of a self-complementary AAV9 vector carrying a functional SMN1 cDNA under the chicken-β-actin hybrid promoter; expresses full-length SMN protein from the transduced cells",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Gene/cell therapy and mRNA products are CBER-regulated; implementing a GENETIC-MEDICINE code axis would breach criterion #4 + g8 in-silico-only honesty.",
+          "reported_not_run": true,
+          "sponsor": "Novartis (AveXis)",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status — same UNPLACED handling already established for the GENETIC-MEDICINE category (Zolgensma · Casgevy · Comirnaty cited there as the CBER precedent set). @N adc_status and @N theranostic_status are the parallel UNPLACED notes (CBER antibody scope; CDER+CDRH boundary)."
+        }
+      ],
+      "schema_version": "sma_portfolio_v1",
+      "sentinel": "__SMA_PORTFOLIO__ PASS",
+      "shared_gene_target": "SMN2 (small-molecule + ASO modalities) / SMN1 (Zolgensma gene therapy — UNPLACED)"
+    },
+    "type2_diabetes": {
+      "case_study_id": "type2_diabetes_portfolio.v1",
+      "cder_in_scope_no_axis_mapping": [
+        {
+          "axis": null,
+          "brand": "Farxiga",
+          "cder_in_scope_but_no_axis_mapping": true,
+          "drug_name": "dapagliflozin",
+          "drug_precedent_citations": [
+            "Meng W et al. 2008, J. Med. Chem. 51:1145-1149 (C-aryl glucoside SGLT2 inhibitor — dapagliflozin discovery)",
+            "FDA NDA 202293 — dapagliflozin (Farxiga) approval, 2014-01-08, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2014,
+          "in_scope_by_cder_discipline": true,
+          "modality": "SGLT2 inhibitor small molecule — C-aryl glucoside selectively inhibiting renal sodium-glucose cotransporter 2 (SGLT2 / SLC5A2) in the proximal convoluted tubule, blocking renal glucose reabsorption and inducing glucosuria. Classical transporter-inhibition pharmacology, not a new-modality chemistry",
+          "no_axis_mapping": true,
+          "reason": "FDA-approved CDER small molecule (criterion #4 PASSES) but no expansion-layer axis maps onto the mechanism: SGLT2 inhibition is classical transporter pharmacology — NOT PROTAC, NOT CAM / molecular glue, NOT COVALENT, NOT METALLODRUG, NOT MACROCYCLE, NOT MWC-allosteric, NOT RNA-targeting. The new-modality axes were designed for new-modality chemistries; classical transporter inhibition does not introduce new modality invariants and does not warrant a new axis. HONEST GAP RECOGNITION — the axis tree gap is acknowledged inside the criterion #4 boundary rather than papered over with a forced placement.",
+          "reported_not_run": true,
+          "sponsor": "AstraZeneca"
+        },
+        {
+          "axis": null,
+          "brand": "Jardiance",
+          "cder_in_scope_but_no_axis_mapping": true,
+          "drug_name": "empagliflozin",
+          "drug_precedent_citations": [
+            "Grempler R et al. 2012, Diabetes Obes. Metab. 14:83-90 (BI 10773 / empagliflozin characterization)",
+            "FDA NDA 204629 — empagliflozin (Jardiance) approval, 2014-08-01, CDER",
+            "Zinman B et al. 2015, N. Engl. J. Med. 373:2117-2128 (EMPA-REG OUTCOME cardiovascular outcomes — modality precedent only, NOT a hexa-bio efficacy claim)"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2014,
+          "in_scope_by_cder_discipline": true,
+          "modality": "SGLT2 inhibitor small molecule — selective renal sodium-glucose cotransporter 2 inhibitor, same target class as dapagliflozin / canagliflozin, classical transporter-inhibition mechanism",
+          "no_axis_mapping": true,
+          "reason": "FDA-approved CDER small molecule (criterion #4 PASSES) but no expansion-layer axis maps onto the SGLT2 transporter-inhibition mechanism (same axis-tree gap as dapagliflozin / canagliflozin — the new-modality axes were not designed for classical transporter pharmacology). HONEST GAP RECOGNITION.",
+          "reported_not_run": true,
+          "sponsor": "Boehringer Ingelheim / Eli Lilly"
+        },
+        {
+          "axis": null,
+          "brand": "Invokana",
+          "cder_in_scope_but_no_axis_mapping": true,
+          "drug_name": "canagliflozin",
+          "drug_precedent_citations": [
+            "Nomura S et al. 2010, J. Med. Chem. 53:6355-6360 (canagliflozin discovery)",
+            "FDA NDA 204042 — canagliflozin (Invokana) approval, 2013-03-29, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2013,
+          "in_scope_by_cder_discipline": true,
+          "modality": "SGLT2 inhibitor small molecule — first FDA-approved SGLT2 inhibitor in the US, selective renal sodium-glucose cotransporter 2 inhibitor, classical transporter-inhibition mechanism",
+          "no_axis_mapping": true,
+          "reason": "FDA-approved CDER small molecule (criterion #4 PASSES) but no expansion-layer axis maps onto the SGLT2 transporter-inhibition mechanism (same axis-tree gap as dapagliflozin / empagliflozin). HONEST GAP RECOGNITION — the axis tree was built for new modalities, not for classical transporter pharmacology.",
+          "reported_not_run": true,
+          "sponsor": "Johnson & Johnson"
+        }
+      ],
+      "cross_axis_touch_point": {
+        "bridge_id": "G4",
+        "honesty_note": "The peptide-chemistry side of the GLP-1 class touches the G4 PEPTIDE × MACROCYCLE cross (stapled / macrocyclic peptide engineering — protease resistance, engineered helicity). This case study NOTES the touch-point without re-running G4; G4 stays the canonical PEPTIDE × MACROCYCLE bridge.",
+        "sister_axis": "MACROCYCLE",
+        "source_axis": "PEPTIDE"
+      },
+      "disease": {
+        "abbreviation": "T2DM",
+        "name": "type 2 diabetes mellitus",
+        "summary": "heterogeneous metabolic disease — insulin resistance + relative β-cell insulin-secretion deficit + accumulated hyperglycemia. Multiple FDA-approved drug classes hit the disease via mechanistically distinct routes; this portfolio is intentionally focused on three category transitions (PEPTIDE axis-mapped IN-SCOPE; SGLT2 inhibitors CDER-no-axis-mapping; insulin analogs CBER UNPLACED). Metformin, sulfonylureas, DPP-4 inhibitors, thiazolidinediones, meglitinides, α-glucosidase inhibitors, and amylin-analog peptides are intentionally excluded to keep the portfolio focused."
+      },
+      "honesty": {
+        "all_in_scope_drugs_fda_approved": true,
+        "cder_in_scope_no_axis_mapping_is_honest_gap": true,
+        "in_silico_only": true,
+        "new_honesty_category_distinct_from_cber_unplaced": true,
+        "no_lattice_derivation": true,
+        "not_a_clinical_claim": true,
+        "not_a_portfolio_recommendation": true,
+        "not_a_superiority_claim": true,
+        "not_an_efficacy_ranking": true,
+        "scope_is_one_disease_pilot": true,
+        "statement": "T2DM is the disease where FDA-approved drugs land in THREE distinct honesty categories. (1) Two GLP-1-class peptides (semaglutide, tirzepatide) map cleanly onto the PEPTIDE sub-axis (:> WEAVE core) and are exercised in-silico via the existing peptide_sim parent (no fork — f3); each in-scope row carries the parent sim's Zimm-Bragg 1959 real-limit citation (g1). (2) The three SGLT2 inhibitors (dapagliflozin, empagliflozin, canagliflozin) are FDA-approved CDER small molecules — criterion #4 PASSES — but the new-modality axes (PROTAC, CAM, COVALENT, METALLODRUG, MACROCYCLE, MWC-allosteric, RNA-targeting) were never designed for classical renal-transporter inhibition. The NEW honest category cder_in_scope_no_axis_mapping[] is introduced for this axis-tree gap INSIDE the criterion #4 boundary — distinct from CBER UNPLACED which is OUTSIDE it. (3) Insulin analogs are CBER-regulated recombinant protein biologics and are honestly UNPLACED via the same pattern that already governs Zolgensma / GENETIC-MEDICINE / ADC / THERANOSTIC. All in-scope drugs are FDA-approved; this is a category comparison, NEVER an efficacy ranking, glycemic-control claim, cardiovascular-outcomes claim, weight-loss claim, regulatory claim, superiority claim, or portfolio recommendation. Modalities are described via their own published drug precedent (g3 / f1) — nothing is derived from the n=6 lattice (f_lattice_fit). Scope = one-disease pilot, NOT the 200-disease deferred work.",
+        "unplaced_handling_is_honest": true
+      },
+      "in_scope_drugs": [
+        {
+          "axis": "PEPTIDE",
+          "axis_layer": "expansion-sub",
+          "axis_module": "_python_bridge/module/peptide_sim.py",
+          "brand": "Ozempic / Wegovy / Rybelsus",
+          "drug_name": "semaglutide",
+          "drug_precedent_citations": [
+            "Lau J et al. 2015, J. Med. Chem. 58:7370-7380 (semaglutide discovery / PK optimization)",
+            "FDA NDA 209637 — semaglutide (Ozempic) injectable approval, 2017-12-05, CDER",
+            "FDA NDA 213051 — semaglutide (Rybelsus) oral approval, 2019-09-20, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2017,
+          "in_scope": true,
+          "in_silico_only": true,
+          "modality": "GLP-1 receptor agonist peptide — analog of native human GLP-1(7-37) with Aib substitution at position 8, Arg at position 34, and a C18 fatty-diacid linker for protease resistance and albumin binding; receptor-bound backbone is α-helical (Ozempic injectable FDA 2017; Rybelsus oral FDA 2019; Wegovy high-dose obesity formulation FDA 2021)",
+          "model_signal_detail": {
+            "cooperativity_suppresses_helix": true,
+            "fractional_helicity": 0.09978604954066742,
+            "independent_residue_helicity_sigma_to_one": 0.5258842625199533,
+            "mean_helical_residues": 1.7961488917320134,
+            "n_residues": 18,
+            "panel_entry_note": "GLP-1-analog-like model peptide (toy construct from peptide_sim.PEPTIDE_PANEL — NOT the literal drug sequence; the model exercises the Zimm-Bragg partition arithmetic only, governance g8 / f2)",
+            "partition_Z": 1.300314269977494,
+            "permeability_proxy": 0.0,
+            "sequence": "AAEGTFTSDLSKQMEEAA",
+            "sigma_nucleation": 0.001
+          },
+          "model_signal_name": "fractional_helicity_theta_H",
+          "model_signal_units": "dimensionless (fraction of residues in α-helical state under Zimm-Bragg cooperative partition; θ_H in [0,1])",
+          "model_signal_value": 0.09978604954066742,
+          "real_limit_anchor": "Zimm-Bragg helix-coil theory — cooperative two-state partition for a linear peptide chain (Zimm & Bragg 1959)",
+          "real_limit_citations": [
+            "Zimm BH & Bragg JK 1959, J. Chem. Phys. 31:526-535 (helix-coil cooperative two-state partition)",
+            "Lifson S & Roig A 1961, J. Chem. Phys. 34:1963-1974 (equivalent helix-coil formulation)",
+            "Pace CN & Scholtz JM 1998, Biophys. J. 75:422-427 (host-guest helix-propensity scale)",
+            "Chakrabartty A, Kortemme T & Baldwin RL 1994, Protein Sci. 3:843-852 (host-guest helix-propensity scale)"
+          ],
+          "sponsor": "Novo Nordisk"
+        },
+        {
+          "axis": "PEPTIDE",
+          "axis_layer": "expansion-sub",
+          "axis_module": "_python_bridge/module/peptide_sim.py",
+          "brand": "Mounjaro / Zepbound",
+          "drug_name": "tirzepatide",
+          "drug_precedent_citations": [
+            "Coskun T et al. 2018, Mol. Metab. 18:3-14 (LY3298176 / tirzepatide discovery — dual GIP+GLP-1 agonist)",
+            "FDA NDA 215866 — tirzepatide (Mounjaro) approval, 2022-05-13, CDER",
+            "FDA NDA 217806 — tirzepatide (Zepbound) approval, 2023-11-08, CDER"
+          ],
+          "fda_center": "CDER",
+          "fda_year": 2022,
+          "in_scope": true,
+          "in_silico_only": true,
+          "modality": "dual GIP + GLP-1 receptor agonist peptide — 39-residue peptide with Aib at positions 2 and 13 and a C20 fatty-diacid linker for albumin binding; engineered α-helical receptor-binding geometry shared with the GLP-1 analog class (Mounjaro T2DM FDA 2022; Zepbound obesity FDA 2023)",
+          "model_signal_detail": {
+            "cooperativity_suppresses_helix": true,
+            "fractional_helicity": 0.546409840435996,
+            "independent_residue_helicity_sigma_to_one": 0.5866628766545882,
+            "mean_helical_residues": 8.742557446975937,
+            "n_residues": 16,
+            "panel_entry_note": "engineered-high-helicity model peptide (toy construct from peptide_sim.PEPTIDE_PANEL — NOT the literal drug sequence; the model exercises the Zimm-Bragg partition arithmetic only, governance g8 / f2)",
+            "partition_Z": 4.138904000619857,
+            "permeability_proxy": 0.48971107049049556,
+            "sequence": "AALEAALEAALEAALE",
+            "sigma_nucleation": 0.001
+          },
+          "model_signal_name": "fractional_helicity_theta_H",
+          "model_signal_units": "dimensionless (fraction of residues in α-helical state under Zimm-Bragg cooperative partition; θ_H in [0,1])",
+          "model_signal_value": 0.546409840435996,
+          "real_limit_anchor": "Zimm-Bragg helix-coil theory — cooperative two-state partition for a linear peptide chain (Zimm & Bragg 1959)",
+          "real_limit_citations": [
+            "Zimm BH & Bragg JK 1959, J. Chem. Phys. 31:526-535 (helix-coil cooperative two-state partition)",
+            "Lifson S & Roig A 1961, J. Chem. Phys. 34:1963-1974 (equivalent helix-coil formulation)",
+            "Pace CN & Scholtz JM 1998, Biophys. J. 75:422-427 (host-guest helix-propensity scale)",
+            "Chakrabartty A, Kortemme T & Baldwin RL 1994, Protein Sci. 3:843-852 (host-guest helix-propensity scale)"
+          ],
+          "sponsor": "Eli Lilly"
+        }
+      ],
+      "not_in_scope_drugs": [
+        {
+          "axis": null,
+          "brand": "Humalog / Lantus / NovoLog / Tresiba / Levemir / Fiasp (representative class members)",
+          "drug_name": "insulin analogs (class)",
+          "drug_precedent_citations": [
+            "Hirsch IB 2005, N. Engl. J. Med. 352:174-183 (insulin analog pharmacology review)",
+            "FDA STN BL 020563 — Humalog (insulin lispro) approval, 1996-06-14, CBER",
+            "FDA STN BL 021081 — Lantus (insulin glargine) approval, 2000-04-20, CBER",
+            "FDA STN BL 203314 — Tresiba (insulin degludec) approval, 2015-09-25, CBER"
+          ],
+          "fda_center": "CBER",
+          "fda_year": 1996,
+          "in_scope": false,
+          "modality": "recombinant insulin protein biologic — sequence-engineered analogs of human insulin with altered absorption kinetics (rapid-acting: lispro, aspart, glulisine; long-acting: glargine, detemir, degludec). Regulated by CBER as therapeutic protein biologics, not by CDER small-molecule pathway",
+          "reason": "CBER biologic — criterion #4 drug-only/CDER scope boundary. Recombinant insulin analogs are CBER-regulated therapeutic protein biologics; implementing a CBER-scope code axis (e.g. PROTEIN-BIOLOGIC) would breach criterion #4 + g8 in-silico-only honesty. Same UNPLACED pattern as the SMA portfolio's Zolgensma row and the AXIS/HIERARCHY.tape @N genetic_medicine_status / @N adc_status notes.",
+          "reported_not_run": true,
+          "sponsor": "Eli Lilly (Humalog) / Sanofi (Lantus) / Novo Nordisk (NovoLog, Tresiba, Levemir, Fiasp)",
+          "unplaced_precedent_in_repo": "AXIS/HIERARCHY.tape @N genetic_medicine_status — same UNPLACED handling already established for the GENETIC-MEDICINE category (Zolgensma · Casgevy · Comirnaty cited as CBER precedent). case_studies/sma_portfolio/ — Zolgensma row in not_in_scope_drugs[] is the direct portfolio precedent."
+        }
+      ],
+      "schema_version": "type2_diabetes_portfolio_v1",
+      "sentinel": "__TYPE2_DIABETES_PORTFOLIO__ PASS"
+    }
+  }
+}
