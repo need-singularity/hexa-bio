@@ -138,34 +138,7 @@ density. 6th-axis review is deferred to post-1.0 (v2.0 milestone).
 - Closure roadmap: `../AXIS_CLOSURE_PLAN.md` / `.tape`
 - Governance: `../AGENTS.tape` g1/g2/g3/g8 · `../CLAUDE.md`
 
-## §6 Log
-
-- 2026-05-16 — AXIS/README.md created: synthesis of the committed 5-axis
-  SSOT (AXIS.tape) + the 165-option axis-expansion brainstorm
-  (2026-05-08) + paradigm-shift integration brainstorm. Honest bottom
-  line preserved: KEEP 5 axes + cross-cutting platform layer; only ~5
-  genuine 6th-axis candidates (COVALENT / BIFUNCTIONAL / THERANOSTIC /
-  PEPTIDE / PPI); 6th axis deferred post-1.0. Count=5 is an
-  architectural decision, NOT lattice-derived (g2/f_lattice_fit). No
-  decision changed — analysis recorded only.
-- 2026-05-16 — **검증(verification) 수행** (사용자 요청). 출처
-  대조: 165옵션 · 5 promotion 기준 · Top5(COVALENT 4.9 / BIFUNCTIONAL
-  4.9 / THERANOSTIC 4.7 / PEPTIDE 4.5-4.8 / PPI 4.8) · 4-way split ·
-  단계별 권고 — 전부 `../docs/hexa_bio_axis_expansion_brainstorm_2026_05_08.md`
-  원문과 충실 일치(factual drift 0). `../AXIS.tape` 5축·sibling tape·
-  count-honesty 정합. cross-ref 14개 전부 실존(broken 0). governance
-  청결(g1/g2/g3/g8/f1/f2/f_lattice_fit). **수정 1건**: README↔INDEX
-  펜싱 비대칭 해소 — 거버넌스 문서(이 파일)가 상상 문서 `INDEX.md`를
-  명시 disclaim+포인터(top fence + §5)하도록 보강(양방향 분리 완성).
-  `hexa atlas` CLI-direct probe(g5): stats/anchor-lookup(eyring·
-  nussinov·bell·category·phonon·zlotnick) 등록 atom 0건 반환
-  (OOM-capped 또는 empty — 어느 쪽이든 per-item 인증 미획득·날조 0,
-  g7) → §5/§7의 "atlas=레지스트리지 검증기 아님·N/A by nature" 정직
-  framing 경험적 확인(반증 아님). 결론·아키텍처·로드맵 무변경.
-
----
-
-## §7 후보 검증 — Top 5 candidate fact-check (인증 아님 · 축추가 아님)
+## §6 후보 검증 — Top 5 candidate fact-check (인증 아님 · 축추가 아님)
 
 > **펜스**: §3 Top-5 후보의 *분석 주장*에 대한 fact-check일 뿐 —
 > feasibility/임상 보증·축추가 결정·in-silico 결과가 **아님**. README
@@ -194,10 +167,43 @@ sub-criteria·rank 순서 모두 일치, factual drift 0) + precedent drug
    뿐, 본 검증이 독립 재도출/외부 검증한 것 아님.
 2. "QUANTUM-VQE cross/적용성" 문구는 *aspirational 타당성 메모*이지
    입증된 hexa-bio in-silico 역량 아님 (`g8` — 확립으로 읽지 말 것).
-3. §3·§7 모두 README 상단 펜스 하에 있음 — 검증은 분석 주장을
+3. §3·§6 모두 README 상단 펜스 하에 있음 — 검증은 분석 주장을
    확인할 뿐 어떤 후보도 promote/축추가하지 않으며 임상·feasibility
    주장 0 (`g8`/`f2`). 거버넌스 5-axis(`../AXIS.tape`) 불변.
 
 `hexa atlas`: §5/§7(INDEX) probe대로 proven-atom 레지스트리이지
 modality 검증기 아님 — per-item 인증 N/A, 날조 0 (`g5`/`g7`/`g3`).
 - 2026-05-16 — **§7 후보 검증 추가** (사용자 요청): §3 Top-5 후보(COVALENT·MOLECULAR-GLUE/BIFUNCTIONAL·THERANOSTIC·PEPTIDE/MACROCYCLE·PPI) fact-check. 출처 score 100% 일치(M/N/R/S/F·#번호·rank, drift 0) · precedent drug 전부 실재·modality 정확(ibrutinib/sotorasib·PROTAC/RIBOTAC·Pluvicto/Lutathera·semaglutide·venetoclax/navitoclax) · g3/f1 청결. 5/5 후보 SOURCE-FAITHFUL·PRECEDENT-ACCURATE 검증 통과. caveat 명시: scores=출처 주관 rubric 전사(독립 재도출 아님)·VQE-cross=aspirational(미입증, g8)·축추가/임상 주장 0. 거버넌스 5-axis 불변.
+
+---
+
+## §7 Log
+
+- 2026-05-16 — AXIS/README.md created: synthesis of the committed 5-axis
+  SSOT (AXIS.tape) + the 165-option axis-expansion brainstorm
+  (2026-05-08) + paradigm-shift integration brainstorm. Honest bottom
+  line preserved: KEEP 5 axes + cross-cutting platform layer; only ~5
+  genuine 6th-axis candidates (COVALENT / BIFUNCTIONAL / THERANOSTIC /
+  PEPTIDE / PPI); 6th axis deferred post-1.0. Count=5 is an
+  architectural decision, NOT lattice-derived (g2/f_lattice_fit). No
+  decision changed — analysis recorded only.
+- 2026-05-16 — **검증(verification) 수행** (사용자 요청). 출처
+  대조: 165옵션 · 5 promotion 기준 · Top5(COVALENT 4.9 / BIFUNCTIONAL
+  4.9 / THERANOSTIC 4.7 / PEPTIDE 4.5-4.8 / PPI 4.8) · 4-way split ·
+  단계별 권고 — 전부 `../docs/hexa_bio_axis_expansion_brainstorm_2026_05_08.md`
+  원문과 충실 일치(factual drift 0). `../AXIS.tape` 5축·sibling tape·
+  count-honesty 정합. cross-ref 14개 전부 실존(broken 0). governance
+  청결(g1/g2/g3/g8/f1/f2/f_lattice_fit). README↔INDEX 펜싱 비대칭
+  해소(top fence + §5에 `INDEX.md` 명시 포인터). `hexa atlas`
+  CLI-direct probe(g5): anchor-lookup 등록 atom 0건 반환(OOM/empty
+  — per-item 인증 미획득·날조 0, g7) → INDEX §5/§7 "atlas=레지스트리지
+  검증기 아님·N/A by nature" 경험적 확인. 결론·아키텍처 무변경.
+- 2026-05-16 — **§7 후보 검증 추가** (사용자 요청): §3 Top-5 후보
+  fact-check. 출처 score 100% 일치 · precedent drug 전부 실재·modality
+  정확 · g3/f1 청결 → 5/5 SOURCE-FAITHFUL·PRECEDENT-ACCURATE 통과.
+  caveat: scores=출처 주관 rubric 전사·VQE-cross=aspirational(g8)·
+  promote/축추가/임상 주장 0.
+- 2026-05-16 — **README update**: 섹션 재배열 — 후보 검증 §7→§6,
+  Log §6→§7 최하단(프로젝트 컨벤션 "Log는 항상 마지막" 복원).
+  자기참조 "§3·§7"→"§3·§6" 정정. 내용 변경 0, 순서·번호만 정합화
+  (g3 일관성).
