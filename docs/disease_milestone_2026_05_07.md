@@ -144,7 +144,7 @@ flexible alkyl chain 가 build wall 8.6 min — rigid ring system (pirfenidone 1
 
 ---
 
-## 6. raw#10 honest C3 (cumulative)
+## 6. Honest C3 (cumulative)
 
 1. **isolated drug E_total measurement** — active-space 2e/2o (HOMO+LUMO only) 은 informational reduction. 진정한 disease-specific binding affinity 는 explicit pocket active-space + UCCSD + experimental Ki cross-validation 이 next ramp.
 2. **clinical efficacy 와 quantum binding 은 다른 layer** — quantum chem-acc 가 임상 결과 보장 X. in-silico → in-vitro → in-vivo → clinical trial 의 첫 단계.

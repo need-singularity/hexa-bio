@@ -40,11 +40,11 @@ hexa-bio 가 `quantum_h_molecule.py` + `quantum_ansatz_he.py` + `quantum_pauli_e
 
 qmirror 측 작업 = (a) hexa native port (Python → hexa) + (b) cond schema land + (c) selftest harness 통합. 별도 qmirror session 에서 진행. hexa-bio 의 module 들은 reference 로 사용 가능.
 
-### 1.4 raw 패턴
+### 1.4 패턴
 
-- raw#9: hexa-bio 의 Python reference 를 hexa native 로 port. 단 qiskit_aer / qiskit_nature import 는 python_bridge concession (이미 qmirror 가 _python_bridge/aer_runner.py 보유).
-- raw#10: Kandala 2017 이 R=0.74Å H₂ ground truth — hexa-bio 가 reproduce 함.
-- raw#15: cond.14 의 모든 evidence 는 `qmirror/state/` 안에 confined.
+- Hexa-bio 의 Python reference 를 hexa native 로 port. 단 qiskit_aer / qiskit_nature import 는 python_bridge concession (이미 qmirror 가 _python_bridge/aer_runner.py 보유).
+- Kandala 2017 이 R=0.74Å H₂ ground truth — hexa-bio 가 reproduce 함.
+- Cond.14 의 모든 evidence 는 `qmirror/state/` 안에 confined.
 
 ---
 
@@ -89,11 +89,11 @@ pool_close(pool)
 
 `_python_bridge/module/quantum_aer_pool.py` (~330 LoC) — daemon side + client AerPool 클래스. F-Q-5 closure 측정 31× speedup (n=15) / 4.4× (production VQE). 이 패턴이 stdlib 으로 elevate 시 모든 hexa native module 이 외부 ML 호출에 사용 가능.
 
-### 2.4 raw 패턴
+### 2.4 패턴
 
-- raw#9: hexa native 로 port.
-- raw#10: subprocess timeout / retry / penalty 의 robust path 는 우리 vqe_h2.py `_fn` wrapper (1 retry + PENALTY) 패턴 직접 차용.
-- raw#13 (ext-system isolation): subprocess 가 외부 시스템 import 를 격리. 호스트 hexa 에 dep 누출 없음.
+- Hexa native 로 port.
+- Subprocess timeout / retry / penalty 의 robust path 는 우리 vqe_h2.py `_fn` wrapper (1 retry + PENALTY) 패턴 직접 차용.
+- (ext-system isolation): subprocess 가 외부 시스템 import 를 격리. 호스트 hexa 에 dep 누출 없음.
 
 ---
 
@@ -211,7 +211,7 @@ hexa-lang 의 stdlib 가 이 multi-modal 시대를 지원 = 다음 cycle 의 vis
 
 ---
 
-## 7. raw#10 honest c3
+## 7. Honest C3
 
 1. 본 proposals 는 **hexa-bio session 의 outsider view** — 각 repo (hexa-lang / qmirror / qrng) 의 internal roadmap / 사용자 직접 directive / 진행 중인 cycle 와 conflict 가능. 각 repo session 에서 본 docs 를 reference 로 검토 후 자체 결정.
 
@@ -252,7 +252,7 @@ cycle 51 의 5 proposals 등록 후, 이어진 sister-repos brainstorm (cycle 61
 **hexa-bio reference**: `_python_bridge/module/ribozyme_kinetics_simulation.py` (k_cat per variant)
 + `state/discovery_absorption/registry.jsonl` (raw_77_ribozyme_kinetics_v1, raw_77_c2_ribozyme_*)
 
-**raw 패턴**: raw#9 strict (sim-universe 도 hexa native), raw#10 honest c3 (multiverse 가 toy lattice 라 wet-lab 1:1 mapping 아님 명시).
+**패턴**: strict (sim-universe 도 hexa native), honest C3 (multiverse 가 toy lattice 라 wet-lab 1:1 mapping 아님 명시).
 
 ### 9.2 anima — biological Φ measurement on RIBOZYME 4-state ladder
 
@@ -267,7 +267,7 @@ cycle 51 의 5 proposals 등록 후, 이어진 sister-repos brainstorm (cycle 61
 **hexa-bio reference**: `ribozyme/spec/ribozyme_output_v1.schema.json` (4-state ladder field)
 + `_python_bridge/module/ribozyme_aptamer_null_corpus.py` (10 aptamer null control)
 
-**raw 패턴**: anima 의 1030 laws + Φ ratchet 가 hexa-bio 측 새 falsifier source (예: F-RB-Φ-1 "ribozyme Φ > aptamer Φ").
+**패턴**: anima 의 1030 laws + Φ ratchet 가 hexa-bio 측 새 falsifier source (예: F-RB-Φ-1 "ribozyme Φ > aptamer Φ").
 
 ### 9.3 nexus — 216 lenses ↔ hexa-bio falsifier matching
 
@@ -282,7 +282,7 @@ cycle 51 의 5 proposals 등록 후, 이어진 sister-repos brainstorm (cycle 61
 **hexa-bio reference**: `state/discovery_absorption/registry.jsonl` (45+ rows across F-* axes)
 + `.roadmap.<feature>` falsifier inventories.
 
-**raw 패턴**: nexus OUROBOROS evolution 의 한 axis. 5-phase singularity cycle 의 phase X.
+**패턴**: nexus OUROBOROS evolution 의 한 axis. 5-phase singularity cycle 의 phase X.
 
 ### 9.4 우선순위 + commit boundary
 

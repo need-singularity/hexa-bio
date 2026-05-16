@@ -72,7 +72,7 @@ hexa-bio virocapsid                              # STUB — falsifier preregiste
 > HF Hub mirror retired 2026-05-04 — HF Hub is designed for ML model weights /
 > datasets, not CLI tooling. GitHub remains canonical.
 
-## Honest C3 caveats (raw#10)
+## Honest C3 caveats
 
 The 5 base caveats (3/4 verbs are stub-only; falsifiers are initial-guess
 deadlines; n=6 lattice claim speculative for 3/4 axes; weave-migration

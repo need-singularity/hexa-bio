@@ -15,7 +15,7 @@ MMseqs2 marker, msa_depth, plddt, ptm/iptm, license).
 Live: ColabFold runs as a Google Colab notebook or via the
 `localcolabfold` install. Not exercised here.
 
-raw#10 C3: NO n=6 lattice-fit applied. ColabFold inherits AF2's metrics.
+C3: NO n=6 lattice-fit applied. ColabFold inherits AF2's metrics.
 
 License: Apache-2.0 (hexa-bio cycle-30++++++++).
 """

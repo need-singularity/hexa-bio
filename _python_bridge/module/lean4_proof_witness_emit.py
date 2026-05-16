@@ -38,7 +38,7 @@ Upstream lean4 state (as of 2026-05-12 cycle-30, summarised in `canon_lean4_stat
     carry ~15 sorries + ~28 named axioms (documented Robin / Hardy-Wright-style
     assumed facts). FROZEN legacy; active WEAVE-mechanical work is in hexa-meta.
 
-raw#10 / raw#91 honest C3: This emitter records the upstream proof-state
+Honest C3: This emitter records the upstream proof-state
 (sorry-counts etc.) into hexa-bio witness rows — it does not itself verify
 anything. The .lean source lives in hexa-meta; `lake build` on lean4 v4.30.0-rc1
 is the verification, and as of cycle-30 ALL 4 axes kernel-check sorry-free

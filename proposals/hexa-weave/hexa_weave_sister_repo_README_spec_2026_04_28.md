@@ -10,7 +10,7 @@ status: SPEC only. README.md NOT written to ~/core/hexa-weave/. agent does not m
 
 # HEXA-WEAVE sister repo README.md — spec for user dispatch (cycle 15)
 
-raw 9 hexa-only data path. raw 13 NO external comms. raw 91 C3 honest:
+Hexa-only data path. NO external comms. C3 honest:
 this proposal contains the **textual spec only** for the sister repo
 `~/core/hexa-weave/README.md`. The agent does NOT create the sibling
 repo directory and does NOT write the README to disk. The user creates
@@ -22,7 +22,7 @@ Cycle 14 W5 sandbox prep (`proposals/hexa_weave_mvp_w5_sandbox_cycle14_prep_2026
 disclosed in §"deliverables_NOT_produced_this_cycle":
 
 > ~/core/hexa-weave/README.md (spec'd in proposal §4 only; not written to
-> disk per raw 91 C3 — agent does not create the sister repo dir)
+> disk per C3 — agent does not create the sister repo dir)
 
 Cycle 15 (this) addresses that gap by producing a **dispatch-ready spec**
 in `canon/proposals/`. The spec is consumed by the user's
@@ -196,7 +196,7 @@ Parent: `canon/proposals/hexa_weave_mvp_w5_sandbox_cycle14_prep_2026_04_28.md`.
 Falsifier: `F-TP5-b` (deadline 2026-07-28).
 ```
 
-## §4 raw 91 C3 honest disclosure
+## §4 C3 honest disclosure
 
 - This proposal does NOT mkdir `~/core/hexa-weave/`.
 - This proposal does NOT write `README.md` to `~/core/hexa-weave/`.
@@ -210,10 +210,10 @@ Falsifier: `F-TP5-b` (deadline 2026-07-28).
 
 ## §5 own-doc-lint expectations
 
-- own#1 English-only: PASS (no Korean prose; rune labels in tool/* only)
-- own#22 snake_case + _YYYY_MM_DD naming: PASS (`hexa_weave_sister_repo_README_spec_2026_04_28.md`)
-- own#23 umbrella declaration: PASS (no umbrella declared; sub-doc of W5 cycle-14 prep)
-- own#16 cross-link to parent: PASS (`parent_proposal:` in front-matter + §0 prose)
+- English-only: PASS (no Korean prose; rune labels in tool/* only)
+- Snake_case + _YYYY_MM_DD naming: PASS (`hexa_weave_sister_repo_README_spec_2026_04_28.md`)
+- Umbrella declaration: PASS (no umbrella declared; sub-doc of W5 cycle-14 prep)
+- Cross-link to parent: PASS (`parent_proposal:` in front-matter + §0 prose)
 
 ## §6 falsifier hooks
 

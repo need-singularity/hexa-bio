@@ -38,8 +38,8 @@ CLI usage
     python3 ligand_smiles_to_h.py --smiles "O"                # water
     python3 ligand_smiles_to_h.py --selftest
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. SMILES → 3D embedding is NOT QM-quality geometry — RDKit UFF gives a
    reasonable starting point but bond lengths typically ±0.05 Å off

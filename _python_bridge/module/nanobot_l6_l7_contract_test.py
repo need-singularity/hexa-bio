@@ -22,7 +22,7 @@ Closes the consumer-side of N-R2's contract verification:
   • F-NB-1-c collision_overlap_ratio = 0.0 (L0-L6 vs L7-L9 string-disjoint) — cross-checked.
 Wired into `selftest/run_all.sh`. Pure stdlib; deterministic.
 
-raw#10 / raw#91 C3: a contract test at the boundary-acknowledgment level — it verifies
+C3: a contract test at the boundary-acknowledgment level — it verifies
 schema *shape* consistency (the L6 emitter provides what the L7-L9 layers consume), NOT
 any wet-lab / clinical fact. Wet-lab integration + IP/contract review = canon cycle-30+
 (per the canon handoff JSON's raw_91 disclosure). hexa-bio holds no canon source-of-truth:
@@ -109,7 +109,7 @@ def main() -> int:
 
     n_checks = 4 + 1 + len(_L7L9_SCHEMAS)   # L6-lock, L6-fields, canon-ref, collision; + 3 L7-L9
     print(f"\n  --- {n_checks - len(fails)}/{n_checks} PASS → verdict: {'PASS' if not fails else 'FAIL'} ---")
-    print("  raw#10/raw#91 C3: contract-shape test (boundary-acknowledgment level) — verifies the L6 emitter provides what")
+    print("  C3: contract-shape test (boundary-acknowledgment level) — verifies the L6 emitter provides what")
     print("        the L7-L9 layers consume; the L7-L9 schemas are hexa-bio CONSUMER-PROPOSED drafts (canon adopts → canonical copy")
     print("        moves to canon/domains/life/therapeutic-nanobot/spec/); wet-lab + IP/contract review = canon cycle-30+.")
     if not fails:

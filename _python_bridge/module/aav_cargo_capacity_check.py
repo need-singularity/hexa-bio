@@ -51,7 +51,7 @@ Verdict semantics:
 Determinism: pure stdlib (no numpy / biopython / random / network / time).
 Re-running the selftest on the same constants returns byte-identical output.
 
-raw#10 honest scope (g8 / f2):
+Honest scope (g8 / f2):
   This module checks IN-SILICO whether a designed cargo fits the AAV9
   single-stranded packaging budget. PASS here is a packaging-feasibility
   filter only — it is NOT a therapeutic claim, NOT an expression-level

@@ -49,8 +49,8 @@ CLI usage
     python3 pocket_active_space.py --smiles "[H][H]" --ncas 1 --nelecas 2
     python3 pocket_active_space.py --selftest
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. Active-space choice is NOT automatic — caller specifies (nelecas,
    ncas). Wrong choice silently gives a different (often worse-grounded)

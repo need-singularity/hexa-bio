@@ -32,7 +32,7 @@
 //                       life/vaccine/ (PASS clean — declared in V-R3,
 //                       audit 2026-05-05).
 //
-// raw#10 honest C3:
+// Honest C3:
 //   - Calibration confined to T=1 (60-subunit cage, cycle-22 baseline).
 //     T=3/T=4 (CCMV/HBV) need per-system rate-constant re-derivation due
 //     to K_n × C(0)^n scaling (5th and 12th powers) — V-R2 stretch.

@@ -164,7 +164,7 @@ fn cmd_selftest() {
         exit(1)
     }
     println("  verdict: PASS (all 16 C2 cells dispatched + sentinel present)")
-    println("  HONEST CAVEAT (raw#91 C3): C2 sweep PASS verifies in-silico")
+    println("  HONEST CAVEAT (C3): C2 sweep PASS verifies in-silico")
     println("        simulator+metadata internal consistency only — NOT")
     println("        therapeutic, clinical, regulatory, immunogenic, or")
     println("        efficacy progress. C3+ (wet-lab → IND → phase I) is")

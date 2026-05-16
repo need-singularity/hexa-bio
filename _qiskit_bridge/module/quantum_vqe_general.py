@@ -40,8 +40,8 @@ CLI usage
     python3 quantum_vqe_general.py --molecule lih --depth 1 --max-iter 200
     python3 quantum_vqe_general.py --selftest
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. depth=1 hardware-efficient ansatz works for H2 (verified Phase 1)
    and is sufficient for LiH active-space-reduced 4-qubit (8 params)

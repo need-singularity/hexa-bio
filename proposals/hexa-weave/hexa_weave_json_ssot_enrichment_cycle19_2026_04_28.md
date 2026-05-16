@@ -4,12 +4,12 @@ date: 2026-04-28
 parent_witness: design/kick/2026-04-28_json-ssot-enrichment-cycle19_omega_cycle.json
 parent_proposal: proposals/hexa_weave_kick_infra_cycle13_5_of_5_closure_2026_04_28.md
 mission: cycle 19 priority 1 — README.md sync-readme JSON SSOT enrichment — 18 hand-curated domains literally registered for WRITE-mode unblock
-status: PREP + JSON SSOT enrichment complete. dry-run 0 changed markers (raw 65/68 idempotent ACHIEVED). --check exit 0. WRITE-mode NOT executed (gated on cycle 20+ sealed-hash CI). README.md untouched.
+status: PREP + JSON SSOT enrichment complete. dry-run 0 changed markers (68/68 idempotent ACHIEVED). --check exit 0. WRITE-mode NOT executed (gated on cycle 20+ sealed-hash CI). README.md untouched.
 ---
 
 # README.md sync-readme JSON SSOT enrichment (cycle 19 priority 1)
 
-raw 91 C3 honest disclosure: this cycle replicates 18 hand-curated
+C3 honest disclosure: this cycle replicates 18 hand-curated
 README.md domain blocks into `canonshared/readme-data.json` verbatim
 (byte-exact extraction via Python regex; line numbers cited in §3).
 NO new content is fabricated. NO README.md modification is performed.
@@ -78,7 +78,7 @@ uses `  NEXUS tests:    <count>` (4 spaces). Aligned to 4 spaces in
 the generator to match README. Required for `AUTO:STATS` idempotency
 under WRITE-mode.
 
-## §3 enriched domain list (raw 91 C3 source attribution)
+## §3 enriched domain list (C3 source attribution)
 
 All 18 enrichment entries cite their README.md source line numbers:
 
@@ -109,7 +109,7 @@ bytes of replicated curation now persisted in JSON SSOT.
 Each domain entry also carries an `_n6_invariant` field (one-line
 n=6 architectural fingerprint extracted from the rich content; not
 fabrication, distillation), and `_source` field stating
-"README.md hand-curated content replicated verbatim (raw 91 C3 honest:
+"README.md hand-curated content replicated verbatim (C3 honest:
 not fabricated novelty)".
 
 ## §4 verification
@@ -127,7 +127,7 @@ $ echo $?
 0
 ```
 
-raw 65/68 idempotent: ACHIEVED.
+68/68 idempotent: ACHIEVED.
 
 ## §5 WRITE-mode unblock readiness (NOT executed this cycle)
 
@@ -139,16 +139,16 @@ cycle 19 deliverables:
 - [x] --check exit 0
 
 cycle 20+ prerequisites for WRITE-mode unblock:
-- [ ] own#14 sealed-hash pre-commit CI hook (verifies README.md hash
+- sealed-hash pre-commit CI hook (verifies README.md hash
       matches sync-readme dry-run output)
 - [ ] `--allow-overwrite` CLI flag in sync-readme.hexa (explicit
       confirmation that user accepts JSON SSOT replacement of any
       future hand-edits to README.md)
 - [ ] dry-run unified-diff output (not just marker names) for review
-- [ ] re-register raw 5 SSOT contract: post-cycle-20 README.md
+- re-register SSOT contract: post-cycle-20 README.md
       hand-edits FORBIDDEN; all changes via JSON + sync-readme run
 
-## §6 raw 71 falsifiers (preregistered)
+## §6 Falsifiers (preregistered)
 
 5 falsifiers logged in
 `design/kick/2026-04-28_json-ssot-enrichment-cycle19_omega_cycle.json`
@@ -167,7 +167,7 @@ fantasy entry with summary_literal containing the verbatim
 dry-run after fantasy entry: 0 changes. **F-INFRA-SSOT-19-5: does not
 fire.**
 
-## §7 cross-repo impact (raw 47)
+## §7 cross-repo impact
 
 The sister repo `n6-nexus` (and any other consumer of
 `canonshared/readme-data.json`) sees:
@@ -184,7 +184,7 @@ continues to function on the legacy 13-domain subset.
 ## §8 alien-grade impact
 
 Expected delta: +0.05 to +0.10 (infra plumbing; not core mathematical
-advance). Rationale: raw 65/68 idempotency restoration unblocks
+advance). Rationale: 68/68 idempotency restoration unblocks
 cycle 20+ automated WRITE pipeline, reducing friction for future
 readme curation churn. Not counted toward alien-grade ceiling census
 this cycle (alien-grade 4.18 cycle-15 close baseline preserved).
@@ -192,7 +192,7 @@ this cycle (alien-grade 4.18 cycle-15 close baseline preserved).
 ## §9 next-cycle handoff
 
 If user approves cycle 20 WRITE-mode unblock path:
-1. add own#14 sealed-hash pre-commit hook
+1. add sealed-hash pre-commit hook
 2. add `--allow-overwrite` flag to sync-readme.hexa
 3. extend dry-run to emit unified diff
 4. re-run sync-readme.hexa in WRITE mode (expected: 0 byte changes)
@@ -203,5 +203,5 @@ If user defers: cycle 19 enrichment remains in JSON; --check continues
 to pass; no WRITE attempted. Safe steady-state.
 
 If user rejects: revert via `git checkout HEAD -- canonshared/readme-data.json
-canonshared/sync-readme.hexa`. WRITE-mode stays gated; raw 91 C3 honest
+canonshared/sync-readme.hexa`. WRITE-mode stays gated; C3 honest
 disclosure of attempt logged.

@@ -17,7 +17,7 @@ emit sentinel.
 Live: Foldseek is a CLI binary, not a Python package. Live use requires
 `foldseek` on PATH; not exercised in selftest.
 
-raw#10 C3: NO n=6 lattice-fit applied. Foldseek carries OWN metrics —
+C3: NO n=6 lattice-fit applied. Foldseek carries OWN metrics —
 fident, lDDT (0-1), TM-score (0-1), E-value.
 
 License: Apache-2.0 (hexa-bio cycle-30++++++++).

@@ -33,8 +33,8 @@ CLI usage
         --max-iter 200
     python3 pocket_vqe_orchestrator.py --selftest
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. The ETKDGv3+UFF SMILES geometry is NOT QM-quality, so the VQE E
    on `[H][H]` will agree with Phase 1's hardcoded H2 path only

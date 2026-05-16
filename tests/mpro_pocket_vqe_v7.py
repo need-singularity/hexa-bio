@@ -27,7 +27,7 @@ RHF orbitals; chem-acc gate = |ΔE| < 1600 µHa (1 kcal/mol), sub-µHa gate =
 sub-µHa — but is slow; 2e/2o is the proven loop-feasible real-drug pattern and
 is what F-Q-6-D is closed on, mirroring the isolated-nirmatrelvir 2e/2o PASS.)
 
-raw#10 honest C3: a hand-built crude cluster mimic (not a PDB QM/MM cutout);
+Honest C3: a hand-built crude cluster mimic (not a PDB QM/MM cutout);
 the gate verifies that VQE reproduces the classical CASCI reference in the
 chosen active space — it is NOT a binding-affinity or therapeutic claim.
 The S1/S2 subpocket residues (His163, Glu166, Gln189) are out of scope here;

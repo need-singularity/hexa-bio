@@ -42,8 +42,8 @@ CLI usage
     python3 quantum_h_molecule.py --name lih --r 1.5
     python3 quantum_h_molecule.py --selftest
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. Phase 1 hardcoded H2 coefficients (Kandala 2017 6-term) won't byte-
    match this generator's output (5 terms, ParityMapper-default — the

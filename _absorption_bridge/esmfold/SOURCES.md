@@ -32,7 +32,7 @@
 ## Honest notes
 
 - **Predictions, not measurements** — same caveat as the other folders.
-- **No n=6 lattice-fit** applied to ESMFold outputs (raw#10 C3).
+- **No n=6 lattice-fit** applied to ESMFold outputs (C3).
 - **MSA-free is a feature, not a bug** — ESMFold trades some accuracy
   on hard targets (where MSAs provide co-evolution signal) for 60x
   speedup vs AF2/MSA pipelines. The fixture preserves `msa_used: false`

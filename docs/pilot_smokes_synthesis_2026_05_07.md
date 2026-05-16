@@ -43,7 +43,7 @@ hexa-bio Python adapter (or shell)
    schema validation → registry row → falsifier check
 ```
 
-이는 review §31 prescribed pattern 의 **3-system 검증**. hexa-bio 의 module 들이 (Boltz, ProteinMPNN, RhoFold+) 직접 import 한 적 없음. raw#9 stdlib-only 영역 보존.
+이는 review §31 prescribed pattern 의 **3-system 검증**. hexa-bio 의 module 들이 (Boltz, ProteinMPNN, RhoFold+) 직접 import 한 적 없음. stdlib-only 영역 보존.
 
 ### 2. Weight 의 first-call download wall 가 dominant cost
 
@@ -71,7 +71,7 @@ NVIDIA GPU 환경에서는 모두 5-50× 빠름 expected. Apple Silicon 의 MPS 
 | ProteinMPNN | MIT (code + weights) | torch (pip) |
 | RhoFold+ | Apache 2.0 + HF weights | huggingface_hub + ml_collections + openmm (pip) |
 
-전체 commercial path 가능. raw#10 큰 caveat 으로 보였던 dep 들 (qiskit + boltz + protein_mpnn + rhofold + openmm + ml_collections + huggingface_hub) 가 모두 pip install --user 으로 설치됨 (Mac, Apple Silicon). 시간 ~분 단위. 산업 production 환경 (Linux CUDA) 에서는 더 단순.
+전체 commercial path 가능. 큰 caveat 으로 보였던 dep 들 (qiskit + boltz + protein_mpnn + rhofold + openmm + ml_collections + huggingface_hub) 가 모두 pip install --user 으로 설치됨 (Mac, Apple Silicon). 시간 ~분 단위. 산업 production 환경 (Linux CUDA) 에서는 더 단순.
 
 ### 5. 모든 inputs 가 standard format
 
@@ -112,7 +112,7 @@ hexa-bio cage_assembly         → falsifier
 
 ---
 
-## raw#10 honest C3 (이번 synthesis)
+## Honest C3 (이번 synthesis)
 
 1. **3 pilots 모두 training-distribution input** (trp-cage / 5L33-6MRR PDBs / 7elpA RNA). truly OOD — 우리 ribozyme C2 cells (FLT3-ITD AML 등) 의 unique sequences — 에서의 정확도 별도 검증 필요. 단 확신: pretrained foundation model 의 zero-shot 일반화 (review §5 시대) 패턴이 적용되면 OOD 도 동작 expected.
 

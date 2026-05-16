@@ -84,7 +84,7 @@ Added `if t == "void" { return default_val }` (and `return false` for
 
 Other options considered:
 - **Option B** — keep manual `scripts/sync-readme.py` permanent: rejected
-  because raw 9 hexa-only mandates HEXA-FIRST runtime; falling back
+  because hexa-only mandates HEXA-FIRST runtime; falling back
   permanently entrenches the regression and blocks future contributions.
 - **Option C** — upstream hexa-runtime patch (string indexing, type_of
   classification): deferred. Two .hexa-level guards are sufficient for
@@ -130,7 +130,7 @@ The pipeline now correctly enumerates 36 hand-curated → SSOT-divergent
 markers (BADGE/COMMON_LINKS/REFERENCE/ROADMAP/ALIEN_INDEX + several
 already-aligned SUMMARY/FOOTER ones omitted).
 
-## 5. Critical SSOT vs hand-curation divergence (raw 91 C3 honest)
+## 5. Critical SSOT vs hand-curation divergence (C3 honest)
 
 **The fix only restores pipeline mechanics; it does NOT make the JSON
 SSOT authoritative.** README.md currently contains hand-curated
@@ -140,10 +140,10 @@ entries (alien=0, tp=0). Applying `hexa run sync-readme.hexa` (write
 mode) right now would replace rich hand-curated blocks with stubs like
 `> **🛸0** | TP0`, destroying ~25KB of curation.
 
-Post-fix WRITE was attempted in a try-and-revert (raw 142 D2)
+Post-fix WRITE was attempted in a try-and-revert (D2)
 verification: 36 markers were written, README.md changed, sealed-hash
-broken (own#14 transient FAIL), then `cp /tmp/readme_before.md README.md`
-restored byte-equality and own#14 sealed PASS reconfirmed
+broken (transient FAIL), then `cp /tmp/readme_before.md README.md`
+restored byte-equality and sealed PASS reconfirmed
 (sha256: 4a22aa270c17... clean).
 
 So the production rule moving forward:
@@ -159,13 +159,13 @@ So the production rule moving forward:
   or `--check`; WRITE mode is gated behind a future `--allow-overwrite`
   flag (added cycle 19+).
 
-## 6. own#14 sealed-hash impact
+## 6. Sealed-hash impact
 
 Pre-fix sealed: `sha256:4a22aa270c17846e300a8e4c0d7aeeadb0d7fa5fb73acb31a02828ca26d57ce1`
 Post-fix sealed (after revert): same. README.md byte-equal to pre-cycle.
-own#14 PASS preserved. No README.md.sealed.hash update required this cycle.
+PASS preserved. No README.md.sealed.hash update required this cycle.
 
-## 7. Cross-repo impact (raw 47)
+## 7. Cross-repo impact
 
 Sister repos (anima, nexus, hexa-lang, papers, hive, void) carry their
 own README sync stacks. The bug pattern (prefix-confusion in marker
@@ -173,7 +173,7 @@ scan) is generic to any `<!-- AUTO:NAME:START -->` / `<!-- AUTO:NAME:END -->`
 delimited templating that uses substring-prefix search. A cycle-19
 cross-repo audit task is added to next_cycle_path.
 
-## 8. Falsifiers (raw 71)
+## 8. Falsifiers
 
 - **F-SR-FIX-1** — claim: cycle-19+ refactor of `scan_markers` removes
   the validity check without re-introducing the bug.
@@ -197,7 +197,7 @@ cross-repo audit task is added to next_cycle_path.
   monitor: smoke-test `hexa run sync-readme.hexa --dry-run` returns
   ≥ 30 changed markers on enriched JSON.
 
-## 9. raw 70 K4 axes
+## 9. K4 axes
 
 - **CONSTANTS** PASS (n6 quartet sigma=12 phi=2 tau=4 unchanged)
 - **DIMENSIONS** PASS (sync-readme.hexa LoC 702 → 758, +56 net)
@@ -221,13 +221,13 @@ Cycle 19 tasks (rank ordered):
    reports 0 changed markers on equality.
 2. **WRITE mode gating** — add `--allow-overwrite` flag and CI safeguard
    blocking unintended sealed-hash drift.
-3. **Cross-repo audit** (raw 47) — anima / nexus / hexa-lang / papers /
+3. **Cross-repo audit** — anima / nexus / hexa-lang / papers /
    hive / void sister-repo sync templates audit.
 4. **hexa-runtime upstream contribution** (option C) — fix `type_of()`
    classification for JSON null and document substring/index_of
    semantics for multi-byte strings.
 
-## 11. raw 91 C3 honest disclosure
+## 11. C3 honest disclosure
 
 - The cycle-11 hypothesis (HOME PATH + json_parse multibyte) was wrong.
   Real bug was in `scan_markers` prefix confusion + `null`/`void` type
@@ -238,7 +238,7 @@ Cycle 19 tasks (rank ordered):
   authority over hand-curated SUMMARY/FOOTER blocks; that requires
   cycle-19 JSON enrichment.
 - Live `[DONE] 36 marker(s) changed` proves fix correctness but is NOT
-  a green-light for unattended `hexa run sync-readme.hexa` (raw 91 C3:
+  a green-light for unattended `hexa run sync-readme.hexa` (C3:
   WRITE mode would destroy curation; verified by try-and-revert).
 
 ## 12. Deliverables

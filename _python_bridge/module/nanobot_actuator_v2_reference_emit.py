@@ -29,7 +29,7 @@ field-population pattern. The reference emitter demonstrates:
   * work_per_cycle_kT ≥ 10 (F-NB-3-floor gate) and
     brownian_collapse_detected flag.
 
-raw#10 honest C3: this is a *schema-conformance reference emitter*. It
+Honest C3: this is a *schema-conformance reference emitter*. It
 demonstrates the v2 contract is emittable from sample input; it does NOT
 run a Langevin / molecular-dynamics simulator and does NOT validate that
 the emitted rate constants correspond to any physical actuator. The work-
@@ -248,7 +248,7 @@ def _selfcheck() -> int:
     total = len(_SAMPLE_INPUTS)
     if fails == 0:
         print(f"  --- summary --- {total} / {total} PASS → verdict: PASS")
-        print("  scope (raw#10 C3): reference emitter only. Production simulator")
+        print("  scope (C3): reference emitter only. Production simulator")
         print("        (nanobot_actuation_simulation.py @ ~/core/nexus/sim_bridge/)")
         print("        adopts this field-population pattern in the external cycle;")
         print("        in-repo N-R1 (v2 emit-path demonstration) is CLOSED.")

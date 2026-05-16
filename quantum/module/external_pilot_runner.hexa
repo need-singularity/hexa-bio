@@ -1,6 +1,6 @@
 // quantum/module/external_pilot_runner.hexa — hexa-native external-pilot smoke runner
 //
-// @tool(slug="external-pilot-runner", desc="One-shot CLI smoke that re-runs the cycle 48/50/52/54 outbound-consumer pilots (Boltz-2 / ProteinMPNN / RhoFold+ / chain) and aggregates their JSON tails into a single status report. raw#9 hexa-native (this module is NEW work per user directive 2026-05-07; existing _python_bridge/module/quantum_*.py port is happening in a separate hexa-lang session).")
+// @tool(slug="external-pilot-runner", desc="One-shot CLI smoke that re-runs the cycle 48/50/52/54 outbound-consumer pilots (Boltz-2 / ProteinMPNN / RhoFold+ / chain) and aggregates their JSON tails into a single status report. hexa-native (this module is NEW work per user directive 2026-05-07; existing _python_bridge/module/quantum_*.py port is happening in a separate hexa-lang session).")
 // @usage(hexa run quantum/module/external_pilot_runner.hexa --check)
 // @sentinel(__EXTERNAL_PILOT_RUNNER__ <PASS|FAIL>)
 // @resolver-bypass(reason="Pure local smoke runner. Re-uses already-cached external weights. No qmirror cli dispatch.")
@@ -23,10 +23,10 @@
 //     existing python module port is happening in a separate session;
 //     this file is NEW writing only.
 //
-// raw#9 hexa-only: pure hexa, uses self/stdlib/proc.hexa popen_lines
+// Hexa-only: pure hexa, uses self/stdlib/proc.hexa popen_lines
 //     wrapper (one-shot CLI only; no streaming needed for this smoke).
 //
-// raw#10 honest C3:
+// Honest C3:
 //   1. The four pilots' artifact paths (under /tmp/) are not durable
 //      across reboots; this runner detects missing artifacts and
 //      reports STATUS=missing rather than failing — the registry row

@@ -25,7 +25,7 @@ Ansatz topology
 Design constraints
 ==================
 
-* raw#9 hexa-bio rule: stdlib-only Python in this adapter — subprocess
+* Hexa-bio rule: stdlib-only Python in this adapter — subprocess
   + json for the qmirror bridge call. No numpy/scipy here. Caller-side
   numpy/scipy in A3/A4 is the documented concession boundary.
 * No in-tree copy of qmirror logic: the QASM source is shipped as a
@@ -59,8 +59,8 @@ Selftest emits sentinels:
     __HEXA_BIO_QANSATZ__ F3 PASS    # round-trip θ=[π/2,0,0,0] → |Φ+⟩
     __HEXA_BIO_QANSATZ__ ALL PASS
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. Bridge path is `~/core/qmirror/_python_bridge/module/aer_runner.py`
    — overridable via QMIRROR_BRIDGE or QMIRROR_ROOT env. Adapter does

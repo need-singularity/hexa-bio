@@ -9,7 +9,7 @@ cage_output_v1.schema.json using the project's own stdlib JSON Schema
 validator (`selftest/json_schema_validator.py`). Sentinel:
 `__VIROCAPSID_C5_CONFORMANCE__ PASS` on full PASS, FAIL otherwise.
 
-Scope (raw#10 honest C3): this script proves *schema conformance* of the four
+Scope (honest C3): this script proves *schema conformance* of the four
 example instances. It does NOT run the Zlotnick ODE, does NOT compute live
 yield curves, and does NOT validate the rate constants against any wet-lab
 or RCSB target. Live witness emission (running simulator → registry.jsonl
@@ -93,7 +93,7 @@ def main() -> int:
     passed = total - fails
     if fails == 0:
         print(f"  --- summary --- {passed} / {total} PASS → verdict: PASS")
-        print("  scope (raw#10 C3): schema-conformance only. Live witness emission")
+        print("  scope (C3): schema-conformance only. Live witness emission")
         print("        (running simulator → registry.jsonl) remains out-of-repo")
         print("        (R5 sunset → ~/core/nexus/sim_bridge/). C5 in-repo portion")
         print("        (schema lock + 4-cell example validation) is CLOSED.")

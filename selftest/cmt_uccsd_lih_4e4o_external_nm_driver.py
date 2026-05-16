@@ -29,7 +29,7 @@ Usage:
 Output: progress lines + final summary with E_VQE, Δ vs CASCI(4,4) ref,
         sentinel __EXT_NM_LIH_4E4O__ PASS|FAIL.
 
-raw#9 disclosure (hexa-bio AGENTS.md): stdlib only. No scipy, numpy, or
+Disclosure (hexa-bio AGENTS.md): stdlib only. No scipy, numpy, or
 external deps. subprocess for hexa, sys / os / argparse / math / time for plumbing.
 """
 

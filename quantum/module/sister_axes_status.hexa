@@ -1,6 +1,6 @@
 // quantum/module/sister_axes_status.hexa — 5 sister axes status aggregator
 //
-// @tool(slug="sister-axes-status", desc="Aggregate the LAST cycle status of each of the 5 hexa-bio axes (RIBOZYME / VIROCAPSID / NANOBOT / WEAVE / QUANTUM) plus the 3 sister-repo connections (sim-universe / anima / hexa-brain). Reads top-level axis dispatchers' status sentinels via subprocess. Counterpart to upstream_pulse_check.hexa (cycle 70) — that module surveys upstream sister repos; this module surveys hexa-bio's own axes + cross-sister consumers. Per .own own 2 + own 3.")
+// @tool(slug="sister-axes-status", desc="Aggregate the LAST cycle status of each of the 5 hexa-bio axes (RIBOZYME / VIROCAPSID / NANOBOT / WEAVE / QUANTUM) plus the 3 sister-repo connections (sim-universe / anima / hexa-brain). Reads top-level axis dispatchers' status sentinels via subprocess. Counterpart to upstream_pulse_check.hexa (cycle 70) — that module surveys upstream sister repos; this module surveys hexa-bio's own axes + cross-sister consumers. Per .own.")
 // @usage(hexa run quantum/module/sister_axes_status.hexa)
 // @sentinel(__HEXA_BIO_SISTER_AXES_STATUS__ <PASS|PARTIAL|FAIL>)
 // @resolver-bypass(reason="Pure local sentinel-grep over already-running axis dispatchers; no qmirror cli, no live ANU, no Aer.")
@@ -20,13 +20,13 @@
 // a status check). Only the hexa-native cycle-69 hexabrain consumer
 // is re-invoked here for connectivity-sanity.
 //
-// raw 패턴
+// 패턴
 // ────────
-// raw#9 hexa-only-strict — pure hexa, only stdlib/proc.popen_lines.
-// raw#10 honest C3 — embedded inline.
-// raw#15 write-confined — read-only sentinel grep.
-// own 2 outbound-consumer-only — subprocess CLI only.
-// own 3 cross-session port discipline — NEW writing.
+// Hexa-only-strict — pure hexa, only stdlib/proc.popen_lines.
+// Honest C3 — embedded inline.
+// Write-confined — read-only sentinel grep.
+// Outbound-consumer-only — subprocess CLI only.
+// Cross-session port discipline — NEW writing.
 
 use "self/stdlib/proc"
 

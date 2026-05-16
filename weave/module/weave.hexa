@@ -2,7 +2,7 @@
 // weave/module/weave.hexa — WEAVE verb (HEXA-family axis 1/4)
 //
 // Cage-assembly + polyhedral-cage Bayesian audit primitive.
-// Imports from sister python_bridge_aux (raw#9 .own N opt-out for
+// Imports from sister python_bridge_aux (.own opt-out for
 // numpy/scipy heavy lifting; pure-hexa default uses python stdlib only).
 //
 // Provenance: extracted from nexus/sim_bridge/weave/ on 2026-05-04
@@ -17,13 +17,13 @@
 // (ribozyme) + assembly (virocapsid). Weave is the only axis with full
 // numerical empirical sandbox at v1.0.0.
 //
-// Falsifiers (raw#71 preregister, carried forward from cycle 22):
+// Falsifiers (preregister, carried forward from cycle 22):
 //   F-CAGE-MVP-1     — yield 0.95 미달이 3 independent calibration
 //                       (HBV/CCMV/STNV) 에서 reproducible → calibration gap
 //                       확정 (deadline 2026-07-28).
 //   F-VIROCAPSID-2   — live-PDB scrape n>=100 cages 에서 posterior >= 0.95
 //                       재현 → STRUCTURAL-EXACT 입증 강화 (deadline 2027-04-28).
-//   F-NEXUS-IMPORT-NUMPY — 외부 numpy/scipy 의존성 도입 시 raw#14 ext-ssot
+//   F-NEXUS-IMPORT-NUMPY — 외부 numpy/scipy 의존성 도입 시 ext-ssot
 //                       위반 → 거부 (deadline open-ended).
 //   F-TP5-b          — 90-day MVP gate: end-to-end weave_compose() with
 //                       P>=10 strand bundles x N>=50 trials. PASS via
@@ -37,7 +37,7 @@
 //   J₂   = 24  octahedral O ⊂ icosahedral I subgroup
 //   σ·φ = n·τ = 12·2 = 6·4 = 24 master identity.
 //
-// raw#10 honest C3:
+// Honest C3:
 //   - python stdlib only by default (HEXA_BIO_WITH_NUMPY=1 → numpy/scipy
 //     opt-in for empirical-sandbox path).
 //   - cage_assembly yield 0.68 plateau is calibration gap (k_close >= 5e-9
@@ -82,7 +82,7 @@ fn _print_n6_lattice() {
 }
 
 fn _print_falsifiers() {
-    println("  falsifiers (raw#71 preregister):")
+    println("  falsifiers (preregister):")
     println("    F-CAGE-MVP-1            yield ≥ 0.95 across 3 calibrations  (deadline 2026-07-28)")
     println("    F-VIROCAPSID-2-LIVE-PDB live-PDB n≥100 posterior ≥ 0.95     (deadline 2027-04-28)")
     println("    F-NEXUS-IMPORT-NUMPY    no numpy/scipy w/o opt-in flag      (deadline open-ended)")

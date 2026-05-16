@@ -17,7 +17,7 @@ Live: MMseqs2 is a CLI binary. Live use requires `mmseqs` on PATH +
 target database (UniRef / NR / ColabFoldDB / etc). OUT-OF-SCOPE for
 selftest.
 
-raw#10 C3: NO n=6 lattice-fit applied. MMseqs2 carries OWN metrics —
+C3: NO n=6 lattice-fit applied. MMseqs2 carries OWN metrics —
 fident, alnlen, E-value, bits score.
 
 License: Apache-2.0 (hexa-bio cycle-30++++++++).

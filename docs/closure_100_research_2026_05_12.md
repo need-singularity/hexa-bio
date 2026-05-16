@@ -63,4 +63,4 @@ Standard, solved-pattern space: (1) **Schema-as-artifact with semantic versionin
 
 ---
 
-*Research conducted 2026-05-12 (deep web + arXiv). All citations are to public literature / public databases. raw#10 honest C3: this is a literature-survey artifact, not new empirical work; it informs how the residual gaps would be closed, it does not close them.*
+*Research conducted 2026-05-12 (deep web + arXiv). All citations are to public literature / public databases. honest C3: this is a literature-survey artifact, not new empirical work; it informs how the residual gaps would be closed, it does not close them.*

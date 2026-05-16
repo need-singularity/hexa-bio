@@ -51,7 +51,7 @@ SUBSTRATES = {
         "desc": "qmirror chemistry-VQE + classical PySCF backend — arbitrary drug-pocket Hamiltonian construction",
         "probe": lambda: False,  # not implemented anywhere yet (the Tier-2 gap)
         "readiness_if_present": "ready",
-        "gating": "F-Q-6-E ramp — needs a classical-chemistry integral backend (PySCF) to build the active-space Hamiltonian before the quantum solver runs; pure-hexa kernel can't (qmirror raw#10 caveat 1). See COMPUTE_PORTFOLIO.md §4.",
+        "gating": "F-Q-6-E ramp — needs a classical-chemistry integral backend (PySCF) to build the active-space Hamiltonian before the quantum solver runs; pure-hexa kernel can't (qmirror caveat 1). See COMPUTE_PORTFOLIO.md §4.",
         "fallback": "DESIGN-AUDIT proxy (selftest/cmt_side_effect_avoidance_audit.py + cmt_library_ranking.py for CMT) — the in-repo-verifiable closure that substitutes for the VQE-binding closure until the backend lands",
     },
     "xeno_akida": {

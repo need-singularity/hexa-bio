@@ -55,7 +55,7 @@ hexa-bio module (.py)
 
 This pattern preserves:
 
-- raw#9 stdlib-only spirit on the hexa-bio side (numpy/scipy/torch stay in the external system's env)
+- Stdlib-only spirit on the hexa-bio side (numpy/scipy/torch stay in the external system's env)
 - license isolation (GPL subprocess can't infect; CC-BY weights stay in user's environment)
 - reproducibility (registry row records the call's request_id / version / timestamps)
 - falsifier discipline (boundary schema like `raw_77_external_evidence_v1` — to be drafted)
@@ -99,7 +99,7 @@ hexa-bio ribozyme     — orthogonal mRNA silencing arm (target validation alt p
 
 ---
 
-## raw#10 honest C3
+## Honest C3
 
 1. Review is **surface-level** per system — README + abstract level. Each pipeline stage's actual integration requires a per-system smoke run (deferred per user decision; review cycle is deliberately read-only).
 2. **2026-quoted accuracy numbers** (scGPT 91.4% / Boltz-2 1000× FEP / RNA-FM 20-30% F1 / VQE 0.4 µHa) come from each project's own benchmarks. Cross-project standardized comparison is a separate research cycle.
@@ -136,4 +136,4 @@ AlphaFold 3 paper deep-dive, ARES, ProtT5, Pocket2Mol — each adds detail but t
 - All under cron `67cceec6` `/loop 5m keep going to closure to goal`
 - External cost: $0 (WebFetch only, no installs, no API calls)
 - Cross-repo edits: 0 (all in hexa-bio)
-- raw#9 conformance: this docs file is markdown, no Python; review docs all markdown. Pilot smoke runs in §A would re-engage the existing `_python_bridge/module/quantum_*.py` outbound-consumer pattern.
+- Conformance: this docs file is markdown, no Python; review docs all markdown. Pilot smoke runs in §A would re-engage the existing `_python_bridge/module/quantum_*.py` outbound-consumer pattern.

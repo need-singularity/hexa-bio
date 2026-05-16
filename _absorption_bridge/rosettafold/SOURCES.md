@@ -37,7 +37,7 @@
 
 - **Predictions, not measurements** — same caveat as AF3. RoseTTAFold
   predicts; experimental verification still required.
-- **No n=6 lattice-fit** applied to RoseTTAFold outputs (raw#10 C3).
+- **No n=6 lattice-fit** applied to RoseTTAFold outputs (C3).
 - **Hardware requirements**: live inference requires a CUDA-capable GPU;
   CPU-only inference is impractical at scale.
 - **Adapter caching**: bundled fixture `cache/sample_prediction.json`.

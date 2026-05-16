@@ -52,14 +52,14 @@ Public API
         dispatch via Aer (pool or fresh-subprocess), compute
         hamiltonian_expectation. Returns (E_Ha, meta).
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. Walking each (pauli_string, amp_index) pair in Python is fine for
    n=2..4 (chemistry minimal-basis); it becomes expensive at n≥8 where
    2^n × num_terms grows fast. At that scale the right move is
    numpy or qiskit's SparsePauliOp.expectation_value backend — which
-   is a future cycle (raw#10 dep). For Phase B1 (LiH) this evaluator
+   is a future cycle (dep). For Phase B1 (LiH) this evaluator
    is sufficient.
 2. Constant shift handling: `hamiltonian["constant_shift_ha"]` is
    added to the Pauli sum. For H2 / qiskit-nature this includes

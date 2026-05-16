@@ -17,7 +17,7 @@ Two paths:
 
 The selftest never hits the network. The cache fixture is bundled.
 
-raw#10 C3 (LATTICE_POLICY.md §1.2/1.3): this adapter does NOT apply n=6
+C3 (LATTICE_POLICY.md §1.2/1.3): this adapter does NOT apply n=6
 lattice formulas (σ=12 / τ=4 / φ=2 / J₂=24) to AlphaFold-3 predictions.
 AF3 carries its OWN published metrics — pLDDT (per-residue confidence,
 0-100), pAE (predicted aligned error, Å), pTM / ipTM (interface). The

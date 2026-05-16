@@ -8,7 +8,7 @@ A1 (qmirror entropy → random init seed), A2 (ansatz QASM3 builder), and
 A3 (Pauli expectation evaluator) into a single `vqe_h2(...)` driver
 that returns the optimized energy + parameters.
 
-Optimizer: stdlib-only Nelder-Mead (downhill simplex). raw#9 spirit
+Optimizer: stdlib-only Nelder-Mead (downhill simplex). The stdlib-first spirit
 favors stdlib over scipy here, matching `virocapsid_calibration.py`'s
 existing deterministic-search pattern. Nelder-Mead handles the 4D
 hardware-efficient ansatz energy landscape robustly enough to reach
@@ -39,8 +39,8 @@ Selftest emits:
     __HEXA_BIO_QVQE__ F2 PASS    # qrng-seeded random init reaches same band
     __HEXA_BIO_QVQE__ ALL PASS
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. Nelder-Mead is local; for the 4D H2 ansatz it converges from generic
    init due to landscape smoothness, but pathological inits (e.g. exact

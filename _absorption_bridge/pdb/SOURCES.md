@@ -45,7 +45,7 @@
 - **Experimental data, NOT predictions** — unlike AF3 / RoseTTAFold /
   ESMFold / OpenFold / ColabFold, PDB entries are experimentally
   determined. Resolution and R-factor encode experimental quality.
-- **No n=6 lattice-fit** applied to PDB records (raw#10 C3).
+- **No n=6 lattice-fit** applied to PDB records (C3).
 - **Complementary to** `_python_bridge/module/virocapsid_pdb_corpus.py`
   (which handles VIPERdb-curated capsid corpus); this adapter is the
   generic single-entry REST counterpart.

@@ -36,7 +36,7 @@
 - **TM-score / lDDT** are deterministic structural-similarity metrics
   inherited from the structural-bioinformatics literature; the adapter
   validates ranges but does NOT renormalize them.
-- **No n=6 lattice-fit** applied to Foldseek hits (raw#10 C3).
+- **No n=6 lattice-fit** applied to Foldseek hits (C3).
 - **E-value semantics**: Foldseek's E-value is calibrated against the
   3Di+AA alphabet's null model; comparing it to BLAST E-values is
   apples-to-oranges.

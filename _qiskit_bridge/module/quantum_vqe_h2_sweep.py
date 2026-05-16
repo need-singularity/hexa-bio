@@ -49,8 +49,8 @@ Selftest emits:
     __HEXA_BIO_QVQE_SWEEP__ F1 PASS    # 2-restart infrastructure
     __HEXA_BIO_QVQE_SWEEP__ ALL PASS
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. The 10-repeat × 200-iter production sweep is NOT in the selftest
    wall budget — selftest only verifies the multi-restart bookkeeping

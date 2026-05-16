@@ -27,14 +27,13 @@
 // minimal escaping. Dry-run prints to stdout only; --emit appends
 // to registry.jsonl.
 //
-// raw 패턴
+// 패턴
 // ────────
-// raw#9 hexa-only-strict — pure hexa, popen_lines + write_file.
-// raw#10 honest C3 — string-based JSON has escape limits (newlines /
+// Hexa-only-strict — pure hexa, popen_lines + write_file.
+// Honest C3 — string-based JSON has escape limits (newlines /
 //   quotes inside notes must be pre-escaped by caller). Linted by
 //   selftest/registry_consistency_audit.py downstream.
-// raw#15 write-confined — appends to state/discovery_absorption only.
-// own 2/3.
+// Write-confined — appends to state/discovery_absorption only.
 
 use "self/stdlib/proc"
 
@@ -55,7 +54,7 @@ fn _git_head_short() -> str {
 
 fn _escape_json_str(s: str) -> str {
     // Minimal escape: " → \" and \ → \\. Newlines must be pre-stripped
-    // by caller (raw#10 caveat).
+    // by caller (caveat).
     return s.replace("\\", "\\\\").replace("\"", "\\\"")
 }
 

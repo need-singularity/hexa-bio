@@ -29,7 +29,7 @@
 
 ## Honest notes
 
-- **No n=6 lattice-fit** applied to MMseqs2 hits (raw#10 C3).
+- **No n=6 lattice-fit** applied to MMseqs2 hits (C3).
 - **E-value semantics**: MMseqs2 uses the same Gumbel-extreme-value
   null-model framework as BLAST; E-values are interchangeable in
   interpretation but differ in absolute calibration.

@@ -42,7 +42,7 @@
   predictions. Per-residue confidence is encoded in `pLDDT`; interface
   confidence in `ipTM`. Novel folds remain UNVERIFIED until experimental
   confirmation (X-ray crystallography, cryo-EM, NMR).
-- **No n=6 lattice-fit** applied to AF3 outputs (raw#10 C3). AF3 carries
+- **No n=6 lattice-fit** applied to AF3 outputs (C3). AF3 carries
   its OWN published metrics — pLDDT is calibrated against per-atom RMSD
   against the deposited PDB structure, not against σ(6)=12.
 - **Limitations** documented in Abramson et al. 2024: lower accuracy on

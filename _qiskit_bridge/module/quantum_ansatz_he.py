@@ -37,8 +37,8 @@ Public API
         else fresh-subprocess via the qmirror aer_runner. The pool path
         is what production VQE uses (~20× wall reduction).
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. The linear-chain CNOT entangler is a common but not the only
    topology. Kandala 2017 used either linear or all-to-all depending on

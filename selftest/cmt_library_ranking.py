@@ -9,7 +9,7 @@ in-repo* gate rather than a live VQE library scan.
 
 The full VQE binding library ranking (Tier 4 / Phase δ) requires the chemistry
 stack (qiskit-nature + pyscf active-space transformer) which is out of scope for
-the pure-hexa qmirror kernel (raw#10 caveat 1 in qmirror/chemistry_vqe/module).
+the pure-hexa qmirror kernel (caveat 1 in qmirror/chemistry_vqe/module).
 What this gate DOES, in-repo and deterministically:
   (1) Encodes the 10 hxq-cmt-* novel candidates + key comparators with a
       scoring vector derived from the roadmap §1/§2/§6/§11-v4 design audits

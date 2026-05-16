@@ -7,7 +7,7 @@
 // repo `sim-universe` — calls `hexa run cli/sim-universe.hexa multiverse
 // --m N --t T --json`, parses JSON tail.
 //
-// raw#10 honest c3:
+// Honest C3:
 //   1. sim-universe multiverse is a TOY lattice sim per its own §status
 //      caveats. Mapping RIBOZYME variant ensemble onto these mini-worlds
 //      is a 1:1-flavor-of-experimental-design coupling — actual chemistry

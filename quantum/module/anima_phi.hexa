@@ -101,7 +101,7 @@ fn cmd_selftest() -> int {
     }
     println("")
 
-    println("  Stdlib toy IIT — effective-information per state (raw#9, no pyphi):")
+    println("  Stdlib toy IIT — effective-information per state (no pyphi):")
     let ei = compute_effective_information_stdlib()
     let mut n_finite = 0
     let mut k = 0

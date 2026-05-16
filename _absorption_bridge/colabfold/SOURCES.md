@@ -35,7 +35,7 @@
 ## Honest notes
 
 - **Predictions, not measurements** — same caveat.
-- **No n=6 lattice-fit** applied (raw#10 C3).
+- **No n=6 lattice-fit** applied (C3).
 - **MSA-depth** is preserved in the fixture — small MSAs degrade AF2
   accuracy; the adapter does not hide this.
 - **Adapter caching**: bundled fixture `cache/sample_prediction.json`.

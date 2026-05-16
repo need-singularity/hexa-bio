@@ -39,7 +39,7 @@ reaction states above; φ(6)=2 = cleaved/intact; J₂=24 = TS-pose orbit size
 (S₄ ≅ O — see `ribozyme_reaction_coordinate_quotient.py`).  Master identity
 σ·φ = n·τ = J₂ = 24.
 
-Honest C3 (raw#10): this re-implementation reproduces the documented F-RB-4
+Honest C3: this re-implementation reproduces the documented F-RB-4
 headline numbers (k_cat ≈ 0.6/min, K_M ≈ 0.12 µM, k_cat/K_M ≈ 8.3e4 M⁻¹s⁻¹,
 Eigen-Hammes margin ≈ 4.08 orders) to ~3 significant figures; the original's
 4th-digit values (k_cat 0.5995/min, k2 0.0100919…) depend on the exact constant

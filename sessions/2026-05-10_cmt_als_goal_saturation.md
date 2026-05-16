@@ -56,7 +56,7 @@
 | §1 표 행 수             | 14     | **20**        |
 | 후보 (hxq-als-*)        | 0      | **8**         |
 | Falsifier               | 13     | **18**        |
-| raw#10 honest C3        | 10     | **17**        |
+| Honest C3        | 10     | **17**        |
 | 5-axis 강도             | 미평가 | Q✅ V✅ W OK RB✅ NB✅ |
 | Cumulative cycles       | 1      | 5             |
 

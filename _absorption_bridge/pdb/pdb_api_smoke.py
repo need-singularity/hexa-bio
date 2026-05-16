@@ -14,7 +14,7 @@ Two paths:
      `https://data.rcsb.org/rest/v1/core/entry/{pdb_id}`. NOT exercised
      in selftest.
 
-raw#10 C3: NO n=6 lattice-fit applied to PDB records. PDB carries OWN
+C3: NO n=6 lattice-fit applied to PDB records. PDB carries OWN
 experimental metrics — resolution, R-factor, deposition method.
 
 NOTE: hexa-bio already has `_python_bridge/module/virocapsid_pdb_corpus.py`

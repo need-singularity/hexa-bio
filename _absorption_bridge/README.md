@@ -137,7 +137,7 @@ external rate limits during CI.
 
 This bridge must NOT:
 
-1. **Apply n=6 lattice formulas to external system data** (`raw#10 C3`).
+1. **Apply n=6 lattice formulas to external system data** (`C3`).
    AlphaFold-3 / RoseTTAFold / ESMFold / OpenFold / ColabFold predictions,
    Foldseek / MMseqs2 alignments, UniProt / PDB records all carry their
    OWN published metrics (pLDDT, pAE, TM-score, RMSD, E-value, ...). The

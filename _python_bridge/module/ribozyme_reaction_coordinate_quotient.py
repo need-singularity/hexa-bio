@@ -30,7 +30,7 @@ BRANCH-LOCK DECISION (G26-RB-2, locked 2026-05-12, owner: hexa-bio session):
       J₂  =  |Aut( 4-state catalytic ladder, as an unordered set )|  =  4!  =  24
   consistent with the master identity  σ·φ = n·τ = J₂ , i.e. 12·2 = 6·4 = 24.
 
-  Revisability (raw#10 honest C3 / §A.1 caveat): this is the n=6-lattice
+  Revisability (honest C3 / §A.1 caveat): this is the n=6-lattice
   *projection* for the ribozyme axis — STRUCTURAL-EXACT-CANDIDATE.  The
   group-order arithmetic (4! = |O| = 24) is a deductive certainty; the
   *interpretive choice* (that the relevant group is S₄ acting on the

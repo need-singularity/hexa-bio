@@ -703,7 +703,7 @@ of the pair may be inspected independently.
 
 ## §4 raw_91 honest C3 — stub repo disclosure
 
-This section is honest-C3 (own#5 spirit): the canonical statement of
+This section is honest-C3 (spirit): the canonical statement of
 what this repo IS and IS NOT.
 
 - **IS**: a canonical-side **boundary spec stub**. Defines the wet-lab /

@@ -86,7 +86,7 @@ paracetamol (11 heavy, 29 s) vs minoxidil-frag (12 heavy, 45 s) vs simvastatin (
 
 ---
 
-## Limitations (raw#10 honest C3)
+## Limitations (honest C3)
 
 1. **isolated molecule E_total only** — 진정한 drug-target binding affinity 아님. F-Q-6-D Phase C (explicit pocket supersystem VQE) 가 next ramp; cycle 113 attempt 1 (자동 2e/2o multi-fragment) honest-fail 측정. cycle 113-114 attempt 2 (4e/4o UCCSD on supersystem) 진행 중.
 2. **STO-3G basis** — minimum viable. cc-pVDZ 시 SCF wall ~3× 추가, chem-acc 향상.

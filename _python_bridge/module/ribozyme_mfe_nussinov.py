@@ -24,7 +24,7 @@ Determinism: stdlib only, no random/network/time/env. Re-running on the
 same input produces byte-identical output. → §11 deductive verification
 contract (`AXIS_CLOSURE_PLAN.md` §0/§11; no human judgment, no live sim).
 
-raw#10 honest scope (C3): this is a *combinatorial pair-maximization*
+Honest scope (C3): this is a *combinatorial pair-maximization*
 solver, not a thermodynamic ΔG calculator. It produces a structurally
 valid dot-bracket but does NOT report kcal/mol energies. For ΔG, the
 Turner-NN partition surrogate (cycle-24 MVP) or full Zuker port is

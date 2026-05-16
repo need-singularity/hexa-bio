@@ -244,7 +244,7 @@ LOW (paper publication 은 user decision).
 
 ---
 
-## 14. raw#10 honest C3
+## 14. Honest C3
 
 1. 본 brainstorm 은 **README + 1-line 1-paragraph** 수준. 각 connection 의 진정한 흡수 가능성 검증은 별도 cycle (Tier 1 부터 시작 권장).
 2. **off-domain repos** (orpheus / wraith-wallet / ghost) 는 connection priority LOW 로 marked. 미래 연관 가능성 (예: Bitcoin 이 wet-lab funding 으로 흐름) 은 가능하지만 immediate ML/code path 없음.

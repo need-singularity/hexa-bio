@@ -31,7 +31,7 @@
 ## Honest notes
 
 - **Predictions, not measurements** — same caveat.
-- **No n=6 lattice-fit** applied to OpenFold outputs (raw#10 C3).
+- **No n=6 lattice-fit** applied to OpenFold outputs (C3).
 - **Trainability** is the key value-add: hexa-bio can in principle
   fine-tune OpenFold on internal structures — but that is out-of-scope
   for this absorption-bridge (which only validates schema replay).

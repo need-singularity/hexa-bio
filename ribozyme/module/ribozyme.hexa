@@ -23,7 +23,7 @@
 //                                  pose-equivalence group (verified via
 //                                  σ·φ = 24 and 6·τ = 24); simulation-
 //                                  side state-space reduction at L4
-//                                  deferred (raw 91 C3).
+//                                  deferred (C3).
 //
 // Falsifiers (.roadmap.ribozyme §10):
 //   F-RB-1   genus distinction (vs WEAVE / NANOBOT) — 3 falsifiers preregistered
@@ -35,7 +35,7 @@
 //             — PASS WITH MITIGATION (C0a audit 2026-05-05; SELEX handshake
 //             declared in R-R2)
 //
-// raw#10 honest C3:
+// Honest C3:
 //   - Kinetics MVP uses Eyring TST (dG=21 kcal/mol, T=310K) giving
 //     k_cat ~ 0.6 min^-1 (in-band with Hertel/Uhlenbeck 1992 canonical
 //     hammerhead ~ 1 min^-1) and K_M ~ 0.12 uM (in 0.01-1 uM range).

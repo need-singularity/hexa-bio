@@ -41,7 +41,7 @@
 //             — PARTIAL (C0a audit 2026-05-05; full closure blocked on
 //             canon canonical-side, out-of-repo)
 //
-// raw#10 honest C3:
+// Honest C3:
 //   - Energy ladder uses synthetic kT*ln(N!) at N=4 (= ln(24) ~ 3.178 kT)
 //     for the back-slip barrier; productive forward barriers 1.0/0.5/0.2 kT
 //     chosen so productive cycles dominate. NOT fitted to Howard 2001

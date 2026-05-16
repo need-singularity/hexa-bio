@@ -26,8 +26,8 @@ CLI usage
 
     python3 quantum_h2_scan.py --r-list 0.4,0.5,0.6,0.74,0.9,1.0,1.2,1.5,1.8,2.0,2.5
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. FCI in STO-3G is exact within that basis but not in real life — STO-3G
    is a minimal basis. Larger basis sets (cc-pVDZ etc) shift the curve

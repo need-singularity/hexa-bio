@@ -1,6 +1,6 @@
 // quantum/module/hexabrain_consumer.hexa — hexa-brain outbound consumer (hexa-native)
 //
-// @tool(slug="hexabrain-consumer", desc="Connectivity-sanity wrapper for hexa-brain CLI; lists `core` subsystem verbs + maps RIBOZYME C2-δ (senolytic) SASP target candidates against hexa-brain neural-inflammation marker categories. Per .own own 2 (outbound-consumer-only) and own 3 (cross-session port discipline). Per user directive 2026-05-07 cron prompt suffix '(.hexa first)' — this module is hexa-native, the corresponding Python wrapper is OUT OF SCOPE for this hexa-bio session.")
+// @tool(slug="hexabrain-consumer", desc="Connectivity-sanity wrapper for hexa-brain CLI; lists `core` subsystem verbs + maps RIBOZYME C2-δ (senolytic) SASP target candidates against hexa-brain neural-inflammation marker categories. Per .own (outbound-consumer-only) and (cross-session port discipline). Per user directive 2026-05-07 cron prompt suffix '(.hexa first)' — this module is hexa-native, the corresponding Python wrapper is OUT OF SCOPE for this hexa-bio session.")
 // @usage(hexa run quantum/module/hexabrain_consumer.hexa --check)
 // @sentinel(__HEXA_BIO_HEXABRAIN__ <PASS|FAIL>)
 // @resolver-bypass(reason="Pure local CLI subprocess via stdlib/proc.popen_lines; no hardware (OpenBCI) needed for connectivity check.")
@@ -39,14 +39,14 @@
 // It only verifies the CLI is reachable and prints the cross-link
 // table for documentation.
 //
-// raw 패턴
+// 패턴
 // ────────
-// raw#9 hexa-only-strict — pure hexa, only self/stdlib/proc.popen_lines
+// Hexa-only-strict — pure hexa, only self/stdlib/proc.popen_lines
 //   (one-shot subprocess, no streaming).
-// raw#10 honest C3 — embedded inline (5 caveats).
-// raw#15 write-confined — no external paths, no abs paths leaked.
-// own 2 outbound-consumer-only — subprocess CLI only.
-// own 3 cross-session port discipline — this is NEW writing.
+// Honest C3 — embedded inline (5 caveats).
+// Write-confined — no external paths, no abs paths leaked.
+// Outbound-consumer-only — subprocess CLI only.
+// Cross-session port discipline — this is NEW writing.
 
 use "self/stdlib/proc"
 

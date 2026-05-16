@@ -14,7 +14,7 @@ Two paths:
      fetch `https://rest.uniprot.org/uniprotkb/{accession}.json`. NOT
      exercised in `--selftest` (NO LIVE NETWORK rule).
 
-raw#10 C3: NO n=6 lattice-fit applied to UniProt records.
+C3: NO n=6 lattice-fit applied to UniProt records.
 
 License: Apache-2.0 (hexa-bio cycle-30++++++++).
 """

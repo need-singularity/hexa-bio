@@ -51,7 +51,7 @@
 //   F-Q-EXT-7 caDNAno install — install OK, smoke BLOCKED (cycle 55-56)
 //   F-Q-EXT-7b caDNAno smoke — BLOCKED (numpy ABI + PyQt5 forced load, §28 cycle 56)
 //
-// raw#10 honest C3:
+// Honest C3:
 //   - This file is NEW writing (per user directive 2026-05-07). Existing
 //     _python_bridge/module/quantum_*.py port to hexa native is happening
 //     in a separate hexa-lang session and is OUT OF SCOPE here.

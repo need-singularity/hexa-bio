@@ -128,7 +128,7 @@ F-novel-<disease-tag>-{Q,W,V,RB,NB}-N
 
 ---
 
-## 4. raw#10 honest C3
+## 4. Honest C3
 
 1. **20-disease entry skeleton scope** — entry-only, drug-target pair list + 5-axis cross-contribution + falsifier skeleton. Phase β (per-disease novel drug build + VQE) 부터 evidence-based work.
 2. **cross-link matrix dense** — 평균 4 cross-links per disease, ~80 edges. drug repurposing 가능성 큼; 단 진정한 binding affinity 는 supersystem VQE (F-Q-6-D Phase C) 가 prerequisite.

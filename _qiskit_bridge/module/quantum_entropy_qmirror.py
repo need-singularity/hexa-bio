@@ -11,7 +11,7 @@ seeds, all of which land in later phases A2-A5).
 Design constraints
 ==================
 
-* raw#9 hexa-bio rule: Python stdlib only — no numpy, no scipy in this
+* Hexa-bio rule: Python stdlib only — no numpy, no scipy in this
   adapter. Caller-side numpy/scipy is fine; we deliberately keep the
   entropy boundary narrow so it stays easy to audit.
 * Provenance preservation: every pull carries (tier, provenance,
@@ -58,8 +58,8 @@ Selftest emits two sentinel lines on success:
     __HEXA_BIO_QENT__ F2 PASS
     __HEXA_BIO_QENT__ ALL PASS
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. `live=True` requests qmirror's **3-tier** ANU chain (paid → keyed
    → legacy). qmirror commit aa58ba8 (2026-05-07) collapsed the

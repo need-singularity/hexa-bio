@@ -19,7 +19,7 @@ Live: ESMFold weights publicly released by Meta and mirrored on
 HuggingFace (`facebook/esmfold_v1`). Requires `torch` + `transformers`.
 The selftest does NOT invoke the live model.
 
-raw#10 C3: NO n=6 lattice-fit applied. ESMFold carries OWN metrics —
+C3: NO n=6 lattice-fit applied. ESMFold carries OWN metrics —
 pLDDT, pTM. The MSA-free nature is preserved in the fixture.
 
 License: Apache-2.0 (hexa-bio cycle-30++++++++).

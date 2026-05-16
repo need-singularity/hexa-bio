@@ -108,14 +108,14 @@ hexa-bio ribozyme (R-axis):
 **흡수 불가능 부분**:
 
 - 33M cell pretraining 자체는 hexa-bio 가 수행 안 함 (data + GPU 비현실).
-- HuggingFace transformers + flash-attn dep = 큰 dep, raw#10 caveat 매우 큼.
+- HuggingFace transformers + flash-attn dep = 큰 dep, caveat 매우 큼.
 - pretrained weight 다운로드 ≈ 수 GB.
 
 **권장 접근**:
 
 - **outbound consumer** + **read-only inference** — scGPT pretrained 를 사용자 별도 환경에서 실행, output (target gene/protein list + confidence) 을 hexa-bio ribozyme C2 input 으로 join.
 - 우리 ribozyme R-axis 의 target mRNA 선택 시 **scGPT-recommended gene list** 를 evidence_paths 에 첨부.
-- raw#10 caveat: scGPT 의 정확도 한계 (out-of-distribution gene combos 에서 traditional 통계 모델보다 못함) — 단일 source 의존 금지.
+- Caveat: scGPT 의 정확도 한계 (out-of-distribution gene combos 에서 traditional 통계 모델보다 못함) — 단일 source 의존 금지.
 
 ---
 
@@ -128,7 +128,7 @@ hexa-bio ribozyme (R-axis):
 
 ### 3.2 medium 흡수 (1-3 cycle, 사용자 결정 영역)
 
-3. **scGPT 1회 inference smoke** — 사용자 환경에 scGPT install + 하나의 cell type / perturbation 예측 실행 → 결과 paste 해서 우리 ribozyme C2 row 의 evidence_paths 에 첨부. raw#10: scGPT inference cost 비명시.
+3. **scGPT 1회 inference smoke** — 사용자 환경에 scGPT install + 하나의 cell type / perturbation 예측 실행 → 결과 paste 해서 우리 ribozyme C2 row 의 evidence_paths 에 첨부. scGPT inference cost 비명시.
 4. **AlphaFold 3 1회 prediction smoke** — 사용자 환경에 AlphaFold 3 docker 실행 + 우리 virocapsid T=1 STNV 같은 작은 capsid 1회 예측 → confidence + structure 출력 → registry row.
 
 ### 3.3 long-term (다 cycle, 큰 로드맵)
@@ -140,11 +140,11 @@ hexa-bio ribozyme (R-axis):
 
 - **falsifier-driven** workflow — 우리 raw_77 schema 의 falsifier ID + threshold + action-on-fail 패턴은 AlphaFold/scGPT 와 분리. 우리 advantage.
 - **cross-repo SSOT** + memory + cycle history = audit trail. ML model 의 bb로 단점 (output 만 있고 reproduction trail 없음) 을 보완.
-- **stdlib-only Python** (raw#9) — ML 라이브러리 의존 최소화. 우리 quantum cycle 이 dep 0 / 작은 dep 으로 기능.
+- **stdlib-only Python** — ML 라이브러리 의존 최소화. 우리 quantum cycle 이 dep 0 / 작은 dep 으로 기능.
 
 ---
 
-## 4. raw#10 honest C3
+## 4. Honest C3
 
 1. **scGPT 91.4%** 수치 출처 = heisenberg.kr 인용 (paper 직접 검증 미실시). bioRxiv 2023 paper benchmark dataset specifics 미파악. 후속 cycle 에서 paper 직접 검증 필요.
 2. **AlphaFold 3 노벨상 2024** = AlphaFold 2 의 contribution 으로 (Hassabis/Jumper) — AlphaFold 3 자체가 노벨상 받은 게 아니라 그 lineage. 정확성 위해 명시.
@@ -263,7 +263,7 @@ drug-target pocket VQE (Phase C) 의 4-stage pipeline:
 
 ---
 
-## 9. raw#10 honest C3 (cycles 6-8 추가)
+## 9. Honest C3 (cycles 6-8 추가)
 
 5. ESM-2 의 15B param 모델 inference 는 GPU memory ≥24GB 필요. 사용자 환경 사양 별도 확인.
 6. RoseTTAFold weight non-commercial 는 우리 commercial path 막음. AllAtom 도 동일 제약 추정 — 확인 필요.

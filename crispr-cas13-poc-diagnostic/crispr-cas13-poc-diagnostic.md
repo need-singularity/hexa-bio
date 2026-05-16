@@ -26,7 +26,7 @@ requires:
   - to: physics/optics
     alien_min: 7
     reason: Au-NP plasmon resonance + visual readout — 40 nm gold nanoparticle 520 nm extinction + Posthuma-Trumpie 2009 visual LOD
-upgraded: "2026-05-01 mk1 PHYSICAL-LIMIT (10): all 5 falsifier-axis targets derived from physical-limit physics (Cas13 trans-cleavage k_cat 30-50 /s/molecule / Eigen-Hammes diffusion-limit ceiling 10⁹ M⁻¹s⁻¹ / Mason-Botella 2020 lyophilized reagent Arrhenius shelf-life / Posthuma-Trumpie 2009 lateral-flow Au-NP visual LOD ~10 fM / Piepenburg-Armes 2006 RPA isothermal pre-amplification 10⁹ in 20 min) inheriting from 6 precursor domains. own#2 master identity preserved as separable Block A; design constants are physical-limit values, not n=6 force-fit (own#32). Domain registered as South Africa applied-tech bet #2 (`proposals/south-africa-applied-tech.md` row 2)."
+upgraded: "2026-05-01 mk1 PHYSICAL-LIMIT (10): all 5 falsifier-axis targets derived from physical-limit physics (Cas13 trans-cleavage k_cat 30-50 /s/molecule / Eigen-Hammes diffusion-limit ceiling 10⁹ M⁻¹s⁻¹ / Mason-Botella 2020 lyophilized reagent Arrhenius shelf-life / Posthuma-Trumpie 2009 lateral-flow Au-NP visual LOD ~10 fM / Piepenburg-Armes 2006 RPA isothermal pre-amplification 10⁹ in 20 min) inheriting from 6 precursor domains. master identity preserved as separable Block A; design constants are physical-limit values, not n=6 force-fit. Domain registered as South Africa applied-tech bet #2 (`proposals/south-africa-applied-tech.md` row 2)."
 ---
 
 <!-- @own(sections=[WHY, COMPARE, REQUIRES, STRUCT, FLOW, EVOLVE, VERIFY, EXEC SUMMARY, SYSTEM REQUIREMENTS, ARCHITECTURE, CIRCUIT DESIGN, PCB DESIGN, FIRMWARE, MECHANICAL, MANUFACTURING, TEST, BOM, VENDOR, ACCEPTANCE, APPENDIX, IMPACT], prefix="§") -->
@@ -35,16 +35,16 @@ upgraded: "2026-05-01 mk1 PHYSICAL-LIMIT (10): all 5 falsifier-axis targets deri
 
 > One-line summary: **a CRISPR-Cas13 isothermal SHERLOCK/DETECTR diagnostic for TB + HIV with lateral-flow readout where every engineering target is derived from a physical or biochemical limit** — Cas13 trans-cleavage kinetics (Abudayyeh-Zhang 2017, k_cat 30-50 /s/molecule), Eigen-Hammes diffusion-limit ceiling (k_cat/K_M ≤ 10⁹ M⁻¹s⁻¹), Mason-Botella 2020 lyophilized-reagent Arrhenius shelf-life (12 mo at 25 °C / ≤ 60% RH desiccated), Posthuma-Trumpie 2009 Au-NP lateral-flow visual LOD (~10 fM analyte / ~10⁵ copies viral RNA), Piepenburg-Armes 2006 RPA isothermal pre-amplification (10⁹ in 20 min at 37-42 °C). Inherits 6 precursor domains (life/biology-medical + life/synbio + life/genetics + life/hiv-treatment + materials/ceramics + physics/optics).
 
-> 21-section template (own#15 HARD), South Africa applied-tech portfolio
+> 21-section template (HARD), South Africa applied-tech portfolio
 > bet #2 (`proposals/south-africa-applied-tech.md` row 2). Targets the
 > World #3 TB burden (450,000 cases/yr South Africa) + 13% HIV
 > prevalence (8.2M PLHIV) under field conditions (Eskom load-shedding,
 > 60-90% RH, no cold chain at last-mile clinics).
 >
-> Honest scope per raw 91 C3: the design **targets** are computed
+> Honest scope per C3: the design **targets** are computed
 > physical-limit values (alien-grade 10 = physical-limit reproduction);
 > the design constants are NOT force-fit to n=6 number-theoretic
-> invariants. own#2 master identity (σ·φ=n·τ=J₂=24 at n=6) is verified
+> invariants. master identity (σ·φ=n·τ=J₂=24 at n=6) is verified
 > as a framework-level mathematical fact, not as a justification for the
 > diagnostic design. Empirical realization is gated on F-CAS13-MVP-1..5
 > (2026-09-30 / 2026-10-31 / 2026-12-31 / 2027-03-31); upgrade from
@@ -91,7 +91,7 @@ five published technologies that are individually proven:
 **One-line summary**: each engineering number is the **physical-limit
 realization** of a published enzyme-kinetics, isothermal-amplification,
 or lateral-flow-immunoassay model, inheriting from 6 precursor domains.
-raw 91 C3 honest: this is alien-grade 10 reachability on paper;
+C3 honest: this is alien-grade 10 reachability on paper;
 empirical realization gated on F-CAS13-MVP-1..5 (lyophilized stability
 + TB clinical sensitivity + HIV LOD + SAHPRA timeline + cost gate)
 fired against a 100-test pilot lot in 2026-Q4 / 2027-Q1.
@@ -225,23 +225,23 @@ multi-pathogen panel extension (TB-rifampicin resistance gene rpoB +
 HIV-1 drug-resistance genotyping + COVID-19 / Lassa / dengue regional
 surveillance modules).
 
-## §7 VERIFY (raw 70 K≥4 axes; physical-limit verification per own#6 + own#31 + own#33)
+## §7 VERIFY (K≥4 axes; physical-limit verification)
 
-### §7.1 Embedded verify block (Python stdlib + math + fractions; own#31 v3.19-pass)
+### §7.1 Embedded verify block (Python stdlib + math + fractions; v3.19-pass)
 
 The block computes each engineering target from a published physics,
 biochemistry, or assay-development model, with literature anchors on
-every assertion line. The n=6 master identity (own#2) is verified
+every assertion line. The n=6 master identity is verified
 as a separable mathematical block. NO hardcode-then-assert tautology —
 every constant on the right-hand side of an `assert ==` is either a
 computed quantity or a literature-cited physical / regulatory bound.
 
 ```python
 # HEXA-CRISPR-CAS13-POC-DIAGNOSTIC mk1 §7.1 physical-limit verify (stdlib only)
-# raw 91 C3: every engineering target is computed from a published
+# C3: every engineering target is computed from a published
 # enzyme-kinetics / isothermal-amplification / lateral-flow / Arrhenius
 # model. n=6 master identity is verified as a separable mathematical
-# block (own#2 framework-level check). The diagnostic design constants
+# block (framework-level check). The diagnostic design constants
 # are NOT force-fit to n=6 invariants — they are physical-limit values
 # inherited from precursor domains (life/biology-medical + life/synbio +
 # life/genetics + life/hiv-treatment + materials/ceramics + physics/optics).
@@ -252,7 +252,7 @@ from math import gcd, log, exp, ceil, log10
 
 
 # ─────────────────────────────────────────────────────────────────────
-# Block A: own#2 master identity verification (separable, mathematical)
+# Block A: master identity verification (separable, mathematical)
 # ─────────────────────────────────────────────────────────────────────
 
 def divisors(n):
@@ -288,11 +288,11 @@ def J2(n):
         j = j * (p * p - 1) // (p * p)
     return j
 
-# own#2 master identity at n=6 — both sides computed from divisor primitives.
-# This is a mathematical fact, NOT a property of CRISPR-Cas13 (own#11 honest C3).
+# Master identity at n=6 — both sides computed from divisor primitives.
+# This is a mathematical fact, NOT a property of CRISPR-Cas13 (honest C3).
 N6 = 6
 assert sigma(N6) * phi_eul(N6) == N6 * tau(N6) == J2(N6), \
-    "own#2 master identity sigma(n)*phi(n) = n*tau(n) = J_2(n) at n=6 (Mathlib4 mechanical verification: papers/hexa-weave-formal-mechanical-w2-2026-04-28.md AX-1)"
+    "master identity sigma(n)*phi(n) = n*tau(n) = J_2(n) at n=6 (Mathlib4 mechanical verification: papers/hexa-weave-formal-mechanical-w2-2026-04-28.md AX-1)"
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -520,8 +520,8 @@ assert mk1_HIV_LOD_cp_per_mL <= WHO_HIV_VL_FAILURE_THRESHOLD_CP, \
 # Block G: Cross-precursor inheritance attestation
 #   asserts that the design constants emerge from the precursor physics,
 #   not from arbitrary tuning. Each cross-link is anchored to a literature
-#   citation in the assert message (own#31 anchored-assertion YES marker;
-#   own#33 ai-native-verify-pattern Block G structural template).
+#   citation in the assert message (anchored-assertion YES marker;
+#   Ai-native-verify-pattern Block G structural template).
 # ─────────────────────────────────────────────────────────────────────
 
 # 1. life/biology-medical → TB IS6110 multi-copy + HIV-1 RNA dynamics
@@ -597,11 +597,11 @@ assert AU_NP_EXTINCTION_M_CM >= 1.0e9, \
 # ─────────────────────────────────────────────────────────────────────
 
 print("HEXA-CRISPR-CAS13-POC-DIAGNOSTIC mk1 §7.1 PHYSICAL-LIMIT verify PASS:")
-print(f"  own#2 master identity: sigma(6)*phi(6) = {sigma(N6)}*{phi_eul(N6)} = {sigma(N6)*phi_eul(N6)}")
+print(f"  master identity: sigma(6)*phi(6) = {sigma(N6)}*{phi_eul(N6)} = {sigma(N6)*phi_eul(N6)}")
 print(f"                         n*tau(6)        = {N6}*{tau(N6)} = {N6*tau(N6)}")
 print(f"                         J_2(6)          = {J2(N6)}")
 print()
-print(f"  (A) own#2 master identity at n=6                  PASS")
+print(f"  (A) master identity at n=6                  PASS")
 print(f"  (B) Cas13 reaction completion @ k_cat=40/s:        {t_complete_s:.1f} s (cap 600 s)")
 print(f"  (B) Cas13 enzyme molecules / cassette:             {cas13_molecules:.2e}")
 print(f"  (B) reporter molecules / cassette:                 {reporter_molecules:.2e}")
@@ -622,7 +622,7 @@ print(f"  realization gated on F-CAS13-MVP-1..5 (mk2 N>=500 paired clinical")
 print(f"  cohort + SAHPRA Class C IVD pre-submission, 2026-Q4 / 2027-Q1).")
 ```
 
-### §7.2 raw 70 K≥4 axes (physical-limit anchored)
+### §7.2 K≥4 axes (physical-limit anchored)
 
 | Axis | Verification claim | Evidence | Status |
 |---|---|---|---|
@@ -636,7 +636,7 @@ print(f"  cohort + SAHPRA Class C IVD pre-submission, 2026-Q4 / 2027-Q1).")
 | COUNTER | counter-example: SHERLOCK / DETECTR cassette at USD ≤ 5 with ≥ 90% TB smear-pos sensitivity + ≤ 100 cp/mL HIV-1 LOD + ≥ 12 mo lyo shelf @ 25 °C / 60% RH + < 60 min TTR | None found in 2024-2025 literature (closest: SHERLOCK-v2 Gootenberg 2018 lab demo; Mammoth Biosciences DETECTR Chen 2018 SARS-CoV-2 emergency use; Sherlock Biosciences INSPECTR 2023 experimental — none are SAHPRA-registered TB+HIV combined POC at this price) | PASS (literature absence) |
 
 7 of 8 axes PASS, 1 DEFER (intentionally — empirical CHI2 gate). Meets
-raw 70 K≥4 threshold and the alien-grade 10 (physical-limit reproduction)
+K≥4 threshold and the alien-grade 10 (physical-limit reproduction)
 criterion: every PASS is anchored to a published enzyme-kinetics / assay-
 development / regulatory model (Abudayyeh 2017 / Eigen-Hammes 1963 /
 Mason-Botella 2020 / Posthuma-Trumpie 2009 / WHO TB TPP 2014 / WHO
@@ -660,8 +660,8 @@ life/genetics (28-nt crRNA spacer + RPA primer design rules), life/
 hiv-treatment (WHO 2021 viral-load clinical thresholds), materials/
 ceramics (Whatman FF120HP nitrocellulose lateral-flow substrate),
 physics/optics (Au-NP 40-nm 520-nm plasmon resonance + visual
-detectability). own#2 master identity (σ·φ=n·τ=J₂=24 at n=6) is verified
-as a separable mathematical fact. raw 91 C3 honest: design constants
+detectability). master identity (σ·φ=n·τ=J₂=24 at n=6) is verified
+as a separable mathematical fact. C3 honest: design constants
 are NOT force-fit to n=6 invariants; they are physical-limit values.
 Empirical validation gated on F-CAS13-MVP-1..5 (lyo shelf 12 mo / TB
 sensitivity 90% / HIV LOD 100 cp/mL / SAHPRA timeline / cost USD 8 ceiling
@@ -737,14 +737,14 @@ A simple resistive-heater + thermistor-feedback circuit drives the
   at test-line position; ADC over 16 bits at 10 Hz; threshold compare
   against control-line reference for binary (positive/negative) call.
 
-Listed for own#15 21-section completeness — the diagnostic itself is
+Listed for 21-section completeness — the diagnostic itself is
 chemistry-driven, the circuit only enforces the 37-42 °C window.
 
 ## §12 PCB DESIGN
 
 A 30 mm × 50 mm 2-layer FR-4 PCB mounts the heater + thermistor +
 controller + USB-C connector + optional photodiode-reader add-on.
-ENIG finish for enzyme/reagent compatibility. Listed for own#15
+ENIG finish for enzyme/reagent compatibility. Listed for
 completeness; the design is a commodity isothermal-block PCB and not
 the differentiated layer of this domain.
 
@@ -890,7 +890,7 @@ ESP32-C3 firmware (Rust embedded ecosystem or ESP-IDF C):
 24. **NIST CODATA** (2018 internationally recommended values). — R_gas
     8.314 J/mol/K + N_Avogadro.
 25. **OEIS** (A000203, A000005, A000010, A007434). — number-theoretic
-    sequence references (n=6 master identity, own#2).
+    sequence references (n=6 master identity).
 26. **Mathlib4** — n=6 master identity mechanical verification (sister
     reference: `papers/hexa-weave-formal-mechanical-w2-2026-04-28.md`).
 
@@ -971,22 +971,22 @@ amortized).
 | SAHPRA (Pretoria) | regulatory authority | Class C IVD registration |
 | canon private framework | own_doc_lint / own31 lint | docs gate |
 
-## §19 ACCEPTANCE / MISS criteria (own#12 pre-declared)
+## §19 ACCEPTANCE / MISS criteria (pre-declared)
 
 ### §19.1 PASS gates
 
 - **ACCEPT (P1 §7.1 verify)**: §7.1 embedded Python block prints
   "HEXA-CRISPR-CAS13-POC-DIAGNOSTIC mk1 §7.1 PHYSICAL-LIMIT verify PASS"
-  with all asserts PASS in Blocks A-G (own#2 master identity + Cas13
+  with all asserts PASS in Blocks A-G (master identity + Cas13
   reaction-completion bound + Eigen-Hammes ceiling + Mason-Botella lyo
   Arrhenius shelf-life + LFA Au-NP visual LOD + WHO TB/HIV TPP comparison
   + 6 precursor cross-link attestations).
-- **ACCEPT (P2 own#31 lint)**: `tool/own31_verify_tautology_ban_lint.hexa
+- **ACCEPT (P2 lint)**: `tool/own31_verify_tautology_ban_lint.hexa
   --file domains/life/crispr-cas13-poc-diagnostic/crispr-cas13-poc-diagnostic.md`
   returns PASS.
-- **ACCEPT (P3 own#6 + own#15)**: `tool/own_doc_lint.hexa --rule 6/15`
+- **ACCEPT (P3)**: `tool/own_doc_lint.hexa --rule 6/15`
   zero violations on this file.
-- **ACCEPT (P4 raw 70 K≥4)**: ≥ 4 of 8 raw 70 axes PASS (currently 7
+- **ACCEPT (P4 K≥4)**: ≥ 4 of 8 axes PASS (currently 7
   PASS, 1 DEFER for empirical CHI2 — meets threshold).
 - **ACCEPT (P5 atlas registry)**: `domains/_index.json` `life` axis
   count + `domains/life/_index.json` crispr-cas13-poc-diagnostic entry
@@ -995,16 +995,16 @@ amortized).
   in §7.1 Block G is anchored to a literature citation in §15.2.
 - **MISS** if any of:
   - (a) §7.1 verify block fails to PASS,
-  - (b) own#31 lint flags a tautology pattern,
-  - (c) own#6 / own#15 violations,
+  - (b) lint flags a tautology pattern,
+  - (c) violations,
   - (d) F-CAS13-MVP-1..5 falsifier triggers post-empirical-batch,
-  - (e) own#3 violation (more than one .md per domain),
+  - (e) violation (more than one .md per domain),
   - (f) any precursor inheritance assertion in §7.1 Block G fails.
 - **DEFER**: F-CAS13-MVP-1..5 are pre-declared 90-day-to-1-year MVP empirical
   falsifier gates; remaining DEFER until 2026-09-30 (3 axes) +
   2026-10-31 (TB sensitivity) + 2026-12-31 (cost) + 2027-03-31 (SAHPRA timeline).
 
-### §19.2 raw 71 falsifiers (5)
+### §19.2 Falsifiers (5)
 
 - **F-CAS13-MVP-1** (deadline 2026-09-30): lyophilized reagent activity
   measured via poly-U cleavage rate fluorimetry < 50% of fresh after
@@ -1061,7 +1061,7 @@ amortized).
 
 ## §20 APPENDIX
 
-### §20.1 raw 91 C3 honest disclosure
+### §20.1 C3 honest disclosure
 
 - **Empirical claims at this revision**: 0 lab measurements. All
   targets are computed from published enzyme-kinetics / isothermal-
@@ -1078,22 +1078,22 @@ amortized).
   E_a 80 kJ/mol, LFA visual LOD 10 fM, RPA amplification 10⁹, WHO TPP
   thresholds 1,000 cp/mL HIV / 1,000 CFU/mL TB) are derived from
   published enzyme-kinetics / regulatory models, NOT from σ(6)=12 /
-  τ(6)=4 / J₂(6)=24. own#2 master identity is verified as a separable
+  τ(6)=4 / J₂(6)=24. master identity is verified as a separable
   mathematical fact (§7.1 Block A); diagnostic physical parameters live
-  in Blocks B-F. Per own#32 (physical-limit-alternative-framing,
+  in Blocks B-F. Per (physical-limit-alternative-framing,
   2026-05-01) the engineering-design layer is decoupled from n=6
   force-fit.
-- **own#11 (no Clay Millennium claim)**: PASS — applied diagnostic
+- **(no Clay Millennium claim)**: PASS — applied diagnostic
   design, no theoretical claim addressed.
-- **own#2 (n=6 master identity HARD)**: PASS via §7.1 Block A standalone
+- **(n=6 master identity HARD)**: PASS via §7.1 Block A standalone
   computation; the master identity holds at n=6 as a number-theoretic
   fact independent of the diagnostic design.
-- **own#33 (ai-native-verify-pattern)**: PASS — §7.1 follows the
-  cat-food / cat-litter §7 Block A-G canonical template (own#2 separable
+- **(ai-native-verify-pattern)**: PASS — §7.1 follows the
+  cat-food / cat-litter §7 Block A-G canonical template (separable
   identity in Block A + 5 physical-limit physics blocks B-F + 6-axis
   precursor cross-link attestation in Block G); structurally emittable
   by AI agents.
-- **own#17 (English-only)**: PASS — committed content in English.
+- **(English-only)**: PASS — committed content in English.
 
 ### §20.2 Cross-references
 
@@ -1172,9 +1172,9 @@ to 25 °C / 60% RH baseline.
   africa-applied-tech.md` row 2). Anchored on 6 precursor domains
   (life/biology-medical + life/synbio + life/genetics + life/hiv-treatment
   + materials/ceramics + physics/optics). §7 VERIFY Block A-G structure
-  follows the cat-food / cat-litter §7 canonical template (own#33
+  follows the cat-food / cat-litter §7 canonical template (
   ai-native-verify-pattern). Falsifier deadlines: F-CAS13-MVP-1
   (2026-09-30 lyo shelf), F-CAS13-MVP-2 (2026-10-31 TB sensitivity),
   F-CAS13-MVP-3 (2026-09-30 HIV LOD), F-CAS13-MVP-4 (2027-03-31 SAHPRA
-  timeline), F-CAS13-MVP-5 (2026-12-31 cost gate). Lint: own#31 v3.19
+  timeline), F-CAS13-MVP-5 (2026-12-31 cost gate). Lint: v3.19
   PASS; own_doc_lint --rule 6/15 PASS.

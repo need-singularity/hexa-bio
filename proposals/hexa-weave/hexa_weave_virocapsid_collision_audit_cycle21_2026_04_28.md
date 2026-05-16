@@ -7,7 +7,7 @@ Author: canon honesty-charter team
 
 ## 1. Audit charter
 
-Cycle 19 fan-out 4/4 registered HEXA-VIROCAPSID (biology axis fourth sister, viral capsid self-assembly architecture). At registration the kick witness flagged a SOFT collision with life/virology because virology.md references "Icosahedral capsid T=3,13 -> 6-fold+5-fold Caspar-Klug theory" as a one-line summary in 4-5 places. F-VIROCAPSID-COLLISION-AUDIT was preregistered with deadline 2026-05-28 to (a) fully sweep life/virology + life/vaccine + adjacent life/* domains, (b) classify each touch as HARD / SOFT / NO COLLISION per raw 91 C3 collision taxonomy, (c) verify own 16 single-canonical compliance, (d) confirm cross-link bidirectionality in HEXA-VIROCAPSID §11 DEPENDENCIES. This proposal closes that audit ahead of deadline (29 days margin) following the cycle 16 F-RB-5 pattern (RESOLVED with HARD COLLISION = 0).
+Cycle 19 fan-out 4/4 registered HEXA-VIROCAPSID (biology axis fourth sister, viral capsid self-assembly architecture). At registration the kick witness flagged a SOFT collision with life/virology because virology.md references "Icosahedral capsid T=3,13 -> 6-fold+5-fold Caspar-Klug theory" as a one-line summary in 4-5 places. F-VIROCAPSID-COLLISION-AUDIT was preregistered with deadline 2026-05-28 to (a) fully sweep life/virology + life/vaccine + adjacent life/* domains, (b) classify each touch as HARD / SOFT / NO COLLISION per C3 collision taxonomy, (c) verify single-canonical compliance, (d) confirm cross-link bidirectionality in HEXA-VIROCAPSID §11 DEPENDENCIES. This proposal closes that audit ahead of deadline (29 days margin) following the cycle 16 F-RB-5 pattern (RESOLVED with HARD COLLISION = 0).
 
 ## 2. Audit scope
 
@@ -17,7 +17,7 @@ Search keywords (8): capsid, virocapsid, virus-like particle, VLP, icosahedral, 
 Method: ripgrep traversal of every _index.json plus full-text grep across domains/**/*.md (case-insensitive); zero-mention quantification across non-biology axes; explicit reading of life/virology/virology.md, life/vaccine/vaccine.md, life/synbio/synbio.md, life/therapeutic-nanobot/therapeutic-nanobot.md, life/bio-pharma/bio-pharma.md, life/immunology/immunology.md, life/hiv/hiv.md, life/hiv-treatment/hiv-treatment.md, life/pharmacology/pharmacology.md frontmatter + body to confirm scope is virology / vaccine clinical-platform / synbio circuit-codon-chassis / therapeutic-nanobot mechanical actuation / etc., NOT capsid self-assembly architectural primitives.
 Files directly read (9): domains/_index.json, domains/biology/_index.json, domains/life/_index.json, domains/biology/hexa-virocapsid/hexa-virocapsid.md, domains/life/virology/virology.md, domains/life/vaccine/vaccine.md, domains/life/synbio/synbio.md, domains/life/therapeutic-nanobot/therapeutic-nanobot.md, domains/life/bio-pharma/bio-pharma.md.
 
-## 3. raw 91 C3 honest findings — keyword occurrence census
+## 3. C3 honest findings — keyword occurrence census
 
 | Search term | biology axis | life/virology | life/vaccine | life/{synbio,therapeutic-nanobot,bio-pharma,immunology,hiv,hiv-treatment,pharmacology} | other axes (cognitive / compute / physics / energy / materials / space / infra / culture / sf-ufo) |
 |-------------|--------------|---------------|--------------|---------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
@@ -53,10 +53,10 @@ Numerical summary:
 | energy/* | various energy | various | 1 incidental "hex-icosahedral dual" in power-grid (geometric layout metaphor); not biology / capsid | NO COLLISION. |
 | materials/* / space/* / infra/* / culture/* / sf-ufo/* | various | various | 0 in each axis | NO COLLISION across all 5 remaining non-biology axes. |
 
-## 5. Collision classification (raw 91 C3 collision taxonomy v1)
+## 5. Collision classification (C3 collision taxonomy v1)
 
 ### HARD_COLLISION
-- Definition: same slug OR same architectural-primitive layer mechanism violating own 16 single-canonical
+- Definition: same slug OR same architectural-primitive layer mechanism violating single-canonical
 - Count: 0
 - Instances: (none)
 - Verdict: NO HARD COLLISION DETECTED
@@ -92,10 +92,10 @@ Numerical summary:
 - F-VIROCAPSID-COLLISION-AUDIT-vaccine: RESOLVED — life/vaccine body contains 0 capsid / VLP / icosahedral / Caspar-Klug occurrences; lists 6 platform classes (attenuated / inactivated / subunit / mRNA / vector / polysaccharide) without VLP enumeration. HEXA-VIROCAPSID §8 IDEA 3 + §11 DEPENDENCIES treats VLP-vaccine as an application bridge from L9 capsid to clinical vaccine, NOT as primitive duplication. NO COLLISION.
 - F-VIROCAPSID-COLLISION-AUDIT-c (published taxonomy treats clinical virology + architectural-capsid self-assembly as a single domain): RESOLVED — no published taxonomy was found in this audit treating clinical virology and architectural capsid self-assembly as a single domain; the literature corpus (Caspar-Klug 1962 / Crick-Watson 1956 / Rossmann-Johnson 1985 / Harrison 1978 / Liljas 1982 / Zlotnick 2003 / Twarock-Luque 2016 / Bruinsma 2003) treats capsid self-assembly architecture as a distinct technical object from clinical virology and vaccinology.
 
-## 7. biology-axis tetrahedron revalidation (raw 106 multi-realizability)
+## 7. biology-axis tetrahedron revalidation (multi-realizability)
 
-- raw 106 multi-realizability: PASS — HEXA-VIROCAPSID genus realised across at least 3 channels: T=1 (60-subunit minimal), T=3 (180-subunit; TBSV / CCMV), T=7 (420-subunit; HSV / HK97), with extended channels T=4 (HBV) / T=13 / T=21 documented in F-VIROCAPSID-2 corpus. Threshold raw 106 (>=3 channels) exceeded.
-- raw 71 three-falsifiers-per-claim: PASS — 16 falsifiers across 5 measurable claims (3+ each).
+- Multi-realizability: PASS — HEXA-VIROCAPSID genus realised across at least 3 channels: T=1 (60-subunit minimal), T=3 (180-subunit; TBSV / CCMV), T=7 (420-subunit; HSV / HK97), with extended channels T=4 (HBV) / T=13 / T=21 documented in F-VIROCAPSID-2 corpus. Threshold (>=3 channels) exceeded.
+- Three-falsifiers-per-claim: PASS — 16 falsifiers across 5 measurable claims (3+ each).
 - four-way genus split justification:
 
 | Domain | Primary object | Primary constraint | Primary oracle |
@@ -113,11 +113,11 @@ Verdict: four primary objects / four primary constraints / four primary oracles 
 - life_application_routes: life/virology (clinical / diagnostic / pandemic surveillance — SOFT collision RESOLVED), life/vaccine (VLP-vaccine route L9 — NO collision), life/synbio (de-novo / SELEX route L9 — NO collision)
 - non-biology incidental geometric / topological coincidences (explicitly disclosed): physics/millennium-poincare (binary icosahedral 2I; Poincaré homology sphere; |2I|=120; pure topology), energy/power-grid (hex-icosahedral dual; geometric layout metaphor), compute/chip-process (DSA = directed self-assembly; semiconductor lithography; 10 nm scale; non-biological)
 - no_corrections_required_to_existing_domains: TRUE for life/virology (cross-link bidirectional already in HEXA-VIROCAPSID §11; life/virology body unchanged; recommended additive note is non-blocking enhancement)
-- bidirectional_cross_link_status: HEXA-VIROCAPSID §11 -> life/virology already present (audit-pending tag now RESOLVED); life/virology -> HEXA-VIROCAPSID is recommended additive enhancement (non-blocking; does not change own 16 compliance)
+- bidirectional_cross_link_status: HEXA-VIROCAPSID §11 -> life/virology already present (audit-pending tag now RESOLVED); life/virology -> HEXA-VIROCAPSID is recommended additive enhancement (non-blocking; does not change compliance)
 
-## 9. own 16 single-canonical compliance
+## 9. Single-canonical compliance
 
-- Rule: own#16 — every domain has exactly one .md SSOT under domains/<axis>/<slug>/<slug>.md and one entry in the corresponding _index.json
+- Rule: every domain has exactly one .md SSOT under domains/<axis>/<slug>/<slug>.md and one entry in the corresponding _index.json
 - hexa_virocapsid_md_count: 1
 - hexa_virocapsid_md_path: domains/biology/hexa-virocapsid/hexa-virocapsid.md
 - hexa_virocapsid_index_entries: 1 (domains/biology/_index.json domains[3])
@@ -128,26 +128,26 @@ Verdict: four primary objects / four primary constraints / four primary oracles 
 ## 10. own_doc_lint 13/13 revalidation
 
 - target: domains/biology/hexa-virocapsid/hexa-virocapsid.md
-- rules_evaluated: own#1, own#2, own#3, own#4, own#5, own#6, own#7, own#8, own#9, own#10, own#11, own#12, own#16
+- rules_evaluated: (full own-doc-lint rule set)
 - violations attributed to target: 0
-- own#16 specifically: PASS (registry sync OK)
-- baseline own#1 violations (proposals/*.md CJK-present, 14 files): unrelated to hexa-virocapsid; no new violation introduced by cycle 21 F-VIROCAPSID-COLLISION-AUDIT cycle
-- verdict: PASS 13/13 for hexa-virocapsid; 14/14 baseline own#1 violations are pre-existing in proposals/ and are explicitly disclosed (not introduced by this audit)
-- raw 91 C3 disclosure: 14 own#1 (CJK-present) baseline violations exist in proposals/hexa_weave_*.md files; all unrelated to hexa-virocapsid registration; this audit-cycle proposal is English-only to avoid contributing a 15th.
+- Specifically: PASS (registry sync OK)
+- baseline violations (proposals/*.md CJK-present, 14 files): unrelated to hexa-virocapsid; no new violation introduced by cycle 21 F-VIROCAPSID-COLLISION-AUDIT cycle
+- verdict: PASS 13/13 for hexa-virocapsid; 14/14 baseline violations are pre-existing in proposals/ and are explicitly disclosed (not introduced by this audit)
+- C3 disclosure: 14 (CJK-present) baseline violations exist in proposals/hexa_weave_*.md files; all unrelated to hexa-virocapsid registration; this audit-cycle proposal is English-only to avoid contributing a 15th.
 
-## 11. raw 71 retire vs cross-link decision
+## 11. Retire vs cross-link decision
 
-- raw 71 retire-and-replace rule applies when HARD COLLISION >= 1
+- Retire-and-replace rule applies when HARD COLLISION >= 1
 - HARD COLLISION = 0 in this audit
 - retire-and-replace NOT triggered
 - replacement: cross-link bidirectional between HEXA-VIROCAPSID and life/virology (already present, audit-pending tag flipped to RESOLVED-WITH-CROSS-LINK)
 - replacement scope: life/virology body unchanged (recommended additive enhancement only); HEXA-VIROCAPSID §11 cross-link tag updated audit-pending -> RESOLVED in this proposal's witness JSON
 
-## 12. raw 106 multi-realizability re-validation
+## 12. Multi-realizability re-validation
 
 - HEXA-VIROCAPSID genus naming: HEXA-VIROCAPSID (no -via / -with / -api suffix)
-- channels: T=1 (STNV 60-subunit minimal), T=3 (TBSV / CCMV 180-subunit), T=4 (HBV 240-subunit dimorphic with T=3), T=7 (HSV / HK97 420-subunit), T=13 (extended), T=21 (extended) — at least 4 well-attested + 2 extended; threshold raw 106 (>=3) exceeded.
-- frameworks: Caspar-Klug 1962 geometric (T-number = h^2 + h*k + k^2) + Zlotnick 2003 kinetic (nucleation-elongation master equation) + Twarock-Luque 2016 generalized PCK + Bruinsma 2003 thermodynamic — at least 4 frameworks; threshold raw 106 (>=2) exceeded by 2x.
+- channels: T=1 (STNV 60-subunit minimal), T=3 (TBSV / CCMV 180-subunit), T=4 (HBV 240-subunit dimorphic with T=3), T=7 (HSV / HK97 420-subunit), T=13 (extended), T=21 (extended) — at least 4 well-attested + 2 extended; threshold (>=3) exceeded.
+- frameworks: Caspar-Klug 1962 geometric (T-number = h^2 + h*k + k^2) + Zlotnick 2003 kinetic (nucleation-elongation master equation) + Twarock-Luque 2016 generalized PCK + Bruinsma 2003 thermodynamic — at least 4 frameworks; threshold (>=2) exceeded by 2x.
 - counter-example: helical TMV (rod-shape, not icosahedral) — explicitly preregistered as counter-class in F-VIROCAPSID-2.
 - verdict: PASS
 
@@ -160,18 +160,18 @@ Verdict: four primary objects / four primary constraints / four primary oracles 
 | Falsifier monitor row | state/falsifier_monitor/audit.jsonl (F-VIROCAPSID-COLLISION-AUDIT status flip PARTIAL-SOFT-COLLISION-DOCUMENTED -> RESOLVED) |
 | Discovery absorption row | state/discovery_absorption/registry.jsonl (cycle 21 F-VIROCAPSID-COLLISION-AUDIT closure absorption) |
 
-## 14. raw 47 zero-cross-repo + raw 142 D2 revertibility
+## 14. Zero-cross-repo + D2 revertibility
 
 - audit was zero-cross-repo: only canon working tree consulted
-- raw 142 D2 revertibility: TRUE (all changes additive: 1 proposal + 1 kick witness + 1 falsifier audit row + 1 absorption registry row; no edit to existing canonical .md bodies; revert via git checkout HEAD~1 -- proposals/hexa_weave_virocapsid_collision_audit_cycle21_2026_04_28.md design/kick/2026-04-28_virocapsid-collision-audit-cycle21_omega_cycle.json + audit-jsonl row truncate)
-- raw 138 PASS sentinel: __F_VIROCAPSID_COLLISION_AUDIT_RESULT__ RESOLVED
+- D2 revertibility: TRUE (all changes additive: 1 proposal + 1 kick witness + 1 falsifier audit row + 1 absorption registry row; no edit to existing canonical .md bodies; revert via git checkout HEAD~1 -- proposals/hexa_weave_virocapsid_collision_audit_cycle21_2026_04_28.md design/kick/2026-04-28_virocapsid-collision-audit-cycle21_omega_cycle.json + audit-jsonl row truncate)
+- PASS sentinel: __F_VIROCAPSID_COLLISION_AUDIT_RESULT__ RESOLVED
 
-## 15. raw 91 C3 self-disclosure
+## 15. C3 self-disclosure
 
 - audit did NOT execute Bayesian model comparison on capsid-architecture corpus (deferred to F-VIROCAPSID-2 audit by 2026-09-28)
 - audit did NOT execute external literature crawl beyond the corpus already cited in hexa-virocapsid.md (Caspar-Klug 1962 / Crick-Watson 1956 / Rossmann-Johnson 1985 / Harrison 1978 / Liljas 1982 / Zlotnick 2003 / Twarock-Luque 2016 / Bruinsma 2003 / Endres-Zlotnick 2002 / Sun-Rao-Rossmann 2010 / Stockley-Twarock 2013 / Mannige-Brooks 2010)
 - audit relied on full-text grep of canon working tree + scope-reading of life/virology.md, life/vaccine.md, life/synbio.md, life/therapeutic-nanobot.md, life/bio-pharma.md, life/immunology.md, life/hiv.md, life/hiv-treatment.md, life/pharmacology.md (sufficient for HARD / SOFT / NONE classification but does not preclude future taxonomic publications that could re-trigger F-VIROCAPSID-COLLISION-AUDIT-c — re-audit by 2027-04-28 recommended)
-- the SOFT COLLISION at life/virology is honestly disclosed; HARD COLLISION = 0 declared honestly under task spec step 6 + raw 91 C3 fabricated NO-COLLISION rejection
+- the SOFT COLLISION at life/virology is honestly disclosed; HARD COLLISION = 0 declared honestly under task spec step 6 + C3 fabricated NO-COLLISION rejection
 - the 3 non-biology "icosahedral" word coincidences (physics/millennium-poincare binary icosahedral 2I; energy/power-grid hex-icosahedral dual; compute/chip-process DSA) are honestly disclosed as orthogonal — none are capsid-related
 
 ## 16. Next cycle path

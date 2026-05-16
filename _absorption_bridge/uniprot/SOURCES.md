@@ -41,7 +41,7 @@
 
 ## Honest notes
 
-- **No n=6 lattice-fit** applied to UniProt records (raw#10 C3).
+- **No n=6 lattice-fit** applied to UniProt records (C3).
 - **annotationScore** (0-5) carries UniProt's OWN confidence rating;
   the adapter passes it through untouched.
 - **Adapter caching**: bundled fixture `cache/sample_entry.json` (P0DTC2

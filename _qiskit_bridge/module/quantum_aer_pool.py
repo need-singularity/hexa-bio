@@ -42,8 +42,8 @@ CLI usage
     python3 quantum_aer_pool.py --daemon            # internal worker mode
     python3 quantum_aer_pool.py --selftest          # 5-call wall benchmark
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. Daemon is hexa-bio-side only — qmirror's `aer_runner.py` is
    unchanged. Future qmirror Phase 4 long-lived bridge upstreams the

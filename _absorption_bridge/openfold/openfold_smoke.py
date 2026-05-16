@@ -16,7 +16,7 @@ Offline (`--selftest`): load fixture, validate schema.
 Live: OpenFold (GitHub: `aqlaboratory/openfold`) needs PyTorch + DeepMind
 parameter ports + a CUDA GPU. OUT-OF-SCOPE for selftest.
 
-raw#10 C3: NO n=6 lattice-fit applied.
+C3: NO n=6 lattice-fit applied.
 
 License: Apache-2.0 (hexa-bio cycle-30++++++++).
 """

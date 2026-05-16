@@ -56,7 +56,7 @@ For state |ψ⟩ with amplitudes a[i]:
 Design constraints
 ==================
 
-* raw#9 hexa-bio rule: stdlib-only Python (math + lists). No numpy.
+* Hexa-bio rule: stdlib-only Python (math + lists). No numpy.
 * Pure analytic on the 4-amplitude state vector — no shot noise, no
   basis-rotation overhead. Phase B (LiH/BeH2) generalizes via OpenFermion-
   style Pauli string parsing; for now H2's 6 fixed terms are hardcoded.
@@ -95,8 +95,8 @@ Selftest emits sentinels:
     __HEXA_BIO_QPAULI__ F3 PASS    # parameter scan finds θ* with E* near E0
     __HEXA_BIO_QPAULI__ ALL PASS
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. The 6 Pauli coefficients are hardcoded for H2/STO-3G/R=0.74 Å only.
    Re-deriving for a different bond length or basis requires running

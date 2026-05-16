@@ -41,8 +41,8 @@ CLI usage
         --max-iter 200
     python3 quantum_ansatz_uccsd.py --selftest
 
-raw#10 honest caveats
-=====================
+Honest caveats
+==============
 
 1. UCCSD parameter count grows like O(N_occ × N_virt) for singles and
    O((N_occ × N_virt)^2 / 4) for doubles. H2O 4e/4o (n_occ=2, n_virt=2)

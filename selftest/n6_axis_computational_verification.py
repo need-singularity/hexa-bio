@@ -12,7 +12,7 @@ predicate. This script implements the *deductive* (no external-simulator) parts
 of the AXIS_CLOSURE_PLAN.md §3 (G26-RB-1′) and §4 (G26-NB-1′) verification
 rubrics, plus the cross-axis master-identity and σ(6)=12 geometry checks.
 
-Scope (raw#10 honest C3): this verifies the *structural / arithmetic / geometric
+Scope (honest C3): this verifies the *structural / arithmetic / geometric
 / group-theoretic / closed-form-physics* claims that need no simulator re-run.
 The simulator-dependent items (Eyring k_cat from a fitted TS, Turner-NN K_M from
 a duplex, Langevin work_per_cycle, Bayesian log-BF over a literature corpus, the
@@ -289,7 +289,7 @@ def main() -> int:
             "verdict": verdict, "n_pass": n_pass, "n_total": n_total,
             "lattice": {"n": N, "sigma": SIGMA, "tau": TAU, "phi": PHI, "J2": J2},
             "blocks": blocks,
-            "scope": "deductive structural/arithmetic/geometric/group-theoretic/closed-form checks + MVP regression assertions; simulator re-derivation out-of-repo (R5 sunset → ~/core/nexus/sim_bridge/); NOT a therapeutic/clinical/regulatory claim (raw#10 honest C3)",
+            "scope": "deductive structural/arithmetic/geometric/group-theoretic/closed-form checks + MVP regression assertions; simulator re-derivation out-of-repo (R5 sunset → ~/core/nexus/sim_bridge/); NOT a therapeutic/clinical/regulatory claim (honest C3)",
         }, indent=2, ensure_ascii=False))
     else:
         print("n6_axis_computational_verification — deterministic σ/τ/φ/J₂ checks (no human raters)")
@@ -302,7 +302,7 @@ def main() -> int:
                 print(f"    [{mark}] {c['label']}" + (f"  —  {c['detail']}" if c["detail"] else ""))
             print("")
         print(f"  --- summary --- {n_pass} / {n_total} checks PASS → verdict: {verdict}")
-        print("  scope (raw#10 C3): deductive structural/arithmetic/geometric/group-theoretic/closed-form-physics")
+        print("  scope (C3): deductive structural/arithmetic/geometric/group-theoretic/closed-form-physics")
         print("  checks + published-MVP regression assertions. Simulator re-derivation (Eyring TST fit, Turner-NN")
         print("  K_M, Langevin work, Bayesian corpus log-BF, cage ODE yield) is out-of-repo (R5 sunset →")
         print("  ~/core/nexus/sim_bridge/). NOT a therapeutic / clinical / regulatory / efficacy claim.")

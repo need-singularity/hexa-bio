@@ -25,7 +25,7 @@ Algorithm:
   off_target_per_kb(a). PASS gate: off_target_per_kb(a) ≤ MAX_PER_KB_GATE
   for each arm.
 
-Pool (raw#10 honest C3): the in-repo reference pool is a small
+Pool (honest C3): the in-repo reference pool is a small
 deterministic representative seed (~5 canonical AML-relevant human mRNA
 fragments, ~100 nt each) chosen to exercise the algorithm with both
 housekeeping (ACTB, GAPDH) and oncogene (MYC, KRAS, TP53) strata, PLUS one
@@ -214,7 +214,7 @@ def _selfcheck() -> int:
     print()
     if fails == 0:
         print(f"  --- summary --- {total} / {total} PASS → verdict: PASS")
-        print("  scope (raw#10 C3): the in-repo screen ships the deterministic Hamming algorithm + a representative pool")
+        print("  scope (C3): the in-repo screen ships the deterministic Hamming algorithm + a representative pool")
         print("        (toy 6-mRNA + (CUG)ₙ low-complexity decoy; + a GENCODE v47 pc-transcript subset n≈200 via `--refresh-gencode`,")
         print("         used by `--full-pool`). The FULL ~250k-transcript GENCODE/RefSeq screen with RIsearch2-grade ΔG/accessibility")
         print("         scoring + NHH-triplet adjacency is the documented external step (`--gencode-pipeline-doc`; needs a real aligner).")
@@ -340,7 +340,7 @@ def gencode_pipeline_doc() -> None:
     print("     Per-query summary vendored in `ribozyme/spec/gencode_v47_offtarget_risearch2_summary.json` (see `--full-screen-results`).")
     print("     Result confirms the §B point: designed 14-nt candidate arms get few/no strong off-targets (e.g. cand_arm_A: 24 hits, 0 at ΔG≤-25 → PASS);")
     print("     a GC-rich 14-mer or a (CUG)ₙ-repeat arm floods (24.8k–1.37M interactions across thousands of genes incl. ATXN2 etc. → FAIL).")
-    print("  raw#10 C3: the RIsearch2 binary (156 KB GPLv3) + the ~48 MB transcriptome FASTA are NOT vendored — only the per-query summary;")
+    print("  C3: the RIsearch2 binary (156 KB GPLv3) + the ~48 MB transcriptome FASTA are NOT vendored — only the per-query summary;")
     print("             the in-repo gate ships the deterministic Hamming algorithm + a representative pool (toy 6-mRNA + (CUG)ₙ decoy + GENCODE")
     print("             v47 pc-transcript subset n≈200 via --refresh-gencode) for offline determinism; the full RIsearch2 'off-targeting-potential'")
     print("             score (+ target accessibility + transcript-abundance/TPM weighting) is the cited external tool's full pipeline.")
@@ -362,7 +362,7 @@ def print_full_screen_results() -> None:
     for qid, s in d["queries"].items():
         print(f"     {qid:<32} {s['n_interactions']:>14,} {s['n_distinct_genes']:>9,} {s['dG_min']:>8.1f} "
               f"{s['n_at_dG_le_-25']:>8,} {s['n_at_dG_le_-28']:>8,}  {s['screen_verdict']}")
-    print(f"     (raw#10: {d['raw_91_c3'][:200]}…)")
+    print(f"     ({d['raw_91_c3'][:200]}…)")
     print(f"     reproduce: {d['reproduce']}")
 
 

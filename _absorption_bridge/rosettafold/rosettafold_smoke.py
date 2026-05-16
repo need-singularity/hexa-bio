@@ -13,7 +13,7 @@ requires the reference codebase from https://github.com/RosettaCommons/
 RoseTTAFold (BSD-3) or https://github.com/baker-laboratory/RoseTTAFold-All-Atom
 (Apache-2.0) + a CUDA-capable GPU. OUT-OF-SCOPE for the selftest.
 
-raw#10 C3: NO n=6 lattice-fit applied. RoseTTAFold carries its OWN
+C3: NO n=6 lattice-fit applied. RoseTTAFold carries its OWN
 metrics — pLDDT, pAE, lDDT estimate.
 
 UNPROVEN preservation: predictions are not measurements; novel folds

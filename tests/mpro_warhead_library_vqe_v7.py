@@ -39,7 +39,7 @@ L_BFGS_B optimizer.  Reaction energies use the L_BFGS_B-converged VQE total ener
 (falling back to CASCI for any fragment where VQE doesn't beat chemical accuracy —
 all are validated against CASCI on the same active space).  No D3 dispersion.
 
-raw#10 honest C3: single-point energies at *hand-built, unoptimised* gas-phase
+Honest C3: single-point energies at *hand-built, unoptimised* gas-phase
 fragment geometries → the ΔE_rxn values are a *qualitative warhead-reactivity
 ranking* in a minimal (2,2) active space, NOT a quantitative ΔG, NOT a binding
 affinity, NOT a therapeutic-efficacy claim; "VQE reproduces CASCI(2,2) here" — this
@@ -251,7 +251,7 @@ def main() -> int:
 
     print(f"\n## verdict: F-Q-6-F {'PASS' if (n_ranked >= 5 and all_validate) else 'PARTIAL' if n_ranked >= 3 else 'FAIL'}  "
           f"({n_ranked}/5 warheads ranked; VQE validates CASCI(2,2) on all fragments: {all_validate})")
-    print("  raw#10 C3: single-point energies at hand-built unoptimised gas-phase geometries → a QUALITATIVE warhead-reactivity")
+    print("  C3: single-point energies at hand-built unoptimised gas-phase geometries → a QUALITATIVE warhead-reactivity")
     print("  ranking in a minimal (2,2) active space, NOT a quantitative ΔG / binding affinity / therapeutic claim;")
     print("  'VQE reproduces CASCI(2,2) here' — a CASCI ranking with a quantum-algorithm wrapper, not a quantum-advantage result.")
     if n_ranked >= 5 and all_validate:
