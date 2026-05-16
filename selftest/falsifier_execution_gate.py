@@ -2,26 +2,31 @@
 # -*- coding: utf-8 -*-
 """
 selftest/falsifier_execution_gate.py — falsifier EXECUTION gate for the
-hexa-bio EXPANSION-MAIN axes (METALLODRUG · OLIGONUCLEOTIDE).
+hexa-bio EXPANSION-MAIN axes (METALLODRUG · OLIGONUCLEOTIDE · COVALENT ·
+BIFUNCTIONAL).
 
 WHY THIS EXISTS
 ---------------
 The expansion-layer axes preregister falsifiers in their per-axis tapes:
 HEXA-METALLODRUG.tape declares F-METALLODRUG-1/2/3, HEXA-OLIGONUCLEOTIDE.tape
-declares F-OLIGO-1/2/3. A falsifier is a preregistered condition that, if it
-FAILS, falsifies a claim. But declaring a falsifier is not the same as
-exercising it — until something actually RUNS each falsifier's condition, the
-preregistration is inert.
+declares F-OLIGO-1/2/3, HEXA-COVALENT.tape declares F-COVALENT-1/2/3, and
+HEXA-BIFUNCTIONAL.tape declares F-BIFUNCTIONAL-1/2/3. A falsifier is a
+preregistered condition that, if it FAILS, falsifies a claim. But declaring a
+falsifier is not the same as exercising it — until something actually RUNS
+each falsifier's condition, the preregistration is inert.
 
 This gate closes that gap. It:
 
-  1. Scans the root HEXA-METALLODRUG.tape / HEXA-OLIGONUCLEOTIDE.tape for the
-     @D falsifier entries, parsing each falsifier id + its `falsifier =`
-     condition text directly from the tape.
+  1. Scans the root HEXA-METALLODRUG.tape / HEXA-OLIGONUCLEOTIDE.tape /
+     HEXA-COVALENT.tape / HEXA-BIFUNCTIONAL.tape for the @D falsifier entries,
+     parsing each falsifier id + its `falsifier =` condition text directly
+     from the tape.
   2. For each discovered falsifier, EXECUTES the corresponding concrete check
      — it imports and runs the axis sim
      (_python_bridge/module/metallodrug_coordination_sim.py /
-      oligonucleotide_hybridization_sim.py) and verifies the falsifier's
+      oligonucleotide_hybridization_sim.py /
+      covalent_inhibition_sim.py /
+      bifunctional_ternary_complex_sim.py) and verifies the falsifier's
      preregistered condition still HOLDS.
   3. Reports per-falsifier HOLD / FALSIFIED and emits the sentinel
      `__FALSIFIER_EXECUTION_GATE__ PASS` iff every DECLARED falsifier HOLDS.
@@ -32,14 +37,22 @@ GOVERNANCE (hexa-bio AGENTS.tape)
      METALLODRUG → the Griffith & Orgel (1957) CFSE closed forms and the
      Takahara (1995) ~2.0 A Pt-N7(guanine) coordinate-bond length;
      OLIGONUCLEOTIDE → the SantaLucia (1998) unified nearest-neighbor
-     duplex-thermodynamics model.
+     duplex-thermodynamics model;
+     COVALENT → Strelow (2017) kinact/Ki two-step covalent-inhibitor kinetic
+     framework + Eyring (1935) transition-state-theory universal frequency
+     prefactor kB·T/h (≈6.46e12 /s at T=310 K) as the hard physical ceiling
+     on any unimolecular elementary covalent-step rate;
+     BIFUNCTIONAL → Douglass (2013) / Han (2020) three-body ternary-complex
+     mass-action equilibrium (the non-monotonic bell-shaped hook effect) and
+     Gadd (2017) ternary-complex cooperativity factor α monotonicity.
   g7 skip-is-honest — if a tape or a sim module is ABSENT on the host, the
      affected falsifiers are reported SKIP, not FAIL. SKIP does not block the
      sentinel; only a genuine FALSIFIED result does. (A FALSIFIED verdict is
      reserved for "axis reachable, preregistered condition violated".)
   g8 in-silico-only — a HOLD here verifies IN-SILICO simulator-consistency of
      the axis's preregistered condition ONLY. It is NOT a therapeutic,
-     cytotoxic, gene-silencing, immunogenic, efficacy, or regulatory claim.
+     cytotoxic, gene-silencing, immunogenic, binding-affinity, potency,
+     selectivity, degradation-efficacy, DC50, Dmax, or regulatory claim.
 
 A standing honesty falsifier (e.g. F-METALLODRUG-3) is, by its own tape text,
 triggerable ONLY by a published literature result, never by an in-silico run.
@@ -72,8 +85,22 @@ PY_BRIDGE = os.path.join(REPO_ROOT, "_python_bridge", "module")
 
 METALLODRUG_TAPE = os.path.join(REPO_ROOT, "HEXA-METALLODRUG.tape")
 OLIGO_TAPE = os.path.join(REPO_ROOT, "HEXA-OLIGONUCLEOTIDE.tape")
+COVALENT_TAPE = os.path.join(REPO_ROOT, "HEXA-COVALENT.tape")
+BIFUNCTIONAL_TAPE = os.path.join(REPO_ROOT, "HEXA-BIFUNCTIONAL.tape")
 METALLODRUG_SIM = os.path.join(PY_BRIDGE, "metallodrug_coordination_sim.py")
 OLIGO_SIM = os.path.join(PY_BRIDGE, "oligonucleotide_hybridization_sim.py")
+COVALENT_SIM = os.path.join(PY_BRIDGE, "covalent_inhibition_sim.py")
+BIFUNCTIONAL_SIM = os.path.join(PY_BRIDGE, "bifunctional_ternary_complex_sim.py")
+
+# Eyring TST universal frequency prefactor kB·T/h at T=310 K (hard physical
+# ceiling on any unimolecular elementary rate). Recomputed locally from the
+# CODATA 2019 exact SI constants so this gate does not depend on importing
+# the COVALENT sim module just to read the ceiling — the sim is loaded for
+# the check itself, but the anchor value is independently computable here.
+_K_B = 1.380649e-23          # J/K   (CODATA 2019 exact)
+_H_PLANCK = 6.62607015e-34   # J·s   (CODATA 2019 exact)
+_TEMP_K = 310.0              # K     (physiological reference)
+EYRING_PREFACTOR_310K = _K_B * _TEMP_K / _H_PLANCK   # ≈ 6.46e12 /s
 
 # verdict tokens
 HOLD = "HOLD"
@@ -280,6 +307,224 @@ def exec_oligonucleotide(sim):
     return results
 
 
+# ── COVALENT falsifier executors ─────────────────────────────────────────
+# Each executor runs the covalent-inhibition sim's witness and verifies one
+# preregistered F-COVALENT-* condition. Returns (verdict, detail).
+
+def exec_covalent(sim, witness):
+    """Return {falsifier_id: (verdict, detail)} for F-COVALENT-1/2/3.
+
+    Real-limit anchors (g1):
+      F-COVALENT-1 → Strelow (2017) kinact/Ki kinetic framework: the second-
+                     order efficiency constant recomputed two ways (kinact÷Ki
+                     directly, and back-computed from the limiting kobs slope)
+                     must agree; the Eyring rate-↔-barrier roundtrip must be
+                     self-consistent; t_1/2 = ln2/kobs must follow from kobs.
+      F-COVALENT-2 → Eyring (1935) TST universal frequency prefactor kB·T/h
+                     (≈6.46e12 /s at T=310 K) is the hard physical ceiling
+                     on every unimolecular elementary covalent-step rate.
+      F-COVALENT-3 → standing honesty falsifier — by tape text triggerable
+                     ONLY by a published enzyme-kinetics result, never by an
+                     in-silico run. In-silico-checkable component: the sim's
+                     lattice_stance declares NO n=6 lattice arithmetic.
+    """
+    results = {}
+    rows = witness["rows"]
+    acc = witness["acceptance"]["criteria"]
+
+    # --- F-COVALENT-1: kinact/Ki numerical-recompute fidelity.
+    # Condition (tape): if the two kinact/Ki recomputation paths disagree by
+    # more than 1e-9 (relative), OR the Eyring rate↔barrier roundtrip diverges
+    # by more than 1e-6 (relative), OR t_1/2 does not follow from kobs, this
+    # falsifier is FALSIFIED. Executed: independently recompute kinact/Ki two
+    # ways per row + assert the sim's per-row consistency residuals are within
+    # tolerance + check the half-life identity.
+    max_metric_err = max(r["metric_consistency_rel_err"] for r in rows)
+    max_direct_err = 0.0
+    max_halflife_err = 0.0
+    for r in rows:
+        direct = r["kinact_per_s"] / r["Ki_molar"]
+        rel = abs(r["kinact_over_Ki_M_per_s"] - direct) / max(
+            abs(r["kinact_over_Ki_M_per_s"]), 1e-300)
+        if rel > max_direct_err:
+            max_direct_err = rel
+        if r["kobs_per_s"] > 0.0:
+            t12_expected = math.log(2.0) / r["kobs_per_s"]
+            rel_t = (abs(r["free_enzyme_half_life_s"] - t12_expected)
+                     / max(abs(t12_expected), 1e-300))
+            if rel_t > max_halflife_err:
+                max_halflife_err = rel_t
+    f1_hold = (bool(acc["C3_kinact_over_Ki_self_consistent"])
+               and bool(acc["C4_kinact_over_Ki_equals_kinact_div_Ki"])
+               and bool(acc["C5_eyring_roundtrip_consistent"])
+               and bool(acc["C7_half_life_follows_kobs"])
+               and max_metric_err < 1e-9
+               and max_direct_err < 1e-6
+               and max_halflife_err < 1e-6)
+    f1_detail = (f"kinact/Ki two-way recompute (Strelow 2017): "
+                 f"max metric-consistency rel-err = {max_metric_err:.1e} "
+                 f"(tol 1e-9); independent kinact÷Ki rel-err = "
+                 f"{max_direct_err:.1e} (tol 1e-6); Eyring roundtrip "
+                 f"consistent={acc['C5_eyring_roundtrip_consistent']}; "
+                 f"t_1/2=ln2/kobs rel-err = {max_halflife_err:.1e} (tol 1e-6)")
+    results["F-COVALENT-1"] = (HOLD if f1_hold else FALSIFIED, f1_detail)
+
+    # --- F-COVALENT-2: Eyring kB·T/h ceiling respected.
+    # Condition (tape): if any covalent-step rate is at or above kB·T/h, TST
+    # has been violated. Executed: independently recompute the prefactor from
+    # CODATA constants + assert every row's kinact AND its Eyring-TST kinact
+    # are strictly below it.
+    ceiling = EYRING_PREFACTOR_310K
+    sim_ceiling = rows[0]["eyring_prefactor_ceiling_per_s"]
+    ceiling_match = abs(ceiling - sim_ceiling) <= 1e-3 * ceiling
+    max_kinact = max(r["kinact_per_s"] for r in rows)
+    max_kinact_tst = max(r["kinact_eyring_tst_per_s"] for r in rows)
+    all_below_kinact = all(r["kinact_per_s"] < ceiling for r in rows)
+    all_below_tst = all(r["kinact_eyring_tst_per_s"] < ceiling for r in rows)
+    f2_hold = (bool(acc["C2_eyring_ceiling_respected"])
+               and ceiling_match and all_below_kinact and all_below_tst)
+    f2_detail = (f"Eyring TST ceiling kB·T/h @ 310K = {ceiling:.3e} /s "
+                 f"(Eyring 1935; sim-reported {sim_ceiling:.3e}, match="
+                 f"{ceiling_match}); max observed kinact = {max_kinact:.3e} /s, "
+                 f"max Eyring-TST kinact = {max_kinact_tst:.3e} /s — both "
+                 f"strictly below ceiling = {all_below_kinact and all_below_tst}")
+    results["F-COVALENT-2"] = (HOLD if f2_hold else FALSIFIED, f2_detail)
+
+    # --- F-COVALENT-3: two-step kinetics is mechanism, not lattice-derived.
+    # Standing honesty falsifier — by tape text triggerable ONLY by a
+    # published enzyme-kinetics result that derives the mechanism / kinact/Ki
+    # ranking from a 6-fold lattice scalar, never by an in-silico run.
+    # In-silico-checkable component: the sim performs NO lattice arithmetic
+    # (its lattice_stance declares this explicitly).
+    stance = witness.get("lattice_stance", "")
+    no_lattice = ("No n=6 lattice arithmetic" in stance
+                  or "NO n=6 lattice arithmetic" in stance
+                  or "OBSERVATION ONLY" in stance.upper())
+    f3_hold = no_lattice
+    f3_detail = ("sim declares no lattice arithmetic / observation-only "
+                 f"stance={no_lattice}; standing literature component is out "
+                 "of in-silico scope (HOLD absent a published enzyme-kinetics "
+                 "result showing a 6-fold lattice scalar predicts mechanism / "
+                 "kinact/Ki ranking better than enzyme-kinetics theory)")
+    results["F-COVALENT-3"] = (HOLD if f3_hold else FALSIFIED, f3_detail)
+
+    return results
+
+
+# ── BIFUNCTIONAL falsifier executors ─────────────────────────────────────
+# Each executor runs the bifunctional ternary-complex sim's witness and
+# verifies one preregistered F-BIFUNCTIONAL-* condition.
+
+def exec_bifunctional(sim, witness):
+    """Return {falsifier_id: (verdict, detail)} for F-BIFUNCTIONAL-1/2/3.
+
+    Real-limit anchors (g1):
+      F-BIFUNCTIONAL-1 → Gadd (2017) ternary-complex cooperativity factor α
+                          — at fixed dose, the peak ternary-complex
+                          concentration must be monotone non-decreasing in α
+                          across the α scan ({0.5, 1, 2, 5, 20}).
+      F-BIFUNCTIONAL-2 → Douglass (2013) / Han (2020) three-body ternary
+                          mass-action equilibrium — the dose-scanned ternary
+                          curve must be bell-shaped (rise then fall) with a
+                          single interior maximum (the hook effect), with
+                          mass-action occupancies all in [0,1] times the
+                          relevant total pool.
+      F-BIFUNCTIONAL-3 → standing honesty falsifier — by tape text triggerable
+                          ONLY by a published chemical-equilibrium result,
+                          never by an in-silico run. In-silico-checkable
+                          component: the sim's lattice_stance declares NO
+                          n=6 lattice arithmetic.
+    """
+    results = {}
+    coop_rows = witness["cooperativity_scan"]
+    coop_chk = witness["cooperativity_verification"]
+    dose_rows = witness["dose_scan_hook"]
+    hook = witness["hook_verification"]
+    params = witness["model_parameters"]
+    t_total = params["target_total_um"]
+    e3_total = params["e3_total_um"]
+
+    # --- F-BIFUNCTIONAL-1: cooperativity α-monotonicity.
+    # Condition (tape): peak ternary-complex concentration must be monotone
+    # non-decreasing in α across {0.5, 1, 2, 5, 20}. Executed: independently
+    # walk the cooperativity scan and verify monotone non-decreasing ternary;
+    # also confirm α=1 (non-cooperative reference) is in the scan and that
+    # occupancies are within mass-action bounds [0, total_pool].
+    alphas_seen = [r["alpha"] for r in coop_rows]
+    ternary_seq = [r["ternary_TDE_um"] for r in coop_rows]
+    monotone = all(ternary_seq[i] >= ternary_seq[i - 1] - 1e-6
+                   for i in range(1, len(ternary_seq)))
+    has_alpha_1 = any(abs(a - 1.0) < 1e-12 for a in alphas_seen)
+    # mass-action sanity: every occupancy in [0, total pool] (per-row)
+    occ_ok = all(
+        0.0 <= r["ternary_TDE_um"] <= t_total + 1e-9
+        and 0.0 <= r["binary_TD_um"] <= t_total + 1e-9
+        and 0.0 <= r["binary_DE_um"] <= e3_total + 1e-9
+        for r in coop_rows)
+    f1_hold = (bool(coop_chk["pass"]) and monotone and has_alpha_1 and occ_ok)
+    f1_detail = (
+        f"α-monotonicity (Gadd 2017 VHL-MZ1-BRD4 cooperativity): "
+        f"scan α={alphas_seen}, peak ternary [T·D·E] = "
+        + " → ".join(f"{v:.4f}" for v in ternary_seq)
+        + f" uM; monotone non-decreasing = {monotone}; α=1 reference present"
+        f" = {has_alpha_1}; per-row mass-action occupancies in [0, total]"
+        f" = {occ_ok}")
+    results["F-BIFUNCTIONAL-1"] = (HOLD if f1_hold else FALSIFIED, f1_detail)
+
+    # --- F-BIFUNCTIONAL-2: the hook effect (non-monotonic dose response).
+    # Condition (tape): the dose-scanned ternary curve must be bell-shaped
+    # (rises from low-dose, single interior maximum, decays toward zero at
+    # very high dose). Executed: independently locate the peak in the dose
+    # scan + assert interior + rising + falling arms + the high-dose binary
+    # saturation that mechanistically causes the hook + verify per-dose
+    # occupancies remain within mass-action bounds.
+    n = len(dose_rows)
+    concs = [r["ternary_TDE_um"] for r in dose_rows]
+    peak_i = max(range(n), key=lambda i: concs[i])
+    interior = 0 < peak_i < n - 1
+    rises = concs[peak_i] > concs[0] * 1.05
+    falls = concs[-1] < concs[peak_i] * 0.95
+    dose_occ_ok = all(
+        0.0 <= r["ternary_TDE_um"] <= t_total + 1e-9
+        and 0.0 <= r["binary_TD_um"] <= t_total + 1e-9
+        and 0.0 <= r["binary_DE_um"] <= e3_total + 1e-9
+        for r in dose_rows)
+    f2_hold = (bool(hook["pass"])
+               and bool(hook["non_monotonic_bell_shaped"])
+               and bool(hook["high_dose_binary_saturation"])
+               and interior and rises and falls and dose_occ_ok)
+    f2_detail = (
+        f"hook effect (Douglass 2013 / Han 2020 three-body mass action): "
+        f"dose-scan of {n} log-spaced points; low-dose [T·D·E]={concs[0]:.4f} "
+        f"uM → peak {concs[peak_i]:.4f} uM at dose "
+        f"{dose_rows[peak_i]['degrader_dose_um']:.4f} uM → high-dose "
+        f"{concs[-1]:.4f} uM; interior-max={interior}, rising-arm={rises}, "
+        f"falling-arm={falls}, high-dose binary saturation = "
+        f"{hook['high_dose_binary_saturation']}; per-dose mass-action "
+        f"occupancies in [0, total] = {dose_occ_ok}")
+    results["F-BIFUNCTIONAL-2"] = (HOLD if f2_hold else FALSIFIED, f2_detail)
+
+    # --- F-BIFUNCTIONAL-3: ternary equilibrium is mass-action, not lattice.
+    # Standing honesty falsifier — by tape text triggerable ONLY by a published
+    # chemical-equilibrium result that derives ternary behaviour / α / hook
+    # dose maximum from a 6-fold lattice scalar, never by an in-silico run.
+    # In-silico-checkable component: the sim performs NO lattice arithmetic.
+    stance = witness.get("lattice_stance", "")
+    no_lattice = ("No n=6 lattice arithmetic" in stance
+                  or "NO n=6 lattice arithmetic" in stance
+                  or "OBSERVATION ONLY" in stance.upper())
+    f3_hold = no_lattice
+    f3_detail = ("sim declares no lattice arithmetic / observation-only "
+                 f"stance={no_lattice}; standing literature component is out "
+                 "of in-silico scope (HOLD absent a published chemical-"
+                 "equilibrium result showing a 6-fold lattice scalar predicts "
+                 "ternary behaviour / α / hook dose maximum better than three-"
+                 "body mass-action thermodynamics)")
+    results["F-BIFUNCTIONAL-3"] = (HOLD if f3_hold else FALSIFIED, f3_detail)
+
+    return results
+
+
 # ── per-axis driver ──────────────────────────────────────────────────────
 def run_axis(axis_name, tape_path, id_prefix, sim_path, executor, sim_kind):
     """Discover falsifiers in `tape_path`, execute them via `executor`.
@@ -313,9 +558,10 @@ def run_axis(axis_name, tape_path, id_prefix, sim_path, executor, sim_kind):
 
     sim = load_module(sim_path, f"_axis_sim_{id_prefix}")
 
-    # METALLODRUG executor needs the sim witness dict; OLIGONUCLEOTIDE
-    # executor exercises the sim's functions directly.
-    if sim_kind == "metallodrug":
+    # METALLODRUG / COVALENT / BIFUNCTIONAL executors need the sim's full
+    # witness dict (built by sim.run()); OLIGONUCLEOTIDE exercises the sim's
+    # functions directly without a top-level run().
+    if sim_kind in ("metallodrug", "covalent", "bifunctional"):
         witness = sim.run()
         exec_results = executor(sim, witness)
     else:
@@ -341,7 +587,7 @@ def run_axis(axis_name, tape_path, id_prefix, sim_path, executor, sim_kind):
 # ── main ─────────────────────────────────────────────────────────────────
 def main():
     print("falsifier_execution_gate — hexa-bio expansion-main axes "
-          "(METALLODRUG · OLIGONUCLEOTIDE)")
+          "(METALLODRUG · OLIGONUCLEOTIDE · COVALENT · BIFUNCTIONAL)")
     print("  scans the per-axis tapes for preregistered @D falsifiers, then")
     print("  EXECUTES each one against its axis sim and checks it HOLDS.")
     print("  governance: g1 real-limits-first · g7 skip-is-honest · "
@@ -354,6 +600,12 @@ def main():
     all_rows += run_axis(
         "OLIGONUCLEOTIDE", OLIGO_TAPE, "F-OLIGO",
         OLIGO_SIM, exec_oligonucleotide, "oligonucleotide")
+    all_rows += run_axis(
+        "COVALENT", COVALENT_TAPE, "F-COVALENT",
+        COVALENT_SIM, exec_covalent, "covalent")
+    all_rows += run_axis(
+        "BIFUNCTIONAL", BIFUNCTIONAL_TAPE, "F-BIFUNCTIONAL",
+        BIFUNCTIONAL_SIM, exec_bifunctional, "bifunctional")
 
     n_hold = sum(1 for r in all_rows if r["verdict"] == HOLD)
     n_falsified = sum(1 for r in all_rows if r["verdict"] == FALSIFIED)

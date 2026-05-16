@@ -156,6 +156,37 @@
   implementation = "selftest/falsifier_execution_gate.py (__FALSIFIER_EXECUTION_GATE__ PASS). 6 declared falsifiers executed: F-METALLODRUG-1 (CFSE recompute fidelity ≤1e-9 vs Griffith-Orgel) HOLD · F-METALLODRUG-2 (Pt–N7 bond length in 1.85–2.15 Å) HOLD · F-METALLODRUG-3 (d8 / no-lattice-derivation) HOLD · F-OLIGO-1 (Dickerson dodecamer ΔH°/ΔS°/Tm in SantaLucia regime) HOLD · F-OLIGO-2 (GC>AT Tm + ΔG° length monotonicity) HOLD · F-OLIGO-3 (off-target hybridization ΔG-detectable) HOLD."
   contract = "absent tape/sim ⇒ per-falsifier SKIP (g7 — honest), non-blocking; only a genuine FALSIFIED blocks the sentinel. All HOLDs reported with their real-limit anchor citation. PASS scope = in-silico simulator-consistency, not a therapeutic claim (g8)."
 
+# ─── §2.8 Round-3 cross-axis (G1-G5, USER DIRECTION 2026-05-16) ───────
+
+@D cross_axis_round3 := "G1-G5 expansion-layer × expansion-layer unifications" :: decision [active d=2026-05-16]
+  basis = "round-3 cross-axis: pair NEW sub-axes against each other where shared mathematical structure makes an honest cross meaningful. Each imports both sims (no fork — f3); each carries a passing sentinel + draft-07 schema; each is honesty-fenced (comparison ≠ ranking; mathematical-equivalence ≠ mechanistic-equivalence)."
+  G1 = "PROTAC × CAPSID-ASSEMBLY-MODULATOR — _python_bridge/module/protac_capsid_modulator_cross.py (__PROTAC_CAPSID_MODULATOR_CROSS__ PASS 8/8) + _python_bridge/spec/protac_capsid_modulator_cross_v1.schema.json. PROTAC hook-effect vs CAM Zlotnick kinetic-trap — same mass-action+cooperativity math, very different biology. Units kept disjoint (|log10(α)| decades vs |Δg_contact| kcal/mol — never summed). K_d,ternary = K_d(E3)/α identity preserved."
+  G2 = "ALLOSTERIC × CRYPTIC-POCKET — _python_bridge/module/allosteric_cryptic_pocket_cross.py (__ALLOSTERIC_CRYPTIC_POCKET_CROSS__ PASS 7/7) + _python_bridge/spec/allosteric_cryptic_pocket_cross_v1.schema.json. Map R↔open, T↔closed: MWC two-state and cryptic-pocket open/closed populations coincide (P_R = P_open, rel-err <1e-12). A cryptic-pocket binder IS an MWC R-state stabilizer — model-level unification (asciminib allosteric; sotorasib/KRAS-G12C cryptic)."
+  G3 = "PPI × MOLECULAR-GLUE — _python_bridge/module/ppi_molecular_glue_cross.py (__PPI_MOLECULAR_GLUE_CROSS__ PASS 6/6) + _python_bridge/spec/ppi_molecular_glue_cross_v1.schema.json. PPI disruption and glue creation share the energetic ledger: Bogan-Thorn hotspot ΔG → K_PPI_effective → α-ladder threshold for glue-signature. Hotspot-rich BH3 grooves clear at α≈10; hotspot-poor KIX shallow groove fails at α>5000. α-floor monotonic with hotspot energy (the discriminating signature)."
+  G4 = "PEPTIDE × MACROCYCLE — _python_bridge/module/peptide_macrocycle_cross.py (__PEPTIDE_MACROCYCLE_CROSS__ PASS 16/16) + _python_bridge/spec/peptide_macrocycle_cross_v1.schema.json. Linear (Zimm-Bragg 1959) vs cyclic (Jacobson-Stockmayer 1950) pre-organization on a peptide-length panel N∈{6,8,10,12,14}: cyclization advantage 1.21→2.83 kcal/mol monotonic. semaglutide vs cyclosporine/lorlatinib — schema consts comparison_is_ranking=false, signals_commensurable=false (both blockbuster modalities; not a winner)."
+  G5 = "APTAMER × OLIGONUCLEOTIDE — _python_bridge/module/aptamer_oligonucleotide_cross.py (__APTAMER_OLIGONUCLEOTIDE_CROSS__ PASS 9/9) + _python_bridge/spec/aptamer_oligonucleotide_cross_v1.schema.json. Shared SantaLucia 1998 NN backbone, mechanism-distinct outputs: hybridization Tm (sequence-driven, °C) vs target-binding Kd (shape-driven, nM, k_cat=0). Schema consts enforce non-rankability."
+  scope = "in-silico simulator-consistency only (g8/f2). A cross-axis bridge is NOT a new axis — core-5 (../AXIS.tape) UNCHANGED. No n=6-lattice derivation (f_lattice_fit). Mathematical equivalence ≠ mechanistic equivalence is the honest fence."
+
+# ─── §2.9 Sub-axis hexa axis-verb parity (H2a+H2b, 2026-05-16) ────────
+
+@D sub_axis_hexa_verbs := "15 sub-axis hexa axis-verbs added — parity completion" :: decision [active d=2026-05-16]
+  basis = "the expansion-MAIN axes (METALLODRUG, OLIGONUCLEOTIDE, COVALENT, BIFUNCTIONAL) each have a hexa axis-verb module; the 15 declared sub-axes had only Python sims. This parity round adds a `.hexa` announce/status verb for each — the Python sim remains the source of truth (no logic duplication). Each verb prints sub-axis name + parent + own drug precedent + real-limit anchor citation + lattice-stance + g8/f2 in-silico-only caveat + sentinel."
+  bifunctional_subs = "protac/module/protac.hexa · lytac/module/lytac.hexa · autac/module/autac.hexa · ribotac/module/ribotac.hexa · covalent_degrader/module/covalent_degrader.hexa · molecular_glue/module/molecular_glue.hexa (each __HEXA_BIO_<NAME>__ PASS)"
+  quantum_subs = "allosteric/module/allosteric.hexa · cryptic_pocket/module/cryptic_pocket.hexa · ppi/module/ppi.hexa (placement-honesty tension flagged openly per g3 — main-eligible by score but sub by user direction). Each __HEXA_BIO_<NAME>__ PASS."
+  weave_subs = "peptide/module/peptide.hexa · macrocycle/module/macrocycle.hexa (each __HEXA_BIO_<NAME>__ PASS)"
+  ribozyme_subs = "rna_targeting_small_molecule/module/rna_targeting_small_molecule.hexa · aptamer/module/aptamer.hexa (each __HEXA_BIO_<NAME>__ PASS)"
+  virocapsid_subs = "capsid_assembly_modulator/module/capsid_assembly_modulator.hexa (__HEXA_BIO_CAPSID_ASSEMBLY_MODULATOR__ PASS)"
+  covalent_subs = "reversible_covalent/module/reversible_covalent.hexa (__HEXA_BIO_REVERSIBLE_COVALENT__ PASS)"
+  scope = "axis-verb is announce/status only — the Python sim is the source of truth (g1 anchor + computational verify). No raw#N/own#N tokens."
+
+# ─── §2.10 Falsifier-gate coverage expansion (H3, 2026-05-16) ─────────
+
+@D falsifier_gate_expanded := "falsifier execution gate covers COVALENT + BIFUNCTIONAL" :: decision [active d=2026-05-16]
+  basis = "B2 (2026-05-16 earlier) built the falsifier execution gate scanning HEXA-METALLODRUG.tape + HEXA-OLIGONUCLEOTIDE.tape (6 falsifiers). This expansion (H3) extends coverage to HEXA-COVALENT.tape + HEXA-BIFUNCTIONAL.tape — 6 additional falsifiers, all HOLD. Total falsifier coverage: 6 → 12."
+  added_covalent = "F-COVALENT-1 (kinact/Ki two-way recompute, max rel-err 1.1e-16) HOLD · F-COVALENT-2 (every kinact strictly below Eyring kB·T/h ceiling — INDEPENDENTLY recomputed from CODATA 2019 = 6.459e12/s at 310 K, NOT trusted from the sim) HOLD · F-COVALENT-3 (no-lattice-derivation honesty) HOLD."
+  added_bifunctional = "F-BIFUNCTIONAL-1 (α-monotonicity: 5-point α scan shows peak-ternary monotone non-decreasing; mass-action [0,total]) HOLD · F-BIFUNCTIONAL-2 (hook-effect interior-max: 50-dose scan low 0.001 → peak 0.748 µM at dose 1.0 µM → high 0.005 µM, rising+falling arms + high-dose binary saturation all confirmed) HOLD · F-BIFUNCTIONAL-3 (no-lattice-derivation honesty) HOLD."
+  scope = "in-silico simulator-consistency only (g8/f2). Independent re-derivation of the Eyring prefactor from CODATA 2019 is the key honesty feature — the gate does NOT trust the sim's own value blindly; it cross-checks. g7 SKIP path honored — absent tape/sim ⇒ per-falsifier SKIP, not FAIL."
+
 # ─── §3 External citations ────────────────────────────────────────────
 
 @X x_axis_core := "AXIS.tape (core-5 SSOT)" :: sibling-tape [active]
@@ -245,7 +276,25 @@
   in-silico-only (g8/f2); modalities by own precedent (g3/f1); no
   n=6-lattice derivation (f_lattice_fit). 200-disease re-mapping +
   THERANOSTIC/GENETIC-MEDICINE/ADC scope-disqualified entries remain
-  honestly UNPLACED — not implemented as code axes. Each imports both sides' sims (no fork — f3), carries a
+  honestly UNPLACED — not implemented as code axes.
+- 2026-05-16 — **Round-3 cross-axis + sub-axis hexa parity + falsifier
+  gate expansion** (USER DIRECTION "all bg go", 8 bg agents).
+  §2.8 round-3 cross (G1-G5): PROTAC×CAPSID-MODULATOR (mass-action ∩
+  Zlotnick) · ALLOSTERIC×CRYPTIC-POCKET (MWC ≡ open/closed mapping) ·
+  PPI×MOLECULAR-GLUE (Bogan-Thorn hotspot ⇒ glue α-floor) ·
+  PEPTIDE×MACROCYCLE (Zimm-Bragg vs Jacobson-Stockmayer) ·
+  APTAMER×OLIGO (shared SantaLucia, mechanism-distinct). All sentinel
+  PASS; honesty fences enforced (math-equiv ≠ mech-equiv; comparison
+  ≠ ranking; schema consts where applicable).
+  §2.9 sub-axis hexa-verb parity (H2a+H2b): 15 sub-axis .hexa announce/
+  status verbs added — full main+sub parity. Sim remains source of
+  truth; verb prints precedent + real-limit + lattice stance +
+  honesty caveat + sentinel.
+  §2.10 falsifier-gate expansion (H3): coverage 6 → 12 falsifiers
+  (added F-COVALENT-1/2/3 + F-BIFUNCTIONAL-1/2/3, all HOLD). The
+  Eyring prefactor is INDEPENDENTLY re-derived from CODATA 2019 inside
+  the gate — sim values not trusted blindly. All 20 new gates wired
+  into selftest/run_all.sh. Honesty cohort still 69/69. core-5 unchanged. Each imports both sides' sims (no fork — f3), carries a
   passing sentinel, is wired into selftest/run_all.sh, and reaches hexa
   verify 🟢-class SUPPORTED-NUMERICAL (A1's live-VQE hand-off honestly
   🟠 DEFERRED). Honesty preserved throughout: A3 is a comparison NOT a

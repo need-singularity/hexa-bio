@@ -276,6 +276,13 @@ simulator-consistency only (`g8`/`f2`). 외부 modality는 자체 약물 precede
   (f_lattice_fit)·in-silico only(g8)·외부 modality 자체 precedent
   (g3/f1). 결정 기록일 뿐 — feasibility/임상 주장 0, disease 재맵핑
   미실행. § 순서 정합(§7 direction → §8 Log 최하단, 컨벤션 유지).
+- 2026-05-16 — **Round-3 cross + sub-axis .hexa parity + falsifier
+  게이트 확장** (USER DIRECTION "all bg go", 8 bg 에이전트). §2.8 G1-G5
+  (PROTAC×CAM · ALLOSTERIC×CRYPTIC · PPI×glue · PEPTIDE×MACROCYCLE ·
+  APTAMER×OLIGO — math-equiv ≠ mech-equiv 펜스). §2.9 15 sub-axis
+  `.hexa` 추가(main+sub parity 완성). §2.10 falsifier 게이트 커버리지
+  6 → 12 (CODATA 2019에서 Eyring prefactor 독립 재도출). 20 신규
+  게이트 run_all.sh 배선. cohort 69/69. core-5 불변.
 - 2026-05-16 — **expansion-layer code-parity 완료 + round-2 cross +
   falsifier 실행 게이트** (USER DIRECTION "all bg go"). 1차 direction
   축(COVALENT·BIFUNCTIONAL)을 등록-only에서 코드까지 구현해 METALLODRUG와
