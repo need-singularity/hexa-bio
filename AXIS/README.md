@@ -6,10 +6,19 @@
 > + the paradigm-shift integration brainstorm
 > (`../docs/hexa_bio_paradigm_shift_integration_brainstorm_2026_05_08.md`).
 >
-> **This is NOT a decision to add a 6th axis.** The brainstorm's honest
-> conclusion is to KEEP 5 axes + a cross-cutting platform layer; any 6th
-> axis is deferred to post-1.0. This README records the analysis, not a
-> change.
+> **Rigorous analysis recommendation (this doc): KEEP 5 axes.** The
+> brainstorm's honest conclusion is to keep 5 axes + a cross-cutting
+> platform layer; any 6th axis deferred to post-1.0. **This recommendation
+> still stands as the rigorous record / honest dissent.**
+>
+> **⚠️ OVERRIDDEN by USER DIRECTION (2026-05-16) — see §7.** The user
+> directed registering COVALENT + BIFUNCTIONAL as **expansion-MAIN** axes
+> with a sub-axis tree, recorded in the SEPARATE governed
+> [`HIERARCHY.tape`](HIERARCHY.tape). That is an **expansion LAYER** — the
+> committed 5-axis core (`../AXIS.tape`) is **UNCHANGED**. §4's keep-5
+> recommendation is NOT deleted; it is preserved as the rigorous dissent
+> the user direction proceeds despite. This README still records the
+> analysis; §7 records the directed override.
 >
 > **This file (`README.md`) is the GOVERNED / RIGOROUS AXIS doc.** A
 > sibling [`INDEX.md`](INDEX.md) exists as a deliberately-fenced
@@ -141,8 +150,9 @@ density. 6th-axis review is deferred to post-1.0 (v2.0 milestone).
 ## §6 후보 검증 — Top 5 candidate fact-check (인증 아님 · 축추가 아님)
 
 > **펜스**: §3 Top-5 후보의 *분석 주장*에 대한 fact-check일 뿐 —
-> feasibility/임상 보증·축추가 결정·in-silico 결과가 **아님**. README
-> 상단 펜스("NOT a decision to add a 6th axis")는 그대로 유효.
+> feasibility/임상 보증·in-silico 결과가 **아님**. 본 §6은 분석-검증
+> 기록(축추가 안 함)이며, 별개의 USER DIRECTION 기반 expansion-layer
+> 등록은 §7 + `HIERARCHY.tape`에 분리 기록됨 (core-5 SSOT 불변).
 > 외부 modality는 각자의 **실 약물 precedent(자체 invariant)**로만
 > 기술 — lattice-fit 0 (`g3`/`f1`). 임상 주장 0 (`g8`/`f2`).
 
@@ -177,7 +187,32 @@ modality 검증기 아님 — per-item 인증 N/A, 날조 0 (`g5`/`g7`/`g3`).
 
 ---
 
-## §7 Log
+## §7 Expansion-layer direction — USER DIRECTION 2026-05-16 (overrides §4 · NON-core)
+
+> **이 섹션은 사용자 결정 기록**(파생/엄밀 결론 아님). §4의 keep-5
+> 권고를 **override**하되 §4는 dissent로 **보존**(삭제 안 함). 커밋된
+> 5-axis core(`../AXIS.tape`)는 **불변** — 아래는 별개 governed
+> **expansion LAYER**.
+
+| 항목 | 내용 |
+|---|---|
+| **Expansion-MAIN** (core 아님) | **COVALENT** (4.9·5/5, ibrutinib/sotorasib/adagrasib) · **BIFUNCTIONAL** (4.9·5/5, PROTAC/glue/RIBOTAC, mega-axis) |
+| **Sub :> BIFUNCTIONAL** | PROTAC · LYTAC · AUTAC · RIBOTAC(↔RIBOZYME) · COVALENT-DEGRADER · MOLECULAR-GLUE |
+| **Sub :> QUANTUM** (core, 불변) | ALLOSTERIC · CRYPTIC-POCKET · PPI(borderline — score-main-eligible이나 ambiguous→sub, 정직 명시) |
+| **Sub :> WEAVE** (core, 불변) | PEPTIDE · MACROCYCLE (~30% overlap 경계) |
+| **UNPLACED** (정직) | THERANOSTIC (4.7) — radioligand는 독립 modality라 sub 아님 + CDER+CDRH scope 결격(S=0.8)이라 expansion-main 미등록; scope 질문 대기 |
+| **기록 위치** | 별도 governed [`HIERARCHY.tape`](HIERARCHY.tape) (core-5 cross-link, dissent 병기) |
+
+**정직 불변**: 이 override는 §4 엄밀 권고(keep-5)·출처 #95(계층
+"복잡도 폭증")·#103(7-axis "3년 필요")의 borderline 평가를 **반박하지
+않고** 그것들을 알면서 진행하는 USER DIRECTION. 양쪽 다 on record.
+expansion-main C2/C3 = in-silico simulator-consistency only (`g8`/`f2`).
+lattice 비도출(`f_lattice_fit`). 200-disease 재맵핑·falsifier 재정의는
+**미실행**(core 확장 시점의 deferred work). core ≠ expansion.
+
+---
+
+## §8 Log
 
 - 2026-05-16 — AXIS/README.md created: synthesis of the committed 5-axis
   SSOT (AXIS.tape) + the 165-option axis-expansion brainstorm
@@ -207,3 +242,12 @@ modality 검증기 아님 — per-item 인증 N/A, 날조 0 (`g5`/`g7`/`g3`).
   Log §6→§7 최하단(프로젝트 컨벤션 "Log는 항상 마지막" 복원).
   자기참조 "§3·§7"→"§3·§6" 정정. 내용 변경 0, 순서·번호만 정합화
   (g3 일관성).
+- 2026-05-16 — **§7 추가 + §8 Log(재번호) + 상단펜스 갱신**: USER
+  DIRECTION으로 COVALENT+BIFUNCTIONAL expansion-MAIN 등록 + sub-tree,
+  별도 governed `HIERARCHY.tape`에 분리 기록(core-5 `../AXIS.tape`
+  불변·cross-link). §4 keep-5 권고는 **dissent로 보존**(삭제 X),
+  상단 펜스에 override forward-pointer 명시, §6 fence 스테일 참조
+  정정. 출처 #95/#103 borderline 평가 병기. lattice 비도출
+  (f_lattice_fit)·in-silico only(g8)·외부 modality 자체 precedent
+  (g3/f1). 결정 기록일 뿐 — feasibility/임상 주장 0, disease 재맵핑
+  미실행. § 순서 정합(§7 direction → §8 Log 최하단, 컨벤션 유지).
