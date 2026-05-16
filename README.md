@@ -145,6 +145,61 @@ verification + falsifier preregister. `quantum` is at Phase 1+ (H₂/LiH VQE
 
 ---
 
+## Axis surface (as of HEAD)
+
+> **Honesty fence (`g8` / `f2`)**: every count below reports an IN-SILICO
+> architectural / gate state. A PASS / HOLD / DETERMINISTIC verdict
+> verifies simulator-consistency of a preregistered condition ONLY —
+> NEVER a therapeutic, clinical, regulatory, immunogenic, efficacy,
+> potency, selectivity, or wet-lab claim. Axis counts are an architectural
+> decision (`f_lattice_fit`), NOT derived from any n=6 lattice scalar.
+> The **core 5 axes are UNCHANGED** (`AXIS.tape` SSOT lock) — the
+> expansion layer below is a SEPARATE governed decision record per
+> [`AXIS/HIERARCHY.tape`](AXIS/HIERARCHY.tape) (USER DIRECTION 2026-05-16),
+> and the rigorous keep-5 dissent in [`AXIS/README.md`](AXIS/README.md)
+> §4 is preserved verbatim, not erased.
+
+| Layer | Count | Members | SSOT |
+|---|---|---|---|
+| **Core axes** (UNCHANGED) | 5 | QUANTUM · WEAVE · NANOBOT · RIBOZYME · VIROCAPSID | [`AXIS.tape`](AXIS.tape) |
+| **Expansion-MAIN** (NON-core) | 4 | COVALENT · BIFUNCTIONAL · METALLODRUG · OLIGONUCLEOTIDE | [`AXIS/HIERARCHY.tape`](AXIS/HIERARCHY.tape) §1 |
+| **Sub-axes** (:>parent) | 15 | 6 :> BIFUNCTIONAL (PROTAC · LYTAC · AUTAC · RIBOTAC · COVALENT-DEGRADER · MOLECULAR-GLUE) · 3 :> QUANTUM (ALLOSTERIC · CRYPTIC-POCKET · PPI) · 2 :> WEAVE (PEPTIDE · MACROCYCLE) · 2 :> RIBOZYME (RNA-TARGETING-SMALL-MOLECULE · APTAMER) · 1 :> VIROCAPSID (CAPSID-ASSEMBLY-MODULATOR) · 1 :> COVALENT (REVERSIBLE-COVALENT) | [`AXIS/HIERARCHY.tape`](AXIS/HIERARCHY.tape) §2 |
+| **TOTAL** | **24** | 5 core + 4 expansion-main + 15 sub | architectural — see [`AXIS/README.md`](AXIS/README.md) §4 (keep-5 dissent preserved) |
+
+**Gate-aggregated surface** (auto-generated dashboard
+[`AXIS/STATUS.md`](AXIS/STATUS.md), 2026-05-16; SSOT for these numbers):
+
+| Surface | Count | Detail | Source |
+|---|---|---|---|
+| **Cross-axis bridges** | 17 | A1–A5 + F1–F3 + G1–G5 + J1–J3 + 1 three-axis bridge (`_python_bridge/module/*_cross.py`). Each imports both sides' sims (no fork — `f3`), draft-07 schema, honesty-fenced (math-equiv ≠ mech-equiv; comparison ≠ ranking). A bridge is NOT a new axis — core-5 unchanged. | [`AXIS/STATUS.md`](AXIS/STATUS.md) §5 |
+| **Case studies** | 4 | One-disease in-silico pilots (`case_studies/`): hiv1 · kras_g12c · mpro_covid · sma. NOT the 200-disease deferred work. UNPLACED handling (CBER scope) is structurally honest via `axis=null` schema const. | [`AXIS/STATUS.md`](AXIS/STATUS.md) §6 |
+| **Falsifiers HOLD** | 12 | F-METALLODRUG-1/2/3 + F-OLIGO-1/2/3 + F-COVALENT-1/2/3 + F-BIFUNCTIONAL-1/2/3. 0 FALSIFIED · 0 SKIP. Eyring prefactor independently re-derived from CODATA 2019 inside the gate. `__FALSIFIER_EXECUTION_GATE__ PASS`. | [`AXIS/STATUS.md`](AXIS/STATUS.md) §3 |
+| **Tier roster (44 sims)** | 42 🟢 + 1 🔵 + 1 🟠 + 0 🔴 | 🟢 SUPPORTED-NUMERICAL 42 · 🔵 SUPPORTED-FORMAL 1 (`lean4_proof_witness_emit`) · 🟠 DEFERRED 1 (`metallodrug_quantum_vqe_cross` live-VQE hand-off — `g7` honest) · 🔴 FALSIFIED 0. Reporter, not enforcer. `__HEXA_VERIFY_TIER_BATCH__ PASS`. | [`AXIS/STATUS.md`](AXIS/STATUS.md) §2 |
+| **Determinism gate** | 32 DETERMINISTIC | Each sim run twice under `PYTHONHASHSEED=0`, byte-identical stdout. 0 NON_DETERMINISTIC · 0 SKIP. `__DETERMINISM_REGRESSION_GATE__ PASS`. | [`AXIS/STATUS.md`](AXIS/STATUS.md) §4 |
+
+**UNPLACED (honest, NOT code axes)**: THERANOSTIC (radioligand,
+CDER+CDRH scope mix S=0.8 — see
+[`AXIS/THERANOSTIC_SCOPE.md`](AXIS/THERANOSTIC_SCOPE.md) for the
+deferred FOR/AGAINST scope-resolution record) · GENETIC-MEDICINE
+(CBER) · ADC (CBER antibody scope). All three fail criterion #4
+(drug-only / CDER); implementing them as code axes would breach `g8`.
+
+**Pointers**:
+- [`AXIS/README.md`](AXIS/README.md) — rigorous / governed axis doc (§4 keep-5 dissent preserved verbatim; §6 Top-5 candidate fact-check; §7 USER DIRECTION override record)
+- [`AXIS/HIERARCHY.tape`](AXIS/HIERARCHY.tape) — registration SSOT for the expansion layer (§1 main · §2 sub-tree · §2.5–§2.13 cross-axis rounds A/F/G/J + infra gates + case studies)
+- [`AXIS/STATUS.md`](AXIS/STATUS.md) — live auto-generated dashboard (counts above; refreshes via `selftest/status_md_generator.py`)
+- [`AXIS/THERANOSTIC_SCOPE.md`](AXIS/THERANOSTIC_SCOPE.md) — deferred scope-resolution document (FOR 5 / AGAINST 5; document does NOT decide, UNPLACED status remains in force)
+- [`CHANGELOG.md`](CHANGELOG.md) — session chronology cross-linking all per-tape Logs
+
+> **Reminder**: this section reports architecture + gate-aggregated
+> sentinels. None of the numbers above is a wet-lab, clinical, regulatory,
+> immunogenic, efficacy, potency, selectivity, DC50, Dmax, or therapeutic
+> claim (`g8` / `f2`). Per-axis details + cross-link tables live in the
+> SSOT files linked above; the 5-axis status table below remains the
+> deepest per-core-axis closure-grade record.
+
+---
+
 ## Install
 
 ```bash

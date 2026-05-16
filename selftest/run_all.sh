@@ -119,6 +119,31 @@ run "external_governance_cross_check"    python3 "$HERE/external_governance_cros
 # disease case studies (L1 HIV-1 + L2 SMA — one-disease pilots)
 run "hiv1_portfolio"                     python3 "$REPO_ROOT/case_studies/hiv1_portfolio/hiv1_portfolio_runner.py"
 run "sma_portfolio"                      python3 "$REPO_ROOT/case_studies/sma_portfolio/sma_portfolio_runner.py"
+# round-5 cross-axis (G/J expansion) + 3-axis cross
+run "metallodrug_covalent_quantum_3way_cross" python3 "$REPO_ROOT/_python_bridge/module/metallodrug_covalent_quantum_3way_cross.py"
+run "protac_capsid_modulator_cross"      python3 "$REPO_ROOT/_python_bridge/module/protac_capsid_modulator_cross.py"
+run "autac_cryptic_pocket_cross"         python3 "$REPO_ROOT/_python_bridge/module/autac_cryptic_pocket_cross.py"
+run "molecular_glue_allosteric_cross"    python3 "$REPO_ROOT/_python_bridge/module/molecular_glue_allosteric_cross.py"
+run "peptide_nanobot_cross"              python3 "$REPO_ROOT/_python_bridge/module/peptide_nanobot_cross.py"
+run "macrocycle_nanobot_cross"           python3 "$REPO_ROOT/_python_bridge/module/macrocycle_nanobot_cross.py"
+run "oligonucleotide_ribotac_cross"      python3 "$REPO_ROOT/_python_bridge/module/oligonucleotide_ribotac_cross.py"
+run "protac_ppi_cross"                   python3 "$REPO_ROOT/_python_bridge/module/protac_ppi_cross.py"
+# additional case studies (M1 + M3)
+run "kras_g12c_portfolio"                python3 "$REPO_ROOT/case_studies/kras_g12c_portfolio/kras_g12c_portfolio_runner.py"
+run "mpro_covid_portfolio"               python3 "$REPO_ROOT/case_studies/mpro_covid_portfolio/mpro_covid_portfolio_runner.py"
+run "bcl2_portfolio"                     python3 "$REPO_ROOT/case_studies/bcl2_portfolio/bcl2_portfolio_runner.py"
+run "drug_redesign_sandbox"              python3 "$REPO_ROOT/case_studies/drug_redesign_sandbox/drug_redesign_runner.py"
+run "landscape_generator"                python3 "$REPO_ROOT/case_studies/landscape/landscape_generator.py"
+# infrastructure gates (P1 + R1 + N2 + O2 + O3 + S-new + X1)
+run "atlas_atom_proofs"                  python3 "$HERE/atlas_atom_proofs.py"
+run "atlas_atom_tier_upgrade_gate"       python3 "$HERE/atlas_atom_tier_upgrade_gate.py"
+run "portfolio_fitness_function"         python3 "$HERE/portfolio_fitness_function.py"
+run "cross_axis_matrix"                  python3 "$HERE/cross_axis_matrix.py"
+run "status_md_generator"                python3 "$HERE/status_md_generator.py"
+run "schema_const_audit"                 python3 "$HERE/schema_const_audit.py"
+run "deferred_items_tracking_gate"       python3 "$HERE/deferred_items_tracking_gate.py"
+# root dispatcher (O1 + T-new)
+run "hexa_bio_root_dispatcher"           hexa run "$REPO_ROOT/hexa_bio.hexa"
 run "qmirror_chemistry_vqe_gate" bash "$HERE/qmirror_chemistry_vqe_gate.sh"
 run "xeno_substrate_gate" bash "$HERE/xeno_substrate_gate.sh"
 run "cmt_side_effect_avoidance_audit" python3 "$HERE/cmt_side_effect_avoidance_audit.py"

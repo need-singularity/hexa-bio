@@ -212,6 +212,44 @@
   L2_sma = "case_studies/sma_portfolio/ — 3 FDA-approved drugs for one disease (rare): risdiplam (Evrysdi 2020) → RNA-TARGETING-SM :> RIBOZYME (IN-SCOPE); nusinersen (Spinraza 2016) → OLIGONUCLEOTIDE (IN-SCOPE); onasemnogene abeparvovec (Zolgensma 2019) → GENETIC-MEDICINE (CBER, UNPLACED — schema-const enforced axis=null, no fake CBER coverage). Cross-axis touch-point: A3 (SMN2 modality comparison). __SMA_PORTFOLIO__ PASS 6/6."
   scope = "in-silico simulator+metadata consistency only (g8/f2). NEVER a clinical, therapeutic, efficacy, regulatory, or portfolio-recommendation claim. UNPLACED handling is structurally honest (axis=null as schema const) — same pattern in both case studies."
 
+# ─── §2.14 Round-5 cross + 3-axis cross (G/J/N1, USER DIRECTION 2026-05-16) ──
+
+@D cross_axis_round5 := "round-5 cross-axis + first 3-axis cross" :: decision [active d=2026-05-16]
+  basis = "round-5: extend cross matrix into mathematically-equivalent / mechanism-disjoint pairs PLUS the first 3-axis bridge. Each imports parent sims (f3) + draft-07 schema + honesty fence."
+  G1 = "protac_capsid_modulator_cross — same math (mass-action + cooperativity), different biology (hook vs kinetic-trap). Units kept disjoint. PASS 8/8."
+  G2_2nd = "autac_cryptic_pocket_cross — degradation_rate_ceiling = P_open · autophagic_flux; KRAS-G12C switch-II ~180× reduction; AUTAC research-stage. PASS 7/7."
+  G3_2nd = "molecular_glue_allosteric_cross — staged ledger (stage 1 allosteric R-state stabilization on E3 + stage 2 cooperative ternary). lenalidomide-IKZF1 ΔG_total=−2.15 kcal/mol. PASS 9/9."
+  N1_3axis = "metallodrug_covalent_quantum_3way_cross — FIRST 3-axis cross. Pt-N7 ~2.0Å event has THREE valid theoretical descriptions: METALLODRUG (CFSE/coordination) · COVALENT (Eyring kinact/Ki) · QUANTUM ((2e,2o) CI, E_corr<0, multireference). Cross-axis consistency 5/5. Schema consts cross_is_three_axis=true, creates_a_new_axis=false. Honesty: model-level unification ≠ operational equivalence. PASS 10/10."
+  W1 = "peptide_nanobot_cross + macrocycle_nanobot_cross — peptide/macrocycle-functionalized DNA nanostructures. Research-stage modality (NO FDA drug — schema-const research_stage_modality=true). Zimm-Bragg + Jacobson-Stockmayer + Rothemund-Seeman DNA nanotech. Each PASS 7/7."
+  W3 = "oligonucleotide_ribotac_cross — same RNA target class, opposite turnover regime. OLIGO stoichiometric N=1 ceiling vs RIBOTAC catalytic N_cleaved 28-180. comparison ≠ ranking (FDA-approved ASOs vs research-stage Disney-lab RIBOTACs). PASS 8/8."
+  W4 = "protac_ppi_cross — hotspot-floor → α_required mapping (Bogan-Thorn ΔG_hotspot → K_d(E3) floor → α minimum for productive ternary). BH3 groove α=3 achievable; flat diffuse unachievable α>200. BIVALENT-vs-MONOVALENT distinction from G3 strictly preserved (ΔG_linker=−5.67 kcal/mol Page-Jencks intramolecularity, linker_cost_pre_paid schema-const). PASS 8/8."
+  scope = "in-silico only (g8/f2). Each cross ≠ new axis. Core-5 UNCHANGED. n=6 lattice not derived (f_lattice_fit). Mathematical equivalence ≠ mechanistic / operational equivalence (the honest fence)."
+
+# ─── §2.15 Infrastructure / governance gates (R1 + S-new + X1, 2026-05-16) ──
+
+@D infra_gates_round2 := "additional infra/governance gates" :: decision [active d=2026-05-16]
+  R1_atlas_registry = "selftest/atlas_atom_tier_upgrade_gate.py + _python_bridge/spec/atlas_atom_registry.json. Connects P1 (atlas_atom_proofs.py) 5 symbolic proofs to 16 anchored sims as 🔵-eligible. PROPOSAL ≠ ENFORCEMENT (I3 reporter unchanged on disk). 5/5 PROVEN+PASS yields 16 🔵-eligible sims (caspar_klug 5 · griffith_orgel 1 · MWC 3 · cooperative_ternary 5 · 2x2 CI 2). __ATLAS_ATOM_TIER_UPGRADE_GATE__ PASS."
+  S_new_schema_const = "selftest/schema_const_audit.py. Scans 103 schemas across 12 dirs; counts CONST vs TYPED-ONLY honesty fields. After 2026-05-16 fix to capsid_modulator_weave_cross_v1.schema.json (illustrative_only: typed-only → const true), all 21 honesty-bearing schemas now const-enforce their honesty fields. 100 → 101 CONST · 1 → 0 TYPED-ONLY. reporter ≠ enforcer (gap is a finding, not a fail). __SCHEMA_CONST_AUDIT__ PASS."
+  X1_deferred_tracking = "selftest/deferred_items_tracking_gate.py. Honest boundary enforcer for the 4 declared DEFERRED items + 1 PARTIALLY-RESOLVED (atlas 🔵). Per-item multi-precondition trace (directory absence + sim absence + @N marker presence + CHANGELOG entry). FAIL only on UN-DEFERRED-VIOLATION (silent un-defer without governance update). Current HEAD: 4 STILL-DEFERRED + 1 PARTIALLY-RESOLVED. __DEFERRED_ITEMS_TRACKING_GATE__ PASS."
+  hexa_bio_root = "hexa_bio.hexa (O1 + T-new). Root dispatcher; 3 modes (default fast / --verbose / --tree). Default = 24 axis status table. --verbose runs each axis-verb subprocess (24/24 PASS on this host). --tree renders nested ASCII tree (CORE + EXPANSION-MAIN groups, sub-axes inset). __HEXA_BIO_ROOT_DISPATCHER__ PASS in all 3 modes."
+  scope = "g1 honest reporting/boundary enforcement; g7 SKIP-not-FAIL for absent dependencies; g8 in-silico-only."
+
+# ─── §2.16 Disease portfolios + landscape + drug-redesign sandbox ─────
+
+@D case_studies_round2 := "5 disease portfolios + landscape + drug-redesign sandbox" :: decision [active d=2026-05-16]
+  basis = "extend the L1+L2 one-disease pilots to 5 disease portfolios + a multi-disease landscape + a single-target modality-space sandbox. Each composes existing sims; case_studies are NEVER the deferred 200-disease re-mapping — they are honest one-disease pilots."
+  L1_hiv1 = "case_studies/hiv1_portfolio/ — lenacapavir (Sunlenca, FDA 2022) CAM + maraviroc (Selzentry, FDA 2007) ALLOSTERIC; 3 research-stage / CBER negatives. PASS 10/10."
+  L2_sma = "case_studies/sma_portfolio/ — risdiplam (Evrysdi, FDA 2020) RNA-targeting + nusinersen (Spinraza, FDA 2016) OLIGONUCLEOTIDE; Zolgensma UNPLACED (CBER) with schema-const axis=null. PASS 6/6."
+  M1a_mpro_covid = "case_studies/mpro_covid_portfolio/ — nirmatrelvir (Paxlovid, FDA 2022 EUA / 2023 NDA) REVERSIBLE-COVALENT + 3 negatives (ensitrelvir PMDA-only · non-covalent research · anti-SARS-CoV-2 mAbs CBER withdrawn). PASS 10/10."
+  M1b_kras_g12c = "case_studies/kras_g12c_portfolio/ — sotorasib (Lumakras, FDA 2021) + adagrasib (Krazati, FDA 2022) COVALENT + cryptic_touch_axis=CRYPTIC-POCKET (dual mapping); 3 negatives. PASS 12/12."
+  M1c_bcl2 = "case_studies/bcl2_portfolio/ — venetoclax (Venclexta, FDA 2016) PPI + navitoclax (clinical-stage, ABT-263 — schema-const fda_approval_status enum); 3 negatives. PASS 12/12."
+  M2_landscape = "case_studies/landscape/ — auto-generated 5 diseases × 24 axes = 120 cells. 8 FDA-occupied (6.7%) · 7 research-stage (5.8%) · 105 honest empty (87.5%) + 4 disease-level UNPLACED. __LANDSCAPE_GENERATOR__ PASS."
+  M3_sandbox = "case_studies/drug_redesign_sandbox/ — Mpro single-target through 4 modality lenses (REVERSIBLE-COVALENT status-quo / COVALENT irreversible / PROTAC degradation / PPI disruption). 9 schema-const honesty fields enforce 'NOT a redesign proposal'. __DRUG_REDESIGN_SANDBOX__ PASS 10/10."
+  N2_fitness = "selftest/portfolio_fitness_function.py — reporter (NOT ranker) across all portfolios. 3 independent metrics (drug_existence / axis_coverage / honesty_completeness); no compound score; comparison_is_ranking=false. __PORTFOLIO_FITNESS_FUNCTION__ PASS."
+  O2_matrix = "selftest/cross_axis_matrix.py — 24×24 axis matrix; 18 pair-cells / 276 possible pairs (6.5%) covered by 17 cross files (handles 2-axis + 3-axis bridges uniformly). reporter ≠ enforcer (empty cells are honest). __CROSS_AXIS_MATRIX__ PASS."
+  O3_dashboard = "selftest/status_md_generator.py + AXIS/STATUS.md — 8-section auto-generated dashboard (axis count · tier distribution · falsifier status · determinism · cross coverage · case studies · honesty · timestamp). Byte-identical re-runs. __STATUS_MD_GENERATOR__ PASS."
+  scope = "in-silico only (g8/f2). Case studies are NEVER 200-disease deferred work. UNPLACED honesty (CBER scope-disqualified entries: Zolgensma · anti-SARS-CoV-2 mAbs · CRISPR-Cas9 gene editing · CAR-T) is structurally enforced via schema-const axis=null."
+
 # ─── §3 External citations ────────────────────────────────────────────
 
 @X x_axis_core := "AXIS.tape (core-5 SSOT)" :: sibling-tape [active]
@@ -302,6 +340,28 @@
   n=6-lattice derivation (f_lattice_fit). 200-disease re-mapping +
   THERANOSTIC/GENETIC-MEDICINE/ADC scope-disqualified entries remain
   honestly UNPLACED — not implemented as code axes.
+- 2026-05-16 — **Round-5 cross + 3-axis cross + 5 portfolios + landscape +
+  sandbox + 5 infra gates + root dispatcher** (USER DIRECTION "all bg go",
+  20 bg agents — 19 completed + 1 (L1 HIV-1 portfolio) rebuilt locally
+  after content-filter false-positive). §2.14 round-5 cross: G1/J2/J3
+  expansion (PROTAC×CAM · AUTAC×CRYPTIC · GLUE×ALLOSTERIC) + W1/W3/W4
+  (PEPTIDE/MACROCYCLE-NANOBOT research-stage · OLIGO×RIBOTAC stoichiometric-
+  vs-catalytic · PROTAC×PPI hotspot-floor) + N1 first 3-axis cross
+  (METALLODRUG×COVALENT×QUANTUM at Pt-N7 ~2.0Å). §2.15 infra gates: R1
+  atlas-atom registry + tier-upgrade-proposal gate (16 sims 🔵-eligible) ·
+  S-new schema-const audit (1 gap found + closed: capsid_modulator_weave_
+  cross illustrative_only typed-only → const true) · X1 deferred-items
+  tracking gate (4 STILL-DEFERRED + 1 PARTIALLY-RESOLVED, FAIL only on
+  un-defer-without-governance). §2.16 case studies: M1 3 portfolios
+  (mpro_covid · kras_g12c · bcl2) + M2 landscape (5×24 cross-tab, 87.5%
+  honest empty) + M3 single-target sandbox (Mpro through 4 modality
+  lenses, 9 schema-const honesty fields). hexa_bio.hexa root dispatcher
+  (default + --verbose + --tree). 20+ new gates wired in selftest/
+  run_all.sh. Honesty cohort 69/69. Core-5 (../AXIS.tape) UNCHANGED;
+  README §4 keep-5 dissent preserved. All sentinel PASS. The full
+  selftest sweep on the previous (pre-round-5) HEAD = 96 PASS / 0 FAIL.
+  Sister wilson plugins /todo + /go drafted in /Users/ghost/core/wilson/
+  plugins/ (opt-in via wilson build --with todo --with go).
 - 2026-05-16 — **Round-3 cross-axis + sub-axis hexa parity + falsifier
   gate expansion** (USER DIRECTION "all bg go", 8 bg agents).
   §2.8 round-3 cross (G1-G5): PROTAC×CAPSID-MODULATOR (mass-action ∩

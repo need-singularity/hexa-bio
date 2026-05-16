@@ -40,7 +40,7 @@
       "type": "object",
       "additionalProperties": true
     },
-    "illustrative_only": {"type": "boolean"}
+    "illustrative_only": {"type": "boolean", "const": true}
   },
   "definitions": {
     "sideState": {
