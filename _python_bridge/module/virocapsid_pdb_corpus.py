@@ -38,7 +38,7 @@ n=6 invariant: σ(6)=12 (12 pentamers — verified across the corpus); τ(6)=4
 φ(6)=2 (assembled / disassembled); J₂=24 (pose-equivalence orbit).  Master
 identity σ·φ = n·τ = J₂ = 24 (12·2 = 6·4 = 24).
 
-Honest C3 (raw#10): the corpus is curator-selected (VIPERdb only catalogues
+Honest C3: the corpus is curator-selected (VIPERdb only catalogues
 non-enveloped icosahedral viruses placed in a common "VIPER convention") → the
 audit validates *internal consistency of the σ(6)=12 prediction across the known
 structural record*, not independent discovery; the T-number annotations are
@@ -68,6 +68,7 @@ _FALLBACK_CORPUS = [
     ("2BUK", "Satellite Tobacco Necrosis Virus", "1", "protein"),
     ("1A34", "Satellite Tobacco Mosaic Virus", "1", "protein-rna"),
     ("1LP3", "Adeno-Associated Virus 2", "1", "protein"),
+    ("3UX1", "Adeno-Associated Virus 9", "1", "protein"),  # DiMattia MA et al. 2012 J Virol 86:6947 — AAV9 cardiotropic serotype, Parvoviridae T=1
     ("3DKT", "Thermotoga maritima encapsulin", "1", "protein"),
     ("1CWP", "Cowpea Chlorotic Mottle Virus", "3", "protein-rna"),
     ("1JS9", "Brome Mosaic Virus", "3", "protein-rna"),
