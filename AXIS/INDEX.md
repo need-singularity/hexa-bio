@@ -244,3 +244,117 @@ entity lattice-fit 0, 임상 주장 0 (`g1`/`g2`/`g3`/`g8`/`f1`/`f2`/
   생체-축 도약은 전 행 가설; 거버넌스 5-axis 불변. 주장/로드맵 영향 0.
 - 2026-05-16 — INDEX.md로 rename + 한글화. "SF" 토큰 제거, honesty
   fence 실질은 한글 동등 표현으로 보존(의미 삭제 아님).
+
+---
+
+## §7 2차 검증 — 반증가능성·메커니즘 분해 (인증 아님)
+
+> **펜스**: 1차(현상-물리-기반 색상)보다 깊은 분류일 뿐 — 여전히 가설
+> 분류이지 제안·feasibility·in-silico 결과 **아님**. `hexa atlas` CLI를
+> CLI-direct로 probe(`g5`): atlas는 **proven 등록 atom 레지스트리(9-kind
+> P|C|L|E|F|R|S|X|Q)이지 가설 물리 검증기가 아님**. 가설 축은 등록 atom이
+> 아니므로 **per-item atlas 인증은 본질상 N/A** — 그 부재가 정직 신호
+> (1차와 동일, 모순 없음). atlas 출력 날조 0 (`g7` honest-SKIP).
+
+**2차 축:**
+- **F = 반증가능성**: ✓ 원리적 반증 테스트 정의 가능 / ✗ 불가(형이상)
+- **M = 메커니즘 class**: `est`(확립) / `prop`(구체 제안 있음) / `meta`(메타포만) / `none`(없음)
+- **2차 verdict**: 1차 색상을 F·M으로 정제한 과학-지위 분류
+  - 🟢 SCIENCE-GROUNDED-PHENOMENON (현상 확립 · F✓ · M est) — *축-사용 도약은 여전히 가설*
+  - 🔵 METAPHOR-NONPREDICTIVE (실 기질 · "축" 프레임 비예측적 · M meta)
+  - 🟡 SPECULATIVE-FALSIFIABLE (미확립이나 F✓ · M prop)
+  - 🟠 FRINGE-CONTESTED (F✓이나 증거 논쟁/음성 또는 난관 심각)
+  - 🔴 NOT-EVEN-WRONG (M none · 근거 0)
+  - ⚫ METAPHYSICS-UNFALSIFIABLE (F✗)
+
+| # | 가설 축 | 1차 | F | M | 2차 verdict |
+|---|---|---|---|---|---|
+| 1 | PHONON | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 2 | PLASMON | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 3 | SPINTRONIC-BIO | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 4 | TOPOLOGICAL-MATTER | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 5 | TIME-CRYSTAL | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 6 | VACUUM-FLUCTUATION | 🟠 | ✓ | prop | 🟠 FRINGE-CONTESTED (Casimir실측·생체구동 메커니즘無) |
+| 7 | GRAVITON-BIO | 🔴 | ✗ | none | 🔴 NOT-EVEN-WRONG |
+| 8 | CYTO-TURING | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 9 | MOLECULAR-CA | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE (RD화학은 est) |
+| 10 | RESERVOIR-CYTOPLASM | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 11 | MORPHO-COMPUTE | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 12 | STIGMERGIC | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 13 | DNA-HYPERSTORAGE | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 14 | MESOSCALE | 🟢 | ✓ | est | 🔵 METAPHOR-NONPREDICTIVE ("axis"는 재명명) |
+| 15 | SYNCYTIAL | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 16 | ORGAN-AS-COMPUTER | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 17 | ORGANISM-AXIS | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 18 | ECOSYSTEM-SUBSTRATE | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 19 | GAIA-AXIS | 🟠 | ✓ | meta | 🟠 FRINGE-CONTESTED (강한-Gaia 논쟁) |
+| 20 | CHRONO-OSCILLATOR | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 21 | HYSTERESIS-MEMORY | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 22 | DEVELOPMENTAL-TRAJECTORY | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 23 | EVOLUTION-AS-SEARCH | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE (진화연산 est) |
+| 24 | SENESCENCE-CLOCK | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 25 | ATP-ECONOMY | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 26 | MAXWELL-DEMON-BIO | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (Landauer 실측) |
+| 27 | DISSIPATION-DRIVEN | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON |
+| 28 | NEGENTROPY-HARVEST | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 29 | MIRROR-CHIRALITY | 🟡 | ✓ | prop | 🟡 SPECULATIVE-FALSIFIABLE |
+| 30 | HACHIMOJI+ | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (2019 시연) |
+| 31 | XNA-BACKBONE | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (합성·진화) |
+| 32 | SILICON-SUBSTITUTED | 🟡 | ✓ | prop | 🟡 SPECULATIVE-FALSIFIABLE |
+| 33 | NON-AQUEOUS | 🟡 | ✓ | prop | 🟡 SPECULATIVE-FALSIFIABLE |
+| 34 | DUSTY-PLASMA-LIFE | 🟠 | ✓ | prop | 🟠 FRINGE-CONTESTED (Tsytovich 광범위 의심) |
+| 35 | RADIOTROPHIC | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (체르노빌 균류) |
+| 36 | PROTOCELL | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (Szostak) |
+| 37 | MINERAL-METABOLISM | 🟡 | ✓ | prop | 🟡 SPECULATIVE-FALSIFIABLE (부분 지지) |
+| 38 | CYBORG-ORGANELLE | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (합성엽록체) |
+| 39 | ABIOGENESIS-REPLAY | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE (실 도메인) |
+| 40 | SYNTHETIC-CHASSIS | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (syn3.0) |
+| 41 | BIOELECTRIC-FIELD | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (Levin) |
+| 42 | BIOPHOTONIC-COHERENCE | 🟠 | ✓ | prop | 🟠 FRINGE-CONTESTED (결맞음 강한 논쟁) |
+| 43 | EM-MORPHOGENESIS | 🟠 | ✓ | prop | 🟠 FRINGE-CONTESTED (코딩 미입증) |
+| 44 | ACOUSTO-BIO | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (sonogenetics) |
+| 45 | MOLECULAR-INTENTIONALITY | ⚫ | ✗ | none | ⚫ METAPHYSICS-UNFALSIFIABLE |
+| 46 | SWARM-COGNITION | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 47 | BIOSEMIOTIC | ⚫ | ✗ | none | ⚫ METAPHYSICS-UNFALSIFIABLE |
+| 48 | PANPSYCHIST-AXIS | ⚫ | ✗ | none | ⚫ METAPHYSICS-UNFALSIFIABLE |
+| 49 | EXTREMOPHILE-COMPUTE | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 50 | PANSPERMIA-VECTOR | 🟡 | ✓ | prop | 🟡 SPECULATIVE-FALSIFIABLE |
+| 51 | NEUTRON-CRUST-CHEM | 🟠 | ✓ | none | 🟠 FRINGE-CONTESTED (핵파스타 est-이론·생명無) |
+| 52 | RADIATION-HARDENED | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (Deinococcus) |
+| 53 | CATEGORY-MORPHISM | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (응용범주론) |
+| 54 | SHEAF-BIOLOGY | 🔵 | ✓ | prop | 🔵 METAPHOR-NONPREDICTIVE (응용 초기) |
+| 55 | HYPERDIMENSIONAL | 🟢 | ✓ | est | 🟢 SCIENCE-GROUNDED-PHENOMENON (VSA est) |
+| 56 | FRACTAL-RECURSION | 🔵 | ✓ | meta | 🔵 METAPHOR-NONPREDICTIVE |
+| 57 | AXIS-GENERATOR | ⚫ | ✗ | none | ⚫ METAPHYSICS-UNFALSIFIABLE |
+| 58 | SELF-MODIFYING-SUBSTRATE | 🟡 | ✓ | prop | 🟡 SPECULATIVE-FALSIFIABLE (CS개념 est) |
+| 59 | OBSERVER-AXIS | ⚫ | ✗ | none | ⚫ METAPHYSICS-UNFALSIFIABLE |
+| 60 | SIM-WITHIN-SIM | ⚫ | ✗ | none | ⚫ METAPHYSICS-UNFALSIFIABLE |
+
+**2차 집계 (표 60행 정밀 실측):** 🟢 SCIENCE-GROUNDED ×22 · 🔵
+METAPHOR-NONPREDICTIVE ×19 · 🟡 SPECULATIVE-FALSIFIABLE ×6 · 🟠
+FRINGE-CONTESTED ×6 · 🔴 NOT-EVEN-WRONG ×1 · ⚫ METAPHYSICS-
+UNFALSIFIABLE ×6 (Σ=60). **F: ✓=53 · ✗=7** (F✗ = ⚫6행 + GRAVITON-BIO
+🔴1행 — 표 내부 정합). **M: est=23 · prop=11 · meta=18 · none=8**
+(none = GRAVITON🔴 + NEUTRON-CRUST🟠 + ⚫6).
+
+**1차→2차 이동(정직 기록):** #14 MESOSCALE 🟢→🔵("axis"는 단순
+재명명, 비예측적) — 1차 색상 6단계 ↔ 2차 verdict 6단계는 F·M 분해로
+정제(상위 변경 없음). 🔵 1차 18 → 2차 19(MESOSCALE 강등 1건). 제안된
+축으로 승격된 행 0개.
+
+**2차 정직 결론**: F✓·M=est인 행도 *"hexa-bio 축으로 쓴다"는 도약은
+전 행 가설* — 2차는 *현상의 과학 지위*만 정제할 뿐 어떤 축도 제안/검증
+하지 않음. F✗ 7행(⚫6 + GRAVITON🔴1)은 과학 명제가 아님이 2차에서 명시
+확정.
+거버넌스 5-axis(`../AXIS.tape`) 불변; 이 2차는 주장·로드맵·아키텍처
+무변경. atlas: proven-atom 레지스트리(검증기 아님) — per-item 인증 N/A,
+정직 명시(`g5`/`g7`/`g3`).
+
+## §8 Log
+
+- 2026-05-16 — §7 2차 검증 추가: 60행을 F(반증가능성)·M(메커니즘
+  class)로 분해 → 6-class 2차 verdict. 1차→2차 이동 정직 기록(#14
+  강등 등). `hexa atlas` CLI-direct probe(g5); atlas=레지스트리이지
+  검증기 아님 → per-item 인증 본질상 N/A, 날조 없음(g7/g3). 가설
+  분류 심화일 뿐 — 제안/feasibility/in-silico 아님; 거버넌스 5-axis
+  불변; README.md(엄밀)와 분리 유지.
