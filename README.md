@@ -135,6 +135,14 @@ verification + falsifier preregister. `quantum` is at Phase 1+ (H₂/LiH VQE
 - Parent: [`dancinlab/echoes`](https://github.com/dancinlab/echoes); GitHub canonical at <https://github.com/dancinlab/hexa-bio>
 - **Health**: all 5 axes scientifically UNPROVEN at the wet-lab boundary — closure here is software-bookkeeping, never a medical or empirical claim
 
+### 2026-05-16 — AXIS governance + axis expansion LAYER + new in-silico dirs
+
+- **Core stays 5** (`AXIS.tape` SSOT UNCHANGED; the axes-5 lock + count-honesty `g2`/`f_lattice_fit` unchanged — count is an architectural decision, NOT lattice-derived).
+- **`AXIS/` governance docs**: [`AXIS/README.md`](AXIS/README.md) (rigorous synthesis — recommendation: **KEEP 5-axis**, 6th deferred post-1.0) · [`AXIS/INDEX.md`](AXIS/INDEX.md) (imagination-only 60-axis brainstorm + 1차/2차 triage — **ZERO governed standing**, fenced) · [`AXIS/HIERARCHY.tape`](AXIS/HIERARCHY.tape).
+- **Axis expansion LAYER** (`AXIS/HIERARCHY.tape`, **USER DIRECTION 2026-05-16, NON-core**): COVALENT + BIFUNCTIONAL registered **expansion-MAIN** + sub-tree (PROTAC/LYTAC/AUTAC/RIBOTAC/glue :> BIFUNCTIONAL · ALLOSTERIC/CRYPTIC/PPI :> QUANTUM · PEPTIDE/MACROCYCLE :> WEAVE; THERANOSTIC UNPLACED — scope-mix). This **overrides** the `AXIS/README.md` §4 keep-5 *recommendation* per explicit user direction; that rigorous dissent is **preserved verbatim**, not erased. Expansion ≠ core; in-silico-only scope; no lattice-fit; no clinical claim; disease re-mapping NOT executed (decision record only).
+- **`drylab/`** (in-silico simulator bench): 11 stdlib deterministic simulators (a2_cg_unfolding · shear_langevin_bd · aav_vector_optimizer · shear_phase_diagram · vwf_multimer_kinetics · dhs_force_spectroscopy · aav_capsid_assembly · a2_adamts13_pose · lvad_shear_reduced_order · ribozyme_eyring_kcat · ml_capsid_fitness + cryptic_pocket_exposure), all `__DRYLAB_*__` sentinel PASS — **in-silico simulator-consistency ONLY** (g8/f2), no clinical claim. Mirror-ledger of `CLOSURE_RESIDUAL_BACKLOG` ("buildable in software, mislabeled external").
+- **`LVAD/`** (scenario portfolio): ①②③⑥ LVAD in-silico scenarios + Zhang-2009 `g1`/`g3` corrections (k_cat 2.5→0.14/s, ΔG 7-10→3.9 kcal/mol, LION-CS101 LMNA→LGMD2I fact-fix) — in-silico premise-consistency only, no therapeutic claim.
+
 ---
 
 ## Install
@@ -479,8 +487,11 @@ hexa-bio/
 ├── genetics/                 # genetics primitives
 ├── biology/                  # general biology utilities
 ├── biology-medical/          # biology↔medical bridge
+├── AXIS/                     # axis governance: README.md (rigorous, keep-5) · INDEX.md (imagination-only, ZERO standing) · HIERARCHY.tape (USER-DIRECTION expansion-layer, NON-core)
+├── LVAD/                     # LVAD in-silico scenario portfolio (①②③⑥) + Zhang-2009 g1/g3 corrections
+├── drylab/                   # in-silico simulator bench — 11 stdlib sims (simulator-consistency only, g8) · mirror-ledger of CLOSURE_RESIDUAL_BACKLOG
 ├── selftest/                 # 35-gate selftest suite (run_all.sh)
-├── wetlab/                   # wet-lab templates · CRO RFP drafts · STATUS markers
+├── wetlab/                   # wet-lab templates · CRO RFP drafts · STATUS markers (DRAFT only — g9 deferral)
 ├── _absorption_bridge/       # 9 adapters · external library absorption
 ├── _python_bridge/           # Python→hexa witness emitters
 └── _qiskit_bridge/           # legacy qiskit/aer bridge (retiring in favor of qmirror)
@@ -590,6 +601,11 @@ substrate is optional; absence → SKIP, never FAIL) is in
 - Upstream formal SSOT (active): `~/core/hexa-meta/formal/lean4/` — see [`.roadmap.lean4_formal`](.roadmap.lean4_formal) §1 status
 - Upstream formal SSOT (frozen): `~/core/nexus/canon-infra/legacy-canon/lean4-n6/N6/MechVerif/`
 - Upstream paper SSOT: `~/core/nexus/canon-infra/legacy-canon/papers/hexa-weave-formal-mechanical-w2-2026-04-28.md` (FROZEN)
+- Axis governance (rigorous): [`AXIS/README.md`](AXIS/README.md) — keep-5 recommendation + Top-5 candidate verification
+- Axis expansion LAYER (USER DIRECTION 2026-05-16, NON-core): [`AXIS/HIERARCHY.tape`](AXIS/HIERARCHY.tape) — COVALENT/BIFUNCTIONAL expansion-main + sub-tree; core-5 SSOT unchanged; §4 keep-5 dissent preserved
+- Axis imagination artifact (ZERO governed standing, fenced): [`AXIS/INDEX.md`](AXIS/INDEX.md)
+- In-silico simulator bench: [`drylab/README.md`](drylab/README.md) — 11 stdlib sims, simulator-consistency only
+- LVAD scenario portfolio: [`LVAD/README.md`](LVAD/README.md) — ①②③⑥ + Zhang-2009 g1/g3 corrections
 - 5-axis lock record: [`.roadmap.axis_expansion_decision_2026_05_08`](.roadmap.axis_expansion_decision_2026_05_08)
 - 5-axis 100% closure plan (gates / deadlines / owners): [`AXIS_CLOSURE_PLAN.md`](AXIS_CLOSURE_PLAN.md)
 - 5-axis 100% closure — deep web + arXiv research (how to close the residual out-of-repo gaps): [`docs/closure_100_research_2026_05_12.md`](docs/closure_100_research_2026_05_12.md)
