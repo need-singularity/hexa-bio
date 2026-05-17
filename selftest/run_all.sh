@@ -17,6 +17,25 @@ results=()
 run() {
   local label="$1"; shift
   echo "▶ $label"
+  # hexa-native port (T3 union): if _hexa_bridge/selftest/<label>.hexa
+  # exists, run THAT instead of the .py/.sh gate. Per-gate auto-migrate;
+  # the original command stays the fallback until its hexa port lands —
+  # union, safe for incremental porting (NOT all-or-nothing). A hexa
+  # port that must SKIP exits 0 (→ PASS bucket) exactly like the .py.
+  local hx="$REPO_ROOT/_hexa_bridge/selftest/$label.hexa"
+  if [[ -f "$hx" ]] && command -v hexa >/dev/null 2>&1; then
+    if ( cd "$REPO_ROOT" && hexa run "$hx" ); then
+      echo "  ✓ PASS [hexa]"
+      passes=$((passes + 1))
+      results+=("PASS  $label [hexa]")
+    else
+      echo "  ✗ FAIL [hexa]"
+      fails=$((fails + 1))
+      results+=("FAIL  $label [hexa]")
+    fi
+    echo
+    return
+  fi
   if "$@"; then
     echo "  ✓ PASS"
     passes=$((passes + 1))
