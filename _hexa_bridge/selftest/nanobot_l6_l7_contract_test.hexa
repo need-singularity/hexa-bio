@@ -105,7 +105,7 @@ fn main() {
     let c_version = if canon.has("version") { canon["version"] } else { "" }
     let canon_ok = c_schema == "raw_77_therapeutic_nanobot_l7_acceptance_v1" && c_status == "DECLARED"
     println("  [" + (if canon_ok { "PASS" } else { "FAIL" }) + "] canon handoff ref (" + CANON_REF + ") — schema=" +
-            reprstr(c_schema) + " status=" + reprstr(c_status) + " version=" + reprstr(c_version) + ")")
+            reprstr(c_schema) + " status=" + reprstr(c_status) + " version=" + reprstr(c_version))
     if !canon_ok { fails.push("canon handoff ref bad") }
 
     // canon_consumes_norm: key "{layer}_{name}" → consumes_from_l6 list
