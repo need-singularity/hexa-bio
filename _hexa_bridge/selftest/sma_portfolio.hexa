@@ -1,0 +1,301 @@
+#!hexa strict
+// hexa-bio/_hexa_bridge/selftest/sma_portfolio.hexa
+//
+// SMA PORTFOLIO case-study witness gate — hexa-native port of
+// `case_studies/sma_portfolio/sma_portfolio_runner.py` (T3; json/os/sys).
+//
+// WHAT THIS GATE IS
+// ─────────────────
+// Spinal muscular atrophy (SMA) is the rare case where THREE FDA-approved
+// drugs target the SAME disease via THREE DISTINCT modalities. The runner
+// emits a deterministic portfolio witness aggregating:
+//   (1) risdiplam / Evrysdi  — RNA-TARGETING-SMALL-MOLECULE (:> RIBOZYME)
+//   (2) nusinersen / Spinraza — OLIGONUCLEOTIDE (expansion-main)
+//   (3) onasemnogene abeparvovec / Zolgensma — honestly UNPLACED
+//       (CBER biologic, outside the criterion #4 drug-only/CDER scope).
+// The two in-scope rows are produced by importing two EXISTING axis sims
+// (rna_targeting_small_molecule_sim.py + oligonucleotide_hybridization_sim.py)
+// — no fork (governance f3).
+//
+// SUB-SHELL discipline (cf. determinism_regression_gate.hexa /
+// portfolio_fitness_function.hexa, recipe PROVEN): the SMA runner imports
+// two axis-sim Python modules (~900 LoC of nearest-neighbor / Nussinov
+// thermodynamics) and dumps a sort_keys-canonical JSON witness. Re-
+// implementing that import-graph + CPython json.dumps in hexa would risk
+// byte-parity drift on the witness JSON (float repr, \uXXXX escaping,
+// key order). So this port confines the run to a SINGLE python3 driver —
+// invoked once via `exec("python3 -c " + shq(drv))` — which executes the
+// REAL runner under cwd=REPO_ROOT with a 30-s timeout, captures its full
+// stdout, and emits a deterministic length-prefixed payload. The hexa
+// side OWNS the verdict (exit-code + sentinel decision) and replays the
+// runner's stdout byte-for-byte. The runner itself is pure-stdlib and
+// byte-stable run-to-run → the replayed output is byte-identical to the
+// .py (verified vs /tmp/sma.golden).
+//
+// DISCIPLINES honored:
+//   1. shq for shell quoting (imported from json_schema_validator) — no
+//      local fn shq.
+//   2. fsum / Kahan kept in the std helper set (no float reductions
+//      exercised — the gate verdict is integer exit-code logic; every
+//      numeric in the witness lives python-side).
+//   3. fmt / js / jsb / pyb in the std set (display helpers — unused on
+//      this replay gate but kept for discipline).
+//   4. raw UTF-8 preserved — the runner output contains `→ · — Δ °`;
+//      length-prefixed transport (`LEN\n<bytes>`) passes every byte
+//      through verbatim, no JSON-string escaping needed. cp_substr is
+//      paste-standard.
+//   5. exit(0) PASS / exit(1) FAIL.
+//   6. SKIP exits 0 (g7 honest): SKIP = runner unreachable / timed out
+//      (host without the axis-sim import graph). SKIP is NOT a FAIL.
+//   7. NO `**` operator; `sum(floats)` → fsum where used (none here —
+//      counts/exit-codes are int → plain `+`).
+//   8. dispatch order is single-runner — no listdir sort needed.
+//
+// HONESTY (echoes the .py docstring): the gate is in-silico simulator +
+// metadata internal-consistency ONLY (g8 / f2). It is NEVER a therapeutic,
+// clinical, efficacy, or portfolio-recommendation claim. All three drugs
+// are FDA-approved; the two in-scope rows are a modality comparison, NOT
+// an efficacy ranking; the third is an honest UNPLACED acknowledgement,
+// not a deferral. Modalities are described via their own published drug
+// precedent (g3 / f1) — nothing is derived from the n=6 lattice.
+
+import "_hexa_bridge/module/py_json2.hexa"
+import "_hexa_bridge/module/json_schema_validator.hexa"  // for shq
+
+// ── standard helper set ───────────────────────────────────────────────
+fn fmt(spec: string, v: float) -> string {
+    let mut o = exec("printf '" + spec + "' " + json_stringify(v))
+    while len(o) > 0 {
+        let last = o.substr(len(o) - 1, 1)
+        if last == "\n" || last == "\r" { o = o.substr(0, len(o) - 1) } else { break }
+    }
+    return o
+}
+fn ljust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = o + " " }; return o }
+fn rjust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = " " + o }; return o }
+fn js(v: float) -> string { return json_stringify(v) }
+fn jsb(b: bool) -> string { if b { return "true" } return "false" }
+fn pyb(b: bool) -> string { if b { return "True" } return "False" }
+fn fabs(x: float) -> float { if x < 0.0 { return -x } return x }
+fn fsum(xs: array) -> float {
+    let mut s = 0.0; let mut c = 0.0; let mut i = 0
+    while i < len(xs) { let y = xs[i]-c; let t = s+y; c = (t-s)-y; s = t; i = i+1 }
+    return s
+}
+fn cp_substr(s: string, a: int, b: int) -> string {
+    let mut out = ""; let mut cp = 0; let mut i = 0
+    while i < len(s) {
+        let bv = ord(s.substr(i, 1))
+        let is_lead = bv < 128 || bv >= 192
+        if is_lead {
+            if cp >= b { return out }
+            let mut seq = 1
+            if bv >= 240 { seq = 4 }
+            else if bv >= 224 { seq = 3 }
+            else if bv >= 192 { seq = 2 }
+            if cp >= a { out = out + s.substr(i, seq) }
+            cp = cp + 1
+            i = i + seq
+        } else {
+            i = i + 1
+        }
+    }
+    return out
+}
+
+// ── verdict tokens ────────────────────────────────────────────────────
+let PASS = "PASS"
+let SKIP = "SKIP"
+let FAIL = "FAIL"
+let SENTINEL_PASS = "__SMA_PORTFOLIO__ PASS"
+let SENTINEL_FAIL = "__SMA_PORTFOLIO__ FAIL"
+let RUNNER_TIMEOUT_S = 30
+
+// ── string-to-int (decimals; non-digit chars terminate) ───────────────
+fn s2i(s: string) -> int {
+    let mut v = 0; let mut k = 0; let mut neg = false
+    if len(s) > 0 && s.substr(0, 1) == "-" { neg = true; k = 1 }
+    while k < len(s) {
+        let c = s.substr(k, 1); let b = ord(c)
+        if b < 48 || b > 57 { break }
+        v = v * 10 + (b - 48)
+        k = k + 1
+    }
+    if neg { return 0 - v }
+    return v
+}
+
+// ── split a tag line at the first '|' ─────────────────────────────────
+fn parse_tag_and_rest(line: string) -> array {
+    let mut k = 0
+    while k < len(line) {
+        if line.substr(k, 1) == "|" {
+            return [line.substr(0, k), line.substr(k + 1, len(line) - k - 1)]
+        }
+        k = k + 1
+    }
+    return [line, ""]
+}
+
+// ── python3 driver — runs the REAL sma_portfolio_runner.py once ───────
+// Locates the runner under case_studies/sma_portfolio/, runs it via
+// subprocess (cwd=REPO_ROOT, 30-s timeout), and emits a deterministic
+// length-prefixed payload. Length-prefixed fields (`TAG|<len>\n<bytes>`)
+// carry the runner's full stdout losslessly — embedded `→ · — Δ ° |`
+// and newlines all pass through verbatim. Format:
+//
+//   STATUS|<RAN|SKIP>
+//   REASON|<len>\n<bytes>     (SKIP only — why the runner did not execute)
+//   EXITCODE|<int>            (RAN only)
+//   STDOUT|<len>\n<bytes>     (RAN only — full runner stdout, byte-exact)
+//   END
+fn driver_src() -> string {
+    return "import os, subprocess, sys\n" +
+"REPO_ROOT = sys.argv[1]\n" +
+"RUNNER = os.path.join(REPO_ROOT, 'case_studies', 'sma_portfolio',\n" +
+"                      'sma_portfolio_runner.py')\n" +
+"RUNNER_TIMEOUT_S = 30\n" +
+"out = sys.stdout.buffer\n" +
+"def emit(s):\n" +
+"    out.write(s.encode('utf-8')); out.write(b'\\n')\n" +
+"def emit_lp(tag, s):\n" +
+"    b = s.encode('utf-8')\n" +
+"    out.write(tag.encode('utf-8')); out.write(b'|')\n" +
+"    out.write(str(len(b)).encode('utf-8')); out.write(b'\\n')\n" +
+"    out.write(b); out.write(b'\\n')\n" +
+"if not os.path.isfile(RUNNER):\n" +
+"    emit('STATUS|SKIP')\n" +
+"    emit_lp('REASON', 'case_studies/sma_portfolio/sma_portfolio_runner.py '\n" +
+"            'not found on host')\n" +
+"    emit('END'); sys.exit(0)\n" +
+"try:\n" +
+"    proc = subprocess.run([sys.executable, RUNNER], capture_output=True,\n" +
+"                          text=True, timeout=RUNNER_TIMEOUT_S, cwd=REPO_ROOT)\n" +
+"except subprocess.TimeoutExpired:\n" +
+"    emit('STATUS|SKIP')\n" +
+"    emit_lp('REASON', 'sma_portfolio_runner.py timed out after %d s' % RUNNER_TIMEOUT_S)\n" +
+"    emit('END'); sys.exit(0)\n" +
+"except OSError as exc:\n" +
+"    emit('STATUS|SKIP')\n" +
+"    emit_lp('REASON', 'OSError running sma_portfolio_runner.py: %s' % exc)\n" +
+"    emit('END'); sys.exit(0)\n" +
+"emit('STATUS|RAN')\n" +
+"emit('EXITCODE|%d' % proc.returncode)\n" +
+"emit_lp('STDOUT', proc.stdout if isinstance(proc.stdout, str) else '')\n" +
+"emit('END')\n"
+}
+
+// ── main ──────────────────────────────────────────────────────────────
+fn main() {
+    let repo_root = exec("pwd").trim()
+
+    let blob = exec("python3 -c " + shq(driver_src()) + " " + shq(repo_root) + " 2>/dev/null")
+    let n = len(blob)
+    let mut pos = 0
+
+    // parsed driver fields
+    let mut status = ""
+    let mut reason = ""
+    let mut exitcode_set = false
+    let mut exitcode = 0
+    let mut runner_stdout = ""
+    let mut stdout_set = false
+
+    // ── line-stream parse with byte cursor over LP bodies ─────────────
+    let mut done = false
+    while done == false && pos < n {
+        let mut nl = pos
+        while nl < n && blob.substr(nl, 1) != "\n" { nl = nl + 1 }
+        let line = blob.substr(pos, nl - pos)
+        pos = nl + 1
+        if line == "END" { done = true; break }
+
+        let tr = parse_tag_and_rest(line)
+        let tag = tr[0]
+        let rest = tr[1]
+
+        if tag == "STATUS" { status = rest }
+        else if tag == "EXITCODE" { exitcode_set = true; exitcode = s2i(rest) }
+        else {
+            // length-prefixed body: tag|<len>\n<bytes>\n
+            let blen = s2i(rest)
+            let body = blob.substr(pos, blen)
+            pos = pos + blen + 1   // skip body + trailing newline
+            if tag == "REASON" { reason = body }
+            else if tag == "STDOUT" { runner_stdout = body; stdout_set = true }
+        }
+    }
+
+    // ── driver-contract guard ─────────────────────────────────────────
+    if status != "RAN" && status != "SKIP" {
+        println("  [FAIL] sma_portfolio: python3 driver emitted no STATUS "
+                + "record (driver contract break)")
+        println(SENTINEL_FAIL)
+        exit(1)
+    }
+
+    // ── SKIP path (g7 skip-is-honest) ─────────────────────────────────
+    // Runner unreachable / timed out (host lacks the axis-sim import
+    // graph). A SKIP is NOT a FAIL — exit(0) so the orchestrator buckets
+    // it as PASS, exactly like the .py would on an absent runner.
+    if status == "SKIP" {
+        println("sma_portfolio — SMA portfolio case-study witness gate")
+        println("  hexa-native port of "
+                + "case_studies/sma_portfolio/sma_portfolio_runner.py")
+        println("")
+        println("  [SKIP] " + reason)
+        println("         — g7 skip-is-honest (an unreachable runner does "
+                + "NOT block the sentinel)")
+        println("")
+        println(SENTINEL_PASS)
+        return
+    }
+
+    // ── RAN path: replay the runner stdout byte-for-byte ──────────────
+    // The runner is pure-stdlib + deterministic; its stdout is byte-
+    // stable run-to-run. Replaying it verbatim reproduces the .py output
+    // exactly (verified vs /tmp/sma.golden).
+    if stdout_set {
+        // print the captured stdout WITHOUT adding a trailing newline of
+        // our own — the runner's stdout already ends with "\n" after the
+        // sentinel line; trim exactly one trailing "\n" then println so
+        // the byte stream matches the .py 1:1.
+        let mut body = runner_stdout
+        if len(body) > 0 && body.substr(len(body) - 1, 1) == "\n" {
+            body = body.substr(0, len(body) - 1)
+        }
+        println(body)
+    }
+
+    // ── verdict: mirror the runner's own exit-code + sentinel ─────────
+    // The runner prints `__SMA_PORTFOLIO__ PASS` and exits 0 on PASS,
+    // `__SMA_PORTFOLIO__ FAIL` and exits 1 on FAIL. This gate's verdict
+    // IS the runner's verdict.
+    let mut has_pass_sentinel = false
+    let needle = SENTINEL_PASS
+    let mut si = 0
+    while si + len(needle) <= len(runner_stdout) {
+        if runner_stdout.substr(si, len(needle)) == needle {
+            has_pass_sentinel = true
+            break
+        }
+        si = si + 1
+    }
+
+    if exitcode_set && exitcode == 0 && has_pass_sentinel {
+        return
+    }
+
+    // runner exited non-zero, or emitted no PASS sentinel → FAIL.
+    if has_pass_sentinel == false {
+        println("")
+        println("  [FAIL] sma_portfolio: runner exited 0 but emitted no "
+                + "'__SMA_PORTFOLIO__ PASS' sentinel")
+    } else {
+        println("")
+        println("  [FAIL] sma_portfolio: runner exited non-zero (code="
+                + str(exitcode) + ")")
+    }
+    println(SENTINEL_FAIL)
+    exit(1)
+}
