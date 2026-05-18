@@ -49,7 +49,11 @@ fn pair_ok(seq: string, a: string, b: string) -> bool {
 
 fn main() {
     println("ribozyme_a1_3_nussinov_determinism_stress — 10-input determinism + pair-set sanity")
-    println("  solver: /Users/ghost/core/hexa-bio/_python_bridge/module/ribozyme_mfe_nussinov.py")
+    // .py emits RMN.__file__ = abspath(cwd)/_python_bridge/module/...;
+    // derive at runtime (was hardcoded to a macOS path — non-portable,
+    // only false-passed when .py ran on the same host)
+    let root = exec("pwd").trim()
+    println("  solver: " + root + "/_python_bridge/module/ribozyme_mfe_nussinov.py")
     println("  pair set: [('A', 'U'), ('C', 'G'), ('G', 'C'), ('G', 'U'), ('U', 'A'), ('U', 'G')]")
     println("  min hairpin loop: 3 nt (j - i ≥ 4)")
     println("")

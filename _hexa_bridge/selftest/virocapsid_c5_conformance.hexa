@@ -11,8 +11,9 @@
 // Sentinel: __VIROCAPSID_C5_CONFORMANCE__ PASS/FAIL.
 
 import "_hexa_bridge/module/json_schema_validator.hexa"
-
-fn shq(s: string) -> string { return "'" + s.replace("'", "'\\''") + "'" }
+// shq() comes from the imported json_schema_validator module; a local
+// duplicate is byte-identical but breaks the compiler (codegen_c2 emits
+// both into one C TU → redefinition). Use the imported one.
 
 fn read_text(p: string) -> string {
     return exec("cat " + shq(p) + " 2>/dev/null")

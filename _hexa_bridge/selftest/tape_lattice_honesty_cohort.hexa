@@ -8,8 +8,9 @@
 // code are byte-parity vs the .sh.
 
 import "_hexa_bridge/module/tape_lattice_honesty_lint.hexa"
-
-fn shq(s: string) -> string { return "'" + s.replace("'", "'\\''") + "'" }
+// shq() is provided by the imported tape_lattice_honesty_lint module;
+// a local copy here is byte-identical but the compiler (codegen_c2)
+// emits both into one C TU → redefinition. Use the imported one.
 
 fn _basename(p: string) -> string {
     let mut i = len(p) - 1
