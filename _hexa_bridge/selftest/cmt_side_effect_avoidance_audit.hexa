@@ -34,6 +34,30 @@ let N_AXES = 7
 let N_CAND = 10
 let EXPECTED_TOTAL_CELLS = 70   // 10×7
 
+// hoisted to top level — codegen_c2 does not handle nested FnDecl
+// (interpreter did); bodies are byte-identical to the prior in-main defs
+fn _repr_list(xs: array) -> string {
+    let mut o = "["
+    let mut i = 0
+    while i < len(xs) {
+        if i > 0 { o = o + ", " }
+        o = o + "'" + xs[i] + "'"
+        i = i + 1
+    }
+    return o + "]"
+}
+
+fn _repr_dict(keys: array, vals: array) -> string {
+    let mut o = "{"
+    let mut i = 0
+    while i < len(keys) {
+        if i > 0 { o = o + ", " }
+        o = o + "'" + keys[i] + "': " + str(vals[i])
+        i = i + 1
+    }
+    return o + "}"
+}
+
 fn main() {
     println("cmt_side_effect_avoidance_audit — 7-axis side-effect-avoidance constraint audit")
     println("  candidates: " + str(N_CAND) + " hxq-cmt-*")
@@ -87,17 +111,6 @@ fn main() {
         while x < len(axes_seen) { if axes_seen[x] != expected_axes[x] { sat_ok = false }; x = x + 1 }
     }
 
-    fn _repr_list(xs: array) -> string {
-        let mut o = "["
-        let mut i = 0
-        while i < len(xs) {
-            if i > 0 { o = o + ", " }
-            o = o + "'" + xs[i] + "'"
-            i = i + 1
-        }
-        return o + "]"
-    }
-
     println("")
     let sat_tail = if sat_ok { "✅ YES" } else { "❌ NO" }
     println("  5-axis saturation: " + _repr_list(axes_seen) + " == " + _repr_list(expected_axes) + " → " + sat_tail)
@@ -117,17 +130,6 @@ fn main() {
     }
     let exp_keys = ["Q", "RB", "W", "V", "NB"]
     let exp_vals = [5, 2, 1, 1, 1]
-
-    fn _repr_dict(keys: array, vals: array) -> string {
-        let mut o = "{"
-        let mut i = 0
-        while i < len(keys) {
-            if i > 0 { o = o + ", " }
-            o = o + "'" + keys[i] + "': " + str(vals[i])
-            i = i + 1
-        }
-        return o + "}"
-    }
 
     let mut bal_ok = len(bal_keys) == len(exp_keys)
     if bal_ok {
