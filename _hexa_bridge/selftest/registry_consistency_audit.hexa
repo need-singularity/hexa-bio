@@ -19,6 +19,24 @@ let SPEC_RELDIRS = ["weave/spec", "nanobot/spec", "ribozyme/spec", "virocapsid/s
 
 fn rjust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = " " + o }; return o }
 
+// Defensive registry-row parse. Upstream gap #4: the compiler's
+// json_parse is loop-lossy at scale — over a ~7191-iteration loop it
+// will, on rare occasion, drop object keys (manifesting as a parsed
+// map missing "schema", which is impossible for this data — every
+// registry line contains a non-empty "schema"). The documented
+// mitigation is that an immediate re-parse of the same text recovers.
+// This re-parses (bounded retries) so the audit stays byte-parity
+// with the CPython reference. Same input text → faithful, not lossy.
+fn parse_row(line: string) -> any {
+    let mut r = json_parse(line)
+    let mut tries = 0
+    while tries < 6 && !(type_of(r) == "map" && r.has("schema")) {
+        r = json_parse(line)
+        tries = tries + 1
+    }
+    return r
+}
+
 fn ends_schema_json(fn_: string) -> bool {
     let suf = ".schema.json"
     if len(fn_) < len(suf) { return false }
@@ -126,7 +144,7 @@ fn main() {
         li = li + 1
         if len(line) == 0 { continue }
         n_total = n_total + 1
-        let row = json_parse(line)
+        let row = parse_row(line)
         if type_of(row) != "map" {
             n_fail = n_fail + 1
             continue
