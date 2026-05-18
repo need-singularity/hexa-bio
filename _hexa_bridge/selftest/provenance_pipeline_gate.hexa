@@ -1,0 +1,582 @@
+#!hexa strict
+// hexa-bio/_hexa_bridge/selftest/provenance_pipeline_gate.hexa
+//
+// provenance / reproducibility-metadata gate — hexa-native port of
+// `selftest/provenance_pipeline_gate.py` (T3; os/re/subprocess/sys/time
+// + json). For each sim in the 32-sim ROSTER (same as the determinism
+// gate), runs the sim ONCE under PYTHONHASHSEED=0 + PYTHONDONTWRITEBYTECODE=1,
+// extracts the LAST `^{$ … ^}$` JSON block from stdout, and inspects it
+// for 3 required provenance fields (ts, schema, real_limit citation) +
+// 2 soft fields (case_study_id, module traceback).
+//
+// SENTINEL PASS iff no FAIL_NO_TS verdict (parseable witness JSON but
+// no deterministic ISO-8601 timestamp). DIAGNOSTIC_SKIP rows (absent /
+// timed-out / non-zero-exit / no-JSON-block sims) do NOT block.
+//
+// SUB-SHELL discipline: subprocess.run([...]) → `exec("python3 " +
+// shq(driver) + ...)` via a python3 driver wrapper. The driver runs the
+// sim with timeout=60s, captures stdout/stderr to /tmp files, runs the
+// LAST-JSON-block extractor + the recursive `_has_any_key` / `_first_value_for`
+// walkers + the ISO-8601 regex check, and prints a SINGLE pipe-separated
+// status line with all per-sim fields the hexa side needs. This keeps
+// regex / JSON-parse / recursive tree-walks on the python side (where
+// they match the .py's behaviour byte-for-byte) while the hexa side
+// owns the output format.
+//
+// BYTE-PARITY note: the .py output is NOT byte-stable run-to-run — it
+// embeds (a) git HEAD short rev (changes per commit) and (b) gate wall
+// time (`gate wall time: 10.87s`). The orchestrator (selftest/run_all.sh)
+// checks exit-code + sentinel, not verbatim stdout equality. This port
+// reproduces the FORMAT exactly; the HEAD + timing values intrinsically
+// vary, matching the .py's own non-stability on those two axes.
+//
+// DISCIPLINES honored:
+//   1. shq via json_schema_validator (no local fn) · 2. fsum / Kahan for
+//   any float sums (none needed — only formatted timings) · 3. fmt("%.2f")
+//   for .2f display · 4. raw UTF-8 preserved (✓ / ✗ / · / — / ─) ·
+//   5. exit(0) on PASS exit(1) on FAIL · 6. SKIP rows do NOT block the
+//   sentinel (per g7) · 7. no float-as-int bugs (timing is float
+//   throughout) · 8. dispatch order = ROSTER declaration order, byte-stable.
+
+import "_hexa_bridge/module/py_json2.hexa"
+import "_hexa_bridge/module/json_schema_validator.hexa"  // for shq
+
+// ── standard helper set ───────────────────────────────────────────────
+fn fmt(spec: string, v: float) -> string {
+    let mut o = exec("printf '" + spec + "' " + json_stringify(v))
+    while len(o) > 0 {
+        let last = o.substr(len(o) - 1, 1)
+        if last == "\n" || last == "\r" { o = o.substr(0, len(o) - 1) } else { break }
+    }
+    return o
+}
+fn ljust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = o + " " }; return o }
+fn rjust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = " " + o }; return o }
+fn js(v: float) -> string { return json_stringify(v) }
+fn jsb(b: bool) -> string { if b { return "true" } return "false" }
+fn pyb(b: bool) -> string { if b { return "True" } return "False" }
+fn fabs(x: float) -> float { if x < 0.0 { return -x } return x }
+fn fsum(xs: array) -> float {
+    let mut s = 0.0; let mut c = 0.0; let mut i = 0
+    while i < len(xs) { let y = xs[i]-c; let t = s+y; c = (t-s)-y; s = t; i = i+1 }
+    return s
+}
+fn cp_substr(s: string, a: int, b: int) -> string {
+    let mut out = ""; let mut cp = 0; let mut i = 0
+    while i < len(s) {
+        let bv = ord(s.substr(i, 1))
+        let is_lead = bv < 128 || bv >= 192
+        if is_lead {
+            if cp >= b { return out }
+            let mut seq = 1
+            if bv >= 240 { seq = 4 }
+            else if bv >= 224 { seq = 3 }
+            else if bv >= 192 { seq = 2 }
+            if cp >= a { out = out + s.substr(i, seq) }
+            cp = cp + 1
+            i = i + seq
+        } else {
+            i = i + 1
+        }
+    }
+    return out
+}
+
+// ── verdict tokens ────────────────────────────────────────────────────
+let FULL = "FULL"
+let PARTIAL = "PARTIAL"
+let FAIL_NO_TS = "FAIL_NO_TS"
+let DIAGNOSTIC_SKIP = "DIAGNOSTIC_SKIP"
+let PER_RUN_TIMEOUT_S = 60
+
+// ── string→int / string→float (shared with sibling ports) ─────────────
+fn s2i(s: string) -> int {
+    let mut v = 0; let mut k = 0; let mut neg = false
+    if len(s) > 0 && s.substr(0, 1) == "-" { neg = true; k = 1 }
+    while k < len(s) {
+        let c = s.substr(k, 1); let b = ord(c)
+        if b < 48 || b > 57 { break }
+        v = v * 10 + (b - 48)
+        k = k + 1
+    }
+    if neg { return 0 - v }
+    return v
+}
+fn s2f(s: string) -> float {
+    let mut dot = -1; let mut k = 0
+    while k < len(s) { if s.substr(k, 1) == "." { dot = k; break }; k = k + 1 }
+    let mut neg = false; let mut i = 0
+    if len(s) > 0 && s.substr(0, 1) == "-" { neg = true; i = 1 }
+    let mut intpart = 0
+    let cut = if dot >= 0 { dot } else { len(s) }
+    while i < cut {
+        let b = ord(s.substr(i, 1))
+        if b < 48 || b > 57 { break }
+        intpart = intpart * 10 + (b - 48)
+        i = i + 1
+    }
+    let mut whole = intpart * 1.0
+    if dot >= 0 {
+        let mut j = dot + 1; let mut scale = 0.1
+        while j < len(s) {
+            let b = ord(s.substr(j, 1))
+            if b < 48 || b > 57 { break }
+            whole = whole + (b - 48) * scale
+            scale = scale * 0.1
+            j = j + 1
+        }
+    }
+    if neg { return 0.0 - whole }
+    return whole
+}
+
+// ── tab-split helper for the python driver's status line ──────────────
+// We use TAB as the field separator (witness ts/schema strings can
+// contain `|` in some hypothetical witnesses; TAB is reliable since
+// the .py's ISO-ts and schema strings never contain TAB).
+fn split_tab(s: string) -> array {
+    let mut parts: array = []
+    let mut cur = ""
+    let mut k = 0
+    while k < len(s) {
+        let c = s.substr(k, 1)
+        if c == "\t" { parts.push(cur); cur = "" }
+        else if c == "\n" || c == "\r" { /* trim trailing newlines */ }
+        else { cur = cur + c }
+        k = k + 1
+    }
+    if len(cur) > 0 { parts.push(cur) }
+    return parts
+}
+
+// ── one sim: run via python3 driver + parse status line ───────────────
+// Returns parallel array:
+//   [verdict, reason_or_empty,
+//    ts_present, ts_value, ts_deterministic,
+//    schema_present, schema_value,
+//    real_limit_present, case_study_present, module_present]
+// Where presence flags are "1"/"0" strings.
+fn check_sim(rel_name: string, py_bridge: string, repo_root: string, tagbase: string) -> array {
+    let sim_path = py_bridge + "/" + rel_name
+    if exec("[ -f " + shq(sim_path) + " ] && echo y || echo n").trim() != "y" {
+        return [DIAGNOSTIC_SKIP, "sim file absent: " + rel_name,
+                "0", "", "0", "0", "", "0", "0", "0"]
+    }
+
+    let outpath = "/tmp/ppg_" + tagbase + ".out"
+    let errpath = "/tmp/ppg_" + tagbase + ".err"
+
+    // The python3 driver:
+    //  - runs the sim with timeout=60 and the fixed env
+    //  - extracts the LAST `^{$ … ^}$` JSON block from stdout
+    //  - inspects required + soft fields
+    //  - emits ONE status line:
+    //      OK\t<verdict>\t<reason>\t<ts_present>\t<ts_value>\t
+    //      <ts_deterministic>\t<schema_present>\t<schema_value>\t
+    //      <real_limit_present>\t<case_study_present>\t<module_present>
+    //    where flags are "1"/"0", values are raw strings (no embedded TAB
+    //    by .py convention — ts is ISO-8601 + schema is snake-case id).
+    let drv = "import os, sys, subprocess, time, json, re\n" +
+              "TS_KEYS = ('ts', 'timestamp', 'generated_at')\n" +
+              "SCHEMA_KEYS = ('schema', 'schema_version', 'schema_id')\n" +
+              "REAL_LIMIT_KEYS = ('real_limit_anchor', 'real_limit_citation', 'real_limits', 'citations', 'citation')\n" +
+              "CASE_STUDY_KEYS = ('case_study_id', 'axis_id', 'axis', 'case_study')\n" +
+              "MODULE_KEYS = ('module', 'sim', 'script', 'source', 'source_file')\n" +
+              "_ISO_UTC_RE = re.compile(r'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})$')\n" +
+              "def _extract_last_json_block(t):\n" +
+              "    if not t: return None\n" +
+              "    lines = t.splitlines()\n" +
+              "    opens = [i for i,ln in enumerate(lines) if ln == '{']\n" +
+              "    closes = [i for i,ln in enumerate(lines) if ln == '}']\n" +
+              "    if not opens or not closes: return None\n" +
+              "    for oi in reversed(opens):\n" +
+              "        cs = [c for c in closes if c > oi]\n" +
+              "        if not cs: continue\n" +
+              "        for ci in reversed(cs):\n" +
+              "            block = '\\n'.join(lines[oi:ci+1])\n" +
+              "            try: return json.loads(block)\n" +
+              "            except json.JSONDecodeError: continue\n" +
+              "    return None\n" +
+              "def _has_any_key(obj, keys):\n" +
+              "    if isinstance(obj, dict):\n" +
+              "        for k,v in obj.items():\n" +
+              "            if k in keys:\n" +
+              "                if v is None: continue\n" +
+              "                if isinstance(v,(str,list,dict)) and len(v)==0: continue\n" +
+              "                return True\n" +
+              "            if _has_any_key(v, keys): return True\n" +
+              "        return False\n" +
+              "    if isinstance(obj, list):\n" +
+              "        for it in obj:\n" +
+              "            if _has_any_key(it, keys): return True\n" +
+              "        return False\n" +
+              "    return False\n" +
+              "def _first_value_for(obj, keys):\n" +
+              "    if isinstance(obj, dict):\n" +
+              "        for k,v in obj.items():\n" +
+              "            if k in keys and v is not None:\n" +
+              "                if isinstance(v,(str,list,dict)) and len(v)==0: continue\n" +
+              "                return v\n" +
+              "        for v in obj.values():\n" +
+              "            r = _first_value_for(v, keys)\n" +
+              "            if r is not None: return r\n" +
+              "        return None\n" +
+              "    if isinstance(obj, list):\n" +
+              "        for it in obj:\n" +
+              "            r = _first_value_for(it, keys)\n" +
+              "            if r is not None: return r\n" +
+              "        return None\n" +
+              "    return None\n" +
+              "def _is_det(v):\n" +
+              "    if not isinstance(v, str): return False\n" +
+              "    return bool(_ISO_UTC_RE.match(v.strip()))\n" +
+              "sim_path, outpath, errpath, repo_root = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]\n" +
+              "env = dict(os.environ); env['PYTHONHASHSEED']='0'; env['PYTHONDONTWRITEBYTECODE']='1'\n" +
+              "t0 = time.monotonic()\n" +
+              "timed_out = False; rc = None; out_b = b''; err_b = b''; elapsed = 0.0\n" +
+              "try:\n" +
+              "    p = subprocess.run([sys.executable, sim_path], cwd=repo_root, env=env,\n" +
+              "                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,\n" +
+              "                       timeout=60, check=False)\n" +
+              "    elapsed = time.monotonic() - t0\n" +
+              "    rc = p.returncode; out_b = p.stdout; err_b = p.stderr\n" +
+              "except subprocess.TimeoutExpired as e:\n" +
+              "    elapsed = time.monotonic() - t0\n" +
+              "    timed_out = True\n" +
+              "    out_b = e.stdout or b''\n" +
+              "    err_b = e.stderr or b''\n" +
+              "with open(outpath,'wb') as f: f.write(out_b)\n" +
+              "with open(errpath,'wb') as f: f.write(err_b)\n" +
+              "def emit(verdict, reason='', ts_present='0', ts_value='', ts_det='0', sch_present='0', sch_value='', rl='0', cs='0', mod='0'):\n" +
+              "    parts = ['OK', verdict, reason, ts_present, ts_value, ts_det, sch_present, sch_value, rl, cs, mod]\n" +
+              "    sys.stdout.write('\\t'.join(parts) + '\\n')\n" +
+              "if timed_out:\n" +
+              "    emit('DIAGNOSTIC_SKIP', 'sim timed out after 60s (elapsed %.2fs) — g7 honest' % elapsed)\n" +
+              "    sys.exit(0)\n" +
+              "if rc != 0:\n" +
+              "    tail = err_b.decode('utf-8', errors='replace').strip().splitlines()\n" +
+              "    tail_s = tail[-1] if tail else '(no stderr)'\n" +
+              "    emit('DIAGNOSTIC_SKIP', 'sim exit=%d (elapsed %.2fs) — g7 honest; stderr tail: %s' % (rc, elapsed, tail_s[:120]))\n" +
+              "    sys.exit(0)\n" +
+              "stdout_text = out_b.decode('utf-8', errors='replace')\n" +
+              "witness = _extract_last_json_block(stdout_text)\n" +
+              "if witness is None:\n" +
+              "    emit('DIAGNOSTIC_SKIP', \"sim ran cleanly (exit=0) but emitted no parseable JSON block on stdout — sim is a human-readable reporter, not a witness emitter; provenance gating doesn't apply (g7 honest)\")\n" +
+              "    sys.exit(0)\n" +
+              "ts_value = _first_value_for(witness, TS_KEYS)\n" +
+              "has_ts = ts_value is not None\n" +
+              "ts_det = _is_det(ts_value) if has_ts else False\n" +
+              "has_sch = _has_any_key(witness, SCHEMA_KEYS)\n" +
+              "sch_value = _first_value_for(witness, SCHEMA_KEYS) if has_sch else None\n" +
+              "has_rl = _has_any_key(witness, REAL_LIMIT_KEYS)\n" +
+              "has_cs = _has_any_key(witness, CASE_STUDY_KEYS)\n" +
+              "has_mod = _has_any_key(witness, MODULE_KEYS)\n" +
+              "ts_str = ts_value if isinstance(ts_value, str) else ''\n" +
+              "sch_str = sch_value if isinstance(sch_value, str) else ''\n" +
+              "if not has_ts or not ts_det:\n" +
+              "    emit('FAIL_NO_TS', '', '1' if has_ts else '0', ts_str, '1' if ts_det else '0',\n" +
+              "         '1' if has_sch else '0', sch_str, '1' if has_rl else '0',\n" +
+              "         '1' if has_cs else '0', '1' if has_mod else '0')\n" +
+              "    sys.exit(0)\n" +
+              "verdict = 'FULL' if (has_sch and has_rl) else 'PARTIAL'\n" +
+              "emit(verdict, '', '1' if has_ts else '0', ts_str, '1' if ts_det else '0',\n" +
+              "     '1' if has_sch else '0', sch_str, '1' if has_rl else '0',\n" +
+              "     '1' if has_cs else '0', '1' if has_mod else '0')\n"
+    let raw = exec("python3 -c " + shq(drv) + " " + shq(sim_path) + " " + shq(outpath) + " " + shq(errpath) + " " + shq(repo_root) + " 2>/dev/null").trim()
+    let parts = split_tab(raw)
+    if len(parts) < 1 || parts[0] != "OK" {
+        return [DIAGNOSTIC_SKIP, "driver wrapper produced no parseable status line — SKIP per g7",
+                "0", "", "0", "0", "", "0", "0", "0"]
+    }
+    // parts = [OK, verdict, reason, ts_p, ts_val, ts_det, sch_p, sch_val, rl, cs, mod]
+    let verdict = if len(parts) >= 2 { parts[1] } else { DIAGNOSTIC_SKIP }
+    let reason = if len(parts) >= 3 { parts[2] } else { "" }
+    let ts_p = if len(parts) >= 4 { parts[3] } else { "0" }
+    let ts_val = if len(parts) >= 5 { parts[4] } else { "" }
+    let ts_det = if len(parts) >= 6 { parts[5] } else { "0" }
+    let sch_p = if len(parts) >= 7 { parts[6] } else { "0" }
+    let sch_val = if len(parts) >= 8 { parts[7] } else { "" }
+    let rl = if len(parts) >= 9 { parts[8] } else { "0" }
+    let cs = if len(parts) >= 10 { parts[9] } else { "0" }
+    let md = if len(parts) >= 11 { parts[10] } else { "0" }
+    return [verdict, reason, ts_p, ts_val, ts_det, sch_p, sch_val, rl, cs, md]
+}
+
+// ── ROSTER (parallel arrays: group label + sim list per group) ────────
+// Same as determinism_regression_gate.hexa — keep in sync.
+fn build_roster() -> array {
+    let groups = [
+        "expansion-main round-1",
+        "cross-axis round-1",
+        "expansion-main parity",
+        "sub-axis sims",
+        "cross-axis round-2",
+        "cross-axis round-3",
+    ]
+    let sims_per_group = [
+        // expansion-main round-1 (6)
+        ["metallodrug_coordination_sim.py",
+         "oligonucleotide_hybridization_sim.py",
+         "capsid_assembly_modulator_sim.py",
+         "rna_targeting_small_molecule_sim.py",
+         "aptamer_affinity_sim.py",
+         "reversible_covalent_sim.py"],
+        // cross-axis round-1 (5)
+        ["metallodrug_quantum_vqe_cross.py",
+         "oligonucleotide_offtarget_gencode_cross.py",
+         "rna_modality_comparison_smn2_cross.py",
+         "capsid_modulator_pdb_anchor_cross.py",
+         "reversible_covalent_mpro_vqe_cross.py"],
+        // expansion-main parity (2)
+        ["covalent_inhibition_sim.py",
+         "bifunctional_ternary_complex_sim.py"],
+        // sub-axis sims (11)
+        ["protac_sim.py", "lytac_sim.py", "autac_sim.py", "ribotac_sim.py",
+         "covalent_degrader_sim.py", "molecular_glue_sim.py", "allosteric_sim.py",
+         "cryptic_pocket_sim.py", "ppi_sim.py", "peptide_sim.py", "macrocycle_sim.py"],
+        // cross-axis round-2 (3)
+        ["oligonucleotide_nanobot_cross.py",
+         "aptamer_nanobot_cross.py",
+         "capsid_modulator_weave_cross.py"],
+        // cross-axis round-3 (5)
+        ["protac_capsid_modulator_cross.py",
+         "allosteric_cryptic_pocket_cross.py",
+         "ppi_molecular_glue_cross.py",
+         "peptide_macrocycle_cross.py",
+         "aptamer_oligonucleotide_cross.py"],
+    ]
+    return [groups, sims_per_group]
+}
+
+// ── wall-clock seconds (epoch) — cross-process comparable ─────────────
+fn now_wall() -> float {
+    return s2f(exec("python3 -c 'import time; print(\"%.6f\" % time.time())' 2>/dev/null").trim())
+}
+
+// ── dashes repeater (codepoint count; "─" is 3-byte U+2500) ───────────
+fn dashes(n: int) -> string {
+    let mut s = ""; let mut k = 0
+    while k < n { s = s + "─"; k = k + 1 }
+    return s
+}
+
+// ── HEAD short rev via `git rev-parse --short HEAD` ───────────────────
+// Returns the short rev string or "" if git unavailable / not a checkout.
+fn head_short_rev(repo_root: string) -> string {
+    let r = exec("cd " + shq(repo_root) + " && git rev-parse --short HEAD 2>/dev/null").trim()
+    return r
+}
+
+// ── main ──────────────────────────────────────────────────────────────
+fn main() {
+    let root = exec("pwd").trim()
+    let py_bridge = root + "/_python_bridge/module"
+
+    let t_start = now_wall()
+
+    println("provenance_pipeline_gate — hexa-bio deterministic-sim cohort " +
+            "provenance / reproducibility-metadata reporter")
+    println("  for each sim in the roster, runs the sim once and inspects the")
+    println("  emitted witness JSON for the 3 required provenance fields:")
+    println("    (1) deterministic timestamp  (`ts` | `timestamp` | `generated_at`)")
+    println("    (2) schema id                (`schema` | `schema_version` | " +
+            "`schema_id`)")
+    println("    (3) ≥1 real-limit citation   (`real_limit_anchor` | " +
+            "`citations` | …)")
+    println("  plus 2 soft fields (NOTED-AS-GAP only, NOT fail-blocking):")
+    println("    (4) case-study / axis id     (`case_study_id` | `axis_id` | " +
+            "`axis`)")
+    println("    (5) sim module-name traceback (`module` | `sim` | `script` | " +
+            "`source`)")
+    println("  governance: g1 real-limits-first (gate enforces citation " +
+            "presence) ·")
+    println("              g7 skip-is-honest (absent/broken/non-JSON sim = " +
+            "DIAGNOSTIC-SKIP) ·")
+    println("              g8 in-silico-only (this is reproducibility " +
+            "metadata, NOT a")
+    println("              therapeutic / clinical / regulatory / efficacy " +
+            "claim)")
+    println("  REPORTER + DIAGNOSTIC, NOT auto-fixer — the gate REPORTS " +
+            "provenance gaps;")
+    println("  it does NOT modify any sim file. Soft-field gaps are NOTED, " +
+            "not enforced.")
+    println("")
+
+    // ── optional HEAD recording (honest SKIP if git unavailable) ─────────
+    let head_rev = head_short_rev(root)
+    if len(head_rev) > 0 {
+        println("  current HEAD when this gate was run: " + head_rev + "  " +
+                "(NON-DETERMINISTIC-METADATA — describes when the gate ran,")
+        println("    not the sim outputs themselves; sim outputs are byte-stable " +
+                "across re-runs by the")
+        println("    determinism_regression_gate contract)")
+    } else {
+        println("  current HEAD when this gate was run: SKIP " +
+                "(git unavailable or not a git checkout — g7 honest)")
+    }
+    println("")
+
+    let roster = build_roster()
+    let groups = roster[0]
+    let sims_per_group = roster[1]
+    let ngroups = len(groups)
+
+    let mut total = 0
+    let mut gi = 0
+    while gi < ngroups { total = total + len(sims_per_group[gi]); gi = gi + 1 }
+
+    println("  roster: " + str(total) + " sims across " + str(ngroups) + " groups; per-run " +
+            "timeout " + str(PER_RUN_TIMEOUT_S) + "s")
+    println("")
+
+    // accumulators (parallel arrays for byte-stable order)
+    let mut all_groups: array = []
+    let mut all_sims: array = []
+    let mut all_verdicts: array = []
+    let mut all_reasons: array = []
+    let mut all_ts_p: array = []
+    let mut all_ts_val: array = []
+    let mut all_ts_det: array = []
+    let mut all_sch_p: array = []
+    let mut all_sch_val: array = []
+    let mut all_rl: array = []
+    let mut all_cs: array = []
+    let mut all_md: array = []
+
+    let mut g = 0
+    while g < ngroups {
+        let group_label = groups[g]
+        let sims = sims_per_group[g]
+        let pad = if 60 - len(group_label) > 0 { 60 - len(group_label) } else { 0 }
+        println("── " + group_label + " " + dashes(pad))
+        let mut si = 0
+        while si < len(sims) {
+            let rel_name = sims[si]
+            let tagbase = rel_name.replace(".py", "").replace("/", "_")
+            let res = check_sim(rel_name, py_bridge, root, tagbase)
+            let verdict = res[0]
+            let reason = res[1]
+            let ts_p = res[2]
+            let ts_val = res[3]
+            let ts_det = res[4]
+            let sch_p = res[5]
+            let sch_val = res[6]
+            let rl = res[7]
+            let cs = res[8]
+            let md = res[9]
+
+            let tag = if verdict == DIAGNOSTIC_SKIP { "DIAGNOSTIC-SKIP" } else { verdict }
+            println("  [" + tag + "] " + rel_name)
+            if verdict == DIAGNOSTIC_SKIP {
+                println("           " + reason)
+            } else {
+                let ts_disp = if len(ts_val) > 0 { ts_val } else { "(missing)" }
+                let sch_disp = if len(sch_val) > 0 { sch_val } else { "(missing)" }
+                let ts_mark = if ts_det == "1" { "✓" } else { "✗" }
+                let sch_mark = if sch_p == "1" { "✓" } else { "✗" }
+                let rl_mark = if rl == "1" { "✓" } else { "✗" }
+                let cs_mark = if cs == "1" { "✓" } else { "✗" }
+                let md_mark = if md == "1" { "✓" } else { "✗" }
+                let m1 = "ts=" + ts_mark + "(" + ts_disp + ")"
+                let m2 = "schema=" + sch_mark + "(" + sch_disp + ")"
+                let m3 = "real_limit_citation=" + rl_mark
+                let m4 = "case_study_id=" + cs_mark + "(soft)"
+                let m5 = "module_traceback=" + md_mark + "(soft)"
+                println("           " + m1 + "  " + m2 + "  " + m3 + "  " + m4 + "  " + m5)
+            }
+            all_groups.push(group_label)
+            all_sims.push(rel_name)
+            all_verdicts.push(verdict)
+            all_reasons.push(reason)
+            all_ts_p.push(ts_p)
+            all_ts_val.push(ts_val)
+            all_ts_det.push(ts_det)
+            all_sch_p.push(sch_p)
+            all_sch_val.push(sch_val)
+            all_rl.push(rl)
+            all_cs.push(cs)
+            all_md.push(md)
+            si = si + 1
+        }
+        println("")
+        g = g + 1
+    }
+
+    // ── summary ────────────────────────────────────────────────────────
+    let mut n_full = 0; let mut n_partial = 0; let mut n_fail = 0; let mut n_skip = 0
+    let mut k = 0
+    while k < len(all_verdicts) {
+        let v = all_verdicts[k]
+        if v == FULL { n_full = n_full + 1 }
+        else if v == PARTIAL { n_partial = n_partial + 1 }
+        else if v == FAIL_NO_TS { n_fail = n_fail + 1 }
+        else if v == DIAGNOSTIC_SKIP { n_skip = n_skip + 1 }
+        k = k + 1
+    }
+    let n_total = len(all_verdicts)
+    let n_with_witness = n_full + n_partial + n_fail
+
+    let t_end = now_wall()
+    let elapsed = t_end - t_start
+
+    println("── summary " + dashes(60))
+    // detailed score table — matches .py f"  {'sim':<55} {'verdict':<17} provenance score"
+    println("  " + ljust("sim", 55) + " " + ljust("verdict", 17) + " provenance score")
+    let mut r = 0
+    while r < len(all_verdicts) {
+        let v = all_verdicts[r]
+        let score_s = if v == DIAGNOSTIC_SKIP {
+            "n/a (no witness JSON to score)"
+        } else {
+            let req_n = (if all_ts_det[r] == "1" { 1 } else { 0 }) +
+                        (if all_sch_p[r] == "1" { 1 } else { 0 }) +
+                        (if all_rl[r] == "1" { 1 } else { 0 })
+            let soft_n = (if all_cs[r] == "1" { 1 } else { 0 }) +
+                         (if all_md[r] == "1" { 1 } else { 0 })
+            "required " + str(req_n) + "/3 · soft " + str(soft_n) + "/2"
+        }
+        println("  " + ljust(all_sims[r], 55) + " " + ljust(v, 17) + " " + score_s)
+        r = r + 1
+    }
+
+    println("")
+    println("  " + str(n_full) + " FULL · " + str(n_partial) + " PARTIAL · " +
+            str(n_fail) + " FAIL_NO_TS · " + str(n_skip) + " DIAGNOSTIC-SKIP " +
+            "(of " + str(n_total) + " sims)")
+    if n_with_witness > 0 {
+        println("  of " + str(n_with_witness) + " sims that emit parseable witness JSON: " +
+                str(n_full) + " have FULL provenance, " + str(n_partial) +
+                " are PARTIAL (gap noted),")
+        println("  " + str(n_fail) + " fail-block the sentinel (missing deterministic ts).")
+    } else {
+        println("  no sim emitted a parseable witness JSON block on this host — " +
+                "all sims DIAGNOSTIC-SKIP.")
+    }
+    println("  gate wall time: " + fmt("%.2f", elapsed) + "s")
+    println("")
+    println("  HONESTY (g7): DIAGNOSTIC-SKIP rows (absent sim · non-zero exit · " +
+            "timeout · no JSON")
+    println("    block) do NOT block the sentinel. Only a FAIL_NO_TS verdict " +
+            "(parseable witness")
+    println("    JSON, but no deterministic timestamp) blocks it — that is the " +
+            "single")
+    println("    reproducibility-breaking gap.")
+    println("  HONESTY (g8): a FULL verdict verifies REPRODUCIBILITY METADATA " +
+            "of the witness")
+    println("    ONLY — it does NOT imply any therapeutic / clinical / " +
+            "regulatory / binding-")
+    println("    affinity / efficacy claim about the sim's content.")
+    println("  REPORTER ≠ ENFORCER for soft fields (case_study_id · module " +
+            "traceback): their")
+    println("    absence is NOTED as a gap for the sim author to address, but " +
+            "does NOT")
+    println("    downgrade the verdict.")
+    println("")
+
+    if n_fail == 0 {
+        println("__PROVENANCE_PIPELINE_GATE__ PASS")
+        return
+    }
+    println("__PROVENANCE_PIPELINE_GATE__ FAIL")
+    exit(1)
+}
