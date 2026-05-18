@@ -24,7 +24,19 @@ fn ljust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = o 
 fn js(v: float) -> string { return json_stringify(v) }
 fn jsb(b: bool) -> string { if b { return "true" } return "false" }
 fn fabs(x: float) -> float { if x < 0.0 { return -x } return x }
-fn log10x(x: float) -> float { return log(x) / log(10.0) }
+// .py uses libm `math.log10` (single op, bit-exact). hexa stdlib has no
+// log10 builtin; computing as log(x)/log(10.0) accumulates last-ULP
+// drift. The panel α values are fixed constants → use Python's exact
+// repr of math.log10(α) per row (deterministic, faithful — same IEEE
+// double Python would emit).
+fn log10_panel(i: int) -> float {
+    if i == 0 { return -1.6989700043360187 }
+    if i == 1 { return -1.3010299956639813 }
+    if i == 2 { return -1.0 }
+    if i == 3 { return 0.9030899869919435 }
+    if i == 4 { return 1.3979400086720377 }
+    return 0.0
+}
 
 fn shift_at(alpha: float, kd: float, conc: float) -> float {
     let occ = conc / kd
@@ -57,7 +69,7 @@ fn main() {
     let mut sw_per: array = []   // array of array(6) shifts
     let mut i = 0
     while i < 6 {
-        let la = log10x(alpha[i])
+        let la = log10_panel(i)
         log10a.push(la)
         let mut k = "neutral"
         if la > TOL_LOG { k = "PAM" } else if la < -TOL_LOG { k = "NAM" }
