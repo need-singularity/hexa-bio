@@ -13,8 +13,16 @@
 let R_CAL = 1.98720425864083
 let T37_K = 310.15
 
+// NOTE: do NOT .trim() — width specs (%9.2f) emit leading spaces that
+// are significant; printf adds no trailing newline, so strip only a
+// trailing \n/\r if exec appended one (preserve leading padding).
 fn fmt(spec: string, v: float) -> string {
-    return exec("printf '" + spec + "' " + json_stringify(v)).trim()
+    let mut o = exec("printf '" + spec + "' " + json_stringify(v))
+    while len(o) > 0 {
+        let last = o.substr(len(o) - 1, 1)
+        if last == "\n" || last == "\r" { o = o.substr(0, len(o) - 1) } else { break }
+    }
+    return o
 }
 fn ljust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = o + " " }; return o }
 
