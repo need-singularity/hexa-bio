@@ -1,0 +1,765 @@
+#!hexa strict
+// hexa-bio/_hexa_bridge/selftest/portfolio_fitness_function.hexa
+//
+// portfolio FITNESS REPORTER — hexa-native port of
+// `selftest/portfolio_fitness_function.py` (T3; json/os/subprocess/sys).
+// REPORTER + DIAGNOSTIC, NEVER a ranker. Three INDEPENDENT axes:
+//   (1) drug_existence_score      = len(in_scope_drugs)
+//   (2) axis_coverage_score       = # distinct axes mapped by those drugs
+//                                   (HIV-1 schema → axis_mapping.axis,
+//                                    SMA schema   → axis flat field)
+//   (3) honesty_completeness_score = len(research_stage_negatives) +
+//                                    len(not_in_scope_drugs)
+//
+// SUB-SHELL discipline (cf. determinism_regression_gate.hexa): the per-
+// portfolio runner subprocess is delegated to a python3 driver wrapper
+// that (a) executes the runner under cwd=REPO_ROOT with a 30-s timeout
+// and (b) scans the stdout for the balanced JSON object containing
+// `schema_version` + `in_scope_drugs` — both byte-identical to the .py
+// implementation. The wrapper emits a deterministic line-prefixed
+// payload that the hexa side parses; no JSON-string escaping is needed
+// because every nontrivial textual field (notes / axes / labels) is
+// length-prefixed (`LEN\n<bytes>`) so embedded `|`, newlines, and
+// quotes pass through verbatim — matching the .py exactly.
+//
+// DISCIPLINES honored:
+//   1. shq for shell quoting (imported from json_schema_validator).
+//   2. fsum/Kahan — not needed (counts are int).
+//   3. fmt/ljust/rjust for table widths (`%3d`-style emulated via int→str
+//      + rjust(3)); raw integers throughout — NO float→int bugs.
+//   4. raw UTF-8 preserved (notes contain `—`, `▸`, `·`); cp_substr is
+//      paste-standard (unused on this gate but kept for discipline).
+//   5. exit(0) PASS / exit(1) FAIL — no genuine FAILs unless a runner
+//      exited 0 yet emitted no parseable witness JSON (a hard contract
+//      break, distinct from g7-SKIP runner-exit-non-zero).
+//   6. SKIP exits 0 (g7 honest); SKIP = empty discovery OR runner ran
+//      non-zero / timed out / unreachable.
+//   7. NO `**` operator (no powers needed here); `sum(floats)` → fsum
+//      where used (counts are int → plain `+`).
+//   8. dispatch order = sorted(os.listdir(case_studies)) — the python
+//      driver does the sort once, hexa walks the result list in order.
+//
+// HONESTY (echoes the .py docstring): the three metrics are INDEPENDENT
+// axes — NEVER combined; no portfolio is "best"; honesty_completeness
+// rewards explicit acknowledgement of what a portfolio does NOT model
+// (research-stage modalities; CBER / UNPLACED rows). This is a feature,
+// not a gap (same fence as the G4 PEPTIDE × MACROCYCLE cross's
+// `comparison_is_ranking=false`).
+
+import "_hexa_bridge/module/py_json2.hexa"
+import "_hexa_bridge/module/json_schema_validator.hexa"  // for shq
+
+// ── standard helper set ───────────────────────────────────────────────
+fn fmt(spec: string, v: float) -> string {
+    let mut o = exec("printf '" + spec + "' " + json_stringify(v))
+    while len(o) > 0 {
+        let last = o.substr(len(o) - 1, 1)
+        if last == "\n" || last == "\r" { o = o.substr(0, len(o) - 1) } else { break }
+    }
+    return o
+}
+fn ljust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = o + " " }; return o }
+fn rjust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = " " + o }; return o }
+fn js(v: float) -> string { return json_stringify(v) }
+fn jsb(b: bool) -> string { if b { return "true" } return "false" }
+fn pyb(b: bool) -> string { if b { return "True" } return "False" }
+fn fabs(x: float) -> float { if x < 0.0 { return -x } return x }
+fn fsum(xs: array) -> float {
+    let mut s = 0.0; let mut c = 0.0; let mut i = 0
+    while i < len(xs) { let y = xs[i]-c; let t = s+y; c = (t-s)-y; s = t; i = i+1 }
+    return s
+}
+fn cp_substr(s: string, a: int, b: int) -> string {
+    let mut out = ""; let mut cp = 0; let mut i = 0
+    while i < len(s) {
+        let bv = ord(s.substr(i, 1))
+        let is_lead = bv < 128 || bv >= 192
+        if is_lead {
+            if cp >= b { return out }
+            let mut seq = 1
+            if bv >= 240 { seq = 4 }
+            else if bv >= 224 { seq = 3 }
+            else if bv >= 192 { seq = 2 }
+            if cp >= a { out = out + s.substr(i, seq) }
+            cp = cp + 1
+            i = i + seq
+        } else {
+            i = i + 1
+        }
+    }
+    return out
+}
+
+// ── codepoint-aware ljust (for `disease` column — labels are ASCII in
+// practice but stay disciplined). ───────────────────────────────────
+fn clen(s: string) -> int {
+    let mut n = 0; let mut i = 0
+    while i < len(s) {
+        let b = ord(s.substr(i, 1))
+        if b < 128 || b >= 192 { n = n + 1 }
+        i = i + 1
+    }
+    return n
+}
+fn cljust(s: string, n: int) -> string {
+    let mut o = s; let mut c = clen(s)
+    while c < n { o = o + " "; c = c + 1 }
+    return o
+}
+
+// ── verdict tokens ────────────────────────────────────────────────────
+let PASS = "PASS"
+let SKIP = "SKIP"
+let FAIL = "FAIL"
+
+// ── int→str width helper (Python's "%3d" right-justify of an int) ────
+fn fmt_int_w(v: int, w: int) -> string { return rjust(str(v), w) }
+
+// ── _fmt_int per the .py: 3-wide cell on int, "  —" on N/A ───────────
+// We don't model None vs int — every PASS witness produces an int; SKIP
+// / FAIL rows print "  —" by passing has_metric=false.
+fn fmt_int_cell(has: bool, v: int) -> string {
+    if has { return rjust(str(v), 3) }
+    return "  —"
+}
+
+// ── string→int (decimals; non-digit chars terminate) ──────────────────
+fn s2i(s: string) -> int {
+    let mut v = 0; let mut k = 0; let mut neg = false
+    if len(s) > 0 && s.substr(0, 1) == "-" { neg = true; k = 1 }
+    while k < len(s) {
+        let c = s.substr(k, 1); let b = ord(c)
+        if b < 48 || b > 57 { break }
+        v = v * 10 + (b - 48)
+        k = k + 1
+    }
+    if neg { return 0 - v }
+    return v
+}
+
+// ── max-of-int helper ────────────────────────────────────────────────
+fn imax(a: int, b: int) -> int { if a > b { return a } return b }
+
+// ── python driver: discovers portfolios + runs each (30 s timeout) +
+// extracts witness JSON + emits a deterministic line-prefixed payload
+// that the hexa side parses. Length-prefixed fields handle embedded
+// special characters losslessly. Format:
+//
+//   COUNT|<n>
+//   NAME|<name>                          (portfolio dir prefix)
+//   RUNNER|<runner_relpath>
+//   VERDICT|<PASS|SKIP|FAIL>
+//   REASON|<len>\n<bytes>                (only on SKIP/FAIL)
+//   EXITCODE|<int>                       (only when meaningful)
+//   SCHEMA|<len>\n<bytes>                (PASS only)
+//   CASEID|<len>\n<bytes>                (PASS only)
+//   DISEASE|<len>\n<bytes>               (PASS only; "—" if missing)
+//   SENTINEL|<len>\n<bytes>              (PASS only)
+//   DE|<int>                             (PASS only)
+//   AC|<int>                             (PASS only)
+//   HC|<int>                             (PASS only)
+//   AXES_N|<n>                           (PASS only)
+//   AXIS|<len>\n<bytes>                  (×n, PASS only)
+//   NB_RSN|<int>                         (PASS only)
+//   NB_NIS|<int>                         (PASS only)
+//   NOTES_N|<n>                          (PASS only)
+//     repeated n times (each row):
+//   NKIND|<kind>                         ("research_stage" | "unplaced" | other)
+//   NLABEL|<len>\n<bytes>
+//   NSTATUS|<len>\n<bytes>               (research_stage; "" otherwise)
+//   NCENTER|<len>\n<bytes>               (unplaced; "" otherwise)
+//   NNOTE|<len>\n<bytes>
+//   END
+//
+// (Trailing `END` per portfolio.)
+fn drive_all(repo_root: string) -> string {
+    let drv = "import json, os, subprocess, sys\n" +
+              "REPO_ROOT = sys.argv[1]\n" +
+              "CASE_STUDIES_DIR = os.path.join(REPO_ROOT, 'case_studies')\n" +
+              "RUNNER_TIMEOUT_S = 30\n" +
+              "out = sys.stdout.buffer\n" +
+              "def emit(s):\n" +
+              "    out.write(s.encode('utf-8')); out.write(b'\\n')\n" +
+              "def emit_lp(tag, s):\n" +
+              "    b = s.encode('utf-8')\n" +
+              "    out.write(tag.encode('utf-8')); out.write(b'|')\n" +
+              "    out.write(str(len(b)).encode('utf-8')); out.write(b'\\n')\n" +
+              "    out.write(b); out.write(b'\\n')\n" +
+              "def discover():\n" +
+              "    found = []\n" +
+              "    if not os.path.isdir(CASE_STUDIES_DIR): return found\n" +
+              "    for entry in sorted(os.listdir(CASE_STUDIES_DIR)):\n" +
+              "        sub = os.path.join(CASE_STUDIES_DIR, entry)\n" +
+              "        if not os.path.isdir(sub): continue\n" +
+              "        if not entry.endswith('_portfolio'): continue\n" +
+              "        name = entry[:-len('_portfolio')]\n" +
+              "        runner = os.path.join(sub, name + '_portfolio_runner.py')\n" +
+              "        if not os.path.isfile(runner): continue\n" +
+              "        found.append({'name': name, 'dir': sub, 'runner': runner})\n" +
+              "    return found\n" +
+              "def run_runner(runner_path):\n" +
+              "    try:\n" +
+              "        proc = subprocess.run([sys.executable, runner_path],\n" +
+              "                              capture_output=True, text=True,\n" +
+              "                              timeout=RUNNER_TIMEOUT_S, cwd=REPO_ROOT)\n" +
+              "    except subprocess.TimeoutExpired:\n" +
+              "        return {'ran': False, 'exit_code': None, 'stdout': '', 'stderr': '',\n" +
+              "                'error': 'timeout after %d s' % RUNNER_TIMEOUT_S}\n" +
+              "    except OSError as exc:\n" +
+              "        return {'ran': False, 'exit_code': None, 'stdout': '', 'stderr': '',\n" +
+              "                'error': 'OSError: %s' % exc}\n" +
+              "    return {'ran': True, 'exit_code': proc.returncode,\n" +
+              "            'stdout': proc.stdout, 'stderr': proc.stderr, 'error': None}\n" +
+              "def extract_witness_json(stdout):\n" +
+              "    if not isinstance(stdout, str) or '{' not in stdout: return None\n" +
+              "    n = len(stdout); i = 0\n" +
+              "    while i < n:\n" +
+              "        if stdout[i] != '{': i += 1; continue\n" +
+              "        depth = 0; j = i; in_str = False; esc = False\n" +
+              "        while j < n:\n" +
+              "            ch = stdout[j]\n" +
+              "            if in_str:\n" +
+              "                if esc: esc = False\n" +
+              "                elif ch == '\\\\': esc = True\n" +
+              "                elif ch == '\"': in_str = False\n" +
+              "            else:\n" +
+              "                if ch == '\"': in_str = True\n" +
+              "                elif ch == '{': depth += 1\n" +
+              "                elif ch == '}':\n" +
+              "                    depth -= 1\n" +
+              "                    if depth == 0:\n" +
+              "                        candidate = stdout[i:j+1]\n" +
+              "                        try: obj = json.loads(candidate)\n" +
+              "                        except json.JSONDecodeError: obj = None\n" +
+              "                        if isinstance(obj, dict) and 'schema_version' in obj and 'in_scope_drugs' in obj:\n" +
+              "                            return obj\n" +
+              "                        break\n" +
+              "            j += 1\n" +
+              "        i += 1\n" +
+              "    return None\n" +
+              "def score_witness(w):\n" +
+              "    in_scope = w.get('in_scope_drugs') or []\n" +
+              "    if not isinstance(in_scope, list): in_scope = []\n" +
+              "    de = len(in_scope)\n" +
+              "    axes = []\n" +
+              "    for d in in_scope:\n" +
+              "        if not isinstance(d, dict): continue\n" +
+              "        axis = None\n" +
+              "        am = d.get('axis_mapping')\n" +
+              "        if isinstance(am, dict) and isinstance(am.get('axis'), str) and am['axis'].strip():\n" +
+              "            axis = am['axis'].strip()\n" +
+              "        elif isinstance(d.get('axis'), str) and d['axis'].strip():\n" +
+              "            axis = d['axis'].strip()\n" +
+              "        if axis: axes.append(axis)\n" +
+              "    distinct_axes = sorted(set(axes))\n" +
+              "    ac = len(distinct_axes)\n" +
+              "    rsn = w.get('research_stage_negatives') or []\n" +
+              "    nis = w.get('not_in_scope_drugs') or []\n" +
+              "    if not isinstance(rsn, list): rsn = []\n" +
+              "    if not isinstance(nis, list): nis = []\n" +
+              "    hc = len(rsn) + len(nis)\n" +
+              "    return de, ac, hc, distinct_axes, len(rsn), len(nis)\n" +
+              "def collect_notes(w):\n" +
+              "    notes = []\n" +
+              "    for n in (w.get('research_stage_negatives') or []):\n" +
+              "        if not isinstance(n, dict): continue\n" +
+              "        label = str(n.get('candidate_class') or 'research-stage').strip()\n" +
+              "        reason = str(n.get('reason') or '').strip()\n" +
+              "        status = str(n.get('status') or '').strip()\n" +
+              "        notes.append(('research_stage', label, status, '', reason))\n" +
+              "    for n in (w.get('not_in_scope_drugs') or []):\n" +
+              "        if not isinstance(n, dict): continue\n" +
+              "        label = str(n.get('drug_name') or n.get('brand') or 'UNPLACED').strip()\n" +
+              "        reason = str(n.get('reason') or '').strip()\n" +
+              "        center = str(n.get('fda_center') or '').strip()\n" +
+              "        notes.append(('unplaced', label, '', center, reason))\n" +
+              "    return notes\n" +
+              "ports = discover()\n" +
+              "emit('COUNT|%d' % len(ports))\n" +
+              "for p in ports:\n" +
+              "    runner_rel = os.path.relpath(p['runner'], REPO_ROOT)\n" +
+              "    emit('NAME|%s' % p['name'])\n" +
+              "    emit('RUNNER|%s' % runner_rel)\n" +
+              "    r = run_runner(p['runner'])\n" +
+              "    if not r['ran']:\n" +
+              "        emit('VERDICT|SKIP')\n" +
+              "        emit_lp('REASON', r['error'] or 'runner did not execute')\n" +
+              "        emit('END'); continue\n" +
+              "    if r['exit_code'] != 0:\n" +
+              "        emit('VERDICT|SKIP')\n" +
+              "        emit_lp('REASON', 'runner exited non-zero (code=%d) — g7 skip-is-honest, do not block sentinel' % r['exit_code'])\n" +
+              "        emit('EXITCODE|%d' % r['exit_code'])\n" +
+              "        emit('END'); continue\n" +
+              "    w = extract_witness_json(r['stdout'])\n" +
+              "    if w is None:\n" +
+              "        emit('VERDICT|FAIL')\n" +
+              "        emit_lp('REASON', 'runner exited 0 but emitted no parseable witness JSON containing schema_version + in_scope_drugs')\n" +
+              "        emit('END'); continue\n" +
+              "    de, ac, hc, axes, nrsn, nnis = score_witness(w)\n" +
+              "    notes = collect_notes(w)\n" +
+              "    disease = w.get('disease') or {}\n" +
+              "    if isinstance(disease, dict):\n" +
+              "        disease_label = disease.get('abbreviation') or disease.get('name') or '—'\n" +
+              "    else:\n" +
+              "        disease_label = '—'\n" +
+              "    sentinel = str(w.get('sentinel') or '').strip()\n" +
+              "    emit('VERDICT|PASS')\n" +
+              "    emit_lp('SCHEMA', str(w.get('schema_version') or ''))\n" +
+              "    emit_lp('CASEID', str(w.get('case_study_id') or ''))\n" +
+              "    emit_lp('DISEASE', str(disease_label))\n" +
+              "    emit_lp('SENTINEL', sentinel)\n" +
+              "    emit('DE|%d' % de)\n" +
+              "    emit('AC|%d' % ac)\n" +
+              "    emit('HC|%d' % hc)\n" +
+              "    emit('AXES_N|%d' % len(axes))\n" +
+              "    for a in axes: emit_lp('AXIS', a)\n" +
+              "    emit('NB_RSN|%d' % nrsn)\n" +
+              "    emit('NB_NIS|%d' % nnis)\n" +
+              "    emit('NOTES_N|%d' % len(notes))\n" +
+              "    for kind, label, status, center, note in notes:\n" +
+              "        emit('NKIND|%s' % kind)\n" +
+              "        emit_lp('NLABEL', label)\n" +
+              "        emit_lp('NSTATUS', status)\n" +
+              "        emit_lp('NCENTER', center)\n" +
+              "        emit_lp('NNOTE', note)\n" +
+              "    emit('END')\n"
+    return exec("python3 -c " + shq(drv) + " " + shq(repo_root) + " 2>/dev/null")
+}
+
+// ── line-stream parser ────────────────────────────────────────────────
+// We walk lines top-down, consuming tags. Length-prefixed bodies (`TAG|<n>\n<bytes>`)
+// require character-based slicing of the raw payload to preserve UTF-8 bytes verbatim.
+// To avoid re-splitting, we slice from a running byte cursor on the raw blob.
+
+fn parse_tag_and_rest(line: string) -> array {
+    // returns [tag, rest_after_pipe] or [line, ""] if no pipe
+    let mut k = 0
+    while k < len(line) {
+        if line.substr(k, 1) == "|" { return [line.substr(0, k), line.substr(k + 1, len(line) - k - 1)] }
+        k = k + 1
+    }
+    return [line, ""]
+}
+
+// PARSER STATE — captured into parallel arrays per portfolio.
+fn main() {
+    let repo_root = exec("pwd").trim()
+
+    println("portfolio_fitness_function — hexa-bio case-study portfolios")
+    println("  REPORTER + DIAGNOSTIC — never a ranker. The three metrics")
+    println("  (drug_existence · axis_coverage · honesty_completeness) are")
+    println("  reported PER PORTFOLIO and ARE NOT combined into a compound")
+    println("  score. No portfolio is declared 'best'. comparison_is_ranking")
+    println("  = false (same fence pattern as the G4 PEPTIDE×MACROCYCLE")
+    println("  cross). A portfolio with 1 in-scope drug + 5 honest negatives")
+    println("  may be MORE HONEST than one with 3 in-scope drugs + 0")
+    println("  negatives — honesty is not a ranking dimension.")
+    println("  governance: g1 real-limits-first · g3 honesty-external ·")
+    println("              g7 skip-is-honest · g8 in-silico-only")
+    println("")
+
+    let blob = drive_all(repo_root)
+
+    // ── byte-level cursor scan over the raw blob to honor LP bodies. ──
+    let n = len(blob)
+    let mut pos = 0
+
+    // small inline helpers (closure-style via fn calls would need globals;
+    // we inline for clarity).
+
+    // read_line: from `pos`, find next '\n'; returns line + advance pos.
+    // Returns "" with pos==n if exhausted.
+
+    // Parser outputs (parallel arrays, indexed by portfolio order):
+    let mut p_name: array = []
+    let mut p_runner: array = []
+    let mut p_verdict: array = []
+    let mut p_reason: array = []
+    let mut p_exitcode_set: array = []   // bool: was EXITCODE line present?
+    let mut p_exitcode: array = []
+    let mut p_schema: array = []
+    let mut p_caseid: array = []
+    let mut p_disease: array = []
+    let mut p_sentinel: array = []
+    let mut p_de: array = []
+    let mut p_ac: array = []
+    let mut p_hc: array = []
+    let mut p_axes: array = []           // ";"-joined
+    let mut p_nb_rsn: array = []
+    let mut p_nb_nis: array = []
+    // notes parallel-of-parallel arrays via flat encoding per portfolio:
+    //   p_nkind[i] / p_nlabel[i] / p_nstatus[i] / p_ncenter[i] / p_nnote[i]
+    //   each = array of strings, indexed by note row within portfolio i.
+    let mut p_nkind: array = []
+    let mut p_nlabel: array = []
+    let mut p_nstatus: array = []
+    let mut p_ncenter: array = []
+    let mut p_nnote: array = []
+
+    // ── helper: read next line, advance pos. ──────────────────────────
+    // Implemented inline; we keep pos as a hexa `let mut`.
+    let mut count_remaining = -1
+
+    // First line: "COUNT|<n>"
+    let mut nl = pos
+    while nl < n && blob.substr(nl, 1) != "\n" { nl = nl + 1 }
+    let first = blob.substr(pos, nl - pos)
+    pos = nl + 1
+    let fp = parse_tag_and_rest(first)
+    if fp[0] != "COUNT" {
+        println("__PORTFOLIO_FITNESS_FUNCTION__ FAIL")
+        exit(1)
+    }
+    let total = s2i(fp[1])
+    count_remaining = total
+
+    // Empty-discovery SKIP path (mirrors the .py main()).
+    if total == 0 {
+        println("  [SKIP] no '*_portfolio/*_portfolio_runner.py' found under case_studies/")
+        println("         — g7 skip-is-honest (no portfolios != FAIL)")
+        println("")
+        println("__PORTFOLIO_FITNESS_FUNCTION__ PASS")
+        return
+    }
+
+    // ── parse each portfolio block ───────────────────────────────────
+    let mut pi = 0
+    while pi < total {
+        // expected sequence per portfolio:
+        //   NAME|<name>\n
+        //   RUNNER|<rel>\n
+        //   VERDICT|<v>\n
+        //   then verdict-specific fields, terminated by END
+        let mut name = ""
+        let mut runner = ""
+        let mut verdict = ""
+        let mut reason = ""
+        let mut exitcode_set = false
+        let mut exitcode = 0
+        let mut schema = ""
+        let mut caseid = ""
+        let mut disease = ""
+        let mut sentinel = ""
+        let mut de = 0
+        let mut ac = 0
+        let mut hc = 0
+        let mut axes_n = 0
+        let mut axes_joined = ""
+        let mut nb_rsn = 0
+        let mut nb_nis = 0
+        let mut notes_n = 0
+        let mut nkinds: array = []
+        let mut nlabels: array = []
+        let mut nstatuses: array = []
+        let mut ncenters: array = []
+        let mut nnotes: array = []
+
+        // Loop reading lines until END.
+        let mut done = false
+        while done == false {
+            // read_line:
+            let mut nl2 = pos
+            while nl2 < n && blob.substr(nl2, 1) != "\n" { nl2 = nl2 + 1 }
+            let line = blob.substr(pos, nl2 - pos)
+            pos = nl2 + 1
+            if line == "END" { done = true; break }
+
+            let tr = parse_tag_and_rest(line)
+            let tag = tr[0]
+            let rest = tr[1]
+
+            if tag == "NAME" { name = rest }
+            else if tag == "RUNNER" { runner = rest }
+            else if tag == "VERDICT" { verdict = rest }
+            else if tag == "EXITCODE" { exitcode_set = true; exitcode = s2i(rest) }
+            else if tag == "DE" { de = s2i(rest) }
+            else if tag == "AC" { ac = s2i(rest) }
+            else if tag == "HC" { hc = s2i(rest) }
+            else if tag == "AXES_N" { axes_n = s2i(rest) }
+            else if tag == "NB_RSN" { nb_rsn = s2i(rest) }
+            else if tag == "NB_NIS" { nb_nis = s2i(rest) }
+            else if tag == "NOTES_N" { notes_n = s2i(rest) }
+            else if tag == "NKIND" {
+                nkinds.push(rest)
+                // The following four LP fields belong to THIS note row.
+                // Read them next.
+                // NLABEL
+                let mut nlx = pos
+                while nlx < n && blob.substr(nlx, 1) != "\n" { nlx = nlx + 1 }
+                let h1 = blob.substr(pos, nlx - pos); pos = nlx + 1
+                let p1 = parse_tag_and_rest(h1)
+                let len1 = s2i(p1[1])
+                let body1 = blob.substr(pos, len1)
+                pos = pos + len1 + 1   // +1 for trailing \n
+                nlabels.push(body1)
+
+                // NSTATUS
+                let mut nlx2 = pos
+                while nlx2 < n && blob.substr(nlx2, 1) != "\n" { nlx2 = nlx2 + 1 }
+                let h2 = blob.substr(pos, nlx2 - pos); pos = nlx2 + 1
+                let p2 = parse_tag_and_rest(h2)
+                let len2 = s2i(p2[1])
+                let body2 = blob.substr(pos, len2)
+                pos = pos + len2 + 1
+                nstatuses.push(body2)
+
+                // NCENTER
+                let mut nlx3 = pos
+                while nlx3 < n && blob.substr(nlx3, 1) != "\n" { nlx3 = nlx3 + 1 }
+                let h3 = blob.substr(pos, nlx3 - pos); pos = nlx3 + 1
+                let p3 = parse_tag_and_rest(h3)
+                let len3 = s2i(p3[1])
+                let body3 = blob.substr(pos, len3)
+                pos = pos + len3 + 1
+                ncenters.push(body3)
+
+                // NNOTE
+                let mut nlx4 = pos
+                while nlx4 < n && blob.substr(nlx4, 1) != "\n" { nlx4 = nlx4 + 1 }
+                let h4 = blob.substr(pos, nlx4 - pos); pos = nlx4 + 1
+                let p4 = parse_tag_and_rest(h4)
+                let len4 = s2i(p4[1])
+                let body4 = blob.substr(pos, len4)
+                pos = pos + len4 + 1
+                nnotes.push(body4)
+            }
+            else {
+                // length-prefixed: tag|<len>\n<bytes>\n
+                let blen = s2i(rest)
+                let body = blob.substr(pos, blen)
+                pos = pos + blen + 1   // skip body + trailing newline
+
+                if tag == "REASON" { reason = body }
+                else if tag == "SCHEMA" { schema = body }
+                else if tag == "CASEID" { caseid = body }
+                else if tag == "DISEASE" { disease = body }
+                else if tag == "SENTINEL" { sentinel = body }
+                else if tag == "AXIS" {
+                    if len(axes_joined) > 0 { axes_joined = axes_joined + ";" }
+                    axes_joined = axes_joined + body
+                }
+            }
+        }
+
+        p_name.push(name); p_runner.push(runner); p_verdict.push(verdict)
+        p_reason.push(reason); p_exitcode_set.push(exitcode_set); p_exitcode.push(exitcode)
+        p_schema.push(schema); p_caseid.push(caseid); p_disease.push(disease); p_sentinel.push(sentinel)
+        p_de.push(de); p_ac.push(ac); p_hc.push(hc)
+        p_axes.push(axes_joined); p_nb_rsn.push(nb_rsn); p_nb_nis.push(nb_nis)
+        p_nkind.push(nkinds); p_nlabel.push(nlabels)
+        p_nstatus.push(nstatuses); p_ncenter.push(ncenters); p_nnote.push(nnotes)
+
+        pi = pi + 1
+    }
+
+    // ── discovery line ───────────────────────────────────────────────
+    let mut names_joined = ""
+    let mut ji = 0
+    while ji < total {
+        if ji > 0 { names_joined = names_joined + ", " }
+        names_joined = names_joined + p_name[ji]
+        ji = ji + 1
+    }
+    println("  discovered " + str(total) + " portfolio runner(s): " + names_joined)
+    println("")
+
+    // ── per-portfolio running lines ──────────────────────────────────
+    let mut ri = 0
+    while ri < total {
+        let nm = p_name[ri]
+        println("── running " + nm + "_portfolio_runner.py …")
+        let v = p_verdict[ri]
+        if v == "PASS" {
+            println("  [PASS] " + nm + ": "
+                    + "drug_existence=" + str(p_de[ri]) + ", "
+                    + "axis_coverage=" + str(p_ac[ri]) + ", "
+                    + "honesty_completeness=" + str(p_hc[ri]))
+        } else {
+            println("  [" + v + "] " + nm + ": " + p_reason[ri])
+        }
+        ri = ri + 1
+    }
+    println("")
+
+    // ── per-portfolio fitness table ──────────────────────────────────
+    // column widths per .py: name_w = max(max(len(name)), len("portfolio"), 12)
+    let mut name_w = len("portfolio")
+    let mut wi = 0
+    while wi < total { name_w = imax(name_w, len(p_name[wi])); wi = wi + 1 }
+    name_w = imax(name_w, 12)
+
+    let mut dis_w = len("disease")
+    let mut di2 = 0
+    while di2 < total {
+        let dlabel = if p_verdict[di2] == "PASS" { p_disease[di2] } else { "—" }
+        dis_w = imax(dis_w, clen(dlabel))
+        di2 = di2 + 1
+    }
+    dis_w = imax(dis_w, 8)
+
+    // header line and separator — Python's `"─" * 30` is 30 copies of `─`.
+    let dashes30 = "──────────────────────────────"
+    println("── per-portfolio fitness table " + dashes30)
+
+    // header columns: portfolio, disease, drug_existence (>14), axis_coverage (>13),
+    //                 honesty_completeness (>20), verdict (>7)
+    println("  " + ljust("portfolio", name_w) + "  " + cljust("disease", dis_w) + "  "
+            + rjust("drug_existence", 14) + "  " + rjust("axis_coverage", 13) + "  "
+            + rjust("honesty_completeness", 20) + "  " + rjust("verdict", 7))
+
+    // dash row
+    let mut dash_name = ""; let mut di3 = 0
+    while di3 < name_w { dash_name = dash_name + "-"; di3 = di3 + 1 }
+    let mut dash_dis = ""; let mut di4 = 0
+    while di4 < dis_w { dash_dis = dash_dis + "-"; di4 = di4 + 1 }
+    let dash14 = "--------------"
+    let dash13 = "-------------"
+    let dash20 = "--------------------"
+    let dash7 = "-------"
+    println("  " + dash_name + "  " + dash_dis + "  " + dash14 + "  " + dash13 + "  " + dash20 + "  " + dash7)
+
+    let mut ti = 0
+    while ti < total {
+        let v = p_verdict[ti]
+        let has_metrics = v == "PASS"
+        let de_cell = fmt_int_cell(has_metrics, p_de[ti])
+        let ac_cell = fmt_int_cell(has_metrics, p_ac[ti])
+        let hc_cell = fmt_int_cell(has_metrics, p_hc[ti])
+        let dlabel = if v == "PASS" { p_disease[ti] } else { "—" }
+
+        // Per .py: f"{de_cell:>14}" with de_cell already 3-wide → padded by rjust(14)
+        println("  " + ljust(p_name[ti], name_w) + "  " + cljust(dlabel, dis_w) + "  "
+                + rjust(de_cell, 14) + "  " + rjust(ac_cell, 13) + "  "
+                + rjust(hc_cell, 20) + "  " + rjust(v, 7))
+        ti = ti + 1
+    }
+    println("")
+
+    // ── per-portfolio detail (axes + honesty notes) ──────────────────
+    let dashes16 = "────────────────"
+    println("── per-portfolio detail (axes + honesty notes) " + dashes16)
+    let mut xi = 0
+    while xi < total {
+        let v = p_verdict[xi]
+        println("  ▸ " + p_name[xi] + "  [" + v + "]")
+        if v != "PASS" {
+            println("      reason: " + p_reason[xi])
+            println("")
+            xi = xi + 1
+            continue
+        }
+        println("      runner sentinel    : " + p_sentinel[xi])
+        println("      schema_version     : " + p_schema[xi])
+        // distinct axes
+        let aj = p_axes[xi]
+        let axes_list = if len(aj) == 0 { [] } else { aj.split(";") }
+        let an = len(axes_list)
+        if an > 0 {
+            let mut aj_str = ""
+            let mut ak = 0
+            while ak < an {
+                if ak > 0 { aj_str = aj_str + ", " }
+                aj_str = aj_str + axes_list[ak]
+                ak = ak + 1
+            }
+            println("      distinct axes (" + str(an) + "): " + aj_str)
+        } else {
+            println("      distinct axes (0): —")
+        }
+        println("      negatives by source: research_stage_negatives="
+                + str(p_nb_rsn[xi]) + ", not_in_scope_drugs_unplaced="
+                + str(p_nb_nis[xi]))
+
+        let nks = p_nkind[xi]
+        let nls = p_nlabel[xi]
+        let nss = p_nstatus[xi]
+        let ncs = p_ncenter[xi]
+        let nns = p_nnote[xi]
+        let nn = len(nks)
+        if nn > 0 {
+            println("      honesty notes:")
+            let mut yi = 0
+            while yi < nn {
+                let kind = nks[yi]
+                let label = nls[yi]
+                if kind == "research_stage" {
+                    let status = nss[yi]
+                    if len(status) > 0 {
+                        println("        - [research-stage] " + label + "  (" + status + ")")
+                    } else {
+                        println("        - [research-stage] " + label)
+                    }
+                } else if kind == "unplaced" {
+                    let center = ncs[yi]
+                    if len(center) > 0 {
+                        println("        - [UNPLACED] " + label + "  (" + center + ")")
+                    } else {
+                        println("        - [UNPLACED] " + label)
+                    }
+                } else {
+                    println("        - [" + kind + "] " + label)
+                }
+                let note_txt = nns[yi]
+                if len(note_txt) > 0 {
+                    println("            " + note_txt)
+                }
+                yi = yi + 1
+            }
+        } else {
+            println("      honesty notes: (none recorded)")
+        }
+        println("")
+        xi = xi + 1
+    }
+
+    // ── summary ─────────────────────────────────────────────────────
+    let dashes60 = "────────────────────────────────────────────────────────────"
+    println("── summary " + dashes60)
+    let mut n_pass = 0
+    let mut n_skip = 0
+    let mut n_fail = 0
+    let mut si = 0
+    while si < total {
+        let v = p_verdict[si]
+        if v == "PASS" {
+            n_pass = n_pass + 1
+            println("  " + ljust(v, 6) + " " + ljust(p_name[si], 20) + " "
+                    + "de=" + fmt_int_cell(true, p_de[si]) + "  "
+                    + "ac=" + fmt_int_cell(true, p_ac[si]) + "  "
+                    + "hc=" + fmt_int_cell(true, p_hc[si]))
+        } else {
+            if v == "SKIP" { n_skip = n_skip + 1 } else { n_fail = n_fail + 1 }
+            println("  " + ljust(v, 6) + " " + ljust(p_name[si], 20) + " "
+                    + "(" + p_reason[si] + ")")
+        }
+        si = si + 1
+    }
+    println("")
+    println("  " + str(n_pass) + " PASS · " + str(n_skip) + " SKIP · " + str(n_fail) + " FAIL  "
+            + "(of " + str(total) + " portfolio(s))")
+
+    println("")
+    println("  HONESTY (reporter ≠ ranker): comparison_is_ranking = false.")
+    println("  The three metrics are INDEPENDENT axes — there is no compound")
+    println("  score and no 'best portfolio'. A portfolio with fewer in-scope")
+    println("  drugs but more honestly-recorded negatives is NOT 'worse' —")
+    println("  honesty_completeness rewards explicit acknowledgement of what")
+    println("  the portfolio does NOT model (research-stage modalities; CBER /")
+    println("  UNPLACED rows). This is a feature, not a gap (same pattern as")
+    println("  the SMA portfolio's `not_an_efficacy_ranking=true` and the G4")
+    println("  PEPTIDE × MACROCYCLE cross's `comparison_is_ranking=false`).")
+    println("  HONESTY (g7): a SKIP is an absent runner / a runner that itself")
+    println("  exited non-zero on this host — it does NOT block the sentinel.")
+    println("  HONESTY (g8 in-silico-only): the metrics characterize each")
+    println("  portfolio's in-silico shape ONLY — they are NOT therapeutic,")
+    println("  clinical, regulatory, efficacy, or portfolio-recommendation")
+    println("  claims, and they are NOT derived from the n=6 lattice.")
+    println("")
+
+    if n_fail == 0 {
+        println("__PORTFOLIO_FITNESS_FUNCTION__ PASS")
+        return
+    }
+    println("__PORTFOLIO_FITNESS_FUNCTION__ FAIL")
+    exit(1)
+}
