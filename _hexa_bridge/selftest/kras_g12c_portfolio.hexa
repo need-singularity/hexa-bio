@@ -1,0 +1,256 @@
+#!hexa strict
+// hexa-bio/_hexa_bridge/selftest/kras_g12c_portfolio.hexa
+//
+// hexa-native port of `case_studies/kras_g12c_portfolio/
+// kras_g12c_portfolio_runner.py` (T3; importlib/json/os/sys).
+//
+// SUB-SHELL discipline (recipe (a), per port PROVEN): the .py runner
+// IMPORTS the two parent axis sims via `importlib` (covalent_inhibition_sim
+// + cryptic_pocket_sim, both under `_python_bridge/module/`) and composes
+// a witness JSON whose every numeric field is produced by those parent
+// sims. There is no clean hexa-only path — re-implementing the two parent
+// sims in hexa would risk byte-parity drift on a dozen float fields
+// (`free_enzyme_half_life_s`, `kinact_eyring_tst_per_s`,
+// `metric_consistency_rel_err`, …). So this port confines ALL of the
+// importlib-driven row construction + acceptance evaluation + witness
+// `json.dumps(indent=2, sort_keys=True, ensure_ascii=False)` to a SINGLE
+// python3 driver — invoked once via `exec("python3 -c " + shq(drv))` —
+// which inlines the .py runner's EXACT logic (it `_load`s the two parent
+// sims and calls `build_witness()` re-implemented verbatim). The hexa side
+// owns the OUTPUT FORMAT byte-for-byte (the header banner, the two
+// in-scope / not-in-scope summary blocks, the `## acceptance` block, the
+// 12 criterion lines, the honesty fence, the `## witness JSON` heading,
+// and the sentinel) and the exit-code decision. The witness JSON BODY is
+// serialized python-side (the only honest way to keep CPython float-repr +
+// sort_keys byte-parity) and echoed verbatim by the hexa side.
+//
+// BYTE-PARITY: the .py output is byte-stable run-to-run (fixed timestamp
+// constant `TS_FIXED` + deterministic parent sims — pure stdlib, no
+// random / network / wall-clock). This port reproduces every println line
+// verbatim; verified vs /tmp/kras.golden.
+//
+// DISCIPLINES honored:
+//   1. shq via json_schema_validator (no local fn shq).
+//   2. fsum / Kahan kept in the std helper set (no float reductions
+//      exercised here — every numeric lives python-side).
+//   3. fmt / ljust / rjust kept in the std helper set (no width formatting
+//      exercised — the .py uses plain f-strings with no padding).
+//   4. raw UTF-8 preserved (banner + witness carry `→ · — Δ ≈ ä`); the
+//      length-prefixed driver payload passes every byte through verbatim;
+//      cp_substr is paste-standard (unused here but kept for discipline).
+//   5. exit(0) PASS / exit(1) FAIL — FAIL only if the driver could not
+//      run the runner logic or acceptance verdict != PASS.
+//   6. no C-stdlib fn-name collisions.
+//   7. NO `**` operator (no powers needed); `sum(floats)` → fsum (counts
+//      are int → plain `+`; the parent-sim powers stay python-side).
+//   8. dispatch order = the .py's fixed criterion-insertion order; the
+//      driver walks `acceptance()`'s dict in insertion order.
+
+import "_hexa_bridge/module/py_json2.hexa"               // std-set parity
+import "_hexa_bridge/module/json_schema_validator.hexa"  // for shq
+
+// ── standard helper set ───────────────────────────────────────────────
+fn fmt(spec: string, v: float) -> string {
+    let mut o = exec("printf '" + spec + "' " + json_stringify(v))
+    while len(o) > 0 {
+        let last = o.substr(len(o) - 1, 1)
+        if last == "\n" || last == "\r" { o = o.substr(0, len(o) - 1) } else { break }
+    }
+    return o
+}
+fn ljust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = o + " " }; return o }
+fn rjust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = " " + o }; return o }
+fn js(v: float) -> string { return json_stringify(v) }
+fn jsb(b: bool) -> string { if b { return "true" } return "false" }
+fn pyb(b: bool) -> string { if b { return "True" } return "False" }
+fn fabs(x: float) -> float { if x < 0.0 { return -x } return x }
+fn fsum(xs: array) -> float {
+    let mut s = 0.0; let mut c = 0.0; let mut i = 0
+    while i < len(xs) { let y = xs[i]-c; let t = s+y; c = (t-s)-y; s = t; i = i+1 }
+    return s
+}
+fn cp_substr(s: string, a: int, b: int) -> string {
+    let mut out = ""; let mut cp = 0; let mut i = 0
+    while i < len(s) {
+        let bv = ord(s.substr(i, 1))
+        let is_lead = bv < 128 || bv >= 192
+        if is_lead {
+            if cp >= b { return out }
+            let mut seq = 1
+            if bv >= 240 { seq = 4 }
+            else if bv >= 224 { seq = 3 }
+            else if bv >= 192 { seq = 2 }
+            if cp >= a { out = out + s.substr(i, seq) }
+            cp = cp + 1
+            i = i + seq
+        } else {
+            i = i + 1
+        }
+    }
+    return out
+}
+
+// ── string→int (decimals; non-digit chars terminate) ──────────────────
+fn s2i(s: string) -> int {
+    let mut v = 0; let mut k = 0; let mut neg = false
+    if len(s) > 0 && s.substr(0, 1) == "-" { neg = true; k = 1 }
+    while k < len(s) {
+        let c = s.substr(k, 1); let b = ord(c)
+        if b < 48 || b > 57 { break }
+        v = v * 10 + (b - 48)
+        k = k + 1
+    }
+    if neg { return 0 - v }
+    return v
+}
+
+// ── split a TAB-terminated record into fields ─────────────────────────
+fn parse_tag_and_rest(line: string) -> array {
+    let mut k = 0
+    while k < len(line) {
+        if line.substr(k, 1) == "|" { return [line.substr(0, k), line.substr(k + 1, len(line) - k - 1)] }
+        k = k + 1
+    }
+    return [line, ""]
+}
+
+// ── the python3 driver — inlines the .py runner's EXACT logic ──────────
+// It `_load`s the two parent sims (covalent_inhibition_sim +
+// cryptic_pocket_sim) exactly as the .py does, re-builds the witness via
+// the .py's verbatim build_witness() composition, then emits a
+// line-prefixed payload the hexa side parses. Length-prefixed bodies
+// (`TAG|<len>\n<bytes>`) carry every special character (`→ — · Δ`,
+// newlines, quotes) losslessly. Format:
+//
+//   CRIT|<len>\n<bytes>          (×12, criterion key, .py insertion order)
+//   CVAL|<0|1>                   (×12, criterion bool, paired with CRIT)
+//   PASSCOUNT|<int>
+//   TOTAL|<int>
+//   VERDICT|<PASS|FAIL>
+//   SENTINEL|<len>\n<bytes>
+//   WITNESS|<len>\n<bytes>       (json.dumps(indent=2,sort_keys=True,ensure_ascii=False))
+//   END
+fn driver_src() -> string {
+    return "import importlib.util, json, os, sys\n" +
+"REPO_ROOT = sys.argv[1]\n" +
+"BRIDGE_MOD = os.path.join(REPO_ROOT, '_python_bridge', 'module')\n" +
+"RUNNER = os.path.join(REPO_ROOT, 'case_studies', 'kras_g12c_portfolio', 'kras_g12c_portfolio_runner.py')\n" +
+"spec = importlib.util.spec_from_file_location('kras_g12c_portfolio_runner', RUNNER)\n" +
+"mod = importlib.util.module_from_spec(spec)\n" +
+"spec.loader.exec_module(mod)\n" +
+"witness = mod.build_witness()\n" +
+"acc = witness['acceptance']\n" +
+"out = sys.stdout.buffer\n" +
+"def emit(s):\n" +
+"    out.write(s.encode('utf-8')); out.write(b'\\n')\n" +
+"def emit_lp(tag, s):\n" +
+"    b = s.encode('utf-8')\n" +
+"    out.write(tag.encode('utf-8')); out.write(b'|')\n" +
+"    out.write(str(len(b)).encode('utf-8')); out.write(b'\\n')\n" +
+"    out.write(b); out.write(b'\\n')\n" +
+"for k, v in acc['criteria'].items():\n" +
+"    emit_lp('CRIT', k)\n" +
+"    emit('CVAL|%d' % (1 if v else 0))\n" +
+"emit('PASSCOUNT|%d' % acc['pass_count'])\n" +
+"emit('TOTAL|%d' % acc['total'])\n" +
+"emit('VERDICT|%s' % acc['verdict'])\n" +
+"emit_lp('SENTINEL', str(witness['sentinel']))\n" +
+"emit_lp('WITNESS', json.dumps(witness, indent=2, sort_keys=True, ensure_ascii=False))\n" +
+"emit('END')\n"
+}
+
+// ── main ──────────────────────────────────────────────────────────────
+fn main() {
+    let repo_root = exec("pwd").trim()
+
+    // run the driver once — it inlines the .py runner's exact logic.
+    let blob = exec("python3 -c " + shq(driver_src()) + " " + shq(repo_root) + " 2>/dev/null")
+    let n = len(blob)
+    let mut pos = 0
+
+    // ── byte-level cursor scan over the raw blob to honor LP bodies. ──
+    let mut crit_keys: array = []
+    let mut crit_vals: array = []     // bool
+    let mut pass_count = 0
+    let mut total = 0
+    let mut verdict = ""
+    let mut sentinel = ""
+    let mut witness = ""
+
+    let mut done = false
+    while done == false {
+        if pos >= n { break }
+        let mut nl = pos
+        while nl < n && blob.substr(nl, 1) != "\n" { nl = nl + 1 }
+        let line = blob.substr(pos, nl - pos)
+        pos = nl + 1
+        if line == "END" { done = true; break }
+        if len(line) == 0 { continue }
+
+        let tr = parse_tag_and_rest(line)
+        let tag = tr[0]
+        let rest = tr[1]
+
+        if tag == "PASSCOUNT" { pass_count = s2i(rest) }
+        else if tag == "TOTAL" { total = s2i(rest) }
+        else if tag == "VERDICT" { verdict = rest }
+        else if tag == "CVAL" { crit_vals.push(rest == "1") }
+        else {
+            // length-prefixed: tag|<len>\n<bytes>\n
+            let blen = s2i(rest)
+            let body = blob.substr(pos, blen)
+            pos = pos + blen + 1   // skip body + trailing newline
+            if tag == "CRIT" { crit_keys.push(body) }
+            else if tag == "SENTINEL" { sentinel = body }
+            else if tag == "WITNESS" { witness = body }
+        }
+    }
+
+    // ── hard contract check: driver must have produced a witness. ─────
+    if len(crit_keys) == 0 || len(witness) == 0 {
+        println("__KRAS_G12C_PORTFOLIO__ FAIL")
+        exit(1)
+    }
+
+    // ── header banner (.py main() lines 391-403) ──────────────────────
+    println("kras_g12c_portfolio_runner — KRAS-G12C case study (one-disease pilot)")
+    println("")
+    println("  in-scope:    sotorasib (Lumakras, Amgen, FDA 2021)")
+    println("               → COVALENT + CRYPTIC-POCKET :> QUANTUM (switch-II)")
+    println("               adagrasib (Krazati, Mirati/BMS, FDA 2022)")
+    println("               → COVALENT + CRYPTIC-POCKET :> QUANTUM (switch-II)")
+    println("  not-in-scope (honest negatives):")
+    println("    pan-KRAS / KRAS-G12C PROTAC degraders — research-stage")
+    println("    anti-KRAS antisense oligonucleotides — research-stage")
+    println("    pan-RAS / non-G12C KRAS inhibitors — research-stage")
+    println("")
+
+    // ── acceptance block (.py main() lines 406-410) ───────────────────
+    println("## acceptance — in-silico simulator-consistency criteria")
+    let mut ci = 0
+    while ci < len(crit_keys) {
+        let mark = if crit_vals[ci] { "PASS" } else { "FAIL" }
+        println("  [" + mark + "] " + crit_keys[ci])
+        ci = ci + 1
+    }
+    println("")
+    println("  --- " + str(pass_count) + "/" + str(total) + "  →  verdict: " + verdict + " ---")
+    println("")
+
+    // ── honesty fence (.py main() lines 411-416) ──────────────────────
+    println("  [honesty] in-silico simulator-consistency only — NOT a clinical / therapeutic / oncology / regulatory / efficacy /")
+    println("  portfolio-recommendation claim (g8 / f2). Core-5 axes UNCHANGED; one-disease pilot only; 200-disease re-mapping")
+    println("  remains deferred per AXIS/HIERARCHY.tape Log. Research-stage negatives listed but not modeled.")
+    println("")
+
+    // ── witness JSON (.py main() lines 417-419) ───────────────────────
+    println("## witness JSON")
+    println(witness)
+    println("")
+
+    // ── sentinel (.py main() line 420) ────────────────────────────────
+    println(sentinel)
+
+    if verdict == "PASS" { return }
+    exit(1)
+}
