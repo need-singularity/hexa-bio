@@ -1,9 +1,4 @@
 #!/usr/bin/env tape
-# ══════════════════════════════════════════════════════════════════════
-# .tape v1.2 — grammar primer (cold-read by any LLM / agent / human)
-# ══════════════════════════════════════════════════════════════════════
-# Full spec: ~/core/tape/spec/tape.md (or github.com/dancinlab/tape)
-# ══════════════════════════════════════════════════════════════════════
 @V := "tape" :: spec [active]
   version = "1.2"
 
