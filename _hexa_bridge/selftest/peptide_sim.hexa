@@ -28,6 +28,20 @@ fn rjust(s: string, n: int) -> string { let mut o = s; while len(o) < n { o = " 
 fn js(v: float) -> string { return json_stringify(v) }
 fn jsb(b: bool) -> string { if b { return "true" } return "false" }
 fn pyb(b: bool) -> string { if b { return "True" } return "False" }
+// CPython 3.12+ sum() uses Kahan-compensated summation (NOT naive)
+fn fsum(xs: array) -> float {
+    let mut s = 0.0
+    let mut c = 0.0
+    let mut i = 0
+    while i < len(xs) {
+        let y = xs[i] - c
+        let t = s + y
+        c = (t - s) - y
+        s = t
+        i = i + 1
+    }
+    return s
+}
 
 fn s_propensity(c: string) -> float {
     if c == "A" { return 1.54 }
@@ -134,14 +148,11 @@ fn main() {
         let theta_h = mean_helical / (n * 1.0)
 
         // independent_residue_helicity: σ→1 baseline = (1/N) Σ s_i/(1+s_i)
-        let mut indep_sum = 0.0
+        // CPython 3.12 sum(generator) is Kahan-compensated, not naive.
+        let mut terms: array = []
         let mut ii = 0
-        while ii < n {
-            let si = s_local[ii]
-            indep_sum = indep_sum + si / (1.0 + si)
-            ii = ii + 1
-        }
-        let indep_val = indep_sum / (n * 1.0)
+        while ii < n { terms.push(s_local[ii] / (1.0 + s_local[ii])); ii = ii + 1 }
+        let indep_val = fsum(terms) / (n * 1.0)
 
         // permeability_proxy
         let mut n_polar = 0

@@ -42,6 +42,23 @@ fn ddg_json(a: array) -> string {
     return o + "]"
 }
 
+// CPython 3.12+ builtin sum() uses Kahan-compensated summation for floats
+// (NOT naive accumulation — naive gives [4.2,3.5,2.4,1.0,0.7,0.5]=12.299...
+// vs sum()=12.3). Reproducing the Kahan algorithm bit-exactly.
+fn fsum(xs: array) -> float {
+    let mut s = 0.0
+    let mut c = 0.0
+    let mut i = 0
+    while i < len(xs) {
+        let y = xs[i] - c
+        let t = s + y
+        c = (t - s) - y
+        s = t
+        i = i + 1
+    }
+    return s
+}
+
 fn main() {
     let names = ["bcl2_bh3_groove", "bclxl_bh3_groove", "mdm2_p53_cleft",
                  "kix_coactivator_groove", "flat_diffuse_interface",
@@ -84,30 +101,20 @@ fn main() {
     let mut i = 0
     while i < 6 {
         let ddg: array = if i == 0 { ddg0 } else if i == 1 { ddg1 } else if i == 2 { ddg2 } else if i == 3 { ddg3 } else if i == 4 { ddg4 } else { ddg5 }
-        // Sum all (Python: sum(list_of_floats) → float).
-        let mut s_all = 0.0
+        // Build hotspot / non-hotspot arrays, then fsum (Kahan) each —
+        // CPython 3.12 sum() is Kahan, not naive accumulation.
+        let mut hot_arr: array = []
+        let mut non_arr: array = []
         let mut k = 0
-        while k < len(ddg) { s_all = s_all + ddg[k]; k = k + 1 }
-        // Hotspots: items with ddg >= threshold.
-        let mut s_hot = 0.0
-        let mut n_hot = 0
-        k = 0
         while k < len(ddg) {
-            if ddg[k] >= HOTSPOT_DDG_THRESHOLD_KCAL {
-                s_hot = s_hot + ddg[k]
-                n_hot = n_hot + 1
-            }
+            if ddg[k] >= HOTSPOT_DDG_THRESHOLD_KCAL { hot_arr.push(ddg[k]) }
+            else { non_arr.push(ddg[k]) }
             k = k + 1
         }
-        // Non-hotspots
-        let mut s_non = 0.0
-        k = 0
-        while k < len(ddg) {
-            if ddg[k] < HOTSPOT_DDG_THRESHOLD_KCAL {
-                s_non = s_non + ddg[k]
-            }
-            k = k + 1
-        }
+        let s_all = fsum(ddg)
+        let s_hot = fsum(hot_arr)
+        let s_non = fsum(non_arr)
+        let n_hot = len(hot_arr)
         let n_res = len(ddg)
         let dg_iface = -s_all
         let dg_hot_cluster = -s_hot

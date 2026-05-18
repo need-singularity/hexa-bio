@@ -91,7 +91,7 @@ fn main() {
     println("                      statistics + the conformational-selection")
     println("                      thermodynamic cycle (Hammes, Chang & Oas,")
     println("                      PNAS 106:13737, 2009).  RT = " + fmt("%.4g", RT_KCAL) +
-            " kcal/mol @ T=" + fmt("%g", TEMP_K) + " K")
+            " kcal/mol @ T=" + js(TEMP_K) + " K")
     println("")
     i = 0
     while i < 6 {
