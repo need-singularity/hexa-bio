@@ -24,6 +24,26 @@ run() {
   # port that must SKIP exits 0 (→ PASS bucket) exactly like the .py.
   local hx="$REPO_ROOT/_hexa_bridge/selftest/$label.hexa"
   if [[ -f "$hx" ]] && command -v hexa >/dev/null 2>&1; then
+    # Compiler backend: `hexa build` links the fixed runtime.c (json
+    # float-repr shortest + json_parse loop non-lossy), so the compiled
+    # binary is byte-parity with CPython where `hexa run` (interpreter)
+    # is not. Interpreter is kept only as a build-failure fallback.
+    local hxbin; hxbin="$(mktemp -u "/tmp/hxg_${label}.XXXXXX")"
+    if ( cd "$REPO_ROOT" && hexa build "$hx" -o "$hxbin" >/dev/null 2>&1 ) && [[ -x "$hxbin" ]]; then
+      if ( cd "$REPO_ROOT" && "$hxbin" ); then
+        echo "  ✓ PASS [hexa-c]"
+        passes=$((passes + 1))
+        results+=("PASS  $label [hexa-c]")
+      else
+        echo "  ✗ FAIL [hexa-c]"
+        fails=$((fails + 1))
+        results+=("FAIL  $label [hexa-c]")
+      fi
+      rm -f "$hxbin"
+      echo
+      return
+    fi
+    rm -f "$hxbin"
     if ( cd "$REPO_ROOT" && hexa run "$hx" ); then
       echo "  ✓ PASS [hexa]"
       passes=$((passes + 1))
