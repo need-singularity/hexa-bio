@@ -5,11 +5,25 @@
 // json/os/hashlib/subprocess/datetime). F-*-REGRESSION runner closing
 // GATE-26-6 (`regression-ci-wire`) per .roadmap.hexa_bio §A.9.
 //
-// HONESTY FRAMING — Recipe (a) per port PROVEN (56/127):
-// This gate uses `subprocess` to re-run closed C0b MVPs. The hexa port
-// shells out via `exec("python3 <script>.py")` to re-run the SAME .py
-// MVP scripts — same output, same exit code, same sentinel detection.
-// We do NOT inline the simulators (would lose byte-parity on float math).
+// HONESTY FRAMING — T3 GENUINE re-port (Python dependency = 0):
+// This gate re-runs closed C0b MVPs. The .py used `subprocess` on the
+// SAME .py MVP scripts. This hexa port invokes ZERO python3 — instead
+// it orchestrates the already-hexa-ported sims via
+// `exec("hexa run _hexa_bridge/selftest/<sim>.hexa")`. The hexa sims
+// are byte-parity ports of their .py counterparts (each carries its own
+// T3 port + parity proof), so re-running the .hexa re-runs the same MVP
+// with the same deterministic witness output, exit code and sentinel.
+//
+// MVP → hexa-port mapping (s_hexa_port parallel array):
+//   F-NB-4  nanobot_actuation_simulation.py  → .../nanobot_actuation_simulation.hexa
+//   F-RB-4  ribozyme_kinetics_simulation.py  → .../ribozyme_kinetics_simulation.hexa
+//   F-TP5-b weave_composition.py             → (no hexa port; .py also absent
+//                                               post-R5-sunset → SKIP)
+//   F-VIROCAPSID-3 virocapsid_calibration.py → (no hexa port; .py also absent
+//                                               post-R5-sunset → SKIP)
+// The two SKIP MVPs are faithful: the .py emits SKIP for those exact
+// scripts (R5-sunset relocation); a hexa-port-absent + .py-absent MVP is
+// a deliberate relocation, not a regression — SKIP, not FAIL. No python3.
 //
 // Byte-parity target: the .py emits everything to STDERR on the no-args
 // path (no --summary, no --emit). The byte-parity sweep captures `2>&1`,
@@ -299,12 +313,23 @@ fn main() {
         "ribozyme_kinetics_simulation.py",
         "virocapsid_calibration.py"
     ]
-    let s_args: array = [
-        ["--P", "10", "--N", "50", "--seed", "42", "--target", "aml", "--no-emit", "--quiet"],
-        ["--cycles", "10000", "--seed", "42", "--no-emit", "--quiet"],
-        ["--no-emit", "--quiet"],
-        ["--no-emit", "--quiet"]
+    // hexa-port path for each MVP sim, relative to repo root. Empty string
+    // = no hexa port exists (weave / virocapsid — both also .py-absent
+    // post-R5-sunset, so they SKIP python-free). The two ported sims are
+    // re-run via `hexa run` — ZERO python3.
+    let s_hexa_port: array = [
+        "",
+        "_hexa_bridge/selftest/nanobot_actuation_simulation.hexa",
+        "_hexa_bridge/selftest/ribozyme_kinetics_simulation.hexa",
+        ""
     ]
+    // NOTE: the .py REGRESSION_SPECS carried per-MVP CLI args
+    // (--seed/--cycles/--no-emit/--quiet) for its `subprocess` re-run. The
+    // hexa-ported sims are deterministic by construction (fixed seeds baked
+    // in) and emit their canonical witness on the no-args path — the same
+    // path the byte-parity sweep exercises — so no args are passed to
+    // `hexa run`. (The .py args targeted canonical-seed determinism, which
+    // the hexa ports already guarantee.)
     let s_sentinel: array = [
         "__WEAVE_MVP_RESULT__ PASS",
         "__NANOBOT_MVP_RESULT__ PASS",
@@ -339,15 +364,20 @@ fn main() {
     while si < n_specs {
         let falsifier = s_falsifier[si]
         let script = s_script[si]
-        let script_path = py_bridge + "/" + script
+        let hexa_port = s_hexa_port[si]
         let witness_schema = s_schema[si]
         let essential_fields = s_fields[si]
         let expect_sentinel = s_sentinel[si]
-        let args_arr = s_args[si]
 
         println("running " + falsifier + "...")
 
-        let exists = exec("[ -f " + shq(script_path) + " ] && echo y || echo n").trim()
+        // T3: re-run the MVP via its hexa port (ZERO python3). A hexa port
+        // is "present" only if the path is non-empty AND the file exists.
+        let mut port_exists = false
+        if len(hexa_port) > 0 {
+            let pe = exec("[ -f " + shq(root + "/" + hexa_port) + " ] && echo y || echo n").trim()
+            port_exists = pe == "y"
+        }
         let baseline = latest_witness(reg_path, witness_schema)
         let baseline_present = type_of(baseline) == "map" && baseline.has("__present__") && baseline["__present__"]
 
@@ -365,8 +395,11 @@ fn main() {
             bhash = essential_hash(bclean, essential_fields)
         }
 
-        if exists != "y" {
-            // SKIP — script relocated (R5-sunset)
+        if !port_exists {
+            // SKIP — no hexa port AND the .py was relocated (R5-sunset).
+            // SKIP-reason text is reported against the .py script name for
+            // continuity with the .py gate's wording (the .py is genuinely
+            // absent from _python_bridge/module/; we never shell python3).
             let sim_bridge_path = sim_bridge_dir + "/" + script
             let alt_exists = exec("[ -f " + shq(sim_bridge_path) + " ] && echo y || echo n").trim()
             let mut relocated_note = ""
@@ -385,16 +418,11 @@ fn main() {
             continue
         }
 
-        // run subprocess — capture stdout+stderr+exit-code via shell marker
-        let mut argstr = ""
-        let mut ai = 0
-        while ai < len(args_arr) {
-            argstr = argstr + " " + shq(args_arr[ai])
-            ai = ai + 1
-        }
-        // discipline #2: no hardcoded interpreter path — use `python3` on PATH
-        // (matches the .py's `sys.executable` for the harness's interpreter).
-        let cmd = "python3 " + shq(script_path) + argstr + " 2>&1; echo __EXIT__$?"
+        // re-run the MVP via its hexa port — ZERO python3. Capture
+        // stdout+stderr+exit-code via the same shell exit-marker convention.
+        // discipline #2: no hardcoded paths — `hexa` resolved on PATH, port
+        // path is repo-root relative.
+        let cmd = "hexa run " + shq(root + "/" + hexa_port) + " 2>&1; echo __EXIT__$?"
         let raw = exec(cmd)
         let split = split_exit_marker(raw)
         let combined = split[0]
