@@ -1,34 +1,41 @@
 #!hexa strict
 // hexa-bio/_hexa_bridge/selftest/provenance_pipeline_gate.hexa
 //
-// provenance / reproducibility-metadata gate — hexa-native port of
-// `selftest/provenance_pipeline_gate.py` (T3; os/re/subprocess/sys/time
-// + json). For each sim in the 32-sim ROSTER (same as the determinism
-// gate), runs the sim ONCE under PYTHONHASHSEED=0 + PYTHONDONTWRITEBYTECODE=1,
-// extracts the LAST `^{$ … ^}$` JSON block from stdout, and inspects it
-// for 3 required provenance fields (ts, schema, real_limit citation) +
-// 2 soft fields (case_study_id, module traceback).
+// provenance / reproducibility-metadata gate — GENUINE hexa-native port
+// of `selftest/provenance_pipeline_gate.py` (T3). ZERO python-interpreter
+// shell-outs in the orchestration path: each roster sim is run as the
+// hexa-ported sibling `_hexa_bridge/selftest/<sim>.hexa` via
+// `exec("hexa run ...")`.
+//
+// For each of the 32 ROSTER sims (same roster as the determinism gate):
+//   - if the hexa-ported sibling is absent  → DIAGNOSTIC_SKIP (g7 honest)
+//   - else run it ONCE under a 60s wall cap; capture stdout + exit code
+//   - timeout / non-zero-exit                → DIAGNOSTIC_SKIP (g7 honest)
+//   - extract the LAST `^{$ … ^}$` JSON block from stdout
+//   - no parseable JSON block                → DIAGNOSTIC_SKIP (g7 honest)
+//   - else json_parse + recursively inspect the witness tree for the
+//     3 required provenance fields (deterministic ISO-8601 ts, schema id,
+//     ≥1 real-limit citation) + 2 soft fields (case_study_id, module).
 //
 // SENTINEL PASS iff no FAIL_NO_TS verdict (parseable witness JSON but
-// no deterministic ISO-8601 timestamp). DIAGNOSTIC_SKIP rows (absent /
-// timed-out / non-zero-exit / no-JSON-block sims) do NOT block.
+// no deterministic ISO-8601 timestamp). DIAGNOSTIC_SKIP rows do NOT block.
 //
-// SUB-SHELL discipline: subprocess.run([...]) → `exec("python3 " +
-// shq(driver) + ...)` via a python3 driver wrapper. The driver runs the
-// sim with timeout=60s, captures stdout/stderr to /tmp files, runs the
-// LAST-JSON-block extractor + the recursive `_has_any_key` / `_first_value_for`
-// walkers + the ISO-8601 regex check, and prints a SINGLE pipe-separated
-// status line with all per-sim fields the hexa side needs. This keeps
-// regex / JSON-parse / recursive tree-walks on the python side (where
-// they match the .py's behaviour byte-for-byte) while the hexa side
-// owns the output format.
+// GENUINE-PORT note: the ABSOLUTE RULE is zero python-interpreter shell-
+// outs anywhere in this file. The .py shells `subprocess.run([sys.exe,
+// sim.py])`; this port shells `hexa run --no-sentinel <sim>.hexa` — the
+// same sim, hexa-native. The LAST-JSON-block extractor, the `_has_any_key`
+// / `_first_value_for` tree-walkers and the ISO-8601 timestamp recognizer
+// are all re-implemented in hexa (json_parse + native recursion). Three
+// roster sims (metallodrug_quantum_vqe_cross, capsid_modulator_weave_cross,
+// ppi_molecular_glue_cross) are not yet hexa-ported; they take the
+// "sim file absent" DIAGNOSTIC_SKIP branch — g7 honest, sentinel-neutral.
 //
 // BYTE-PARITY note: the .py output is NOT byte-stable run-to-run — it
-// embeds (a) git HEAD short rev (changes per commit) and (b) gate wall
-// time (`gate wall time: 10.87s`). The orchestrator (selftest/run_all.sh)
-// checks exit-code + sentinel, not verbatim stdout equality. This port
-// reproduces the FORMAT exactly; the HEAD + timing values intrinsically
-// vary, matching the .py's own non-stability on those two axes.
+// embeds (a) git HEAD short rev and (b) `gate wall time: N.NNs`. The
+// orchestrator (selftest/run_all.sh) checks exit-code + sentinel, not
+// verbatim stdout equality. This port reproduces the FORMAT exactly; the
+// HEAD + timing values intrinsically vary, matching the .py's own
+// non-stability on those two axes.
 //
 // DISCIPLINES honored:
 //   1. shq via json_schema_validator (no local fn) · 2. fsum / Kahan for
@@ -89,7 +96,7 @@ let FAIL_NO_TS = "FAIL_NO_TS"
 let DIAGNOSTIC_SKIP = "DIAGNOSTIC_SKIP"
 let PER_RUN_TIMEOUT_S = 60
 
-// ── string→int / string→float (shared with sibling ports) ─────────────
+// ── string→int / string→float ─────────────────────────────────────────
 fn s2i(s: string) -> int {
     let mut v = 0; let mut k = 0; let mut neg = false
     if len(s) > 0 && s.substr(0, 1) == "-" { neg = true; k = 1 }
@@ -130,180 +137,358 @@ fn s2f(s: string) -> float {
     return whole
 }
 
-// ── tab-split helper for the python driver's status line ──────────────
-// We use TAB as the field separator (witness ts/schema strings can
-// contain `|` in some hypothetical witnesses; TAB is reliable since
-// the .py's ISO-ts and schema strings never contain TAB).
-fn split_tab(s: string) -> array {
+// ── split on a single-char separator (trims \n / \r) ──────────────────
+fn split_on(s: string, sep: string) -> array {
     let mut parts: array = []
     let mut cur = ""
     let mut k = 0
     while k < len(s) {
         let c = s.substr(k, 1)
-        if c == "\t" { parts.push(cur); cur = "" }
-        else if c == "\n" || c == "\r" { /* trim trailing newlines */ }
+        if c == sep { parts.push(cur); cur = "" }
         else { cur = cur + c }
         k = k + 1
     }
-    if len(cur) > 0 { parts.push(cur) }
+    parts.push(cur)
     return parts
 }
 
-// ── one sim: run via python3 driver + parse status line ───────────────
-// Returns parallel array:
+// ── stdout → array of lines (split on \n; \r stripped from each) ──────
+fn to_lines(s: string) -> array {
+    let mut lines: array = []
+    let mut cur = ""
+    let mut k = 0
+    while k < len(s) {
+        let c = s.substr(k, 1)
+        if c == "\n" { lines.push(cur); cur = "" }
+        else if c == "\r" { /* drop CR */ }
+        else { cur = cur + c }
+        k = k + 1
+    }
+    lines.push(cur)
+    return lines
+}
+
+// ── LAST `^{$ … ^}$` JSON block extractor ─────────────────────────────
+// Mirrors the .py `_extract_last_json_block`: scan for line-anchored `{`
+// openers and `}` closers; from the LAST opener, try every later closer
+// (largest-first); return the first slice that json_parse accepts as a
+// map. Returns the parsed map, or void if no parseable block found.
+fn extract_last_json_block(stdout_text: string) {
+    if len(stdout_text) == 0 { return void }
+    let lines = to_lines(stdout_text)
+    let mut opens: array = []
+    let mut closes: array = []
+    let mut i = 0
+    while i < len(lines) {
+        if lines[i] == "{" { opens.push(i) }
+        if lines[i] == "}" { closes.push(i) }
+        i = i + 1
+    }
+    if len(opens) == 0 || len(closes) == 0 { return void }
+    // iterate openers from the END
+    let mut oidx = len(opens) - 1
+    while oidx >= 0 {
+        let oi = opens[oidx]
+        // closers strictly after this opener, tried largest-first
+        let mut cidx = len(closes) - 1
+        while cidx >= 0 {
+            let ci = closes[cidx]
+            if ci > oi {
+                let mut block = ""
+                let mut j = oi
+                while j <= ci {
+                    if j > oi { block = block + "\n" }
+                    block = block + lines[j]
+                    j = j + 1
+                }
+                let parsed = json_try_parse(block)
+                if type_of(parsed) == "map" { return parsed }
+            }
+            cidx = cidx - 1
+        }
+        oidx = oidx - 1
+    }
+    return void
+}
+
+// ── json_try_parse: parse, returning void on any parse failure ────────
+// The witness blocks the gate accepts are always top-level objects, so a
+// non-map result (or a thrown parse error) means "not a witness block".
+fn json_try_parse(block: string) {
+    // hexa json_parse throws on malformed input; guard with a structural
+    // pre-check (must start with `{` and end with `}` after trim) so the
+    // happy path stays clean. A surviving structural-OK-but-malformed
+    // block would still throw — but the in-repo witness convention emits
+    // well-formed JSON, matching the .py's json.loads success set.
+    let t = block.trim()
+    if len(t) < 2 { return void }
+    if t.substr(0, 1) != "{" { return void }
+    if t.substr(len(t) - 1, 1) != "}" { return void }
+    return json_parse(t)
+}
+
+// ── recursive: does any key in `keyset` appear anywhere in `obj`? ─────
+// Mirrors the .py `_has_any_key`: a key counts as present only when its
+// value is non-null AND not an empty string / array / map.
+fn val_is_empty(v) -> bool {
+    let t = type_of(v)
+    if t == "void" || t == "null" { return true }
+    if t == "string" { return len(v) == 0 }
+    if t == "array" { return len(v) == 0 }
+    if t == "map" { return len(keys(v)) == 0 }
+    return false
+}
+fn key_in_set(k: string, keyset: array) -> bool {
+    let mut i = 0
+    while i < len(keyset) { if keyset[i] == k { return true }; i = i + 1 }
+    return false
+}
+fn has_any_key(obj, keyset: array) -> bool {
+    let t = type_of(obj)
+    if t == "map" {
+        let ks = keys(obj)
+        let mut i = 0
+        while i < len(ks) {
+            let k = ks[i]
+            let v = obj[k]
+            if key_in_set(k, keyset) {
+                if !val_is_empty(v) { return true }
+            }
+            if has_any_key(v, keyset) { return true }
+            i = i + 1
+        }
+        return false
+    }
+    if t == "array" {
+        let mut i = 0
+        while i < len(obj) {
+            if has_any_key(obj[i], keyset) { return true }
+            i = i + 1
+        }
+        return false
+    }
+    return false
+}
+
+// ── recursive: first non-empty value whose key ∈ keyset ───────────────
+// Mirrors the .py `_first_value_for` (stable depth-first). Returns a
+// 2-element array [found, value]; found is bool. value is whatever type
+// the witness carried (only strings are surfaced by the caller).
+fn first_value_for(obj, keyset: array) -> array {
+    let t = type_of(obj)
+    if t == "map" {
+        let ks = keys(obj)
+        // pass 1: direct keys at this level
+        let mut i = 0
+        while i < len(ks) {
+            let k = ks[i]
+            let v = obj[k]
+            if key_in_set(k, keyset) {
+                if !val_is_empty(v) { return [true, v] }
+            }
+            i = i + 1
+        }
+        // pass 2: recurse into values
+        let mut j = 0
+        while j < len(ks) {
+            let r = first_value_for(obj[ks[j]], keyset)
+            if r[0] { return r }
+            j = j + 1
+        }
+        return [false, void]
+    }
+    if t == "array" {
+        let mut i = 0
+        while i < len(obj) {
+            let r = first_value_for(obj[i], keyset)
+            if r[0] { return r }
+            i = i + 1
+        }
+        return [false, void]
+    }
+    return [false, void]
+}
+
+// ── deterministic ISO-8601 UTC timestamp recognizer ───────────────────
+// Mirrors the .py `_ISO_UTC_RE`:
+//   ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})$
+// Implemented as an explicit char-class walk (no regex engine) — exact
+// for the in-repo convention `2026-05-16T00:00:00Z`.
+fn is_digit(c: string) -> bool {
+    let b = ord(c)
+    return b >= 48 && b <= 57
+}
+fn is_deterministic_ts(v) -> bool {
+    if type_of(v) != "string" { return false }
+    let s = v.trim()
+    let n = len(s)
+    // minimum: "YYYY-MM-DDTHH:MM:SSZ" = 20 chars
+    if n < 20 { return false }
+    // YYYY
+    let mut i = 0
+    while i < 4 { if !is_digit(s.substr(i, 1)) { return false }; i = i + 1 }
+    if s.substr(4, 1) != "-" { return false }
+    // MM
+    if !is_digit(s.substr(5, 1)) || !is_digit(s.substr(6, 1)) { return false }
+    if s.substr(7, 1) != "-" { return false }
+    // DD
+    if !is_digit(s.substr(8, 1)) || !is_digit(s.substr(9, 1)) { return false }
+    if s.substr(10, 1) != "T" { return false }
+    // HH
+    if !is_digit(s.substr(11, 1)) || !is_digit(s.substr(12, 1)) { return false }
+    if s.substr(13, 1) != ":" { return false }
+    // MM
+    if !is_digit(s.substr(14, 1)) || !is_digit(s.substr(15, 1)) { return false }
+    if s.substr(16, 1) != ":" { return false }
+    // SS
+    if !is_digit(s.substr(17, 1)) || !is_digit(s.substr(18, 1)) { return false }
+    let mut p = 19
+    // optional fractional seconds: \.\d+
+    if p < n && s.substr(p, 1) == "." {
+        p = p + 1
+        let mut frac = 0
+        while p < n && is_digit(s.substr(p, 1)) { p = p + 1; frac = frac + 1 }
+        if frac == 0 { return false }   // `.` with no digit → no match
+    }
+    // timezone: Z  |  [+-]\d{2}:?\d{2}
+    if p >= n { return false }
+    let z = s.substr(p, 1)
+    if z == "Z" { return p + 1 == n }
+    if z == "+" || z == "-" {
+        p = p + 1
+        // \d{2}
+        if p + 2 > n { return false }
+        if !is_digit(s.substr(p, 1)) || !is_digit(s.substr(p + 1, 1)) { return false }
+        p = p + 2
+        // optional `:`
+        if p < n && s.substr(p, 1) == ":" { p = p + 1 }
+        // \d{2}
+        if p + 2 > n { return false }
+        if !is_digit(s.substr(p, 1)) || !is_digit(s.substr(p + 1, 1)) { return false }
+        p = p + 2
+        return p == n
+    }
+    return false
+}
+
+// ── provenance field families ─────────────────────────────────────────
+fn ts_keys() -> array { return ["ts", "timestamp", "generated_at"] }
+fn schema_keys() -> array { return ["schema", "schema_version", "schema_id"] }
+fn real_limit_keys() -> array {
+    return ["real_limit_anchor", "real_limit_citation", "real_limits",
+            "citations", "citation"]
+}
+fn case_study_keys() -> array { return ["case_study_id", "axis_id", "axis", "case_study"] }
+fn module_keys() -> array { return ["module", "sim", "script", "source", "source_file"] }
+
+// ── one sim: run the hexa-ported sibling + inspect its witness JSON ───
+// Returns a parallel array:
 //   [verdict, reason_or_empty,
 //    ts_present, ts_value, ts_deterministic,
 //    schema_present, schema_value,
 //    real_limit_present, case_study_present, module_present]
-// Where presence flags are "1"/"0" strings.
-fn check_sim(rel_name: string, py_bridge: string, repo_root: string, tagbase: string) -> array {
-    let sim_path = py_bridge + "/" + rel_name
-    if exec("[ -f " + shq(sim_path) + " ] && echo y || echo n").trim() != "y" {
-        return [DIAGNOSTIC_SKIP, "sim file absent: " + rel_name,
+// Presence flags are "1" / "0" strings; ts_value / schema_value are the
+// raw string values when present (else "").
+fn check_sim(rel_name: string, hexa_bridge: string, repo_root: string, tagbase: string) -> array {
+    // rel_name is the .py basename from the roster; the hexa-ported
+    // sibling is the same basename with `.py` → `.hexa`.
+    let hexa_name = rel_name.replace(".py", ".hexa")
+    let hexa_path = hexa_bridge + "/" + hexa_name
+    if exec("[ -f " + shq(hexa_path) + " ] && echo y || echo n").trim() != "y" {
+        return [DIAGNOSTIC_SKIP, "sim file absent: " + hexa_name +
+                " (no hexa-ported sibling) — g7 honest",
                 "0", "", "0", "0", "", "0", "0", "0"]
     }
 
     let outpath = "/tmp/ppg_" + tagbase + ".out"
     let errpath = "/tmp/ppg_" + tagbase + ".err"
 
-    // The python3 driver:
-    //  - runs the sim with timeout=60 and the fixed env
-    //  - extracts the LAST `^{$ … ^}$` JSON block from stdout
-    //  - inspects required + soft fields
-    //  - emits ONE status line:
-    //      OK\t<verdict>\t<reason>\t<ts_present>\t<ts_value>\t
-    //      <ts_deterministic>\t<schema_present>\t<schema_value>\t
-    //      <real_limit_present>\t<case_study_present>\t<module_present>
-    //    where flags are "1"/"0", values are raw strings (no embedded TAB
-    //    by .py convention — ts is ISO-8601 + schema is snake-case id).
-    let drv = "import os, sys, subprocess, time, json, re\n" +
-              "TS_KEYS = ('ts', 'timestamp', 'generated_at')\n" +
-              "SCHEMA_KEYS = ('schema', 'schema_version', 'schema_id')\n" +
-              "REAL_LIMIT_KEYS = ('real_limit_anchor', 'real_limit_citation', 'real_limits', 'citations', 'citation')\n" +
-              "CASE_STUDY_KEYS = ('case_study_id', 'axis_id', 'axis', 'case_study')\n" +
-              "MODULE_KEYS = ('module', 'sim', 'script', 'source', 'source_file')\n" +
-              "_ISO_UTC_RE = re.compile(r'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})$')\n" +
-              "def _extract_last_json_block(t):\n" +
-              "    if not t: return None\n" +
-              "    lines = t.splitlines()\n" +
-              "    opens = [i for i,ln in enumerate(lines) if ln == '{']\n" +
-              "    closes = [i for i,ln in enumerate(lines) if ln == '}']\n" +
-              "    if not opens or not closes: return None\n" +
-              "    for oi in reversed(opens):\n" +
-              "        cs = [c for c in closes if c > oi]\n" +
-              "        if not cs: continue\n" +
-              "        for ci in reversed(cs):\n" +
-              "            block = '\\n'.join(lines[oi:ci+1])\n" +
-              "            try: return json.loads(block)\n" +
-              "            except json.JSONDecodeError: continue\n" +
-              "    return None\n" +
-              "def _has_any_key(obj, keys):\n" +
-              "    if isinstance(obj, dict):\n" +
-              "        for k,v in obj.items():\n" +
-              "            if k in keys:\n" +
-              "                if v is None: continue\n" +
-              "                if isinstance(v,(str,list,dict)) and len(v)==0: continue\n" +
-              "                return True\n" +
-              "            if _has_any_key(v, keys): return True\n" +
-              "        return False\n" +
-              "    if isinstance(obj, list):\n" +
-              "        for it in obj:\n" +
-              "            if _has_any_key(it, keys): return True\n" +
-              "        return False\n" +
-              "    return False\n" +
-              "def _first_value_for(obj, keys):\n" +
-              "    if isinstance(obj, dict):\n" +
-              "        for k,v in obj.items():\n" +
-              "            if k in keys and v is not None:\n" +
-              "                if isinstance(v,(str,list,dict)) and len(v)==0: continue\n" +
-              "                return v\n" +
-              "        for v in obj.values():\n" +
-              "            r = _first_value_for(v, keys)\n" +
-              "            if r is not None: return r\n" +
-              "        return None\n" +
-              "    if isinstance(obj, list):\n" +
-              "        for it in obj:\n" +
-              "            r = _first_value_for(it, keys)\n" +
-              "            if r is not None: return r\n" +
-              "        return None\n" +
-              "    return None\n" +
-              "def _is_det(v):\n" +
-              "    if not isinstance(v, str): return False\n" +
-              "    return bool(_ISO_UTC_RE.match(v.strip()))\n" +
-              "sim_path, outpath, errpath, repo_root = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]\n" +
-              "env = dict(os.environ); env['PYTHONHASHSEED']='0'; env['PYTHONDONTWRITEBYTECODE']='1'\n" +
-              "t0 = time.monotonic()\n" +
-              "timed_out = False; rc = None; out_b = b''; err_b = b''; elapsed = 0.0\n" +
-              "try:\n" +
-              "    p = subprocess.run([sys.executable, sim_path], cwd=repo_root, env=env,\n" +
-              "                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,\n" +
-              "                       timeout=60, check=False)\n" +
-              "    elapsed = time.monotonic() - t0\n" +
-              "    rc = p.returncode; out_b = p.stdout; err_b = p.stderr\n" +
-              "except subprocess.TimeoutExpired as e:\n" +
-              "    elapsed = time.monotonic() - t0\n" +
-              "    timed_out = True\n" +
-              "    out_b = e.stdout or b''\n" +
-              "    err_b = e.stderr or b''\n" +
-              "with open(outpath,'wb') as f: f.write(out_b)\n" +
-              "with open(errpath,'wb') as f: f.write(err_b)\n" +
-              "def emit(verdict, reason='', ts_present='0', ts_value='', ts_det='0', sch_present='0', sch_value='', rl='0', cs='0', mod='0'):\n" +
-              "    parts = ['OK', verdict, reason, ts_present, ts_value, ts_det, sch_present, sch_value, rl, cs, mod]\n" +
-              "    sys.stdout.write('\\t'.join(parts) + '\\n')\n" +
-              "if timed_out:\n" +
-              "    emit('DIAGNOSTIC_SKIP', 'sim timed out after 60s (elapsed %.2fs) — g7 honest' % elapsed)\n" +
-              "    sys.exit(0)\n" +
-              "if rc != 0:\n" +
-              "    tail = err_b.decode('utf-8', errors='replace').strip().splitlines()\n" +
-              "    tail_s = tail[-1] if tail else '(no stderr)'\n" +
-              "    emit('DIAGNOSTIC_SKIP', 'sim exit=%d (elapsed %.2fs) — g7 honest; stderr tail: %s' % (rc, elapsed, tail_s[:120]))\n" +
-              "    sys.exit(0)\n" +
-              "stdout_text = out_b.decode('utf-8', errors='replace')\n" +
-              "witness = _extract_last_json_block(stdout_text)\n" +
-              "if witness is None:\n" +
-              "    emit('DIAGNOSTIC_SKIP', \"sim ran cleanly (exit=0) but emitted no parseable JSON block on stdout — sim is a human-readable reporter, not a witness emitter; provenance gating doesn't apply (g7 honest)\")\n" +
-              "    sys.exit(0)\n" +
-              "ts_value = _first_value_for(witness, TS_KEYS)\n" +
-              "has_ts = ts_value is not None\n" +
-              "ts_det = _is_det(ts_value) if has_ts else False\n" +
-              "has_sch = _has_any_key(witness, SCHEMA_KEYS)\n" +
-              "sch_value = _first_value_for(witness, SCHEMA_KEYS) if has_sch else None\n" +
-              "has_rl = _has_any_key(witness, REAL_LIMIT_KEYS)\n" +
-              "has_cs = _has_any_key(witness, CASE_STUDY_KEYS)\n" +
-              "has_mod = _has_any_key(witness, MODULE_KEYS)\n" +
-              "ts_str = ts_value if isinstance(ts_value, str) else ''\n" +
-              "sch_str = sch_value if isinstance(sch_value, str) else ''\n" +
-              "if not has_ts or not ts_det:\n" +
-              "    emit('FAIL_NO_TS', '', '1' if has_ts else '0', ts_str, '1' if ts_det else '0',\n" +
-              "         '1' if has_sch else '0', sch_str, '1' if has_rl else '0',\n" +
-              "         '1' if has_cs else '0', '1' if has_mod else '0')\n" +
-              "    sys.exit(0)\n" +
-              "verdict = 'FULL' if (has_sch and has_rl) else 'PARTIAL'\n" +
-              "emit(verdict, '', '1' if has_ts else '0', ts_str, '1' if ts_det else '0',\n" +
-              "     '1' if has_sch else '0', sch_str, '1' if has_rl else '0',\n" +
-              "     '1' if has_cs else '0', '1' if has_mod else '0')\n"
-    let raw = exec("python3 -c " + shq(drv) + " " + shq(sim_path) + " " + shq(outpath) + " " + shq(errpath) + " " + shq(repo_root) + " 2>/dev/null").trim()
-    let parts = split_tab(raw)
-    if len(parts) < 1 || parts[0] != "OK" {
-        return [DIAGNOSTIC_SKIP, "driver wrapper produced no parseable status line — SKIP per g7",
+    // Run the hexa-ported sim ONCE under a 60s wall cap (`timeout`).
+    // stdout → outpath, stderr → errpath. `timeout` exits 124 on a
+    // wall-cap kill; the sim's own exit code passes through otherwise.
+    // `--no-sentinel` keeps stdout clean (no `__HEXA_RC=N` tail) so the
+    // witness JSON block extractor sees exactly the sim's own output.
+    let runcmd = "timeout " + str(PER_RUN_TIMEOUT_S) + " hexa run --no-sentinel " +
+                 shq(hexa_path) + " > " + shq(outpath) + " 2> " + shq(errpath) +
+                 "; echo __RC__$?"
+    let rcraw = exec("cd " + shq(repo_root) + " && " + runcmd).trim()
+    // rcraw last line is `__RC__<n>`
+    let rclines = to_lines(rcraw)
+    let mut rc = -1
+    let mut li = 0
+    while li < len(rclines) {
+        let ln = rclines[li]
+        if len(ln) >= 6 && ln.substr(0, 6) == "__RC__" {
+            rc = s2i(ln.substr(6, len(ln) - 6))
+        }
+        li = li + 1
+    }
+
+    if rc == 124 {
+        return [DIAGNOSTIC_SKIP,
+                "sim timed out after " + str(PER_RUN_TIMEOUT_S) + "s — g7 honest",
                 "0", "", "0", "0", "", "0", "0", "0"]
     }
-    // parts = [OK, verdict, reason, ts_p, ts_val, ts_det, sch_p, sch_val, rl, cs, mod]
-    let verdict = if len(parts) >= 2 { parts[1] } else { DIAGNOSTIC_SKIP }
-    let reason = if len(parts) >= 3 { parts[2] } else { "" }
-    let ts_p = if len(parts) >= 4 { parts[3] } else { "0" }
-    let ts_val = if len(parts) >= 5 { parts[4] } else { "" }
-    let ts_det = if len(parts) >= 6 { parts[5] } else { "0" }
-    let sch_p = if len(parts) >= 7 { parts[6] } else { "0" }
-    let sch_val = if len(parts) >= 8 { parts[7] } else { "" }
-    let rl = if len(parts) >= 9 { parts[8] } else { "0" }
-    let cs = if len(parts) >= 10 { parts[9] } else { "0" }
-    let md = if len(parts) >= 11 { parts[10] } else { "0" }
-    return [verdict, reason, ts_p, ts_val, ts_det, sch_p, sch_val, rl, cs, md]
+    if rc != 0 {
+        let etail = exec("tail -n 1 " + shq(errpath) + " 2>/dev/null").trim()
+        let tail_s = if len(etail) > 0 { cp_substr(etail, 0, 120) } else { "(no stderr)" }
+        return [DIAGNOSTIC_SKIP,
+                "sim exit=" + str(rc) + " — g7 honest; stderr tail: " + tail_s,
+                "0", "", "0", "0", "", "0", "0", "0"]
+    }
+
+    let stdout_text = exec("cat " + shq(outpath) + " 2>/dev/null")
+    let witness = extract_last_json_block(stdout_text)
+    if type_of(witness) != "map" {
+        return [DIAGNOSTIC_SKIP,
+                "sim ran cleanly (exit=0) but emitted no parseable JSON block " +
+                "on stdout — sim is a human-readable reporter, not a witness " +
+                "emitter; provenance gating doesn't apply (g7 honest)",
+                "0", "", "0", "0", "", "0", "0", "0"]
+    }
+
+    // ── required fields (3) — these gate the verdict ──────────────────
+    let tsr = first_value_for(witness, ts_keys())
+    let has_ts = tsr[0]
+    let ts_value = tsr[1]
+    let ts_det = if has_ts { is_deterministic_ts(ts_value) } else { false }
+    let ts_str = if has_ts && type_of(ts_value) == "string" { ts_value } else { "" }
+
+    let has_sch = has_any_key(witness, schema_keys())
+    let mut sch_str = ""
+    if has_sch {
+        let schr = first_value_for(witness, schema_keys())
+        if schr[0] && type_of(schr[1]) == "string" { sch_str = schr[1] }
+    }
+
+    let has_rl = has_any_key(witness, real_limit_keys())
+
+    // ── soft fields (NOTED-AS-GAP only) ───────────────────────────────
+    let has_cs = has_any_key(witness, case_study_keys())
+    let has_mod = has_any_key(witness, module_keys())
+
+    let ts_p = if has_ts { "1" } else { "0" }
+    let ts_d = if ts_det { "1" } else { "0" }
+    let sch_p = if has_sch { "1" } else { "0" }
+    let rl_p = if has_rl { "1" } else { "0" }
+    let cs_p = if has_cs { "1" } else { "0" }
+    let md_p = if has_mod { "1" } else { "0" }
+
+    // ── verdict assignment (mirrors the .py) ──────────────────────────
+    //   FAIL_NO_TS — no `ts` field, OR `ts` not a fixed-form ISO string.
+    //   PARTIAL    — has deterministic ts, missing schema and/or citation.
+    //   FULL       — all three required fields present.
+    if !has_ts || !ts_det {
+        return [FAIL_NO_TS, "", ts_p, ts_str, ts_d, sch_p, sch_str, rl_p, cs_p, md_p]
+    }
+    if has_sch && has_rl {
+        return [FULL, "", ts_p, ts_str, ts_d, sch_p, sch_str, rl_p, cs_p, md_p]
+    }
+    return [PARTIAL, "", ts_p, ts_str, ts_d, sch_p, sch_str, rl_p, cs_p, md_p]
 }
 
 // ── ROSTER (parallel arrays: group label + sim list per group) ────────
-// Same as determinism_regression_gate.hexa — keep in sync.
+// Same as determinism_regression_gate — keep in sync.
 fn build_roster() -> array {
     let groups = [
         "expansion-main round-1",
@@ -349,8 +534,23 @@ fn build_roster() -> array {
 }
 
 // ── wall-clock seconds (epoch) — cross-process comparable ─────────────
+// hexa `time.monotonic`-equivalent is per-process; for the gate-wall-time
+// .2f display we use the OS clock via `date +%s.%N` (GNU) with a portable
+// fallback to integer `date +%s` when %N is not expanded.
 fn now_wall() -> float {
-    return s2f(exec("python3 -c 'import time; print(\"%.6f\" % time.time())' 2>/dev/null").trim())
+    let r = exec("date +%s.%N 2>/dev/null").trim()
+    // BSD date emits a literal `N` when %N is unsupported; strip it.
+    if len(r) > 0 {
+        let mut clean = ""
+        let mut k = 0
+        while k < len(r) {
+            let c = r.substr(k, 1)
+            if (ord(c) >= 48 && ord(c) <= 57) || c == "." { clean = clean + c }
+            k = k + 1
+        }
+        if len(clean) > 0 { return s2f(clean) }
+    }
+    return s2f(exec("date +%s 2>/dev/null").trim())
 }
 
 // ── dashes repeater (codepoint count; "─" is 3-byte U+2500) ───────────
@@ -361,16 +561,14 @@ fn dashes(n: int) -> string {
 }
 
 // ── HEAD short rev via `git rev-parse --short HEAD` ───────────────────
-// Returns the short rev string or "" if git unavailable / not a checkout.
 fn head_short_rev(repo_root: string) -> string {
-    let r = exec("cd " + shq(repo_root) + " && git rev-parse --short HEAD 2>/dev/null").trim()
-    return r
+    return exec("cd " + shq(repo_root) + " && git rev-parse --short HEAD 2>/dev/null").trim()
 }
 
 // ── main ──────────────────────────────────────────────────────────────
 fn main() {
     let root = exec("pwd").trim()
-    let py_bridge = root + "/_python_bridge/module"
+    let hexa_bridge = root + "/_hexa_bridge/selftest"
 
     let t_start = now_wall()
 
@@ -453,7 +651,7 @@ fn main() {
         while si < len(sims) {
             let rel_name = sims[si]
             let tagbase = rel_name.replace(".py", "").replace("/", "_")
-            let res = check_sim(rel_name, py_bridge, root, tagbase)
+            let res = check_sim(rel_name, hexa_bridge, root, tagbase)
             let verdict = res[0]
             let reason = res[1]
             let ts_p = res[2]
