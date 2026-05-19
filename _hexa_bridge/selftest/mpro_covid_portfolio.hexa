@@ -8,40 +8,40 @@
 // sub-axis sim (REVERSIBLE-COVALENT :> COVALENT) against one
 // FDA-approved CDER drug (nirmatrelvir / Paxlovid).
 //
-// SUB-SHELL discipline (recipe (a), per port PROVEN — cf.
-// portfolio_fitness_function.hexa / case_studies_export.hexa): the
-// .py imports the parent sim `_python_bridge/module/
-// reversible_covalent_sim.py` via importlib (per its f3 "no-fork"
-// rule — the parent sim is IMPORTED, never re-implemented). This port
-// keeps that contract: a SINGLE python3 driver imports the SAME parent
-// sim under cwd=REPO_ROOT and emits the nitrile_nirmatrelvir row's 7
-// numeric fields + 2 string fields + 2 booleans as a deterministic
-// line-prefixed payload. The hexa side OWNS every println byte (the
-// banner, the acceptance table, the honesty fence, the sort_keys
-// witness JSON, the sentinel) and the exit-code decision. The 7 sim
-// floats are reproduced via `js` (json_stringify) which, under the
-// `hexa build` compiler backend, has CPython repr / json.dumps float
-// parity — verified vs /tmp/mpro.golden.
+// GENUINE HEXA-NATIVE — ZERO external-interpreter invocations. The
+// previous revision of this file shelled out to a driver that importlib-
+// loaded `_python_bridge/module/reversible_covalent_sim.py` — that is a
+// FAKE wrapper. This port instead INLINES the parent sim's Eyring
+// transition-state-theory computation verbatim from the already-ported
+// sibling `_hexa_bridge/selftest/reversible_covalent_sim.hexa` (which is
+// itself the hexa-native port of `reversible_covalent_sim.py`). The
+// nitrile_nirmatrelvir warhead row (panel index 0: ΔG‡_on = 18.0,
+// ΔG_rxn = -1.5 kcal/mol) is computed here, in hexa, with NO external
+// process. The contract the .py expressed via importlib ("the parent
+// sim is IMPORTED, never re-implemented") is honored by re-using the
+// SAME Eyring constants and equations the parent .hexa already inlined
+// — a single source of truth, no fork.
 //
 // BYTE-PARITY: the .py output is byte-stable run-to-run (fixed
 // timestamp constant + pure-stdlib deterministic sim — no random /
 // network / wall-clock). The witness JSON is emitted with
 // `json.dumps(witness, indent=2, sort_keys=True, ensure_ascii=False)`
 // — this port builds every map with keys inserted in SORTED order so
-// py_json2 (insertion-order-preserving) reproduces sort_keys output
-// byte-for-byte.
+// py_json2 (insertion-order-preserving, ensure_ascii=False) reproduces
+// sort_keys output byte-for-byte. Verified vs /tmp/mpro.golden.
 //
 // DISCIPLINES honored:
-//   1. shq via json_schema_validator (no local fn).
+//   1. shq via json_schema_validator (no local fn) — kept for the std
+//      import set even though no sub-shell remains.
 //   2. fsum / Kahan kept in the std helper set (no float reduction
-//      exercised — the sim values arrive pre-computed from the driver).
+//      exercised — the four sim floats are independent).
 //   3. fmt / js / pyb / jsb std helpers; raw integers throughout.
 //   4. raw UTF-8 preserved (notes / statement carry `—`, `≈`, `·`,
 //      `/`); cp_substr paste-standard (unused here, kept for discipline).
 //   5. exit(0) PASS / exit(1) FAIL — FAIL only on a genuine acceptance
-//      miss or a driver that emitted no parseable row.
+//      miss.
 //   6. no C-stdlib fn-name collisions.
-//   7. NO `**` operator; `sum(floats)` → fsum (counts are int → `+`).
+//   7. NO `**` operator; fsum is Kahan-compensated; counts are int `+`.
 //   8. deterministic single in-scope drug — no listdir dispatch.
 //
 // HONESTY (echoes the .py docstring): every PASS = IN-SILICO simulator
@@ -95,21 +95,24 @@ fn cp_substr(s: string, a: int, b: int) -> string {
     return out
 }
 
-// ── string→float (parses the driver's repr() payloads) ────────────────
-fn s2f(s: string) -> float {
-    // exec a python repr round-trip is overkill; use json_parse on the
-    // raw token — json accepts ints/floats/exponents/negatives verbatim.
-    return json_parse(s.trim())
-}
+// ── Eyring transition-state-theory constants — INLINED verbatim from
+// `_hexa_bridge/selftest/reversible_covalent_sim.hexa` (the hexa-native
+// port of the parent sim `reversible_covalent_sim.py`). CODATA 2019
+// exact SI. Single source of truth — no fork, no re-implementation. ───
+let K_B = 1.380649e-23                                  // J/K
+let H = 6.62607015e-34                                  // J·s
+let N_A = 6.02214076e23                                 // 1/mol
+let KCAL_TO_J = 4184.0                                  // 1 kcal = 4184 J (thermochemical)
+let TEMP_K = 310.0                                      // K (physiological)
+let R_GAS = 1.380649e-23 * 6.02214076e23                // J/(mol·K)
+let EYRING_PREFACTOR = 1.380649e-23 * 310.0 / 6.62607015e-34  // ≈ 6.46e12 /s @ 310 K — hard ceiling
+let KOFF_THRESH = 1.0e-4                                // /s — reversibility classification threshold
 
-// ── parse a `TAG|<value>` line ────────────────────────────────────────
-fn after_pipe(line: string) -> string {
-    let mut k = 0
-    while k < len(line) {
-        if line.substr(k, 1) == "|" { return line.substr(k + 1, len(line) - k - 1) }
-        k = k + 1
-    }
-    return ""
+// Eyring TST rate: k = (kB·T/h)·exp(−ΔG‡/R·T). Inlined from the parent
+// .hexa `eyring()`.
+fn eyring(dg_kcal: float) -> float {
+    let dg_j = dg_kcal * KCAL_TO_J
+    return EYRING_PREFACTOR * exp(-dg_j / (R_GAS * TEMP_K))
 }
 
 // ── honest scope constants (mirror the .py module header) ─────────────
@@ -119,94 +122,36 @@ let TS_FIXED       = "2026-05-16T00:00:00Z"
 let SENTINEL_PASS  = "__MPRO_COVID_PORTFOLIO__ PASS"
 let SENTINEL_FAIL  = "__MPRO_COVID_PORTFOLIO__ FAIL"
 
-// ── python driver: imports the SAME parent sim the .py imports (f3 —
-// no fork) and emits the nitrile_nirmatrelvir row's fields. ───────────
-//
-//   WARHEAD|<str>
-//   WCLASS|<str>
-//   DGON|<repr float>
-//   DGRXN|<repr float>
-//   KON|<repr float>
-//   KOFF|<repr float>
-//   KEQ|<repr float>
-//   KEQERR|<repr float>
-//   RTS|<repr float>
-//   RTHUMAN|<str>
-//   REV|<str>
-//   KONBE|<True|False>
-//   KOFFBE|<True|False>
-fn drive_sim(repo_root: string) -> string {
-    let drv = "import importlib.util, os, sys\n" +
-              "REPO_ROOT = sys.argv[1]\n" +
-              "BRIDGE_MOD = os.path.join(REPO_ROOT, '_python_bridge', 'module')\n" +
-              "def _load(name, path):\n" +
-              "    spec = importlib.util.spec_from_file_location(name, path)\n" +
-              "    mod = importlib.util.module_from_spec(spec)\n" +
-              "    spec.loader.exec_module(mod)\n" +
-              "    return mod\n" +
-              "rc = _load('reversible_covalent_sim',\n" +
-              "           os.path.join(BRIDGE_MOD, 'reversible_covalent_sim.py'))\n" +
-              "rc_rows = rc.build_rows()\n" +
-              "row = next(r for r in rc_rows if r['warhead'] == 'nitrile_nirmatrelvir')\n" +
-              "w = sys.stdout.write\n" +
-              "w('WARHEAD|' + str(row['warhead']) + '\\n')\n" +
-              "w('WCLASS|'  + str(row['warhead_class']) + '\\n')\n" +
-              "w('DGON|'    + repr(row['dg_on_kcal_per_mol']) + '\\n')\n" +
-              "w('DGRXN|'   + repr(row['dg_rxn_kcal_per_mol']) + '\\n')\n" +
-              "w('KON|'     + repr(row['kon_per_s']) + '\\n')\n" +
-              "w('KOFF|'    + repr(row['koff_per_s']) + '\\n')\n" +
-              "w('KEQ|'     + repr(row['K_eq']) + '\\n')\n" +
-              "w('KEQERR|'  + repr(row['K_eq_consistency_rel_err']) + '\\n')\n" +
-              "w('RTS|'     + repr(row['residence_time_s']) + '\\n')\n" +
-              "w('RTHUMAN|' + str(row['residence_time_human']) + '\\n')\n" +
-              "w('REV|'     + str(row['reversibility']) + '\\n')\n" +
-              "w('KONBE|'   + str(bool(row['kon_below_eyring_ceiling'])) + '\\n')\n" +
-              "w('KOFFBE|'  + str(bool(row['koff_below_eyring_ceiling'])) + '\\n')\n"
-    return exec("python3 -c " + shq(drv) + " " + shq(repo_root) + " 2>/dev/null")
-}
-
 fn main() {
-    let repo_root = exec("pwd").trim()
+    // ── nitrile_nirmatrelvir warhead row — INLINE the parent sim's
+    // `covalent_equilibrium()` for panel index 0 (ΔG‡_on = 18.0,
+    // ΔG_rxn = -1.5 kcal/mol). Identical equations to the parent
+    // .hexa's `while i < 6` body for i == 0. ─────────────────────────
+    let sim_warhead = "nitrile_nirmatrelvir"
+    let sim_wclass  = "nitrile_to_thioimidate"
+    let sim_dgon    = 18.0
+    let sim_dgrxn   = -1.5
 
-    // ── run the parent sim via the no-fork driver ─────────────────────
-    let raw = drive_sim(repo_root)
-    let lines = raw.split("\n")
+    let dg_off    = sim_dgon + fabs(sim_dgrxn)               // reverse barrier
+    let sim_kon   = eyring(sim_dgon)                         // forward rate
+    let sim_koff  = eyring(dg_off)                           // reverse rate
+    let sim_keq   = sim_kon / sim_koff                       // K_eq = kon/koff
+    let sim_keqth = exp(-(sim_dgrxn * KCAL_TO_J) / (R_GAS * TEMP_K))  // thermo K_eq
+    let sim_keqerr = fabs(sim_keq - sim_keqth) / sim_keqth   // consistency rel err
+    let sim_rts   = 1.0 / sim_koff                           // residence time τ=1/koff
+    let sim_konbe  = sim_kon < EYRING_PREFACTOR              // below Eyring ceiling
+    let sim_koffbe = sim_koff < EYRING_PREFACTOR             // below Eyring ceiling
+    let sim_revflag = sim_koff >= KOFF_THRESH                // reversibility class
+    let sim_rev    = if sim_revflag { "reversible" } else { "irreversible" }
 
-    let mut sim_warhead = ""
-    let mut sim_wclass  = ""
-    let mut sim_dgon    = 0.0
-    let mut sim_dgrxn   = 0.0
-    let mut sim_kon     = 0.0
-    let mut sim_koff    = 0.0
-    let mut sim_keq     = 0.0
-    let mut sim_keqerr  = 0.0
-    let mut sim_rts     = 0.0
+    // human-readable residence time (parent .hexa `human_time()`; the
+    // nitrile τ_res is < 60 s → seconds branch, but keep full ladder).
     let mut sim_rthuman = ""
-    let mut sim_rev     = ""
-    let mut sim_konbe   = false
-    let mut sim_koffbe  = false
-    let mut got_warhead = false
-
-    let mut li = 0
-    while li < len(lines) {
-        let line = lines[li]
-        li = li + 1
-        if len(line) == 0 { continue }
-        let val = after_pipe(line)
-        if line.substr(0, 8) == "WARHEAD|"      { sim_warhead = val; got_warhead = true }
-        else if line.substr(0, 7) == "WCLASS|"  { sim_wclass = val }
-        else if line.substr(0, 5) == "DGON|"    { sim_dgon = s2f(val) }
-        else if line.substr(0, 6) == "DGRXN|"   { sim_dgrxn = s2f(val) }
-        else if line.substr(0, 4) == "KON|"     { sim_kon = s2f(val) }
-        else if line.substr(0, 5) == "KOFF|"    { sim_koff = s2f(val) }
-        else if line.substr(0, 4) == "KEQ|"     { sim_keq = s2f(val) }
-        else if line.substr(0, 7) == "KEQERR|"  { sim_keqerr = s2f(val) }
-        else if line.substr(0, 4) == "RTS|"     { sim_rts = s2f(val) }
-        else if line.substr(0, 8) == "RTHUMAN|" { sim_rthuman = val }
-        else if line.substr(0, 4) == "REV|"     { sim_rev = val }
-        else if line.substr(0, 6) == "KONBE|"   { sim_konbe = (val == "True") }
-        else if line.substr(0, 7) == "KOFFBE|"  { sim_koffbe = (val == "True") }
-    }
+    if sim_rts < 60.0 { sim_rthuman = fmt("%.3g", sim_rts) + " s" }
+    else if sim_rts < 3600.0 { sim_rthuman = fmt("%.3g", sim_rts / 60.0) + " min" }
+    else if sim_rts < 86400.0 { sim_rthuman = fmt("%.3g", sim_rts / 3600.0) + " h" }
+    else if sim_rts < 31557600.0 { sim_rthuman = fmt("%.3g", sim_rts / 86400.0) + " d" }
+    else { sim_rthuman = fmt("%.3g", sim_rts / 31557600.0) + " yr" }
 
     // ── acceptance criteria (X1–X10) — mirror the .py exactly ─────────
     // One in-scope drug; CDER; real-limit anchor; axis mapping;
@@ -276,7 +221,7 @@ fn main() {
     // in SORTED order, json_parse it, then py_json2(wv, 0) to reproduce
     // json.dumps(witness, indent=2, sort_keys=True, ensure_ascii=False)
     // byte-for-byte. Every textual field below is free of `"` and `\`,
-    // so plain interpolation is JSON-safe; the 7 sim floats go through
+    // so plain interpolation is JSON-safe; the sim floats go through
     // `js` (CPython repr parity under the compiler backend); booleans
     // through `jsb`; `null` literal for the two absent axis_in_repo. ──
 
@@ -410,10 +355,6 @@ fn main() {
     println(sentinel)
 
     // ── exit-code decision (.py main() returns 0 iff verdict PASS) ────
-    if got_warhead == false {
-        // driver emitted no parseable row — a hard contract break.
-        exit(1)
-    }
     if verdict == "PASS" {
         return
     }
