@@ -85,15 +85,7 @@ fn main() {
     let mut n_fail = 0
     let mut skip_reason = ""
 
-    let mut conn_pats: array = []
-    conn_pats.push("ConnectionRefusedError")
-    conn_pats.push("Connection refused")
-    conn_pats.push("Killed: 9")
-    conn_pats.push("Terminated: 15")
-    conn_pats.push("__HEXA_RC=137")
-    conn_pats.push("__HEXA_RC=143")
-    conn_pats.push("memory cap exceeded")
-
+    // Runtime-failure classification mirrors the .sh's `grep -qiE` (see loop body).
     let mut i = 0
     while i < len(mols) {
         let slug = mols[i]
@@ -112,7 +104,10 @@ fn main() {
         exec("rm -f " + shq(tmp))
         let mut RC = -1
         if len(rc_str) > 0 { RC = int(rc_str) }
-        if contains_any(OUT, conn_pats) {
+        // Mirror the .sh's `echo "$OUT" | grep -qiE "..."` byte-faithfully
+        // (case-INSENSITIVE) by delegating to the actual `grep -qiE`.
+        let conn_hit = exec("printf '%s' " + shq(OUT) + " | grep -qiE " + shq("ConnectionRefusedError|Connection refused|Killed: 9|Terminated: 15|__HEXA_RC=137|__HEXA_RC=143|memory cap exceeded") + " && printf yes || printf no").trim()
+        if conn_hit == "yes" {
             println("  SKIP[" + slug + "]: hexa runtime issue (TCP / watchdog / load / mem-cap)")
             n_skip = n_skip + 1
             skip_reason = skip_reason + " " + slug + "=runtime"

@@ -102,11 +102,11 @@ fn main() {
         println(SENTINEL_SKIP)
         return
     }
-    // Distinguish runtime-dispatch SKIP from real FAIL
-    let conn_pats: array = []
-    conn_pats.push("ConnectionRefusedError")
-    conn_pats.push("Connection refused")
-    if contains_any(OUT, conn_pats) {
+    // Distinguish runtime-dispatch SKIP from real FAIL.
+    // Mirror the .sh's `echo "$OUT" | grep -qi "ConnectionRefusedError\|Connection refused"`
+    // byte-faithfully (case-INSENSITIVE) by delegating to the actual `grep -qiE`.
+    let conn_hit = exec("printf '%s' " + shq(OUT) + " | grep -qiE " + shq("ConnectionRefusedError|Connection refused") + " && printf yes || printf no").trim()
+    if conn_hit == "yes" {
         println(tail_lines(OUT, 5))
         println("")
         println("  SKIP: hexa runtime can't reach its dispatch server (ConnectionRefusedError)")
