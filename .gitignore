@@ -15,7 +15,8 @@ _python_bridge/module/__pycache__/
 .vscode/
 
 # Claude Code local harness state (agent worktrees, etc.)
-.claude/
+.claude/*
+!.claude/skills/
 
 # Local env
 .env
