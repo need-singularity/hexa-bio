@@ -25,47 +25,21 @@
 > _From `selftest/hexa_verify_tier_batch.py` — a TIER REPORTER, not enforcer. Glyph counts across the 44-sim roster._
 
 
-| Tier | Glyph | Count |
-|---|---|---|
-| SUPPORTED-NUMERICAL | 🟢 | 42 |
-| SUPPORTED-FORMAL | 🔵 | 1 |
-| DEFERRED / INSUFFICIENT | 🟠 | 1 |
-| FALSIFIED | 🔴 | 0 |
-| **Total** | — | **44** |
-
-Gate sentinel: `__HEXA_VERIFY_TIER_BATCH__ PASS`.
+[SKIP] tier-batch gate could not be run on this host (g7 skip-is-honest).
 
 ## §3 Falsifier-gate status
 
 > _From `selftest/falsifier_execution_gate.py` — runs each preregistered falsifier (F-METALLODRUG/OLIGO/COVALENT/BIFUNCTIONAL-1/2/3) against its axis sim._
 
 
-| Verdict | Count |
-|---|---|
-| HOLD | 12 |
-| FALSIFIED | 0 |
-| SKIP | 0 |
-| **Total** | **12** |
-
-Axes covered: METALLODRUG · OLIGONUCLEOTIDE · COVALENT · BIFUNCTIONAL.
-
-Gate sentinel: `__FALSIFIER_EXECUTION_GATE__ PASS`.
-
-> _g7 honesty: a SKIP is an absent tape/sim on this host — NOT a failure. Only a genuine FALSIFIED verdict (axis reachable, preregistered condition violated) blocks the sentinel._
+[SKIP] falsifier-gate could not be run on this host (g7 skip-is-honest).
 
 ## §4 Determinism-gate status
 
 > _From `selftest/determinism_regression_gate.py` — runs each sim TWICE under `PYTHONHASHSEED=0` and compares stdout byte-for-byte. This is the §11 deductive-verification determinism contract._
 
 
-| Verdict | Count |
-|---|---|
-| DETERMINISTIC | 32 |
-| NON_DETERMINISTIC | 0 |
-| SKIP | 0 |
-| **Total** | **32** |
-
-Gate sentinel: `__DETERMINISM_REGRESSION_GATE__ PASS`.
+[SKIP] determinism-gate could not be run on this host (g7 skip-is-honest).
 
 ## §5 Cross-axis coverage
 

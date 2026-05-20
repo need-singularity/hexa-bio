@@ -12,7 +12,7 @@
 > disease × axis cells are empty, and that is the truth. Not the
 > deferred 200-disease re-mapping (a multi-disease pilot only).
 
-_Generated: 2026-05-16T10:54:08Z_
+_Generated: 2026-05-19T07:44:42Z_
 
 _Diseases discovered: 10 · axes (cols): 24 (5 core + 4 expansion-main + 15 sub)_
 
